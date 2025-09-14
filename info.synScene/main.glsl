@@ -195,7 +195,7 @@ vec4 renderMain() {
   float
     aa=sqrt(.5)/RENDERSIZE.y
   , N
-  , V=123.456
+  , V=syn_BPM
   ;
 
   vec2

@@ -27,16 +27,26 @@ const float
 ;
 
 const vec2
-  path_a = vec2(.33, .41)*.5
-, path_b = vec2(1,sqrt(.5))*2.
+  path_a = vec2(.33, .41)*.25
+, path_b = vec2(1,sqrt(.5))*8.
 ;
 
+float bpm() {
+#ifdef KODELIFE
+  return 129.;
+#else
+  return round(syn_BPM);
+#endif
+}
+
+
 float beat() {
-  return syn_OnBeat;
+  float B=TIME*bpm()/60.;
+  return 1.-fract(B);
 }
 
 float beatTime() {
-  return syn_BPMTwitcher;
+  return TIME;
 }
 
 vec3 offset(float z) {
@@ -57,10 +67,7 @@ void warpWorld(inout vec3 p){
   vec3 dwarp = normalize(doffset(p.z));
   p.xy -= warp.xy;
   p -= dwarp*dot(vec3(p.xy, 0), dwarp)*0.5*vec3(1,1,-1);
-
-  vec2 ddo2 = normalize(vec2(1.0, 0.0)+4.0*ddoffset(p.z).xy);
-  mat2 rot2 = mat2(ddo2.x, ddo2.y, -ddo2.y, ddo2.x);
-  p.xy *= rot2;
+  p.xy *= ROT(dwarp.x);
 }
 
 vec2 g_gd;
@@ -215,7 +222,7 @@ vec3 effect(vec2 p) {
   vec3 ww = normalize(dro);
   vec3 uu = normalize(cross(ww,vec3(0,1,0)-4.*ddro));
   vec3 vv = cross(ww, uu);
-  float rdd = 2.0+0.*length(p);
+  float rdd = 2.+.5*length(p);
   vec3 rd = normalize(p.x*uu + p.y*vv + rdd*ww);
 
   vec3 col = render1(ro, rd);
