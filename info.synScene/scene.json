@@ -1,6 +1,6 @@
 {
 	"CREDIT" : "mrange",
-	"DESCRIPTION" : "Smallest scene",
+	"DESCRIPTION" : "Info scene",
 	"GPU" : 1,
 	"IMAGE_PATH" : "smallest.png",
 	"IMAGES" :
@@ -19,10 +19,10 @@
 	"TAGS" :
 	[
 		"mrange",
-		"smallest",
+		"info",
 		"example"
 	],
-	"TITLE" : "Smallest scene",
+	"TITLE" : "Info scene",
 	"HEIGHT" : 1080,
 	"WIDTH" : 1920
 }

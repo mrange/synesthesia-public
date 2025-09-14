@@ -1,0 +1,232 @@
+#define ROT(a)      mat2(cos(a), sin(a), -sin(a), cos(a))
+// License: WTFPL, author: sam hocevar, found: https://stackoverflow.com/a/17897228/418488
+const vec4 hsv2rgb_K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
+vec3 hsv2rgb(vec3 c) {
+  vec3 p = abs(fract(c.xxx + hsv2rgb_K.xyz) * 6.0 - hsv2rgb_K.www);
+  return c.z * mix(hsv2rgb_K.xxx, clamp(p - hsv2rgb_K.xxx, 0.0, 1.0), c.y);
+}
+// License: WTFPL, author: sam hocevar, found: https://stackoverflow.com/a/17897228/418488
+//  Macro version of above to enable compile-time constants
+#define HSV2RGB(c)  (c.z * mix(hsv2rgb_K.xxx, clamp(abs(fract(c.xxx + hsv2rgb_K.xyz) * 6.0 - hsv2rgb_K.www) - hsv2rgb_K.xxx, 0.0, 1.0), c.y))
+
+
+const float
+  TAU=PI*2.
+;
+
+// #define RENDER1_BACKSTEP
+
+const int
+  render1_max_steps = 70
+;
+
+const float
+  render1_tolerance   = 1E-3
+, render1_max_length  = 16.
+, render1_normal_eps  = 1E-2
+;
+
+const vec2
+  path_a = vec2(.33, .41)*.5
+, path_b = vec2(1,sqrt(.5))*2.
+;
+
+float beat() {
+  return syn_OnBeat;
+}
+
+float beatTime() {
+  return syn_BPMTwitcher;
+}
+
+vec3 offset(float z) {
+  return vec3(path_b*sin(path_a*z), z);
+}
+
+vec3 doffset(float z) {
+  return vec3(path_a*path_b*cos(path_a*z), 1.0);
+}
+
+vec3 ddoffset(float z) {
+  return vec3(-path_a*path_a*path_b*sin(path_a*z), 0.0);
+}
+
+// License: Unknown, author: Unknown, found: don't remember
+void warpWorld(inout vec3 p){
+  vec3 warp = offset(p.z);
+  vec3 dwarp = normalize(doffset(p.z));
+  p.xy -= warp.xy;
+  p -= dwarp*dot(vec3(p.xy, 0), dwarp)*0.5*vec3(1,1,-1);
+
+  vec2 ddo2 = normalize(vec2(1.0, 0.0)+4.0*ddoffset(p.z).xy);
+  mat2 rot2 = mat2(ddo2.x, ddo2.y, -ddo2.y, ddo2.x);
+  p.xy *= rot2;
+}
+
+vec2 g_gd;
+
+// License: Unknown, author: Unknown, found: don't remember
+float hash(vec2 co) {
+  return fract(sin(dot(co.xy ,vec2(12.9898,58.233))) * 13758.5453);
+}
+
+float render1_df(vec3 p) {
+  warpWorld(p);
+  vec3 p0 = p-0.5;
+  vec3 n0 = round(p0);
+  vec3 c0 = p0 - n0;
+  float d0 = length(c0.xy);
+  float d1 = length(c0.yz);
+  float d2 = length(c0.xz);
+  float d3 = length(c0)-0.03;
+  vec3 c1 = c0;
+  float h1 = hash(n0.xz);
+  float h2 = fract(8667.0*h1);
+  float a1 = smoothstep(0.99, 1.0, sin(0.125*(p.y-0.5*mix(2.0, 4.0, h2)*beatTime())+TAU*h1));
+  c1.xz *= ROT((8.0*p.y+0.6));
+  c1 -= 0.04;
+  float d4 = length(c1.xz)-mix(-0.001, 0.005, a1);
+  float d = d0;
+  d = min(d, d1);
+  d = min(d,d2);
+  d = min(d,d3);
+  d -= 0.03;
+  d = min(d,d4);
+
+  if (d4 < g_gd.x) {
+    g_gd = vec2(d4, a1);
+  }
+  return d;
+}
+
+
+float render1_raymarch(vec3 ro, vec3 rd, float tinit) {
+  float t = tinit;
+#if defined(RENDER1_BACKSTEP)
+  vec2 dti = vec2(1e10,0.0);
+#endif
+  int i;
+  float sf = 0.8;
+  float pt = t;
+  for (i = 0; i < render1_max_steps; ++i) {
+    float d = render1_df(ro + rd*t);
+#if defined(RENDER1_BACKSTEP)
+    if (d<dti.x) { dti=vec2(d,t); }
+#endif
+    if (d < render1_tolerance || t > render1_max_length) {
+      if (sf > 0.25) {
+        t = pt;
+        sf = 0.25;
+      } else {
+        break;
+      }
+    }
+    pt = t;
+    t += sf*d;
+  }
+#if defined(RENDER1_BACKSTEP)
+  if(i==render1_max_steps) { t=dti.y; };
+#endif
+  return t;
+}
+
+vec3 render1_normal(vec3 pos) {
+  const vec2 eps = vec2(render1_normal_eps, 0.0);
+  return normalize(vec3(
+      render1_df(pos+eps.xyy)-render1_df(pos-eps.xyy)
+    , render1_df(pos+eps.yxy)-render1_df(pos-eps.yxy)
+    , render1_df(pos+eps.yyx)-render1_df(pos-eps.yyx))
+    );
+}
+
+// License: MIT, author: Inigo Quilez, found: https://www.iquilezles.org/www/articles/spherefunctions/spherefunctions.htm
+float raySphereDensity(vec3 ro, vec3 rd, vec4 sph, float dbuffer) {
+  float ndbuffer = dbuffer/sph.w;
+  vec3  rc = (ro - sph.xyz)/sph.w;
+  float b = dot(rd,rc);
+  float c = dot(rc,rc) - 1.0;
+  float h = b*b - c;
+  if(h<0.0) return 0.0;
+  h = sqrt(h);
+  float t1 = -b - h;
+  float t2 = -b + h;
+  if(t2<0.0 || t1>ndbuffer) return 0.0;
+  t1 = max(t1, 0.0);
+  t2 = min(t2, ndbuffer);
+  float i1 = -(c*t1 + b*t1*t1 + t1*t1*t1/3.0);
+  float i2 = -(c*t2 + b*t2*t2 + t2*t2*t2/3.0);
+  return (i2-i1)*(3.0/4.0);
+}
+
+const vec3 flashCol     = HSV2RGB(vec3(0.58, 0.8, 1.0));
+const vec3 sparkCol     = HSV2RGB(vec3(0.75, 0.85, 5E-3));
+
+vec3 render1(vec3 ro, vec3 rd) {
+  g_gd = vec2(1E3, 0.0);
+  float t1 = render1_raymarch(ro, rd, 0.1);
+  vec2 gd = g_gd;
+
+  vec3 col = vec3(0.);
+  vec3 sp0 = offset(ro.z+2.0);
+  vec3 sp1 = offset(ro.z+8.0);
+
+  vec3 p1 = ro+rd*t1;
+  vec3 n1 = render1_normal(p1);
+  vec3 r1 = reflect(rd, n1);
+  vec3 d01 = sp0-p1;
+  vec3 d11 = sp1-p1;
+  vec3 ld01 = normalize(d01);
+  vec3 ld11 = normalize(d11);
+
+  float flash = beat();
+  flash *= flash;
+  vec3 fcol = flashCol*mix(2.0, 20.0, flash);
+
+  g_gd = vec2(1E3, 0.0);
+  float dn = render1_df(p1);
+  vec2 gdn = g_gd;
+
+  if (t1 < render1_max_length) {
+    col = vec3(0.);
+    col += 10.*fcol*pow(max(dot(ld11, r1),0.0),80.0)/max(8.0, dot(d11,d11));
+    col += 10.*fcol*pow(max(dot(ld01, r1),0.0),20.0)/max(8.0, dot(d01,d01));
+    col += 8E-3*gdn.y*sqrt(sparkCol)/max(5E-4, gdn.x*gdn.x);
+  }
+
+  col *= exp(-4E-2*vec3(2.0,3.0,1.0)*t1);
+  {
+    float r = mix(4., 5.,flash);
+    float sd = raySphereDensity(ro,rd, vec4(sp1-vec3(0.0,0.,0.0), r), t1);
+
+    col += sd*sd*fcol;
+  }
+  col += gd.y*sparkCol/max(1E-4, gd.x);
+//    col *= smoothstep(1.0*render1_max_length, 0.75*render1_max_length, t1);
+  return col;
+}
+
+vec3 effect(vec2 p) {
+  float tm  = 2.*beatTime();
+
+  vec3 ro   = offset(tm);
+  vec3 dro  = doffset(tm);
+  vec3 ddro = ddoffset(tm);
+
+  vec3 ww = normalize(dro);
+  vec3 uu = normalize(cross(ww,vec3(0,1,0)-4.*ddro));
+  vec3 vv = cross(ww, uu);
+  float rdd = 2.0+0.*length(p);
+  vec3 rd = normalize(p.x*uu + p.y*vv + rdd*ww);
+
+  vec3 col = render1(ro, rd);
+
+  col = sqrt(tanh(col));
+
+  return col;
+}
+
+vec4 renderMain() {
+  vec2 p = _uvc*2.;
+  vec3 col = effect(p);
+  return vec4(col,1);
+}

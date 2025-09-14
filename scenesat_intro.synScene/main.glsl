@@ -10,6 +10,7 @@ vec3 hsv2rgb(vec3 c) {
 //  Macro version of above to enable compile-time constants
 #define HSV2RGB(c)  (c.z * mix(hsv2rgb_K.xxx, clamp(abs(fract(c.xxx + hsv2rgb_K.xyz) * 6.0 - hsv2rgb_K.www) - hsv2rgb_K.xxx, 0.0, 1.0), c.y))
 
+
 const float
     outer = .01*.0
   , inner = .01*.5
@@ -31,12 +32,28 @@ float pmax(float a, float b, float k) {
   return -pmin(-a, -b, k);
 }
 
+bool commodore() {
+#ifdef KODELIFE
+  return false;
+#else
+  return show_commodore>.5;
+#endif
+}
+
 float freq(float x) {
+#ifdef KODELIFE
+  return exp(-3.*x*x)*(1.-sqrt(fract(TIME)));
+#else
   return texture(syn_Spectrum,x).y;
+#endif
 }
 
 float wave(float x) {
+#ifdef KODELIFE
+  return (.5+.25*sin(x*10.+TIME));
+#else
   return texture(syn_Spectrum,x).w;
+#endif
 }
 
 float length4(vec2 p) {
@@ -149,12 +166,16 @@ float dsputnik(vec3 p) {
 
 
 float dscenesat(vec2 p) {
-  p-=vec2(-.03,.02);
-  p.x *= 465./2048.;
-  p*=2.0-.75;
-  p += .5;
-  p = clamp(p,0,1);
-  float d = .75-texture(t_scenesat,p).x;
+  vec2 tp=p;
+  tp-=vec2(-.03,.02);
+  tp.x *= 465./2048.;
+  tp*=2.0-.75;
+  tp += .5;
+  tp = clamp(tp,0,1);
+#ifdef KODELIFE
+  tp.y = 1.-tp.y;
+#endif
+  float d = .75-texture(t_scenesat,tp).x;
 
   return d/6.;
 
@@ -351,6 +372,9 @@ vec3 program(vec3 col, vec2 p, float aa) {
   tp*=.5;
   tp+=.5;
   tp = clamp(tp,0,1);
+#ifdef KODELIFE
+  tp.y = 1.-tp.y;
+#endif
   vec4 tcol=texture(t_program, tp);
   col=mix(col, tcol.xyz, tcol.w*exp(-8.*max(p.y+0.5, 0.)));
 
@@ -374,7 +398,7 @@ vec4 renderMain() {
 
   vec3 col = vec3(0),lcol;
   col=lighter;
-  if (show_commodore>.5) {
+  if (commodore()) {
     col=commodore(col, p, aa);
   } else {
     col=sputnik(col, p, aa);

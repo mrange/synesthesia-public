@@ -1,11 +1,9 @@
 {
 	"CREDIT" : "mrange",
-	"DESCRIPTION" : "Smallest scene",
+	"DESCRIPTION" : "The grid",
 	"GPU" : 1,
+	"HEIGHT" : 1080,
 	"IMAGE_PATH" : "smallest.png",
-	"IMAGES" :
-	[
-	],
 	"MEDIA" :
 	[
 		{
@@ -13,16 +11,12 @@
 			"WRAP" : "mirror"
 		}
 	],
-	"PASSES" :
-	[
-	],
 	"TAGS" :
 	[
 		"mrange",
 		"smallest",
 		"example"
 	],
-	"TITLE" : "Smallest scene",
-	"HEIGHT" : 1080,
+	"TITLE" : "The grid",
 	"WIDTH" : 1920
 }
