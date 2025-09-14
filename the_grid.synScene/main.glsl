@@ -31,13 +31,16 @@ const vec2
   path_a = vec2(.33, .41)*.25
 , path_b = vec2(1,sqrt(.5))*8.
 ;
+const float 
+  bpm_divider=1.
+;
 #endif
 
 float bpm() {
 #ifdef KODELIFE
-  return 129.;
+  return 129./(bpm_divider+1.);
 #else
-  return round(syn_BPM);
+  return round(syn_BPM)/(bpm_divider+1.);
 #endif
 }
 

@@ -44,6 +44,29 @@
 			"PARAMS" : 0.01,
 			"TYPE" : "xy smooth",
 			"UI_GROUP" : "default"
+		},
+		{
+			"DEFAULT" : 0,
+			"DESCRIPTION" : "BPM Divider",
+			"LABELS" : 
+			[
+				"1",
+				"2",
+				"3",
+				"4"
+			],
+			"MAX" : 3,
+			"MIN" : 0,
+			"NAME" : "bpm_divider",
+			"TYPE" : "dropdown",
+			"UI_GROUP" : "default",
+			"VALUES" : 
+			[
+				0,
+				1,
+				2,
+				3
+			]
 		}
 	],
 	"CREDIT" : "mrange",
