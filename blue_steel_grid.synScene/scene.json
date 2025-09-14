@@ -2,160 +2,116 @@
 	"CONTROLS" :
 	[
 		{
-			"DEFAULT" :
-			[
-				0.165,
-				0.21
-			],
-			"DESCRIPTION" : "Controls path periodicity",
-			"MAX" :
-			[
-				0.5,
-				0.5
-			],
-			"MIN" :
-			[
-				-0.5,
-				-0.5
-			],
+			"DEFAULT" : [0.165, 0.21],
+			"DESCRIPTION" : "Adjusts the periodic motion of the grid path",
+			"MAX" : [0.5, 0.5],
+			"MIN" : [-0.5, -0.5],
 			"NAME" : "path_a",
 			"PARAMS" : 0.01,
 			"TYPE" : "xy smooth",
-			"UI_GROUP" : "default"
+			"UI_GROUP" : "Path Shape"
 		},
 		{
-			"DEFAULT" :
-			[
-				0.8,
-				0.5656
-			],
-			"DESCRIPTION" : "Controls path amplitude",
-			"MAX" :
-			[
-				2,
-				2
-			],
-			"MIN" :
-			[
-				-2,
-				-2
-			],
+			"DEFAULT" : [0.8, 0.5656],
+			"DESCRIPTION" : "Controls the amplitude (size of the waves) in the path",
+			"MAX" : [2, 2],
+			"MIN" : [-2, -2],
 			"NAME" : "path_b",
 			"PARAMS" : 0.01,
 			"TYPE" : "xy smooth",
-			"UI_GROUP" : "default"
-		},
-		{
-			"DEFAULT" : 0,
-			"DESCRIPTION" : "BPM divider, if the light flashes too quickly try dividing by 2 or 4",
-			"LABELS" :
-			[
-				"1",
-				"2",
-				"3",
-				"4"
-			],
-			"MAX" : 3,
-			"MIN" : 0,
-			"NAME" : "bpm_divider",
-			"TYPE" : "dropdown",
-			"UI_GROUP" : "default",
-			"VALUES" :
-			[
-				0,
-				1,
-				2,
-				3
-			]
+			"UI_GROUP" : "Path Shape"
 		},
 		{
 			"DEFAULT" : 2,
-			"DESCRIPTION" : "Speed of travelling through the blue steel grid",
+			"DESCRIPTION" : "Travel speed through the Blue Steel grid",
 			"MAX" : 5,
 			"MIN" : -5,
 			"NAME" : "path_speed",
 			"TYPE" : "slider speed",
-			"UI_GROUP" : "default"
+			"UI_GROUP" : "Path Motion"
 		},
 		{
 			"DEFAULT" : 0,
-			"DESCRIPTION" : "Controls rotation of the blue steel grid",
+			"DESCRIPTION" : "Rotates the Blue Steel grid",
 			"MAX" : 5,
 			"MIN" : -5,
 			"NAME" : "path_rot",
 			"TYPE" : "slider speed",
-			"UI_GROUP" : "default"
+			"UI_GROUP" : "Path Motion"
 		},
 		{
 			"DEFAULT" : 0,
-			"DESCRIPTION" : "Controls how twisted the grid should be",
+			"DESCRIPTION" : "Adds a twist to the grid structure",
 			"MAX" : 1,
 			"MIN" : -1,
 			"NAME" : "path_twist",
 			"PARAMS" : 0.01,
 			"TYPE" : "slider smooth",
-			"UI_GROUP" : "default"
+			"UI_GROUP" : "Path Motion"
+		},
+		{
+			"DEFAULT" : 0,
+			"DESCRIPTION" : "BPM divider – if the flash syncs too quickly, divide by 2 or 4",
+			"LABELS" : ["1","2","3","4"],
+			"MAX" : 3,
+			"MIN" : 0,
+			"NAME" : "bpm_divider",
+			"TYPE" : "dropdown",
+			"UI_GROUP" : "Rhythm"
 		},
 		{
 			"DEFAULT" : 0.58,
-			"DESCRIPTION" : "Controls the Flash color",
+			"DESCRIPTION" : "Hue of the flash effect",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "flash_hue",
 			"PARAMS" : 0.01,
 			"TYPE" : "slider smooth",
-			"UI_GROUP" : "default"
+			"UI_GROUP" : "Colors"
 		},
 		{
 			"DEFAULT" : 0.75,
-			"DESCRIPTION" : "Controls the Snake color",
+			"DESCRIPTION" : "Hue of the snake effect",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "snake_hue",
 			"PARAMS" : 0.01,
 			"TYPE" : "slider smooth",
-			"UI_GROUP" : "default"
+			"UI_GROUP" : "Colors"
 		},
 		{
 			"DEFAULT" : 1,
-			"DESCRIPTION" : "Controls how much media is zoomed",
+			"DESCRIPTION" : "Zoom level of the media texture",
 			"MAX" : 10,
 			"MIN" : 0,
 			"NAME" : "media_zoom",
 			"PARAMS" : 0.01,
 			"TYPE" : "slider smooth",
-			"UI_GROUP" : "default"
+			"UI_GROUP" : "Media"
 		},
 		{
 			"DEFAULT" : 1,
-			"DESCRIPTION" : "Controls the opacity of media, goes beyond 0 and 1 for funky colors",
+			"DESCRIPTION" : "Media opacity – push past 0–1 for wild color effects",
 			"MAX" : 5,
 			"MIN" : -5,
 			"NAME" : "media_opacity",
 			"PARAMS" : 0.01,
 			"TYPE" : "slider smooth",
-			"UI_GROUP" : "default"
+			"UI_GROUP" : "Media"
 		}
 	],
 	"CREDIT" : "mrange",
-	"DESCRIPTION" : "Travelling inside a blue steel grid. ZooLander would have appreciated this scene. Thanks to Inigo Quilez and sam hocevar for providing functions this scene relies under permissive licenses (MIT and WTFPL)",
+	"DESCRIPTION" : "Step inside the shimmering Blue Steel grid – a scene even Zoolander would call ‘so hot right now.’ Thanks to Inigo Quilez and Sam Hocevar for their brilliant functions, shared under MIT and WTFPL licenses.",
 	"GPU" : 1,
 	"HEIGHT" : 1080,
 	"IMAGE_PATH" : "blue_steel_grid.png",
-	"MEDIA" :
-	[
+	"MEDIA" : [
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"TAGS" :
-	[
-		"mrange",
-		"grid",
-		"raymarch",
-		"flashing"
-	],
+	"TAGS" : ["mrange","grid","raymarch","flashing"],
 	"TITLE" : "Blue Steel Grid",
 	"WIDTH" : 1920
 }
