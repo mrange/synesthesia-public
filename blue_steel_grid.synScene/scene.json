@@ -95,6 +95,26 @@
 			"PARAMS" : 0.01,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "default"
+		},
+		{
+			"DEFAULT" : 0.58,
+			"DESCRIPTION" : "Flash Hue",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "flash_hue",
+			"PARAMS" : 0.01,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "default"
+		},
+		{
+			"DEFAULT" : 0.75,
+			"DESCRIPTION" : "Snake Hue",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "snake_hue",
+			"PARAMS" : 0.01,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "default"
 		}
 	],
 	"CREDIT" : "mrange",
