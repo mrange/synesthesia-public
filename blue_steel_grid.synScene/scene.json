@@ -1,19 +1,19 @@
 {
-	"CONTROLS" : 
+	"CONTROLS" :
 	[
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
-				0.0825,
-				0.1025
+				0.165,
+				0.21
 			],
 			"DESCRIPTION" : "Path A",
-			"MAX" : 
+			"MAX" :
 			[
 				0.5,
 				0.5
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				-0.5,
 				-0.5
@@ -24,18 +24,18 @@
 			"UI_GROUP" : "default"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.8,
 				0.5656
 			],
 			"DESCRIPTION" : "Path B",
-			"MAX" : 
+			"MAX" :
 			[
 				2,
 				2
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				-2,
 				-2
@@ -48,7 +48,7 @@
 		{
 			"DEFAULT" : 0,
 			"DESCRIPTION" : "BPM Divider",
-			"LABELS" : 
+			"LABELS" :
 			[
 				"1",
 				"2",
@@ -60,33 +60,62 @@
 			"NAME" : "bpm_divider",
 			"TYPE" : "dropdown",
 			"UI_GROUP" : "default",
-			"VALUES" : 
+			"VALUES" :
 			[
 				0,
 				1,
 				2,
 				3
 			]
+		},
+		{
+			"DEFAULT" : 2,
+			"DESCRIPTION" : "Path_Speed",
+			"MAX" : 5,
+			"MIN" : -5,
+			"NAME" : "path_speed",
+			"TYPE" : "slider speed",
+			"UI_GROUP" : "default"
+		},
+		{
+			"DEFAULT" : 0,
+			"DESCRIPTION" : "Path rotation",
+			"MAX" : 5,
+			"MIN" : -5,
+			"NAME" : "path_rot",
+			"TYPE" : "slider speed",
+			"UI_GROUP" : "default"
+		},
+		{
+			"DEFAULT" : 0,
+			"DESCRIPTION" : "Path Twist",
+			"MAX" : 1,
+			"MIN" : -1,
+			"NAME" : "path_twist",
+			"PARAMS" : 0.01,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "default"
 		}
 	],
 	"CREDIT" : "mrange",
-	"DESCRIPTION" : "The grid",
+	"DESCRIPTION" : "Travelling inside a blue steel grid",
 	"GPU" : 1,
 	"HEIGHT" : 1080,
 	"IMAGE_PATH" : "smallest.png",
-	"MEDIA" : 
+	"MEDIA" :
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"TAGS" : 
+	"TAGS" :
 	[
 		"mrange",
-		"smallest",
-		"example"
+		"grid",
+		"raymarch",
+		"flashing"
 	],
-	"TITLE" : "The grid",
+	"TITLE" : "Blue Steel Grid",
 	"WIDTH" : 1920
 }

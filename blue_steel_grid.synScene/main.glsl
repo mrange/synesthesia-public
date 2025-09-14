@@ -33,25 +33,28 @@ const vec2
 ;
 const float 
   bpm_divider=1.
+, path_rot=0.
+, path_twist=0.
 ;
 #endif
 
-float bpm() {
+float bps() {
 #ifdef KODELIFE
-  return 129./(bpm_divider+1.);
+  return 129./((bpm_divider+1.)*60.);
 #else
-  return round(syn_BPM)/(bpm_divider+1.);
+  return round(syn_BPM)/((bpm_divider+1.)*60.);
 #endif
 }
 
 
 float beat() {
-  float B=TIME*bpm()/60.;
+  float B=TIME*bps();
   return 1.-fract(B);
 }
 
 float beatTime() {
-  return TIME;
+  float B=TIME*bps();
+  return floor(B)+sqrt(fract(B));
 }
 
 vec3 offset(float z) {
@@ -72,7 +75,7 @@ void warpWorld(inout vec3 p){
   vec3 dwarp = normalize(doffset(p.z));
   p.xy -= warp.xy;
   p -= dwarp*dot(vec3(p.xy, 0), dwarp)*0.5*vec3(1,1,-1);
-  p.xy *= ROT(dwarp.x);
+  p.xy *= ROT(dwarp.x+path_rot+path_twist*p.z);
 }
 
 vec2 g_gd;
@@ -213,13 +216,15 @@ vec3 render1(vec3 ro, vec3 rd) {
     col += sd*sd*fcol;
   }
   col += gd.y*sparkCol/max(1E-4, gd.x);
-//    col *= smoothstep(1.0*render1_max_length, 0.75*render1_max_length, t1);
   return col;
 }
 
 vec3 effect(vec2 p) {
-  float tm  = 2.*beatTime();
-
+#ifdef KODELIFE
+  float tm  = 2.*TIME;
+#else  
+  float tm  = path_speed;
+#endif
   vec3 ro   = offset(tm);
   vec3 dro  = doffset(tm);
   vec3 ddro = ddoffset(tm);
