@@ -1,6 +1,6 @@
 {
 	"CREDIT" : "mrange",
-	"DESCRIPTION" : "Scenesat Intro",
+	"DESCRIPTION" : "Scenesat Intro (https://scenesat.com/).",
 	"GPU" : 1,
 	"IMAGE_PATH" : "scenesat_intro.png",
 	"IMAGES" :
