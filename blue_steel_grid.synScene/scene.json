@@ -1,19 +1,19 @@
 {
-	"CONTROLS" : 
+	"CONTROLS" :
 	[
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.165,
 				0.21
 			],
-			"DESCRIPTION" : "Path A",
-			"MAX" : 
+			"DESCRIPTION" : "Controls path periodicity",
+			"MAX" :
 			[
 				0.5,
 				0.5
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				-0.5,
 				-0.5
@@ -24,18 +24,18 @@
 			"UI_GROUP" : "default"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.8,
 				0.5656
 			],
-			"DESCRIPTION" : "Path B",
-			"MAX" : 
+			"DESCRIPTION" : "Controls path amplitude",
+			"MAX" :
 			[
 				2,
 				2
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				-2,
 				-2
@@ -47,8 +47,8 @@
 		},
 		{
 			"DEFAULT" : 0,
-			"DESCRIPTION" : "BPM Divider",
-			"LABELS" : 
+			"DESCRIPTION" : "BPM divider, if the light flashes too quickly try dividing by 2 or 4",
+			"LABELS" :
 			[
 				"1",
 				"2",
@@ -60,7 +60,7 @@
 			"NAME" : "bpm_divider",
 			"TYPE" : "dropdown",
 			"UI_GROUP" : "default",
-			"VALUES" : 
+			"VALUES" :
 			[
 				0,
 				1,
@@ -70,7 +70,7 @@
 		},
 		{
 			"DEFAULT" : 2,
-			"DESCRIPTION" : "Path_Speed",
+			"DESCRIPTION" : "Speed of travelling through the blue steel grid",
 			"MAX" : 5,
 			"MIN" : -5,
 			"NAME" : "path_speed",
@@ -79,7 +79,7 @@
 		},
 		{
 			"DEFAULT" : 0,
-			"DESCRIPTION" : "Path rotation",
+			"DESCRIPTION" : "Controls rotation of the blue steel grid",
 			"MAX" : 5,
 			"MIN" : -5,
 			"NAME" : "path_rot",
@@ -88,7 +88,7 @@
 		},
 		{
 			"DEFAULT" : 0,
-			"DESCRIPTION" : "Path Twist",
+			"DESCRIPTION" : "Controls how twisted the grid should be",
 			"MAX" : 1,
 			"MIN" : -1,
 			"NAME" : "path_twist",
@@ -98,7 +98,7 @@
 		},
 		{
 			"DEFAULT" : 0.58,
-			"DESCRIPTION" : "Flash Hue",
+			"DESCRIPTION" : "Controls the Flash color",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "flash_hue",
@@ -108,7 +108,7 @@
 		},
 		{
 			"DEFAULT" : 0.75,
-			"DESCRIPTION" : "Snake Hue",
+			"DESCRIPTION" : "Controls the Snake color",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "snake_hue",
@@ -118,7 +118,7 @@
 		},
 		{
 			"DEFAULT" : 1,
-			"DESCRIPTION" : "Media Zoom",
+			"DESCRIPTION" : "Controls how much media is zoomed",
 			"MAX" : 10,
 			"MIN" : 0,
 			"NAME" : "media_zoom",
@@ -128,7 +128,7 @@
 		},
 		{
 			"DEFAULT" : 1,
-			"DESCRIPTION" : "Media Opacity",
+			"DESCRIPTION" : "Controls the opacity of media, goes beyond 0 and 1 for funky colors",
 			"MAX" : 5,
 			"MIN" : -5,
 			"NAME" : "media_opacity",
@@ -138,18 +138,18 @@
 		}
 	],
 	"CREDIT" : "mrange",
-	"DESCRIPTION" : "Travelling inside a blue steel grid",
+	"DESCRIPTION" : "Travelling inside a blue steel grid. ZooLander would have appreciated this scene. Thanks to Inigo Quilez and sam hocevar for providing functions this scene relies under permissive licenses (MIT and WTFPL)",
 	"GPU" : 1,
 	"HEIGHT" : 1080,
-	"IMAGE_PATH" : "smallest.png",
-	"MEDIA" : 
+	"IMAGE_PATH" : "blue_steel_grid.png",
+	"MEDIA" :
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"TAGS" : 
+	"TAGS" :
 	[
 		"mrange",
 		"grid",

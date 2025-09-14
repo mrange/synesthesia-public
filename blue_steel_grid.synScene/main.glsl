@@ -31,7 +31,7 @@ const vec2
   path_a = vec2(.33, .41)*.25
 , path_b = vec2(1,sqrt(.5))*8.
 ;
-const float 
+const float
   bpm_divider     =1.
 , path_rot        =0.
 , path_twist      =0.
@@ -180,7 +180,7 @@ float raySphereDensity(vec3 ro, vec3 rd, vec4 sph, float dbuffer) {
 vec3 render1(vec3 ro, vec3 rd) {
   vec3 flashCol     = hsv2rgb(vec3(flash_hue, 0.8, 1.0));
   vec3 sparkCol     = hsv2rgb(vec3(snake_hue, 0.85, 5E-3));
-  
+
   g_gd = vec2(1E3, 0.0);
   float t1 = render1_raymarch(ro, rd, 0.1);
   vec2 gd = g_gd;
@@ -226,7 +226,7 @@ vec3 render1(vec3 ro, vec3 rd) {
 vec3 effect(vec2 p) {
 #ifdef KODELIFE
   float tm  = 2.*TIME;
-#else  
+#else
   float tm  = path_speed;
 #endif
   vec3 ro   = offset(tm);
@@ -242,7 +242,7 @@ vec3 effect(vec2 p) {
   vec3 col = render1(ro, rd);
   col=tanh(col);
   col = sqrt(col);
-  vec2 
+  vec2
     tp=p
   , tz=vec2(textureSize(syn_Media,0))
   ;
