@@ -1,19 +1,19 @@
 {
-	"CONTROLS" :
+	"CONTROLS" : 
 	[
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.165,
 				0.21
 			],
 			"DESCRIPTION" : "Path A",
-			"MAX" :
+			"MAX" : 
 			[
 				0.5,
 				0.5
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				-0.5,
 				-0.5
@@ -24,18 +24,18 @@
 			"UI_GROUP" : "default"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.8,
 				0.5656
 			],
 			"DESCRIPTION" : "Path B",
-			"MAX" :
+			"MAX" : 
 			[
 				2,
 				2
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				-2,
 				-2
@@ -48,7 +48,7 @@
 		{
 			"DEFAULT" : 0,
 			"DESCRIPTION" : "BPM Divider",
-			"LABELS" :
+			"LABELS" : 
 			[
 				"1",
 				"2",
@@ -60,7 +60,7 @@
 			"NAME" : "bpm_divider",
 			"TYPE" : "dropdown",
 			"UI_GROUP" : "default",
-			"VALUES" :
+			"VALUES" : 
 			[
 				0,
 				1,
@@ -115,6 +115,26 @@
 			"PARAMS" : 0.01,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "default"
+		},
+		{
+			"DEFAULT" : 1,
+			"DESCRIPTION" : "Media Zoom",
+			"MAX" : 10,
+			"MIN" : 0,
+			"NAME" : "media_zoom",
+			"PARAMS" : 0.01,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "default"
+		},
+		{
+			"DEFAULT" : 1,
+			"DESCRIPTION" : "Media Opacity",
+			"MAX" : 5,
+			"MIN" : -5,
+			"NAME" : "media_opacity",
+			"PARAMS" : 0.01,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "default"
 		}
 	],
 	"CREDIT" : "mrange",
@@ -122,14 +142,14 @@
 	"GPU" : 1,
 	"HEIGHT" : 1080,
 	"IMAGE_PATH" : "smallest.png",
-	"MEDIA" :
+	"MEDIA" : 
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"TAGS" :
+	"TAGS" : 
 	[
 		"mrange",
 		"grid",
