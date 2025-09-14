@@ -2,7 +2,7 @@
 	"CREDIT" : "mrange",
 	"DESCRIPTION" : "Smallest scene",
 	"GPU" : 1,
-	"IMAGE_PATH" : "smallest.png",
+	"IMAGE_PATH" : "scene.png",
 	"IMAGES" :
 	[
 	],
