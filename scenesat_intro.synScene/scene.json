@@ -3,6 +3,18 @@
 	"DESCRIPTION" : "Scenesat Intro (https://scenesat.com/).",
 	"GPU" : 1,
 	"IMAGE_PATH" : "scenesat_intro.png",
+	"CONTROLS" :
+	[
+		{
+			"DEFAULT" : 0,
+			"DESCRIPTION" : "Commodore",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "show_commodore",
+			"TYPE" : "toggle",
+			"UI_GROUP" : "Variants"
+		}
+	],
 	"IMAGES" :
 	[
 		{

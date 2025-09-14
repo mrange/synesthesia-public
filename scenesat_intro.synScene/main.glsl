@@ -374,8 +374,11 @@ vec4 renderMain() {
 
   vec3 col = vec3(0),lcol;
   col=lighter;
-//  col=commodore(col, p-vec2(0.), aa);
-  col=sputnik(col, p-vec2(0,0), aa);
+  if (show_commodore>.5) {
+    col=commodore(col, p, aa);
+  } else {
+    col=sputnik(col, p, aa);
+  }
   col=bars(col, p-vec2(R.x/R.y-.5,-.9), aa);
   col=wave(col, p-vec2(-R.x/R.y+.5,-.9), aa);
   col=program(col,p,aa);
