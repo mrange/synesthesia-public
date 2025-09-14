@@ -104,7 +104,7 @@
 	"DESCRIPTION" : "Step inside the shimmering Blue Steel grid – a scene even Zoolander would call ‘so hot right now.’ Thanks to Inigo Quilez and Sam Hocevar for their brilliant functions, shared under MIT and WTFPL licenses.",
 	"GPU" : 1,
 	"HEIGHT" : 1080,
-	"IMAGE_PATH" : "blue_steel_grid.png",
+	"IMAGE_PATH" : "scene.png",
 	"MEDIA" : [
 		{
 			"FILTER" : "linear",
