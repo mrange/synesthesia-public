@@ -26,10 +26,12 @@ const float
 , render1_normal_eps  = 1E-2
 ;
 
+#ifdef KODELIFE
 const vec2
   path_a = vec2(.33, .41)*.25
 , path_b = vec2(1,sqrt(.5))*8.
 ;
+#endif
 
 float bpm() {
 #ifdef KODELIFE

@@ -1,4 +1,51 @@
 {
+	"CONTROLS" : 
+	[
+		{
+			"DEFAULT" : 
+			[
+				0.0825,
+				0.1025
+			],
+			"DESCRIPTION" : "Path A",
+			"MAX" : 
+			[
+				0.5,
+				0.5
+			],
+			"MIN" : 
+			[
+				-0.5,
+				-0.5
+			],
+			"NAME" : "path_a",
+			"PARAMS" : 0.01,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "default"
+		},
+		{
+			"DEFAULT" : 
+			[
+				0.8,
+				0.5656
+			],
+			"DESCRIPTION" : "Path B",
+			"MAX" : 
+			[
+				2,
+				2
+			],
+			"MIN" : 
+			[
+				-2,
+				-2
+			],
+			"NAME" : "path_b",
+			"PARAMS" : 0.01,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "default"
+		}
+	],
 	"CREDIT" : "mrange",
 	"DESCRIPTION" : "The grid",
 	"GPU" : 1,
