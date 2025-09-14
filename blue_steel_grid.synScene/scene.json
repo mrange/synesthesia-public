@@ -2,7 +2,7 @@
 	"CONTROLS" :
 	[
 		{
-			"DEFAULT" : [0.165, 0.21],
+			"DEFAULT" : [0.0825, 0.1025],
 			"DESCRIPTION" : "Adjusts the periodic motion of the grid path",
 			"MAX" : [0.5, 0.5],
 			"MIN" : [-0.5, -0.5],
@@ -12,10 +12,10 @@
 			"UI_GROUP" : "Path Shape"
 		},
 		{
-			"DEFAULT" : [0.8, 0.5656],
+			"DEFAULT" : [8, 5.656],
 			"DESCRIPTION" : "Controls the amplitude (size of the waves) in the path",
-			"MAX" : [2, 2],
-			"MIN" : [-2, -2],
+			"MAX" : [16, 16],
+			"MIN" : [-16, -16],
 			"NAME" : "path_b",
 			"PARAMS" : 0.01,
 			"TYPE" : "xy smooth",
