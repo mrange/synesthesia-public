@@ -1,0 +1,157 @@
+{
+	"CONTROLS" :
+	[
+		{
+			"DEFAULT" : 1,
+			"DESCRIPTION" : "Travel speed through neon triangle world",
+			"MAX" : 5,
+			"MIN" : -5,
+			"NAME" : "path_speed",
+			"TYPE" : "slider speed",
+			"UI_GROUP" : "Motion"
+		},
+		{
+			"DEFAULT" : -2,
+			"DESCRIPTION" : "Triangle base speed",
+			"MAX" : 10,
+			"MIN" : -10,
+			"NAME" : "tri_speed",
+			"PARAMS" : 0.01,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Motion"
+		},
+		{
+			"DEFAULT" : 0,
+			"DESCRIPTION" : "BPM divider – if the flash syncs too quickly, divide by 2 or 4",
+			"LABELS" :
+			[
+				"1",
+				"2",
+				"3",
+				"4"
+			],
+			"MAX" : 3,
+			"MIN" : 0,
+			"NAME" : "bpm_divider",
+			"TYPE" : "dropdown",
+			"UI_GROUP" : "Rhythm",
+			"VALUES" :
+			[
+				0,
+				1,
+				2,
+				3
+			]
+		},
+		{
+			"DEFAULT" : 0.5,
+			"DESCRIPTION" : "Pattern size",
+			"MAX" : 5,
+			"MIN" : 0,
+			"NAME" : "pattern_size",
+			"PARAMS" : 0.01,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Effects"
+		},
+		{
+			"DEFAULT" : 20,
+			"DESCRIPTION" : "Flash max level",
+			"MAX" : 50,
+			"MIN" : 0,
+			"NAME" : "flash_max",
+			"PARAMS" : 0.01,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Effects"
+		},
+		{
+			"DEFAULT" : 2,
+			"DESCRIPTION" : "Flash min level",
+			"MAX" : 50,
+			"MIN" : 0,
+			"NAME" : "flash_min",
+			"PARAMS" : 0.01,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Effects"
+		},
+		{
+			"DEFAULT" : 1,
+			"DESCRIPTION" : "Show snakes",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "show_snakes",
+			"TYPE" : "toggle",
+			"UI_GROUP" : "Effects"
+		},
+		{
+			"DEFAULT" : 0.7,
+			"DESCRIPTION" : "Hue base for triangles",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "diff_hue",
+			"PARAMS" : 0.01,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Colors"
+		},
+		{
+			"DEFAULT" : 0.72,
+			"DESCRIPTION" : "Hue of the flash effect",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "flash_hue",
+			"PARAMS" : 0.01,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Colors"
+		},
+		{
+			"DEFAULT" : 0.6,
+			"DESCRIPTION" : "Hue of the glowing snakes effect",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "glow_hue",
+			"PARAMS" : 0.01,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Colors"
+		},
+		{
+			"DEFAULT" : 1,
+			"DESCRIPTION" : "Zoom level of the media texture",
+			"MAX" : 10,
+			"MIN" : 0,
+			"NAME" : "media_zoom",
+			"PARAMS" : 0.01,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Media"
+		},
+		{
+			"DEFAULT" : 1,
+			"DESCRIPTION" : "Media opacity – push past 0–1 for wild color effects",
+			"MAX" : 5,
+			"MIN" : -5,
+			"NAME" : "media_opacity",
+			"PARAMS" : 0.01,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Media"
+		}
+	],
+	"CREDIT" : "mrange",
+	"DESCRIPTION" : "Neon Triangulator",
+	"GPU" : 1,
+	"HEIGHT" : 1080,
+	"IMAGE_PATH" : "scene.png",
+	"MEDIA" :
+	[
+		{
+			"FILTER" : "linear",
+			"WRAP" : "mirror"
+		}
+	],
+	"TAGS" :
+	[
+		"mrange",
+		"neon",
+		"synthwave",
+		"example"
+	],
+	"TITLE" : "Neon Triangulator",
+	"WIDTH" : 1920
+}
