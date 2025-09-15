@@ -43,7 +43,6 @@ const float
 , path_twist      =0.
 , flash_hue       =.58
 , snake_hue       =.75
-, media_zoom      =1.
 , media_opacity   =1.
 ;
 #endif
@@ -248,17 +247,7 @@ vec3 effect(vec2 p) {
   vec3 col = render1(ro, rd);
   col=tanh(col);
   col = sqrt(col);
-  vec2
-    tp=p
-  , tz=vec2(textureSize(syn_Media,0))
-  ;
-  tp/=vec2(1,tz.y/tz.x)*media_zoom;
-  tp+=.5;
-#ifdef KODELIFE
-  tp.y=1.-tp.y;
-#endif
-  tp=clamp(tp,0,1);
-  vec4 mcol=texture(syn_Media,tp);
+  vec4 mcol=_loadMedia();
   col=mix(col,mcol.xyz,mcol.w*media_opacity);
 
   return col;

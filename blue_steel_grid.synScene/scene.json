@@ -1,19 +1,19 @@
 {
-	"CONTROLS" : 
+	"CONTROLS" :
 	[
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.0825,
 				0.1025
 			],
 			"DESCRIPTION" : "Adjusts the periodic motion of the grid path",
-			"MAX" : 
+			"MAX" :
 			[
 				0.5,
 				0.5
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				-0.5,
 				-0.5
@@ -24,18 +24,18 @@
 			"UI_GROUP" : "Path Shape"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				8,
 				5.656
 			],
 			"DESCRIPTION" : "Controls the amplitude (size of the waves) in the path",
-			"MAX" : 
+			"MAX" :
 			[
 				16,
 				16
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				-16,
 				-16
@@ -76,7 +76,7 @@
 		{
 			"DEFAULT" : 0,
 			"DESCRIPTION" : "BPM divider – if the flash syncs too quickly, divide by 2 or 4",
-			"LABELS" : 
+			"LABELS" :
 			[
 				"1",
 				"2",
@@ -88,7 +88,7 @@
 			"NAME" : "bpm_divider",
 			"TYPE" : "dropdown",
 			"UI_GROUP" : "Rhythm",
-			"VALUES" : 
+			"VALUES" :
 			[
 				0,
 				1,
@@ -118,16 +118,6 @@
 		},
 		{
 			"DEFAULT" : 1,
-			"DESCRIPTION" : "Zoom level of the media texture",
-			"MAX" : 10,
-			"MIN" : 0,
-			"NAME" : "media_zoom",
-			"PARAMS" : 0.01,
-			"TYPE" : "slider smooth",
-			"UI_GROUP" : "Media"
-		},
-		{
-			"DEFAULT" : 1,
 			"DESCRIPTION" : "Media opacity – push past 0–1 for wild color effects",
 			"MAX" : 5,
 			"MIN" : -5,
@@ -142,14 +132,14 @@
 	"GPU" : 1,
 	"HEIGHT" : 1080,
 	"IMAGE_PATH" : "scene.png",
-	"MEDIA" : 
+	"MEDIA" :
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"TAGS" : 
+	"TAGS" :
 	[
 		"mrange",
 		"grid",
