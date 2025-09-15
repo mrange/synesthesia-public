@@ -1,19 +1,19 @@
 {
-	"CONTROLS" :
+	"CONTROLS" : 
 	[
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.0825,
 				0.1025
 			],
 			"DESCRIPTION" : "Adjusts the periodic motion of the grid path",
-			"MAX" :
+			"MAX" : 
 			[
 				0.5,
 				0.5
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				-0.5,
 				-0.5
@@ -24,18 +24,18 @@
 			"UI_GROUP" : "Path Shape"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				8,
 				5.656
 			],
 			"DESCRIPTION" : "Controls the amplitude (size of the waves) in the path",
-			"MAX" :
+			"MAX" : 
 			[
 				16,
 				16
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				-16,
 				-16
@@ -44,6 +44,36 @@
 			"PARAMS" : 0.24801,
 			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Path Shape"
+		},
+		{
+			"DEFAULT" : 
+			[
+				1,
+				1
+			],
+			"DESCRIPTION" : "Controls grid size in xy",
+			"MAX" : 
+			[
+				3,
+				3
+			],
+			"MIN" : 
+			[
+				0.25,
+				0.25
+			],
+			"NAME" : "grid_dim_xy",
+			"TYPE" : "xy",
+			"UI_GROUP" : "Grid"
+		},
+		{
+			"DEFAULT" : 1,
+			"DESCRIPTION" : "Controls grid dimension in Z",
+			"MAX" : 3,
+			"MIN" : 0.25,
+			"NAME" : "grid_dim_z",
+			"TYPE" : "slider",
+			"UI_GROUP" : "Grid"
 		},
 		{
 			"DEFAULT" : 2,
@@ -76,7 +106,7 @@
 		{
 			"DEFAULT" : 0,
 			"DESCRIPTION" : "BPM divider – if the flash syncs too quickly, divide by 2 or 4",
-			"LABELS" :
+			"LABELS" : 
 			[
 				"1",
 				"2",
@@ -88,7 +118,7 @@
 			"NAME" : "bpm_divider",
 			"TYPE" : "dropdown",
 			"UI_GROUP" : "Rhythm",
-			"VALUES" :
+			"VALUES" : 
 			[
 				0,
 				1,
@@ -132,14 +162,14 @@
 	"GPU" : 1,
 	"HEIGHT" : 1080,
 	"IMAGE_PATH" : "scene.png",
-	"MEDIA" :
+	"MEDIA" : 
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"TAGS" :
+	"TAGS" : 
 	[
 		"mrange",
 		"grid",

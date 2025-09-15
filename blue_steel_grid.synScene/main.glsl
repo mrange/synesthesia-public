@@ -4,7 +4,6 @@
 // See <https://creativecommons.org/publicdomain/zero/1.0/> for details.
 
 
-#define ROT(a)      mat2(cos(a), sin(a), -sin(a), cos(a))
 // License: WTFPL, author: sam hocevar, found: https://stackoverflow.com/a/17897228/418488
 const vec4 hsv2rgb_K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
 vec3 hsv2rgb(vec3 c) {
@@ -20,8 +19,6 @@ const float
   TAU=PI*2.
 ;
 
-// #define RENDER1_BACKSTEP
-
 const int
   render1_max_steps = 90
 ;
@@ -34,8 +31,9 @@ const float
 
 #ifdef KODELIFE
 const vec2
-  path_a = vec2(.33, .41)*.25
-, path_b = vec2(1,sqrt(.5))*8.
+  path_a        = vec2(.33, .41)*.25
+, path_b        = vec2(1,sqrt(.5))*8.
+, grid_dim_xy   = vec2(1)
 ;
 const float
   bpm_divider     =1.
@@ -44,6 +42,9 @@ const float
 , flash_hue       =.58
 , snake_hue       =.75
 , media_opacity   =1.
+, grid_dim_z     =1.
+;
+const vec3 
 ;
 #endif
 
@@ -61,11 +62,6 @@ float beat() {
   return 1.-fract(B);
 }
 
-float beatTime() {
-  float B=TIME*bps();
-  return floor(B)+sqrt(fract(B));
-}
-
 vec3 offset(float z) {
   return vec3(path_b*sin(path_a*z), z);
 }
@@ -78,13 +74,18 @@ vec3 ddoffset(float z) {
   return vec3(-path_a*path_a*path_b*sin(path_a*z), 0.0);
 }
 
+mat2 rot(float a) {
+  float c=cos(a),s=sin(a);
+  return mat2(c,s,-s,c);
+}
+
 // License: Unknown, author: Unknown, found: don't remember
 void warpWorld(inout vec3 p){
   vec3 warp = offset(p.z);
   vec3 dwarp = normalize(doffset(p.z));
   p.xy -= warp.xy;
   p -= dwarp*dot(vec3(p.xy, 0), dwarp)*0.5*vec3(1,1,-1);
-  p.xy *= ROT(dwarp.x+path_rot+path_twist*p.z);
+  p.xy *= rot(dwarp.x+path_rot+path_twist*p.z);
 }
 
 vec2 g_gd;
@@ -93,11 +94,11 @@ vec2 g_gd;
 float hash(vec2 co) {
   return fract(sin(dot(co.xy ,vec2(12.9898,58.233))) * 13758.5453);
 }
-
 float render1_df(vec3 p) {
   warpWorld(p);
-  vec3 p0 = p-0.5;
-  vec3 n0 = round(p0);
+  vec3 grid_dim = vec3(grid_dim_xy,grid_dim_z);
+  vec3 p0 = p-0.5*grid_dim;
+  vec3 n0 = round(p0/grid_dim)*grid_dim;
   vec3 c0 = p0 - n0;
   float d0 = length(c0.xy);
   float d1 = length(c0.yz);
@@ -106,8 +107,8 @@ float render1_df(vec3 p) {
   vec3 c1 = c0;
   float h1 = hash(n0.xz);
   float h2 = fract(8667.0*h1);
-  float a1 = smoothstep(0.99, 1.0, sin(0.125*(p.y-0.5*mix(2.0, 4.0, h2)*beatTime())+TAU*h1));
-  c1.xz *= ROT((8.0*p.y+0.6));
+  float a1 = smoothstep(0.99, 1.0, sin(0.125*(p.y-0.5*mix(2.0, 4.0, h2)*TIME*1.5)+TAU*h1));
+  c1.xz *= rot((8.0*p.y+0.6));
   c1 -= 0.04;
   float d4 = length(c1.xz)-mix(-0.001, 0.005, a1);
   float d = d0;
@@ -126,17 +127,11 @@ float render1_df(vec3 p) {
 
 float render1_raymarch(vec3 ro, vec3 rd, float tinit) {
   float t = tinit;
-#if defined(RENDER1_BACKSTEP)
-  vec2 dti = vec2(1e10,0.0);
-#endif
   int i;
   float sf = 0.8;
   float pt = t;
   for (i = 0; i < render1_max_steps; ++i) {
     float d = render1_df(ro + rd*t);
-#if defined(RENDER1_BACKSTEP)
-    if (d<dti.x) { dti=vec2(d,t); }
-#endif
     if (d < render1_tolerance || t > render1_max_length) {
       if (sf > 0.25) {
         t = pt;
@@ -148,9 +143,6 @@ float render1_raymarch(vec3 ro, vec3 rd, float tinit) {
     pt = t;
     t += sf*d;
   }
-#if defined(RENDER1_BACKSTEP)
-  if(i==render1_max_steps) { t=dti.y; };
-#endif
   return t;
 }
 
@@ -183,8 +175,8 @@ float raySphereDensity(vec3 ro, vec3 rd, vec4 sph, float dbuffer) {
 }
 
 vec3 render1(vec3 ro, vec3 rd) {
-  vec3 flashCol     = hsv2rgb(vec3(flash_hue, 0.8, 1.0));
-  vec3 sparkCol     = hsv2rgb(vec3(snake_hue, 0.85, 5E-3));
+  vec3 flashCol     = hsv2rgb(vec3(flash_hue, .8, 1));
+  vec3 sparkCol     = hsv2rgb(vec3(snake_hue, .85,1))*5E-3;
 
   g_gd = vec2(1E3, 0.0);
   float t1 = render1_raymarch(ro, rd, 0.1);
@@ -247,9 +239,11 @@ vec3 effect(vec2 p) {
   vec3 col = render1(ro, rd);
   col=tanh(col);
   col = sqrt(col);
+#ifdef KODELIFE
+#else
   vec4 mcol=_loadMedia();
   col=mix(col,mcol.xyz,mcol.w*media_opacity);
-
+#endif
   return col;
 }
 
