@@ -22,6 +22,25 @@
 		},
 		{
 			"DEFAULT" : 0,
+			"DESCRIPTION" : "Rotation speed of the neon triangle world",
+			"MAX" : 5,
+			"MIN" : -5,
+			"NAME" : "rot_speed",
+			"TYPE" : "slider speed",
+			"UI_GROUP" : "Motion"
+		},
+		{
+			"DEFAULT" : 0,
+			"DESCRIPTION" : "Fixed rotation of the neon triangle world",
+			"MAX" : 0,
+			"MIN" : 1,
+			"NAME" : "rot_base",
+			"PARAMS" : 0.01,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Motion"
+		},
+		{
+			"DEFAULT" : 0,
 			"DESCRIPTION" : "BPM divider – if the flash syncs too quickly, divide by 2 or 4",
 			"LABELS" :
 			[

@@ -1,4 +1,7 @@
-// CC0: Neon triangulator
+// This file is released under CC0 1.0 Universal (Public Domain Dedication).
+// To the extent possible under law, Mårten Rånge has waived all copyright
+// and related or neighboring rights to this work.
+// See <https://creativecommons.org/publicdomain/zero/1.0/> for details.
 
 #define ROT(a)      mat2(cos(a), sin(a), -sin(a), cos(a))
 
@@ -33,17 +36,18 @@ const float
   bpm_divider     =1.
 , tri_speed       =-2.
 , pattern_size    =.5
+, rot_speed       =0.
+, rot_base        =0.
 , diff_hue        =.7
 , glow_hue        =.6
 , flash_hue       =.72
 , flash_min       =2.
 , flash_max       =20.
+, show_snakes     =1.
 , media_zoom      =2.
-, media_opacity   =1.
- show_snakes      =1.
+, media_opacity   =0.
 ;
 #endif
-
 float bps() {
 #ifdef KODELIFE
   return 129./((bpm_divider+1.)*60.);
@@ -152,7 +156,6 @@ float df(vec3 p) {
   const vec2
       off2 = R1*vec2(SimplexOff,0.0)
     ;
-
   float loff = tri_speed*g_h.x*TIME;
   vec3 op = p;
   p.z -= loff;
@@ -296,6 +299,11 @@ vec3 render(vec3 ro, vec3 rd, float noise) {
 
 
 vec3 effect(vec2 p, float noise) {
+  vec2
+    tp=p
+  , tz=vec2(textureSize(syn_Media,0))
+  ;
+  p.xy*=ROT(rot_speed+TAU*rot_base);
   const vec3
       up = vec3(0, 1, 0)
     , ww = normalize(vec3(0, 0, 1))
@@ -326,10 +334,6 @@ vec3 effect(vec2 p, float noise) {
   col = aces_approx(max(col,0.));
   col = sqrt(col);
 
-  vec2
-    tp=p
-  , tz=vec2(textureSize(syn_Media,0))
-  ;
   tp/=vec2(1,tz.y/tz.x)*media_zoom;
   tp+=.5;
 #ifdef KODELIFE
