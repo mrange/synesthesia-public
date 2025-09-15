@@ -1,23 +1,47 @@
 {
-	"CONTROLS" :
+	"CONTROLS" : 
 	[
 		{
-			"DEFAULT" : [0.0825, 0.1025],
+			"DEFAULT" : 
+			[
+				0.0825,
+				0.1025
+			],
 			"DESCRIPTION" : "Adjusts the periodic motion of the grid path",
-			"MAX" : [0.5, 0.5],
-			"MIN" : [-0.5, -0.5],
+			"MAX" : 
+			[
+				0.5,
+				0.5
+			],
+			"MIN" : 
+			[
+				-0.5,
+				-0.5
+			],
 			"NAME" : "path_a",
-			"PARAMS" : 0.01,
+			"PARAMS" : 0.25,
 			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Path Shape"
 		},
 		{
-			"DEFAULT" : [8, 5.656],
+			"DEFAULT" : 
+			[
+				8,
+				5.656
+			],
 			"DESCRIPTION" : "Controls the amplitude (size of the waves) in the path",
-			"MAX" : [16, 16],
-			"MIN" : [-16, -16],
+			"MAX" : 
+			[
+				16,
+				16
+			],
+			"MIN" : 
+			[
+				-16,
+				-16
+			],
 			"NAME" : "path_b",
-			"PARAMS" : 0.01,
+			"PARAMS" : 0.24801,
 			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Path Shape"
 		},
@@ -36,7 +60,7 @@
 			"MAX" : 5,
 			"MIN" : -5,
 			"NAME" : "path_rot",
-			"TYPE" : "slider speed",
+			"TYPE" : "knob speed",
 			"UI_GROUP" : "Path Motion"
 		},
 		{
@@ -52,12 +76,25 @@
 		{
 			"DEFAULT" : 0,
 			"DESCRIPTION" : "BPM divider – if the flash syncs too quickly, divide by 2 or 4",
-			"LABELS" : ["1","2","3","4"],
+			"LABELS" : 
+			[
+				"1",
+				"2",
+				"3",
+				"4"
+			],
 			"MAX" : 3,
 			"MIN" : 0,
 			"NAME" : "bpm_divider",
 			"TYPE" : "dropdown",
-			"UI_GROUP" : "Rhythm"
+			"UI_GROUP" : "Rhythm",
+			"VALUES" : 
+			[
+				0,
+				1,
+				2,
+				3
+			]
 		},
 		{
 			"DEFAULT" : 0.58,
@@ -105,13 +142,20 @@
 	"GPU" : 1,
 	"HEIGHT" : 1080,
 	"IMAGE_PATH" : "scene.png",
-	"MEDIA" : [
+	"MEDIA" : 
+	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"TAGS" : ["mrange","grid","raymarch","flashing"],
+	"TAGS" : 
+	[
+		"mrange",
+		"grid",
+		"raymarch",
+		"flashing"
+	],
 	"TITLE" : "Blue Steel Grid",
 	"WIDTH" : 1920
 }
