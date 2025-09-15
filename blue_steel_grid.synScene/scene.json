@@ -70,7 +70,7 @@
 			"MIN" : -1,
 			"NAME" : "path_twist",
 			"PARAMS" : 0.01,
-			"TYPE" : "slider smooth",
+			"TYPE" : "knob smooth",
 			"UI_GROUP" : "Path Motion"
 		},
 		{
