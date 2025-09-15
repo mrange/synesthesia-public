@@ -23,7 +23,7 @@ const float
 // #define RENDER1_BACKSTEP
 
 const int
-  render1_max_steps = 70
+  render1_max_steps = 90
 ;
 
 const float
