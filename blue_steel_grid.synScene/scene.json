@@ -1,19 +1,19 @@
 {
-	"CONTROLS" :
+	"CONTROLS" : 
 	[
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.0825,
 				0.1025
 			],
-			"DESCRIPTION" : "Adjusts the periodic motion of the grid path",
-			"MAX" :
+			"DESCRIPTION" : "Bends the grid’s path into wavy motion – like giving it a little dance step.",
+			"MAX" : 
 			[
 				0.5,
 				0.5
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				-0.5,
 				-0.5
@@ -24,18 +24,18 @@
 			"UI_GROUP" : "Path Shape"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				8,
 				5.656
 			],
-			"DESCRIPTION" : "Controls the amplitude (size of the waves) in the path",
-			"MAX" :
+			"DESCRIPTION" : "Wave amplitude – crank it up for big swings, tone it down for subtle ripples.",
+			"MAX" : 
 			[
 				16,
 				16
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				-16,
 				-16
@@ -46,18 +46,18 @@
 			"UI_GROUP" : "Path Shape"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				1,
 				1
 			],
-			"DESCRIPTION" : "Controls grid size in xy",
-			"MAX" :
+			"DESCRIPTION" : "How fine or chunky the grid looks in XY. Shrink it down for tighter vibes.",
+			"MAX" : 
 			[
 				3,
 				3
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0.25,
 				0.25
@@ -67,18 +67,18 @@
 			"UI_GROUP" : "Grid"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				1,
 				0.03
 			],
-			"DESCRIPTION" : "Controls grid size in zr",
-			"MAX" :
+			"DESCRIPTION" : "Grid spacing in depth (Z) and radius (R). Adds that tunnel-infinity feel.",
+			"MAX" : 
 			[
 				3,
 				0.4
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0.25,
 				0.01
@@ -89,7 +89,7 @@
 		},
 		{
 			"DEFAULT" : 2,
-			"DESCRIPTION" : "Travel speed through the Blue Steel grid",
+			"DESCRIPTION" : "Travel speed through the Blue Steel grid – slow cruise or hyperspace jump.",
 			"MAX" : 9,
 			"MIN" : -9,
 			"NAME" : "path_speed",
@@ -98,7 +98,7 @@
 		},
 		{
 			"DEFAULT" : 0,
-			"DESCRIPTION" : "Rotates the Blue Steel grid",
+			"DESCRIPTION" : "Rotates the whole grid – spin it like a DJ platter.",
 			"MAX" : 9,
 			"MIN" : -9,
 			"NAME" : "path_rot",
@@ -107,7 +107,7 @@
 		},
 		{
 			"DEFAULT" : 0,
-			"DESCRIPTION" : "Adds a twist to the grid structure",
+			"DESCRIPTION" : "Adds a tasty twist to the tunnel – licorice spiral mode engaged.",
 			"MAX" : 1,
 			"MIN" : -1,
 			"NAME" : "path_twist",
@@ -117,8 +117,8 @@
 		},
 		{
 			"DEFAULT" : 0,
-			"DESCRIPTION" : "BPM divider – if the flash syncs too quickly, divide by 2 or 4",
-			"LABELS" :
+			"DESCRIPTION" : "BPM divider – if the flash is too hyper, slow it down by 2 or 4.",
+			"LABELS" : 
 			[
 				"1",
 				"2",
@@ -130,7 +130,7 @@
 			"NAME" : "bpm_divider",
 			"TYPE" : "dropdown",
 			"UI_GROUP" : "Rhythm",
-			"VALUES" :
+			"VALUES" : 
 			[
 				0,
 				1,
@@ -140,7 +140,7 @@
 		},
 		{
 			"DEFAULT" : 1,
-			"DESCRIPTION" : "Media opacity – push past 0–1 for wild color effects",
+			"DESCRIPTION" : "Media opacity – fade your media from ghostly transparent to fully present.",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "media_opacity",
@@ -150,7 +150,7 @@
 		},
 		{
 			"DEFAULT" : 1,
-			"DESCRIPTION" : "Media opacity multiplier – for wild color effects",
+			"DESCRIPTION" : "Boosts media intensity. Gentle nudge or full-blown neon meltdown.",
 			"MAX" : 9,
 			"MIN" : -9,
 			"NAME" : "media_multiplier",
@@ -159,20 +159,20 @@
 			"UI_GROUP" : "Media"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.2,
 				0.62,
 				1
 			],
-			"DESCRIPTION" : "The flash color",
-			"MAX" :
+			"DESCRIPTION" : "Flash color – the strobe’s personality.",
+			"MAX" : 
 			[
 				1,
 				1,
 				1
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0,
@@ -184,20 +184,20 @@
 			"UI_GROUP" : "Colors"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.57,
 				0.15,
 				1
 			],
-			"DESCRIPTION" : "Snake color",
-			"MAX" :
+			"DESCRIPTION" : "Snake color – the slinky traveler weaving through the grid.",
+			"MAX" : 
 			[
 				1,
 				1,
 				1
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0,
@@ -210,18 +210,18 @@
 		}
 	],
 	"CREDIT" : "mrange",
-	"DESCRIPTION" : "Step inside the shimmering Blue Steel grid – a scene even Zoolander would call ‘so hot right now.’ Thanks to Inigo Quilez and Sam Hocevar for their brilliant functions, shared under MIT and WTFPL licenses.",
+	"DESCRIPTION" : "Step inside the shimmering Blue Steel grid – a tunnel so stylish even Zoolander would nod. Built on the shoulders of shader legends Inigo Quilez and Sam Hocevar (MIT & WTFPL magic).",
 	"GPU" : 1,
 	"HEIGHT" : 1080,
 	"IMAGE_PATH" : "scene.png",
-	"MEDIA" :
+	"MEDIA" : 
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"TAGS" :
+	"TAGS" : 
 	[
 		"mrange",
 		"grid",
