@@ -43,7 +43,7 @@ const float
 , media_opacity   =1.
 , media_multiplier=1.
 ;
-const vec3 
+const vec3
   flash_col=vec3(.20, .62, 1)
 , snake_col=vec3(.57, .15, 1)
 ;

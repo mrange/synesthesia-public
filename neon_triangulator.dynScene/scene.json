@@ -16,8 +16,7 @@
 			"MAX" : 10,
 			"MIN" : -10,
 			"NAME" : "tri_speed",
-			"PARAMS" : 0.01,
-			"TYPE" : "slider smooth",
+			"TYPE" : "slider",
 			"UI_GROUP" : "Motion"
 		},
 		{
@@ -26,7 +25,7 @@
 			"MAX" : 5,
 			"MIN" : -5,
 			"NAME" : "rot_speed",
-			"TYPE" : "slider speed",
+			"TYPE" : "knob",
 			"UI_GROUP" : "Motion"
 		},
 		{
@@ -35,8 +34,7 @@
 			"MAX" : 0,
 			"MIN" : 1,
 			"NAME" : "rot_base",
-			"PARAMS" : 0.01,
-			"TYPE" : "slider smooth",
+			"TYPE" : "knob",
 			"UI_GROUP" : "Motion"
 		},
 		{
@@ -65,10 +63,10 @@
 		{
 			"DEFAULT" : 0.5,
 			"DESCRIPTION" : "Pattern size",
-			"MAX" : 5,
+			"MAX" : 2,
 			"MIN" : 0,
 			"NAME" : "pattern_size",
-			"PARAMS" : 0.01,
+			"PARAMS" : 0.1,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Effects"
 		},
@@ -78,7 +76,7 @@
 			"MAX" : 50,
 			"MIN" : 0,
 			"NAME" : "flash_max",
-			"PARAMS" : 0.01,
+			"PARAMS" : 0.1,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Effects"
 		},
@@ -88,7 +86,7 @@
 			"MAX" : 50,
 			"MIN" : 0,
 			"NAME" : "flash_min",
-			"PARAMS" : 0.01,
+			"PARAMS" : 0.1,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Effects"
 		},
@@ -107,18 +105,33 @@
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "diff_hue",
-			"PARAMS" : 0.01,
+			"PARAMS" : 0.1,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Colors"
 		},
 		{
-			"DEFAULT" : 0.72,
-			"DESCRIPTION" : "Hue of the flash effect",
-			"MAX" : 1,
-			"MIN" : 0,
-			"NAME" : "flash_hue",
-			"PARAMS" : 0.01,
-			"TYPE" : "slider smooth",
+			"DEFAULT" :
+			[
+				0.39,
+				0.1,
+				1
+			],
+			"DESCRIPTION" : "Flash color – the strobe’s personality.",
+			"MAX" :
+			[
+				1,
+				1,
+				1
+			],
+			"MIN" :
+			[
+				0,
+				0,
+				0
+			],
+			"NAME" : "flash_col",
+			"PARAMS" : 0.1,
+			"TYPE" : "color smooth",
 			"UI_GROUP" : "Colors"
 		},
 		{
@@ -127,27 +140,27 @@
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "glow_hue",
-			"PARAMS" : 0.01,
+			"PARAMS" : 0.1,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Colors"
 		},
 		{
 			"DEFAULT" : 1,
-			"DESCRIPTION" : "Zoom level of the media texture",
-			"MAX" : 10,
-			"MIN" : 0,
-			"NAME" : "media_zoom",
-			"PARAMS" : 0.01,
+			"DESCRIPTION" : "Opacity multiplier",
+			"MAX" : 9,
+			"MIN" : -9,
+			"NAME" : "media_multiplier",
+			"PARAMS" : 0.1,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Media"
 		},
 		{
 			"DEFAULT" : 1,
 			"DESCRIPTION" : "Media opacity – push past 0–1 for wild color effects",
-			"MAX" : 5,
-			"MIN" : -5,
+			"MAX" : 1,
+			"MIN" : 0,
 			"NAME" : "media_opacity",
-			"PARAMS" : 0.01,
+			"PARAMS" : 0.1,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Media"
 		}

@@ -40,12 +40,14 @@ const float
 , rot_base        =0.
 , diff_hue        =.7
 , glow_hue        =.6
-, flash_hue       =.72
 , flash_min       =2.
 , flash_max       =20.
 , show_snakes     =1.
-, media_zoom      =2.
 , media_opacity   =0.
+, media_multiplier=1.
+;
+const vec3
+  flash_col       =vec3(.39, .1, 1)
 ;
 #endif
 float bps() {
@@ -299,10 +301,6 @@ vec3 render(vec3 ro, vec3 rd, float noise) {
 
 
 vec3 effect(vec2 p, float noise) {
-  vec2
-    tp=p
-  , tz=vec2(textureSize(syn_Media,0))
-  ;
   p.xy*=ROT(rot_speed+TAU*rot_base);
   const vec3
       up = vec3(0, 1, 0)
@@ -328,20 +326,17 @@ vec3 effect(vec2 p, float noise) {
     ;
   b=beat();
   b*=b;
-  col += mix(flash_min,flash_max, b)*hsv2rgb(vec3(flash_hue,.9,4e-4))/(1.00001+dot(abs(rd), normalize(vec3(0,0,-1))));
+  col += mix(flash_min,flash_max, b)*flash_col*4e-4/(1.00001+dot(abs(rd), normalize(vec3(0,0,-1))));
 
   col -= .02*vec3(2,3,1)*(length(p)+.25);
   col = aces_approx(max(col,0.));
   col = sqrt(col);
 
-  tp/=vec2(1,tz.y/tz.x)*media_zoom;
-  tp+=.5;
 #ifdef KODELIFE
-  tp.y=1.-tp.y;
+#else
+  vec4 mcol=_loadMedia();
+  col=mix(col,mcol.xyz,mcol.w*media_opacity*media_multiplier);
 #endif
-  tp=clamp(tp,0,1);
-  vec4 mcol=texture(syn_Media,tp);
-  col=mix(col,mcol.xyz,mcol.w*media_opacity);
 
   return col;
 }
