@@ -140,7 +140,7 @@
 		},
 		{
 			"DEFAULT" : 1,
-			"DESCRIPTION" : "Media opacity – fade your media from ghostly transparent to fully present.",
+			"DESCRIPTION" : "Fade your media from ghostly transparent to fully present.",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "media_opacity",
@@ -150,7 +150,7 @@
 		},
 		{
 			"DEFAULT" : 1,
-			"DESCRIPTION" : "Boosts media intensity. Gentle nudge or full-blown neon meltdown.",
+			"DESCRIPTION" : "Boosts opacity strength to unleash extra punch and funky color effects.",
 			"MAX" : 9,
 			"MIN" : -9,
 			"NAME" : "media_multiplier",
