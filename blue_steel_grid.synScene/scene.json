@@ -1,63 +1,63 @@
 {
-	"CONTROLS" : 
+	"CONTROLS" :
 	[
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.0825,
 				0.1025
 			],
 			"DESCRIPTION" : "Adjusts the periodic motion of the grid path",
-			"MAX" : 
+			"MAX" :
 			[
 				0.5,
 				0.5
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				-0.5,
 				-0.5
 			],
 			"NAME" : "path_a",
-			"PARAMS" : 0.25,
+			"PARAMS" : 0.2,
 			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Path Shape"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				8,
 				5.656
 			],
 			"DESCRIPTION" : "Controls the amplitude (size of the waves) in the path",
-			"MAX" : 
+			"MAX" :
 			[
 				16,
 				16
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				-16,
 				-16
 			],
 			"NAME" : "path_b",
-			"PARAMS" : 0.24801,
+			"PARAMS" : 0.2,
 			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Path Shape"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				1,
 				1
 			],
 			"DESCRIPTION" : "Controls grid size in xy",
-			"MAX" : 
+			"MAX" :
 			[
 				3,
 				3
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0.25,
 				0.25
@@ -78,8 +78,8 @@
 		{
 			"DEFAULT" : 2,
 			"DESCRIPTION" : "Travel speed through the Blue Steel grid",
-			"MAX" : 5,
-			"MIN" : -5,
+			"MAX" : 9,
+			"MIN" : -9,
 			"NAME" : "path_speed",
 			"TYPE" : "slider speed",
 			"UI_GROUP" : "Path Motion"
@@ -87,8 +87,8 @@
 		{
 			"DEFAULT" : 0,
 			"DESCRIPTION" : "Rotates the Blue Steel grid",
-			"MAX" : 5,
-			"MIN" : -5,
+			"MAX" : 9,
+			"MIN" : -9,
 			"NAME" : "path_rot",
 			"TYPE" : "knob speed",
 			"UI_GROUP" : "Path Motion"
@@ -99,14 +99,14 @@
 			"MAX" : 1,
 			"MIN" : -1,
 			"NAME" : "path_twist",
-			"PARAMS" : 0.01,
+			"PARAMS" : 0.1,
 			"TYPE" : "knob smooth",
 			"UI_GROUP" : "Path Motion"
 		},
 		{
 			"DEFAULT" : 0,
 			"DESCRIPTION" : "BPM divider – if the flash syncs too quickly, divide by 2 or 4",
-			"LABELS" : 
+			"LABELS" :
 			[
 				"1",
 				"2",
@@ -118,7 +118,7 @@
 			"NAME" : "bpm_divider",
 			"TYPE" : "dropdown",
 			"UI_GROUP" : "Rhythm",
-			"VALUES" : 
+			"VALUES" :
 			[
 				0,
 				1,
@@ -127,34 +127,74 @@
 			]
 		},
 		{
-			"DEFAULT" : 0.58,
-			"DESCRIPTION" : "Hue of the flash effect",
+			"DEFAULT" : 1,
+			"DESCRIPTION" : "Media opacity – push past 0–1 for wild color effects",
 			"MAX" : 1,
 			"MIN" : 0,
-			"NAME" : "flash_hue",
-			"PARAMS" : 0.01,
+			"NAME" : "media_opacity",
+			"PARAMS" : 0.1,
 			"TYPE" : "slider smooth",
-			"UI_GROUP" : "Colors"
-		},
-		{
-			"DEFAULT" : 0.75,
-			"DESCRIPTION" : "Hue of the snake effect",
-			"MAX" : 1,
-			"MIN" : 0,
-			"NAME" : "snake_hue",
-			"PARAMS" : 0.01,
-			"TYPE" : "slider smooth",
-			"UI_GROUP" : "Colors"
+			"UI_GROUP" : "Media"
 		},
 		{
 			"DEFAULT" : 1,
-			"DESCRIPTION" : "Media opacity – push past 0–1 for wild color effects",
-			"MAX" : 5,
-			"MIN" : -5,
-			"NAME" : "media_opacity",
-			"PARAMS" : 0.01,
+			"DESCRIPTION" : "Media opacity multiplier – for wild color effects",
+			"MAX" : 9,
+			"MIN" : -9,
+			"NAME" : "media_multiplier",
+			"PARAMS" : 0.1,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Media"
+		},
+		{
+			"DEFAULT" :
+			[
+				0.2,
+				0.62,
+				1
+			],
+			"DESCRIPTION" : "The flash color",
+			"MAX" :
+			[
+				1,
+				1,
+				1
+			],
+			"MIN" :
+			[
+				0,
+				0,
+				0
+			],
+			"NAME" : "flash_col",
+			"PARAMS" : 0.2,
+			"TYPE" : "color smooth",
+			"UI_GROUP" : "Colors"
+		},
+		{
+			"DEFAULT" :
+			[
+				0.57,
+				0.15,
+				1
+			],
+			"DESCRIPTION" : "Snake color",
+			"MAX" :
+			[
+				1,
+				1,
+				1
+			],
+			"MIN" :
+			[
+				0,
+				0,
+				0
+			],
+			"NAME" : "snake_col",
+			"PARAMS" : 0.2,
+			"TYPE" : "color smooth",
+			"UI_GROUP" : "Colors"
 		}
 	],
 	"CREDIT" : "mrange",
@@ -162,14 +202,14 @@
 	"GPU" : 1,
 	"HEIGHT" : 1080,
 	"IMAGE_PATH" : "scene.png",
-	"MEDIA" : 
+	"MEDIA" :
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"TAGS" : 
+	"TAGS" :
 	[
 		"mrange",
 		"grid",

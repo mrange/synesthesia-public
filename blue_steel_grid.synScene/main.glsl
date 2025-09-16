@@ -39,12 +39,13 @@ const float
   bpm_divider     =1.
 , path_rot        =0.
 , path_twist      =0.
-, flash_hue       =.58
-, snake_hue       =.75
 , media_opacity   =1.
-, grid_dim_z     =1.
+, media_multiplier=1.
+, grid_dim_z      =1.
 ;
 const vec3 
+  flash_col=vec3(.20, .62, 1)
+, snake_col=vec3(.57, .15, 1)
 ;
 #endif
 
@@ -175,8 +176,8 @@ float raySphereDensity(vec3 ro, vec3 rd, vec4 sph, float dbuffer) {
 }
 
 vec3 render1(vec3 ro, vec3 rd) {
-  vec3 flashCol     = hsv2rgb(vec3(flash_hue, .8, 1));
-  vec3 sparkCol     = hsv2rgb(vec3(snake_hue, .85,1))*5E-3;
+  vec3 flashCol     = flash_col;
+  vec3 sparkCol     = snake_col*5E-3;
 
   g_gd = vec2(1E3, 0.0);
   float t1 = render1_raymarch(ro, rd, 0.1);
@@ -242,7 +243,7 @@ vec3 effect(vec2 p) {
 #ifdef KODELIFE
 #else
   vec4 mcol=_loadMedia();
-  col=mix(col,mcol.xyz,mcol.w*media_opacity);
+  col=mix(col,mcol.xyz,mcol.w*media_opacity*media_multiplier);
 #endif
   return col;
 }
