@@ -34,6 +34,7 @@ const vec2
   path_a        = vec2(.33, .41)*.25
 , path_b        = vec2(1,sqrt(.5))*8.
 , grid_dim_xy   = vec2(1)
+, grid_dim_zr   = vec2(1,.03)
 ;
 const float
   bpm_divider     =1.
@@ -41,7 +42,6 @@ const float
 , path_twist      =0.
 , media_opacity   =1.
 , media_multiplier=1.
-, grid_dim_z      =1.
 ;
 const vec3 
   flash_col=vec3(.20, .62, 1)
@@ -97,26 +97,27 @@ float hash(vec2 co) {
 }
 float render1_df(vec3 p) {
   warpWorld(p);
-  vec3 grid_dim = vec3(grid_dim_xy,grid_dim_z);
+  vec2 zr=grid_dim_zr;
+  vec3 grid_dim = vec3(grid_dim_xy,zr.x);
   vec3 p0 = p-0.5*grid_dim;
   vec3 n0 = round(p0/grid_dim)*grid_dim;
   vec3 c0 = p0 - n0;
   float d0 = length(c0.xy);
   float d1 = length(c0.yz);
   float d2 = length(c0.xz);
-  float d3 = length(c0)-0.03;
+  float d3 = length(c0)-zr.y;
   vec3 c1 = c0;
   float h1 = hash(n0.xz);
   float h2 = fract(8667.0*h1);
   float a1 = smoothstep(0.99, 1.0, sin(0.125*(p.y-0.5*mix(2.0, 4.0, h2)*TIME*1.5)+TAU*h1));
   c1.xz *= rot((8.0*p.y+0.6));
-  c1 -= 0.04;
+  c1 -= 0.01+zr.y;
   float d4 = length(c1.xz)-mix(-0.001, 0.005, a1);
   float d = d0;
   d = min(d, d1);
   d = min(d,d2);
   d = min(d,d3);
-  d -= 0.03;
+  d -= zr.y;
   d = min(d,d4);
 
   if (d4 < g_gd.x) {

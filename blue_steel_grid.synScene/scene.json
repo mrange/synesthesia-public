@@ -67,12 +67,24 @@
 			"UI_GROUP" : "Grid"
 		},
 		{
-			"DEFAULT" : 1,
-			"DESCRIPTION" : "Controls grid dimension in Z",
-			"MAX" : 3,
-			"MIN" : 0.25,
-			"NAME" : "grid_dim_z",
-			"TYPE" : "slider",
+			"DEFAULT" :
+			[
+				1,
+				0.03
+			],
+			"DESCRIPTION" : "Controls grid size in zr",
+			"MAX" :
+			[
+				3,
+				0.4
+			],
+			"MIN" :
+			[
+				0.25,
+				0.01
+			],
+			"NAME" : "grid_dim_zr",
+			"TYPE" : "xy",
 			"UI_GROUP" : "Grid"
 		},
 		{
