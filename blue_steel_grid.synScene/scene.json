@@ -1,19 +1,19 @@
 {
-	"CONTROLS" : 
+	"CONTROLS" :
 	[
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.0825,
 				0.1025
 			],
 			"DESCRIPTION" : "Bends the grid’s path into wavy motion – like giving it a little dance step.",
-			"MAX" : 
+			"MAX" :
 			[
 				0.5,
 				0.5
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				-0.5,
 				-0.5
@@ -24,18 +24,18 @@
 			"UI_GROUP" : "Path Shape"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				8,
 				5.656
 			],
-			"DESCRIPTION" : "Wave amplitude – crank it up for big swings, tone it down for subtle ripples.",
-			"MAX" : 
+			"DESCRIPTION" : "Wave amplitude – crank it up for dramatic swings or tone it down for gentle ripples.",
+			"MAX" :
 			[
 				16,
 				16
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				-16,
 				-16
@@ -46,18 +46,18 @@
 			"UI_GROUP" : "Path Shape"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				1,
 				1
 			],
-			"DESCRIPTION" : "How fine or chunky the grid looks in XY. Shrink it down for tighter vibes.",
-			"MAX" : 
+			"DESCRIPTION" : "Sets how fine or chunky the grid looks in XY – shrink it for crisp detail or go big for bold vibes.",
+			"MAX" :
 			[
 				3,
 				3
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0.25,
 				0.25
@@ -67,18 +67,18 @@
 			"UI_GROUP" : "Grid"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				1,
 				0.03
 			],
-			"DESCRIPTION" : "Grid spacing in depth (Z) and radius (R). Adds that tunnel-infinity feel.",
-			"MAX" : 
+			"DESCRIPTION" : "Grid spacing in depth (Z) and radius (R) – dial it in for endless tunnels or tight corridors.",
+			"MAX" :
 			[
 				3,
 				0.4
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0.25,
 				0.01
@@ -89,7 +89,7 @@
 		},
 		{
 			"DEFAULT" : 2,
-			"DESCRIPTION" : "Travel speed through the Blue Steel grid – slow cruise or hyperspace jump.",
+			"DESCRIPTION" : "Travel speed through the Blue Steel grid – from a laid-back cruise to a hyperspace blast.",
 			"MAX" : 9,
 			"MIN" : -9,
 			"NAME" : "path_speed",
@@ -98,7 +98,7 @@
 		},
 		{
 			"DEFAULT" : 0,
-			"DESCRIPTION" : "Rotates the whole grid – spin it like a DJ platter.",
+			"DESCRIPTION" : "Rotates the entire grid – spin it smooth or whip it around like a DJ platter.",
 			"MAX" : 9,
 			"MIN" : -9,
 			"NAME" : "path_rot",
@@ -107,7 +107,7 @@
 		},
 		{
 			"DEFAULT" : 0,
-			"DESCRIPTION" : "Adds a tasty twist to the tunnel – licorice spiral mode engaged.",
+			"DESCRIPTION" : "Adds a tasty twist to the tunnel – activate licorice-spiral mode.",
 			"MAX" : 1,
 			"MIN" : -1,
 			"NAME" : "path_twist",
@@ -116,31 +116,52 @@
 			"UI_GROUP" : "Path Motion"
 		},
 		{
-			"DEFAULT" : 0,
-			"DESCRIPTION" : "BPM divider – if the flash is too hyper, slow it down by 2 or 4.",
-			"LABELS" : 
-			[
-				"1",
-				"2",
-				"3",
-				"4"
-			],
-			"MAX" : 3,
-			"MIN" : 0,
-			"NAME" : "bpm_divider",
-			"TYPE" : "dropdown",
-			"UI_GROUP" : "Rhythm",
-			"VALUES" : 
+			"DEFAULT" :
 			[
 				0,
+				1
+			],
+			"DESCRIPTION" : "Bass mix – balance steady bass levels with punchy bass hits. Find your groove.",
+			"MAX" :
+			[
 				1,
-				2,
-				3
-			]
+				1
+			],
+			"MIN" :
+			[
+				0,
+				0
+			],
+			"NAME" : "bass_mix",
+			"PARAMS" : 0.2,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Audio"
+		},
+		{
+			"DEFAULT" :
+			[
+				1,
+				1
+			],
+			"DESCRIPTION" : "Bass power – turn up the 'pow' for bass levels and hits. More punch equals brighter flashes.",
+			"MAX" :
+			[
+				6,
+				6
+			],
+			"MIN" :
+			[
+				0,
+				0
+			],
+			"NAME" : "bass_pow",
+			"PARAMS" : 0.2,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Audio"
 		},
 		{
 			"DEFAULT" : 1,
-			"DESCRIPTION" : "Fade your media from ghostly transparent to fully present.",
+			"DESCRIPTION" : "Media opacity – fade your visuals from ghostly transparent to boldly solid.",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "media_opacity",
@@ -150,7 +171,7 @@
 		},
 		{
 			"DEFAULT" : 1,
-			"DESCRIPTION" : "Boosts opacity strength to unleash extra punch and funky color effects.",
+			"DESCRIPTION" : "Media multiplier – boosts opacity strength for extra punch and wild color flares.",
 			"MAX" : 9,
 			"MIN" : -9,
 			"NAME" : "media_multiplier",
@@ -159,20 +180,20 @@
 			"UI_GROUP" : "Media"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.2,
 				0.62,
 				1
 			],
-			"DESCRIPTION" : "Flash color – the strobe’s personality.",
-			"MAX" : 
+			"DESCRIPTION" : "Flash color – the strobe’s mood and personality in full RGB flair.",
+			"MAX" :
 			[
 				1,
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0,
@@ -184,20 +205,20 @@
 			"UI_GROUP" : "Colors"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.57,
 				0.15,
 				1
 			],
-			"DESCRIPTION" : "Snake color – the slinky traveler weaving through the grid.",
-			"MAX" : 
+			"DESCRIPTION" : "Snake color – the slinky traveler weaving through the grid in style.",
+			"MAX" :
 			[
 				1,
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0,
@@ -214,14 +235,14 @@
 	"GPU" : 1,
 	"HEIGHT" : 1080,
 	"IMAGE_PATH" : "scene.png",
-	"MEDIA" : 
+	"MEDIA" :
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"TAGS" : 
+	"TAGS" :
 	[
 		"mrange",
 		"grid",

@@ -37,8 +37,7 @@ const vec2
 , grid_dim_zr   = vec2(1,.03)
 ;
 const float
-  bpm_divider     =1.
-, path_rot        =0.
+  path_rot        =0.
 , path_twist      =0.
 , media_opacity   =1.
 , media_multiplier=1.
@@ -49,18 +48,8 @@ const vec3
 ;
 #endif
 
-float bps() {
-#ifdef KODELIFE
-  return 129./((bpm_divider+1.)*60.);
-#else
-  return round(syn_BPM)/((bpm_divider+1.)*60.);
-#endif
-}
-
-
 float beat() {
-  float B=TIME*bps();
-  return 1.-fract(B);
+  return dot(pow(vec2(syn_BassLevel,syn_BassHits), bass_pow), bass_mix);
 }
 
 vec3 offset(float z) {
@@ -197,7 +186,6 @@ vec3 render1(vec3 ro, vec3 rd) {
   vec3 ld11 = normalize(d11);
 
   float flash = beat();
-  flash *= flash;
   vec3 fcol = flashCol*mix(2.0, 20.0, flash);
 
   g_gd = vec2(1E3, 0.0);
