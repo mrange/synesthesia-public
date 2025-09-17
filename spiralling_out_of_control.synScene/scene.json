@@ -1,5 +1,5 @@
 {
-	"CONTROLS" : 
+	"CONTROLS" :
 	[
 		{
 			"DEFAULT" : 2,
@@ -39,24 +39,24 @@
 			"UI_GROUP" : "Spiral shape"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.9,
 				0.5
 			],
 			"DESCRIPTION" : "Spiral dimensions",
-			"MAX" : 
+			"MAX" :
 			[
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
 			],
 			"NAME" : "spiral_dim",
-			"PARAMS" : 0.26101,
+			"PARAMS" : 0.2,
 			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Spiral shape"
 		},
@@ -70,20 +70,20 @@
 			"UI_GROUP" : "Colors"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				1,
 				0.66666,
 				0.33333
 			],
 			"DESCRIPTION" : "Flash color – the strobe’s personality.",
-			"MAX" : 
+			"MAX" :
 			[
 				1,
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0,
@@ -95,136 +95,156 @@
 			"UI_GROUP" : "Colors"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				3,
 				2
 			],
 			"DESCRIPTION" : "Spiral color #0",
-			"MAX" : 
+			"MAX" :
 			[
 				6,
 				6
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
 			],
 			"NAME" : "spiral_col_xy",
-			"PARAMS" : 0.24601,
+			"PARAMS" : 0.2,
 			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Colors"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				1,
 				0
 			],
 			"DESCRIPTION" : "Spiral col #1",
-			"MAX" : 
+			"MAX" :
 			[
 				6,
 				6
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
 			],
 			"NAME" : "spiral_col_zw",
-			"PARAMS" : 0.22601,
+			"PARAMS" : 0.2,
 			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Colors"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				4,
 				1
 			],
 			"DESCRIPTION" : "Spiral col twister",
-			"MAX" : 
+			"MAX" :
 			[
 				6,
 				6
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				-6,
 				-6
 			],
 			"NAME" : "spiral_col_twist",
-			"PARAMS" : 0.24101,
+			"PARAMS" : 0.2,
 			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Colors"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				1.5,
 				0.5
 			],
 			"DESCRIPTION" : "Border fade",
-			"MAX" : 
+			"MAX" :
 			[
 				2,
 				2
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
 			],
 			"NAME" : "border_fade",
-			"PARAMS" : 0.25,
+			"PARAMS" : 0.2,
 			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Post"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.5,
 				0
 			],
 			"DESCRIPTION" : "Border glow post",
-			"MAX" : 
+			"MAX" :
 			[
 				2,
 				2
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
 			],
 			"NAME" : "border_glow",
-			"PARAMS" : 0.23501,
+			"PARAMS" : 0.2,
 			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Post"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				1,
 				0
 			],
 			"DESCRIPTION" : "Apply border fade and glow",
-			"MAX" : 
+			"MAX" :
 			[
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
 			],
 			"NAME" : "border_apply",
-			"PARAMS" : 0.24901,
+			"PARAMS" : 0.2,
 			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Post"
+		},
+		{
+			"DEFAULT" : 1,
+			"DESCRIPTION" : "Fade your media from ghostly transparent to fully present.",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "media_opacity",
+			"PARAMS" : 0.1,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Media"
+		},
+		{
+			"DEFAULT" : 1,
+			"DESCRIPTION" : "Boosts opacity strength to unleash extra punch and funky color effects.",
+			"MAX" : 9,
+			"MIN" : -9,
+			"NAME" : "media_multiplier",
+			"PARAMS" : 0.1,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Media"
 		}
 	],
 	"CREDIT" : "mrange",
@@ -232,14 +252,14 @@
 	"GPU" : 1,
 	"HEIGHT" : 1080,
 	"IMAGE_PATH" : "scene.png",
-	"MEDIA" : 
+	"MEDIA" :
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"TAGS" : 
+	"TAGS" :
 	[
 		"mrange",
 		"Spiral shape",

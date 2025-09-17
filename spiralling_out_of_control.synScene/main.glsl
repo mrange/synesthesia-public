@@ -19,7 +19,8 @@ const vec2
 , border_apply    = vec2(1,0)
 ;
 const float
-  double_spiral=1.
+  path_speed   =2.
+, double_spiral=1.
 , spiral_twist =.4
 , spiral_rot   =.3
 , color_rot    =.0
@@ -52,21 +53,24 @@ vec4 renderMain() {
       z=0.
     , Y
     , D
-#ifdef KODELIFE
-    , T=TIME
-#else
-    , T=path_speed
-#endif
     , d=double_spiral
     , W=spiral_twist
+#ifdef KODELIFE
+    , T=TIME*path_speed
+    , R=TIME*spiral_rot
+    , C=TIME*color_rot
+#else
+    , T=path_speed
     , R=spiral_rot
     , C=color_rot
+#endif
     , L=length(-1.+2.*_uv)
     ;
   vec4
       p
     , X
     , U=vec4(spiral_col_xy,spiral_col_zw)
+    , M
     ;
   for(
       int i=0
@@ -85,5 +89,18 @@ vec4 renderMain() {
     p=1.+sin(dot(S,p.xy)+(p.x<0.?C+.25+U.yzwy : U.zyxz-.25-C));
     O+=p.w/D*p.xyz;
   }
-  return vec4(mix(1.,smoothstep(border_fade.x,border_fade.y, L), border_apply.x)*tanh(border_apply.y*2.*smoothstep(border_glow.x,border_glow.y, L)+(O+z*z*z*6.*flash_col)/9e3),1);
+  O=
+      mix(1.,smoothstep(border_fade.x,border_fade.y, L), border_apply.x)
+    * tanh(
+          border_apply.y*2.*smoothstep(border_glow.x,border_glow.y, L)
+        + (O+z*z*z*6.*flash_col)/9e3)
+    ;
+
+#ifdef KODELIFE
+#else
+  M=_loadMedia();
+  O=mix(O,M.xyz,M.w*media_opacity*media_multiplier);
+#endif
+
+  return vec4(O,1);
 }
