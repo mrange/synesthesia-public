@@ -51,7 +51,11 @@ const vec3
 #endif
 
 float beat() {
+#ifdef KODELIFE
+  return pow(1.-fract(TIME),2.);
+#else
   return dot(pow(vec2(syn_BassLevel,syn_BassHits), bass_pow), bass_mix);
+#endif
 }
 
 
