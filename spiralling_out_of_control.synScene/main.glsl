@@ -8,6 +8,7 @@
 //  I knew how it worked.
 //  Now, only god knows it!
 
+#ifdef KODELIFE
 const vec2
   spiral_col_xy   = vec2(3,2)
 , spiral_col_zw   = vec2(1,0)
@@ -17,12 +18,6 @@ const vec2
 , border_glow     = vec2(.5,1.5)
 , border_apply    = vec2(1,0)
 ;
-
-const vec3
-  flash_col = vec3(3,2,1)/3.
-;
-
-#ifdef KODELIFE
 const float
   double_spiral=1.
 , spiral_twist =.4
@@ -30,6 +25,9 @@ const float
 , color_rot    =.0
 ;
 
+const vec3
+  flash_col = vec3(3,2,1)/3.
+;
 #endif
 
 float g(vec4 p,float s) {

@@ -17,7 +17,7 @@
 			"MIN" : 0,
 			"NAME" : "double_spiral",
 			"TYPE" : "toggle",
-			"UI_GROUP" : "Spiral"
+			"UI_GROUP" : "Spiral shape"
 		},
 		{
 			"DEFAULT" : 0.4,
@@ -25,27 +25,206 @@
 			"MAX" : 1,
 			"MIN" : -1,
 			"NAME" : "spiral_twist",
-			"PARAMS" : 0.24601,
+			"PARAMS" : 0.2,
 			"TYPE" : "knob smooth",
-			"UI_GROUP" : "Spiral"
+			"UI_GROUP" : "Spiral shape"
 		},
 		{
 			"DEFAULT" : 0.3,
 			"DESCRIPTION" : "Spiral rotation",
-			"MAX" : 1,
-			"MIN" : -1,
+			"MAX" : 5,
+			"MIN" : -5,
 			"NAME" : "spiral_rot",
 			"TYPE" : "knob speed",
-			"UI_GROUP" : "Spiral"
+			"UI_GROUP" : "Spiral shape"
+		},
+		{
+			"DEFAULT" : 
+			[
+				0.9,
+				0.5
+			],
+			"DESCRIPTION" : "Spiral dimensions",
+			"MAX" : 
+			[
+				1,
+				1
+			],
+			"MIN" : 
+			[
+				0,
+				0
+			],
+			"NAME" : "spiral_dim",
+			"PARAMS" : 0.26101,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Spiral shape"
 		},
 		{
 			"DEFAULT" : 0,
 			"DESCRIPTION" : "Color rotation",
-			"MAX" : 1,
-			"MIN" : 0,
+			"MAX" : 5,
+			"MIN" : -5,
 			"NAME" : "color_rot",
 			"TYPE" : "knob speed",
 			"UI_GROUP" : "Colors"
+		},
+		{
+			"DEFAULT" : 
+			[
+				1,
+				0.66666,
+				0.33333
+			],
+			"DESCRIPTION" : "Flash color – the strobe’s personality.",
+			"MAX" : 
+			[
+				1,
+				1,
+				1
+			],
+			"MIN" : 
+			[
+				0,
+				0,
+				0
+			],
+			"NAME" : "flash_col",
+			"PARAMS" : 0.2,
+			"TYPE" : "color smooth",
+			"UI_GROUP" : "Colors"
+		},
+		{
+			"DEFAULT" : 
+			[
+				3,
+				2
+			],
+			"DESCRIPTION" : "Spiral color #0",
+			"MAX" : 
+			[
+				6,
+				6
+			],
+			"MIN" : 
+			[
+				0,
+				0
+			],
+			"NAME" : "spiral_col_xy",
+			"PARAMS" : 0.24601,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Colors"
+		},
+		{
+			"DEFAULT" : 
+			[
+				1,
+				0
+			],
+			"DESCRIPTION" : "Spiral col #1",
+			"MAX" : 
+			[
+				6,
+				6
+			],
+			"MIN" : 
+			[
+				0,
+				0
+			],
+			"NAME" : "spiral_col_zw",
+			"PARAMS" : 0.22601,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Colors"
+		},
+		{
+			"DEFAULT" : 
+			[
+				4,
+				1
+			],
+			"DESCRIPTION" : "Spiral col twister",
+			"MAX" : 
+			[
+				6,
+				6
+			],
+			"MIN" : 
+			[
+				-6,
+				-6
+			],
+			"NAME" : "spiral_col_twist",
+			"PARAMS" : 0.24101,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Colors"
+		},
+		{
+			"DEFAULT" : 
+			[
+				1.5,
+				0.5
+			],
+			"DESCRIPTION" : "Border fade",
+			"MAX" : 
+			[
+				2,
+				2
+			],
+			"MIN" : 
+			[
+				0,
+				0
+			],
+			"NAME" : "border_fade",
+			"PARAMS" : 0.25,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Post"
+		},
+		{
+			"DEFAULT" : 
+			[
+				0.5,
+				0
+			],
+			"DESCRIPTION" : "Border glow post",
+			"MAX" : 
+			[
+				2,
+				2
+			],
+			"MIN" : 
+			[
+				0,
+				0
+			],
+			"NAME" : "border_glow",
+			"PARAMS" : 0.23501,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Post"
+		},
+		{
+			"DEFAULT" : 
+			[
+				1,
+				0
+			],
+			"DESCRIPTION" : "Apply border fade and glow",
+			"MAX" : 
+			[
+				1,
+				1
+			],
+			"MIN" : 
+			[
+				0,
+				0
+			],
+			"NAME" : "border_apply",
+			"PARAMS" : 0.24901,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Post"
 		}
 	],
 	"CREDIT" : "mrange",
@@ -63,7 +242,7 @@
 	"TAGS" : 
 	[
 		"mrange",
-		"spiral",
+		"Spiral shape",
 		"raymarch",
 		"flashing"
 	],
