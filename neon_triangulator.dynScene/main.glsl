@@ -33,8 +33,7 @@ const vec3
 
 #ifdef KODELIFE
 const float
-  bpm_divider     =1.
-, tri_speed       =-2.
+  tri_speed       =-2.
 , pattern_size    =.5
 , rot_speed       =0.
 , rot_base        =0.
@@ -50,18 +49,9 @@ const vec3
   flash_col       =vec3(.39, .1, 1)
 ;
 #endif
-float bps() {
-#ifdef KODELIFE
-  return 129./((bpm_divider+1.)*60.);
-#else
-  return round(syn_BPM)/((bpm_divider+1.)*60.);
-#endif
-}
-
 
 float beat() {
-  float B=TIME*bps();
-  return 1.-fract(B);
+  return dot(pow(vec2(syn_BassLevel,syn_BassHits), bass_pow), bass_mix);
 }
 
 
@@ -325,7 +315,6 @@ vec3 effect(vec2 p, float noise) {
     , col = render(ro, rd, noise)
     ;
   b=beat();
-  b*=b;
   col += mix(flash_min,flash_max, b)*flash_col*4e-4/(1.00001+dot(abs(rd), normalize(vec3(0,0,-1))));
 
   col -= .02*vec3(2,3,1)*(length(p)+.25);

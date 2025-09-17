@@ -38,29 +38,6 @@
 			"UI_GROUP" : "Motion"
 		},
 		{
-			"DEFAULT" : 0,
-			"DESCRIPTION" : "BPM divider – if the flash syncs too quickly, divide by 2 or 4",
-			"LABELS" :
-			[
-				"1",
-				"2",
-				"3",
-				"4"
-			],
-			"MAX" : 3,
-			"MIN" : 0,
-			"NAME" : "bpm_divider",
-			"TYPE" : "dropdown",
-			"UI_GROUP" : "Rhythm",
-			"VALUES" :
-			[
-				0,
-				1,
-				2,
-				3
-			]
-		},
-		{
 			"DEFAULT" : 0.5,
 			"DESCRIPTION" : "Pattern size",
 			"MAX" : 2,
@@ -163,6 +140,50 @@
 			"PARAMS" : 0.1,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Media"
+		},
+		{
+			"DEFAULT" :
+			[
+				0,
+				1
+			],
+			"DESCRIPTION" : "Bass mixer",
+			"MAX" :
+			[
+				1,
+				1
+			],
+			"MIN" :
+			[
+				0,
+				0
+			],
+			"NAME" : "bass_mix",
+			"PARAMS" : 0.2,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Audio"
+		},
+		{
+			"DEFAULT" :
+			[
+				1,
+				1
+			],
+			"DESCRIPTION" : "Bass power",
+			"MAX" :
+			[
+				6,
+				6
+			],
+			"MIN" :
+			[
+				0,
+				0
+			],
+			"NAME" : "bass_pow",
+			"PARAMS" : 0.2,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Audio"
 		}
 	],
 	"CREDIT" : "mrange",
