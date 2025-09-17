@@ -1,0 +1,72 @@
+{
+	"CONTROLS" : 
+	[
+		{
+			"DEFAULT" : 2,
+			"DESCRIPTION" : "Travel speed through the Blue Steel grid – slow cruise or hyperspace jump.",
+			"MAX" : 9,
+			"MIN" : -9,
+			"NAME" : "path_speed",
+			"TYPE" : "slider speed",
+			"UI_GROUP" : "Path Motion"
+		},
+		{
+			"DEFAULT" : 1,
+			"DESCRIPTION" : "Double or nothing?",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "double_spiral",
+			"TYPE" : "toggle",
+			"UI_GROUP" : "Spiral"
+		},
+		{
+			"DEFAULT" : 0.4,
+			"DESCRIPTION" : "Spiral twisting",
+			"MAX" : 1,
+			"MIN" : -1,
+			"NAME" : "spiral_twist",
+			"PARAMS" : 0.24601,
+			"TYPE" : "knob smooth",
+			"UI_GROUP" : "Spiral"
+		},
+		{
+			"DEFAULT" : 0.3,
+			"DESCRIPTION" : "Spiral rotation",
+			"MAX" : 1,
+			"MIN" : -1,
+			"NAME" : "spiral_rot",
+			"TYPE" : "knob speed",
+			"UI_GROUP" : "Spiral"
+		},
+		{
+			"DEFAULT" : 0,
+			"DESCRIPTION" : "Color rotation",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "color_rot",
+			"TYPE" : "knob speed",
+			"UI_GROUP" : "Colors"
+		}
+	],
+	"CREDIT" : "mrange",
+	"DESCRIPTION" : "Spiralling out of control",
+	"GPU" : 1,
+	"HEIGHT" : 1080,
+	"IMAGE_PATH" : "scene.png",
+	"MEDIA" : 
+	[
+		{
+			"FILTER" : "linear",
+			"WRAP" : "mirror"
+		}
+	],
+	"TAGS" : 
+	[
+		"mrange",
+		"spiral",
+		"raymarch",
+		"flashing"
+	],
+	"TITLE" : "Spiralling out of control",
+	"WIDTH" : 1920
+}

@@ -1,5 +1,5 @@
 {
-	"CONTROLS" : 
+	"CONTROLS" :
 	[
 		{
 			"DEFAULT" : 1,
@@ -40,7 +40,7 @@
 		{
 			"DEFAULT" : 0,
 			"DESCRIPTION" : "BPM divider – if the flash syncs too quickly, divide by 2 or 4",
-			"LABELS" : 
+			"LABELS" :
 			[
 				"1",
 				"2",
@@ -52,7 +52,7 @@
 			"NAME" : "bpm_divider",
 			"TYPE" : "dropdown",
 			"UI_GROUP" : "Rhythm",
-			"VALUES" : 
+			"VALUES" :
 			[
 				0,
 				1,
@@ -110,20 +110,20 @@
 			"UI_GROUP" : "Colors"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.39,
 				0.1,
 				1
 			],
 			"DESCRIPTION" : "Flash color – the strobe’s personality.",
-			"MAX" : 
+			"MAX" :
 			[
 				1,
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0,
@@ -170,19 +170,20 @@
 	"GPU" : 1,
 	"HEIGHT" : 1080,
 	"IMAGE_PATH" : "scene.png",
-	"MEDIA" : 
+	"MEDIA" :
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"TAGS" : 
+	"TAGS" :
 	[
 		"mrange",
 		"neon",
 		"synthwave",
-		"example"
+		"raymarch",
+		"flashing"
 	],
 	"TITLE" : "Neon Triangulator",
 	"WIDTH" : 1920
