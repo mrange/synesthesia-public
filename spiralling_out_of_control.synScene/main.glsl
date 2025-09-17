@@ -16,7 +16,7 @@ const vec2
 , spiral_dim      = vec2(.9,.5)
 , border_fade     = vec2(1.5,.5)
 , border_glow     = vec2(.5,1.5)
-, border_apply    = vec2(1,0)
+, border_mix      = vec2(1,0)
 ;
 const float
   path_speed   =2.
@@ -30,6 +30,15 @@ const vec3
   flash_col = vec3(3,2,1)/3.
 ;
 #endif
+
+float beat() {
+#ifdef KODELIFE
+  return pow(1.-fract(TIME),2.);
+#else
+  return dot(pow(vec2(syn_BassLevel,syn_BassHits), bass_pow), bass_mix);
+#endif
+}
+
 
 float g(vec4 p,float s) {
   return abs(dot(sin(p*=s),cos(p.zxwy))-1.)/s;
@@ -51,6 +60,7 @@ vec4 renderMain() {
   ;
   float
       z=0.
+    , B=beat()
     , Y
     , D
     , d=double_spiral
@@ -90,10 +100,9 @@ vec4 renderMain() {
     O+=p.w/D*p.xyz;
   }
   O=
-      mix(1.,smoothstep(border_fade.x,border_fade.y, L), border_apply.x)
-    * tanh(
-          border_apply.y*2.*smoothstep(border_glow.x,border_glow.y, L)
-        + (O+z*z*z*6.*flash_col)/9e3)
+      B*border_mix.y*flash_col*smoothstep(border_glow.x,border_glow.y, L)
+    + mix(1.,smoothstep(border_fade.x,border_fade.y, L), border_mix.x)
+    * tanh((O+z*z*z*6.*flash_col)/9e3)
     ;
 
 #ifdef KODELIFE
