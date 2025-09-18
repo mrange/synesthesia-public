@@ -37,8 +37,8 @@ const float
 , pattern_size    =.5
 , rot_speed       =0.
 , rot_base        =0.
-, diff_hue        =.7
-, glow_hue        =.6
+, tri_hue         =.7
+, snake_hue       =.6
 , flash_min       =2.
 , flash_max       =20.
 , show_snakes     =1.
@@ -49,6 +49,14 @@ const vec3
   flash_col       =vec3(.39, .1, 1)
 ;
 #endif
+
+float freq(float x) {
+#ifdef KODELIFE
+  return exp(-3.*x*x)*(1.-sqrt(fract(TIME)));
+#else
+  return texture(syn_Spectrum,x).x;
+#endif
+}
 
 float beat() {
 #ifdef KODELIFE
@@ -255,27 +263,33 @@ vec3 render(vec3 ro, vec3 rd, float noise) {
     vec2
         sz = pattern_size*sqrt(hash2(c+1.23))
       ;
+    const float ZZ=24.;
     float
         pd  = boxPattern(pp.xy,h0, sz)
       , tol = Tolerance*3.
       , phit= d2.x <= tol ? 1. : 0.
       , pf  = smoothstep(aa, -aa, pd)*phit
       , mgd = min(min(gd.x,gd.y),gd.z)
+      // This math is almost right...., annoylingly hard to fix (for me)
+      , X   = p.z*.5
+      , Y   = (mod(X, 2.) > 1.) ? 1.-X*ZZ : X*ZZ
+      , Z   = fract(floor(Y)/ZZ)
+      , A   = (1.-cos(TAU*Y))
+      , F   = freq(Z)
       ;
     if (t < MaxDistance) {
       vec3
           ccol     = vec3(0)
-        , difCol0  = hsv2rgb(vec3(diff_hue+.15*(3.*p.y-p.x),.9,.25))
+        , difCol0  = hsv2rgb(vec3(tri_hue+.15*(3.*p.y-p.x),.9,.25))
         , glowCol0 = 2e-4*difCol0
-        , glowCol1 = hsv2rgb(vec3(glow_hue+.2*h1,.9,2e-4))
+        , glowCol1 = hsv2rgb(vec3(snake_hue+.2*h1,.9,2e-4))
         ;
       ccol += difCol0*pow(max(dot(n,ld),0.), mix(2.,4., pf));
       ccol += difCol0*pow(max(dot(reflect(rd,n),ld),0.), mix(40.,80., pf));
       ccol += glowCol0/max(gd.x*gd.x, 5e-6);
-      ccol += glowCol0/max(gd.y*gd.y, 5e-5)*(1.+sin(1e2*p.z));
+      ccol += glowCol0/max(gd.y*gd.y, 5e-5)*8.*A*F*F;
       ccol += glowCol1/max(gd.z*gd.z, 5e-6);
       ccol *= cabs;
-
       col += ccol;
       rd = r;
       cabs *= absCol*pf;

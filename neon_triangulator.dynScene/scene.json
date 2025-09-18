@@ -1,5 +1,5 @@
 {
-	"CONTROLS" :
+	"CONTROLS" : 
 	[
 		{
 			"DEFAULT" : 1,
@@ -81,26 +81,26 @@
 			"DESCRIPTION" : "Hue base for triangles",
 			"MAX" : 1,
 			"MIN" : 0,
-			"NAME" : "diff_hue",
+			"NAME" : "tri_hue",
 			"PARAMS" : 0.1,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Colors"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.39,
 				0.1,
 				1
 			],
 			"DESCRIPTION" : "Flash color – the strobe’s personality.",
-			"MAX" :
+			"MAX" : 
 			[
 				1,
 				1,
 				1
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0,
@@ -116,7 +116,7 @@
 			"DESCRIPTION" : "Hue of the glowing snakes effect",
 			"MAX" : 1,
 			"MIN" : 0,
-			"NAME" : "glow_hue",
+			"NAME" : "snake_hue",
 			"PARAMS" : 0.1,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Colors"
@@ -142,18 +142,18 @@
 			"UI_GROUP" : "Media"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0,
 				1
 			],
 			"DESCRIPTION" : "Bass mixer",
-			"MAX" :
+			"MAX" : 
 			[
 				1,
 				1
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0
@@ -164,18 +164,18 @@
 			"UI_GROUP" : "Audio"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				1,
 				1
 			],
 			"DESCRIPTION" : "Bass power",
-			"MAX" :
+			"MAX" : 
 			[
 				6,
 				6
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0
@@ -191,14 +191,14 @@
 	"GPU" : 1,
 	"HEIGHT" : 1080,
 	"IMAGE_PATH" : "scene.png",
-	"MEDIA" :
+	"MEDIA" : 
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"TAGS" :
+	"TAGS" : 
 	[
 		"mrange",
 		"neon",
