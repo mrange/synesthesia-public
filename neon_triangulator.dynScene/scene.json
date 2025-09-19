@@ -144,8 +144,8 @@
 		{
 			"DEFAULT" : 
 			[
-				0,
-				1
+				0.7,
+				0.7
 			],
 			"DESCRIPTION" : "Bass mixer",
 			"MAX" : 
@@ -166,7 +166,7 @@
 		{
 			"DEFAULT" : 
 			[
-				1,
+				3,
 				1
 			],
 			"DESCRIPTION" : "Bass power",
@@ -184,6 +184,68 @@
 			"PARAMS" : 0.2,
 			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Audio"
+		},
+		{
+			"DEFAULT" : 0,
+			"DESCRIPTION" : "Twist on",
+			"LABELS" : 
+			[
+				"None",
+				"Some",
+				"All"
+			],
+			"MAX" : 2,
+			"MIN" : 0,
+			"NAME" : "twist_on",
+			"TYPE" : "dropdown",
+			"UI_GROUP" : "Shape",
+			"VALUES" : 
+			[
+				0,
+				1,
+				9
+			]
+		},
+		{
+			"DEFAULT" : 0,
+			"DESCRIPTION" : "Twist mix between straight and sine",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "twist_mix",
+			"PARAMS" : 0.19801,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Shape"
+		},
+		{
+			"DEFAULT" : 0.3,
+			"DESCRIPTION" : "Twist straight",
+			"MAX" : 3,
+			"MIN" : -3,
+			"NAME" : "twist_straight",
+			"PARAMS" : 0.19801,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Shape"
+		},
+		{
+			"DEFAULT" : 
+			[
+				0.4,
+				0.5
+			],
+			"DESCRIPTION" : "Sine twister",
+			"MAX" : 
+			[
+				3,
+				3
+			],
+			"MIN" : 
+			[
+				-3,
+				-3
+			],
+			"NAME" : "twist_sine",
+			"TYPE" : "xy",
+			"UI_GROUP" : "Shape"
 		}
 	],
 	"CREDIT" : "mrange",

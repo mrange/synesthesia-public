@@ -44,19 +44,17 @@ const float
 , show_snakes     =1.
 , media_opacity   =0.
 , media_multiplier=1.
+, twist_on        =1.
+, twist_mix       =1.
+, twist_straight  =.3
+const vec2
+, twist_sine      = vec2(.4,.5)
 ;
+
 const vec3
   flash_col       =vec3(.39, .1, 1)
 ;
 #endif
-
-float freq(float x) {
-#ifdef KODELIFE
-  return exp(-3.*x*x)*(1.-sqrt(fract(TIME)));
-#else
-  return texture(syn_Spectrum,x).x;
-#endif
-}
 
 float beat() {
 #ifdef KODELIFE
@@ -145,7 +143,7 @@ float modPolar3(inout vec2 p) {
 }
 
 // Inputs
-vec2 g_h;
+vec3 g_h;
 // Outputs
 vec3 g_gd;
 vec2 g_d ;
@@ -153,7 +151,13 @@ vec3 g_lp;
 vec3 g_pp;
 vec2 g_c ;
 
+mat2 rot(float a) {
+  float c=cos(a),s=sin(a);
+  return mat2(c,s,-s,c);
+}
+
 float df(vec3 p) {
+  p.xy *= rot((g_h.z<twist_on?1.:0.)*mix(twist_straight*p.z, twist_sine.x*sin(twist_sine.y*p.z), twist_mix));
   const mat2
       R1  = ROT(PI/3.)
     ;
@@ -162,6 +166,7 @@ float df(vec3 p) {
     ;
   float loff = tri_speed*g_h.x*TIME;
   vec3 op = p;
+
   p.z -= loff;
   float R = round(p.z/LightDiv)*LightDiv;
   g_lp = vec3(0,0,loff+round((p.z+LightDiv*.47)/LightDiv)*LightDiv);
@@ -175,11 +180,11 @@ float df(vec3 p) {
     , d3 = 1E3
     , d4 = 1E3
     , d5 =
-        length(op.xy-vec2(0,-.1)+.1*sin(-TAU*g_h*TIME+2.*op.z*vec2(1, sqrt(2.))))
+        length(op.xy-vec2(0,-.1)+.1*sin(-TAU*g_h.xy*TIME+2.*op.z*vec2(1, sqrt(2.))))
       + smoothstep(-sqrt(.5),-.5, sin((op.z+TIME+g_h.y*(TIME+123.))/TAU))*.2
     , d = d0
     ;
-  if (g_h.x > 0.&&show_snakes>.5) {
+  if (g_h.z>0.&&show_snakes>.5) {
     d3 = d5;
     d4 = d5*.25;
   }
@@ -238,7 +243,7 @@ vec3 render(vec3 ro, vec3 rd, float noise) {
         h0 = hash(nn)
       , h1 = fract(8667.*h0)
       ;
-    g_h = vec2(h0,h1);
+    g_h = vec3(h0,h1,l);
     g_gd = vec3(1E3);
     float
         i
@@ -263,19 +268,12 @@ vec3 render(vec3 ro, vec3 rd, float noise) {
     vec2
         sz = pattern_size*sqrt(hash2(c+1.23))
       ;
-    const float ZZ=24.;
     float
         pd  = boxPattern(pp.xy,h0, sz)
       , tol = Tolerance*3.
       , phit= d2.x <= tol ? 1. : 0.
       , pf  = smoothstep(aa, -aa, pd)*phit
       , mgd = min(min(gd.x,gd.y),gd.z)
-      // This math is almost right...., annoylingly hard to fix (for me)
-      , X   = p.z*.5
-      , Y   = (mod(X, 2.) > 1.) ? 1.-X*ZZ : X*ZZ
-      , Z   = fract(floor(Y)/ZZ)
-      , A   = (1.-cos(TAU*Y))
-      , F   = freq(Z)
       ;
     if (t < MaxDistance) {
       vec3
@@ -287,9 +285,10 @@ vec3 render(vec3 ro, vec3 rd, float noise) {
       ccol += difCol0*pow(max(dot(n,ld),0.), mix(2.,4., pf));
       ccol += difCol0*pow(max(dot(reflect(rd,n),ld),0.), mix(40.,80., pf));
       ccol += glowCol0/max(gd.x*gd.x, 5e-6);
-      ccol += glowCol0/max(gd.y*gd.y, 5e-5)*8.*A*F*F;
+      ccol += glowCol0/max(gd.y*gd.y, 5e-5)*(1.+sin(1e2*p.z));
       ccol += glowCol1/max(gd.z*gd.z, 5e-6);
       ccol *= cabs;
+
       col += ccol;
       rd = r;
       cabs *= absCol*pf;
@@ -309,7 +308,7 @@ vec3 render(vec3 ro, vec3 rd, float noise) {
 
 
 vec3 effect(vec2 p, float noise) {
-  p.xy*=ROT(rot_speed+TAU*rot_base);
+  p.xy*=rot(rot_speed+TAU*rot_base);
   const vec3
       up = vec3(0, 1, 0)
     , ww = normalize(vec3(0, 0, 1))
