@@ -1,5 +1,5 @@
 {
-	"CONTROLS" : 
+	"CONTROLS" :
 	[
 		{
 			"DEFAULT" : 1,
@@ -48,18 +48,18 @@
 			"UI_GROUP" : "Effects"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				20,
 				2
 			],
 			"DESCRIPTION" : "Flash max level",
-			"MAX" : 
+			"MAX" :
 			[
 				50,
 				50
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
@@ -88,20 +88,20 @@
 			"UI_GROUP" : "Colors"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.39,
 				0.1,
 				1
 			],
 			"DESCRIPTION" : "Flash color – the strobe’s personality.",
-			"MAX" : 
+			"MAX" :
 			[
 				1,
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0,
@@ -143,18 +143,18 @@
 			"UI_GROUP" : "Media"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.7,
 				0.7
 			],
 			"DESCRIPTION" : "Bass mixer",
-			"MAX" : 
+			"MAX" :
 			[
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
@@ -165,18 +165,18 @@
 			"UI_GROUP" : "Audio"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				3,
 				1
 			],
 			"DESCRIPTION" : "Bass power",
-			"MAX" : 
+			"MAX" :
 			[
 				6,
 				6
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
@@ -189,7 +189,7 @@
 		{
 			"DEFAULT" : 0,
 			"DESCRIPTION" : "Twist on",
-			"LABELS" : 
+			"LABELS" :
 			[
 				"None",
 				"Some",
@@ -200,7 +200,7 @@
 			"NAME" : "twist_on",
 			"TYPE" : "dropdown",
 			"UI_GROUP" : "Shape",
-			"VALUES" : 
+			"VALUES" :
 			[
 				0,
 				1,
@@ -213,7 +213,7 @@
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "twist_mix",
-			"PARAMS" : 0.19801,
+			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Shape"
 		},
@@ -223,29 +223,51 @@
 			"MAX" : 3,
 			"MIN" : -3,
 			"NAME" : "twist_straight",
-			"PARAMS" : 0.19801,
+			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Shape"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.4,
 				0.5
 			],
 			"DESCRIPTION" : "Sine twister",
-			"MAX" : 
+			"MAX" :
 			[
 				3,
 				3
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				-3,
 				-3
 			],
 			"NAME" : "twist_sine",
 			"TYPE" : "xy",
+			"UI_GROUP" : "Shape"
+		},
+		{
+			"DEFAULT" :
+			[
+				2,
+				0
+			],
+			"DESCRIPTION" : "Warp the world",
+			"MAX" :
+			[
+				5,
+				5
+			],
+			"MIN" :
+			[
+				-5,
+				-5
+			],
+			"NAME" : "warp_world",
+			"PARAMS" : 0.2,
+			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Shape"
 		}
 	],
@@ -254,14 +276,14 @@
 	"GPU" : 1,
 	"HEIGHT" : 1080,
 	"IMAGE_PATH" : "scene.png",
-	"MEDIA" : 
+	"MEDIA" :
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"TAGS" : 
+	"TAGS" :
 	[
 		"mrange",
 		"neon",

@@ -49,6 +49,7 @@ const float
 const vec2
   flash_control   = vec2(20,2)
 , twist_sine      = vec2(.4,.5)
+, warp_world      = vec2(2.,-1.)
 ;
 
 const vec3
@@ -309,29 +310,27 @@ vec3 render(vec3 ro, vec3 rd, float noise) {
 
 vec3 effect(vec2 p, float noise) {
   p.xy*=rot(rot_speed+TAU*rot_base);
+  float
+#ifdef KODELIFE
+    z  = TIME
+#else
+    z  = path_speed
+#endif
+  , b  = beat()
+  , rdd= warp_world.x-warp_world.y*length(p)
+  ;
   const vec3
       up = vec3(0, 1, 0)
     , ww = normalize(vec3(0, 0, 1))
     , uu  = normalize(cross(up, ww))
     , vv  = cross(ww,uu)
     ;
-#ifdef KODELIFE
-  float
-    z  = TIME
-  , b
-  ;
-#else
-  float
-    z  = path_speed
-  , b
-  ;
-#endif
   vec3
       ro = vec3(0,0,z)
-    , rd  = normalize(p.y*vv -p.x*uu + 2.*ww)
+    , rd  = normalize(p.y*vv -p.x*uu + rdd*ww)
     , col = render(ro, rd, noise)
     ;
-  b=beat();
+
   col += mix(flash_control.y,flash_control.x, b)*flash_col*4e-4/(1.00001+dot(abs(rd), normalize(vec3(0,0,-1))));
 
   col -= .02*vec3(2,3,1)*(length(p)+.25);

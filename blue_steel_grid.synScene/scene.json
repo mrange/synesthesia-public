@@ -228,6 +228,28 @@
 			"PARAMS" : 0.2,
 			"TYPE" : "color smooth",
 			"UI_GROUP" : "Colors"
+		},
+		{
+			"DEFAULT" :
+			[
+				2,
+				0.5
+			],
+			"DESCRIPTION" : "Warp the world",
+			"MAX" :
+			[
+				5,
+				5
+			],
+			"MIN" :
+			[
+				-5,
+				-5
+			],
+			"NAME" : "warp_world",
+			"PARAMS" : 0.2,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Shape"
 		}
 	],
 	"CREDIT" : "mrange",

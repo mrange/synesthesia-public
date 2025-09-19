@@ -35,6 +35,7 @@ const vec2
 , path_b        = vec2(1,sqrt(.5))*8.
 , grid_dim_xy   = vec2(1)
 , grid_dim_zr   = vec2(1,.03)
+, warp_world    = vec2(2.,.5)
 ;
 const float
   path_rot        =0.
@@ -215,11 +216,14 @@ vec3 render1(vec3 ro, vec3 rd) {
 }
 
 vec3 effect(vec2 p) {
+  float
 #ifdef KODELIFE
-  float tm  = 2.*TIME;
+    tm  = 2.*TIME
 #else
-  float tm  = path_speed;
+    tm  = path_speed
 #endif
+  , rdd= warp_world.x+warp_world.y*length(p)
+  ;
   vec3 ro   = offset(tm);
   vec3 dro  = doffset(tm);
   vec3 ddro = ddoffset(tm);
@@ -227,7 +231,6 @@ vec3 effect(vec2 p) {
   vec3 ww = normalize(dro);
   vec3 uu = normalize(cross(ww,vec3(0,1,0)-4.*ddro));
   vec3 vv = cross(ww, uu);
-  float rdd = 2.+.5*length(p);
   vec3 rd = normalize(p.x*uu + p.y*vv + rdd*ww);
 
   vec3 col = render1(ro, rd);
