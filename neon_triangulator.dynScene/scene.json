@@ -48,23 +48,24 @@
 			"UI_GROUP" : "Effects"
 		},
 		{
-			"DEFAULT" : 20,
+			"DEFAULT" : 
+			[
+				20,
+				2
+			],
 			"DESCRIPTION" : "Flash max level",
-			"MAX" : 50,
-			"MIN" : 0,
-			"NAME" : "flash_max",
-			"PARAMS" : 0.1,
-			"TYPE" : "slider smooth",
-			"UI_GROUP" : "Effects"
-		},
-		{
-			"DEFAULT" : 2,
-			"DESCRIPTION" : "Flash min level",
-			"MAX" : 50,
-			"MIN" : 0,
-			"NAME" : "flash_min",
-			"PARAMS" : 0.1,
-			"TYPE" : "slider smooth",
+			"MAX" : 
+			[
+				50,
+				50
+			],
+			"MIN" : 
+			[
+				0,
+				0
+			],
+			"NAME" : "flash_control",
+			"TYPE" : "xy",
 			"UI_GROUP" : "Effects"
 		},
 		{

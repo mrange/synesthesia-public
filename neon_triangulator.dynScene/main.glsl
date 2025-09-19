@@ -39,15 +39,15 @@ const float
 , rot_base        =0.
 , tri_hue         =.7
 , snake_hue       =.6
-, flash_min       =2.
-, flash_max       =20.
 , show_snakes     =1.
 , media_opacity   =0.
 , media_multiplier=1.
 , twist_on        =1.
 , twist_mix       =1.
 , twist_straight  =.3
+;
 const vec2
+  flash_control   = vec2(20,2)
 , twist_sine      = vec2(.4,.5)
 ;
 
@@ -332,7 +332,7 @@ vec3 effect(vec2 p, float noise) {
     , col = render(ro, rd, noise)
     ;
   b=beat();
-  col += mix(flash_min,flash_max, b)*flash_col*4e-4/(1.00001+dot(abs(rd), normalize(vec3(0,0,-1))));
+  col += mix(flash_control.y,flash_control.x, b)*flash_col*4e-4/(1.00001+dot(abs(rd), normalize(vec3(0,0,-1))));
 
   col -= .02*vec3(2,3,1)*(length(p)+.25);
   col = aces_approx(max(col,0.));
