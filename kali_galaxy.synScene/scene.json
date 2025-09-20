@@ -1,0 +1,76 @@
+{
+	"CONTROLS":
+	[
+		{
+			"DEFAULT" :
+			[
+				0.7,
+				0.7
+			],
+			"DESCRIPTION" : "Bass mixer",
+			"MAX" :
+			[
+				1,
+				1
+			],
+			"MIN" :
+			[
+				0,
+				0
+			],
+			"NAME" : "bass_mix",
+			"PARAMS" : 0.2,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Audio"
+		},
+		{
+			"DEFAULT" :
+			[
+				3,
+				1
+			],
+			"DESCRIPTION" : "Bass power",
+			"MAX" :
+			[
+				6,
+				6
+			],
+			"MIN" :
+			[
+				0,
+				0
+			],
+			"NAME" : "bass_pow",
+			"PARAMS" : 0.2,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Audio"
+		}
+	],
+	"CREDIT" : "mrange",
+	"DESCRIPTION" : "Kali galaxy",
+	"GPU" : 1,
+	"IMAGE_PATH" : "scene.png",
+	"IMAGES" :
+	[
+	],
+	"MEDIA" :
+	[
+		{
+			"FILTER" : "linear",
+			"WRAP" : "mirror"
+		}
+	],
+	"PASSES" :
+	[
+	],
+	"TAGS" :
+	[
+		"mrange",
+		"kali",
+		"raymarch",
+		"glow"
+	],
+	"TITLE" : "Kali galaxy",
+	"HEIGHT" : 1080,
+	"WIDTH" : 1920
+}
