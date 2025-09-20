@@ -1,7 +1,7 @@
-// This file is released under CC0 1.0 Universal (Public Domain Dedication).
-// To the extent possible under law, Mårten Rånge has waived all copyright
-// and related or neighboring rights to this work.
-// See <https://creativecommons.org/publicdomain/zero/1.0/> for details.
+#ifdef KODELIFE
+uniform sampler2D pass0;
+uniform sampler2D pass1;
+#endif
 
 float beat() {
 #ifdef KODELIFE
@@ -15,7 +15,7 @@ float freq(float x) {
   x=fract(x);
   return exp(-3.*x*x)*(1.-sqrt(fract(TIME)));
 #else
-  return smoothstep(0.4, .5, texture(syn_Spectrum,x).y);
+  return smoothstep(0.4, .5, texture(syn_Spectrum,x).z);
 #endif
 }
 
@@ -33,19 +33,20 @@ mat2 rot(float a) {
   return mat2(c,s,-s,c);
 }
 
-float length4(vec2 p) {
-  p*=p;
-  return pow(dot(p,p),.25) ;
-}
-
-vec4 renderMain() {
+vec4 fpass0() {
   float
       z
     , d
     , s
     , D
-    , B=beat()
-    , T=syn_BassTime/2.+TIME
+    , l
+    , L
+    , b=smoothstep(.5, 1., beat())
+#ifdef KODELIFE
+    , T=TIME+floor(TIME)+sqrt(fract(TIME))
+#else
+    , T=syn_BassTime+TIME
+#endif
     ;
   mat2
       M = rot(.1*T)
@@ -58,7 +59,6 @@ vec4 renderMain() {
     , P
     , q
     ;
-    B*=B;
   for(
       int i=0
     ; i < 55
@@ -77,17 +77,46 @@ vec4 renderMain() {
       ; j < 7
       ; ++j
       ) {
-        d = min(d, length(P.xyz) * s);
+        d = min(d, length(P) * s);
         D = dot(P, P);
         s *= D;
         P = abs(P.ywzx) / D - .1 * vec4(7, 5, 9, 5);
       }
-
-    P = 1. + cos(.7 * vec4(2, 1, 0, 3. * length(q.xy)) + 1. + 8. * length(q)-freq(length(q)));
-    o += B*0./dot(q,q)*vec4(1,2,3,0);
+    L=dot(q,q);
+    l=sqrt(L);
+    L*=L;
+    P = 1. + cos(.7 * vec4(2, 1, 0, 3. * length(q.xy)) + 1. + 8. * l-freq(sin(l-5.)));
+    o += 0.*b/L*vec4(1,2,3,0);
     o +=P.w * P / d;
     z += .6 * d + 1E-3;
   }
 
-  return tanh(o / 3E3);
+  return (o / 3E3);
+}
+
+
+vec4 fpass1() {
+  float
+    b=smoothstep(.5, 1., beat())
+  ;
+  vec2
+    q=_uv
+  , p=_uvc*mix(.9,.8, b)
+  , qq=p*RENDERSIZE.y/RENDERSIZE+.5
+  ;
+  vec4
+    col0=tanh(texture(pass0, q))
+  , col1=(texture(pass1, qq))
+  ;
+  return vec4((col0+mix(0.00,0.06, b*b)*mix(vec4(5,1,9,0), vec4(9), b)*col1).xyz,1.);
+}
+
+vec4 renderMain() {
+  if (PASSINDEX==0) {
+    return fpass0();
+  } else if (PASSINDEX==1) {
+    return fpass1();
+  } else {
+    return texture(pass1,_uv);
+  }
 }
