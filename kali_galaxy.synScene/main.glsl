@@ -1,6 +1,15 @@
 #ifdef KODELIFE
 uniform sampler2D pass0;
 uniform sampler2D pass1;
+
+const vec2 
+  bass_limit     = vec2(0.5,1)
+, rotation_speed = vec2(1,1)
+, shape_xy       = vec2(0.5, 2)
+;
+const vec3
+  flash_col      = vec3(1,2,3)/3.
+;
 #endif
 
 float beat() {
@@ -41,15 +50,15 @@ vec4 fpass0() {
     , D
     , l
     , L
-    , b=smoothstep(.5, 1., beat())
+    , b=smoothstep(bass_limit.x, bass_limit.y, beat())
 #ifdef KODELIFE
     , T=TIME+floor(TIME)+sqrt(fract(TIME))
 #else
-    , T=syn_BassTime+TIME
+    , T=dot(vec2(syn_BassTime,TIME),rotation_speed)
 #endif
     ;
   mat2
-      M = rot(.1*T)
+      M = rot(T)
     ;
   vec3
       I=normalize(vec3(_uvc, 1))
@@ -58,14 +67,16 @@ vec4 fpass0() {
       o=vec4(0)
     , P
     , q
+    , F=vec4(flash_col*3.,0)
+    , U=vec4(base_xy, base_zw)
     ;
   for(
       int i=0
     ; i < 55
     ; ++i
     ) {
-    q = vec4(z*I, .5);
-    q.z -= 2.;
+    q = vec4(z*I, shape_xy.x);
+    q.z -= shape_xy.y;
     q.yw *= M;
     q.wx *= M;
     q.zw *= M;
@@ -77,21 +88,23 @@ vec4 fpass0() {
       ; j < 7
       ; ++j
       ) {
-        d = min(d, length(P) * s);
-        D = dot(P, P);
-        s *= D;
-        P = abs(P.ywzx) / D - .1 * vec4(7, 5, 9, 5);
-      }
+      d = min(d, length(P) * s);
+      D = dot(P, P);
+      s *= D;
+      P = abs(P.ywzx) / D - .1 * vec4(7, 5, 9, 5);
+    }
     L=dot(q,q);
     l=sqrt(L);
     L*=L;
-    P = 1. + cos(.7 * vec4(2, 1, 0, 3. * length(q.xy)) + 1. + 8. * l-freq(sin(l-5.)));
-    o += 0.*b/L*vec4(1,2,3,0);
+    P=U;
+    P.w+=3. * length(q.xy);
+    P = 1. + cos(base_mod.x * P + base_mod.y + 8. * l-freq(sin(l-5.)));
+    o += mix(flash_xy.x, flash_xy.y,b*b)/L*F;
     o +=P.w * P / d;
     z += .6 * d + 1E-3;
   }
 
-  return (o / 3E3);
+  return (o / (global_div*1E3));
 }
 
 
@@ -101,14 +114,14 @@ vec4 fpass1() {
   ;
   vec2
     q=_uv
-  , p=_uvc*mix(.9,.8, b)
+  , p=_uvc*mix(feedback_zoom.x,feedback_zoom.y, b)*rot(mix(feedback_rot.x,feedback_rot.y, b))
   , qq=p*RENDERSIZE.y/RENDERSIZE+.5
   ;
   vec4
     col0=tanh(texture(pass0, q))
   , col1=(texture(pass1, qq))
   ;
-  return vec4((col0+mix(0.00,0.06, b*b)*mix(vec4(5,1,9,0), vec4(9), b)*col1).xyz,1.);
+  return vec4((col0+feedback_strength*b*b*mix(vec4(feedback_min,0), vec4(feedback_max,0), b)*col1).xyz,1.);
 }
 
 vec4 renderMain() {
