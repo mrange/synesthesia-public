@@ -51,7 +51,7 @@
 				0.5,
 				1
 			],
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Detects the bass hits from a min and max value",
 			"MAX" :
 			[
 				1,
@@ -62,7 +62,7 @@
 				0,
 				0
 			],
-			"NAME" : "bass_limit - detect the bass hits",
+			"NAME" : "bass_limit",
 			"PARAMS" : 0.2,
 			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Audio"
