@@ -68,25 +68,33 @@
 			"UI_GROUP" : "Audio"
 		},
 		{
-			"DEFAULT" :
-			[
-				0.1,
-				0.1
-			],
-			"DESCRIPTION" : "Cosmic spinner – sync your galaxy's rotation to the beat or let it drift in space-time",
-			"MAX" :
-			[
-				1,
-				1
-			],
-			"MIN" :
-			[
-				-1,
-				-1
-			],
-			"NAME" : "rotation_speed",
+			"DEFAULT" : 0.7,
+			"DESCRIPTION" : "Rotation level 0",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "rotation_level_0",
 			"PARAMS" : 0.2,
-			"TYPE" : "xy smooth",
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Movement"
+		},
+		{
+			"DEFAULT" : 0.5,
+			"DESCRIPTION" : "Rotation level 0",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "rotation_level_1",
+			"PARAMS" : 0.2,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Movement"
+		},
+		{
+			"DEFAULT" : 0.3,
+			"DESCRIPTION" : "Rotation level 2",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "rotation_level_2",
+			"PARAMS" : 0.2,
+			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Movement"
 		},
 		{

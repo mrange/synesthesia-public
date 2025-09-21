@@ -62,19 +62,9 @@ vec4 fpass0() {
     , l
     , L
     , b=smoothstep(bass_limit.x, bass_limit.y, beat())
-#ifdef KODELIFE
-    , T=(TIME+floor(TIME)+sqrt(fract(TIME)))*.1
-#else
-    , T=dot(vec2(syn_BassTime,TIME),rotation_speed)
-#endif
     ;
   mat2
-/*
-      M0 = rot(0.1*syn_Time+0.2*TIME)
-    , M1 = rot(0.1*syn_BassTime+0.2*TIME)
-    , M2 = rot(0.1*syn_MidTime+0.2*TIME)
-*/
-    , M0=mat2(rotation_components_0)
+      M0=mat2(rotation_components_0)
     , M1=mat2(rotation_components_1)
     , M2=mat2(rotation_components_2)
     ;

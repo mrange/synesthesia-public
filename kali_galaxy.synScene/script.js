@@ -19,11 +19,11 @@ var rotationBaseSpeed = [0.5, 0.5, 0.5];
 var rotationTime      = [0, 0, 0];
 var rotationSpeed     = [0.5, 0.5, 0.5];
 var rotationUniforms  = ["rotation_components_0","rotation_components_1","rotation_components_2"];
-var rotationLevels    = [0.7,0.5,0.3];
 function update(dt) {
-  var hits=[syn_BassHits,syn_MidHits,syn_MidHighHits];
+  var hits    = [syn_BassHits,syn_MidHits,syn_MidHighHits];
+  var levels  = [rotation_level_0,rotation_level_1,rotation_level_2];
   for(var idx=0;idx<3;++idx) {
-    if (hits[idx] > rotationLevels[idx]) {
+    if (hits[idx] > levels[idx]) {
       rotationSpeed[idx] = 2.0 * rotationBaseSpeed[idx];
     } else {
       rotationSpeed[idx] = mix(rotationBaseSpeed[idx], rotationSpeed[idx], Math.pow(10.0, -dt));
