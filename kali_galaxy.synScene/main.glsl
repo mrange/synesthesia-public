@@ -69,7 +69,14 @@ vec4 fpass0() {
 #endif
     ;
   mat2
-      M = rot(T)
+/*
+      M0 = rot(0.1*syn_Time+0.2*TIME)
+    , M1 = rot(0.1*syn_BassTime+0.2*TIME)
+    , M2 = rot(0.1*syn_MidTime+0.2*TIME)
+*/
+    , M0=mat2(rotation_components_0)
+    , M1=mat2(rotation_components_1)
+    , M2=mat2(rotation_components_2)
     ;
   vec3
       I=normalize(vec3(_uvc, 1))
@@ -88,9 +95,9 @@ vec4 fpass0() {
     ) {
     q = vec4(z*I, shape_xy.x);
     q.z -= shape_xy.y;
-    q.yw *= M;
-    q.wx *= M;
-    q.zw *= M;
+    q.yw *= M0;
+    q.wx *= M1;
+    q.zw *= M2;
     P = q;
     s = 1.;
     d = 1e3;
