@@ -7,7 +7,7 @@
 				0.7,
 				0.7
 			],
-			"DESCRIPTION" : "Bass mixer",
+			"DESCRIPTION" : "Bass mixer. mixes bass hit and bass level",
 			"MAX" :
 			[
 				1,
@@ -29,7 +29,7 @@
 				3,
 				1
 			],
-			"DESCRIPTION" : "Bass power",
+			"DESCRIPTION" : "Bass power, takes 'pow' of bass hit and bass level, increased 'pow' increased distinctness",
 			"MAX" :
 			[
 				6,
@@ -62,7 +62,7 @@
 				0,
 				0
 			],
-			"NAME" : "bass_limit",
+			"NAME" : "bass_limit - detect the bass hits",
 			"PARAMS" : 0.2,
 			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Audio"
@@ -73,7 +73,7 @@
 				0.1,
 				0.1
 			],
-			"DESCRIPTION" : "Rotation speed",
+			"DESCRIPTION" : "Controls rotation speed as a mix between bass time and normal time",
 			"MAX" :
 			[
 				1,
@@ -95,7 +95,7 @@
 				0.5,
 				2
 			],
-			"DESCRIPTION" : "W offset",
+			"DESCRIPTION" : "Controls the shape and the distance to the kali fractal",
 			"MAX" :
 			[
 				2,
@@ -117,7 +117,7 @@
 				0.6666,
 				1
 			],
-			"DESCRIPTION" : "Flash col",
+			"DESCRIPTION" : "The color of the flash",
 			"MAX" :
 			[
 				1,
@@ -141,7 +141,7 @@
 				0,
 				10
 			],
-			"DESCRIPTION" : "Flash min max",
+			"DESCRIPTION" : "The min max amplitude of the flash",
 			"MAX" :
 			[
 				40,
@@ -159,7 +159,7 @@
 		},
 		{
 			"DEFAULT" : 3,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Global divider of the color pre feedback",
 			"MAX" : 10,
 			"MIN" : 1,
 			"NAME" : "global_div",
@@ -173,7 +173,7 @@
 				2,
 				1
 			],
-			"DESCRIPTION" : "Base color xy",
+			"DESCRIPTION" : "Controls the base xy component of the fractal color function",
 			"MAX" :
 			[
 				9,
@@ -195,7 +195,7 @@
 				0,
 				0
 			],
-			"DESCRIPTION" : "Colors zw",
+			"DESCRIPTION" : "Controls the base zw component of the fractal color function",
 			"MAX" :
 			[
 				9,
@@ -217,7 +217,7 @@
 				0.7,
 				1
 			],
-			"DESCRIPTION" : "Base mod",
+			"DESCRIPTION" : "Controls the saturation and offset of the fractal color function",
 			"MAX" :
 			[
 				3,
@@ -239,7 +239,7 @@
 				0.1,
 				0.4
 			],
-			"DESCRIPTION" : "Feedback strength",
+			"DESCRIPTION" : "The min max of the feedback function",
 			"MAX" :
 			[
 				1,
@@ -261,7 +261,7 @@
 				0.95,
 				0.9
 			],
-			"DESCRIPTION" : "Feedback zoom",
+			"DESCRIPTION" : "The min max zoom factor of the feedback",
 			"MAX" :
 			[
 				2,
@@ -283,7 +283,7 @@
 				0,
 				0
 			],
-			"DESCRIPTION" : "Feedback rotation",
+			"DESCRIPTION" : "Min max rotation of feedback",
 			"MAX" :
 			[
 				1,
@@ -306,7 +306,7 @@
 				0.11111,
 				1
 			],
-			"DESCRIPTION" : "Feedback min col",
+			"DESCRIPTION" : "Feedback min color modifier",
 			"MAX" :
 			[
 				1,
@@ -331,7 +331,7 @@
 				1,
 				1
 			],
-			"DESCRIPTION" : "Feedback max col",
+			"DESCRIPTION" : "Feedback max color modifier",
 			"MAX" :
 			[
 				1,

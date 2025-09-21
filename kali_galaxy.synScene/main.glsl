@@ -44,7 +44,7 @@ float freq(float x) {
   x=fract(x);
   return exp(-3.*x*x)*(1.-sqrt(fract(TIME)));
 #else
-  return smoothstep(0.4, .5, texture(syn_Spectrum,x).z);
+  return smoothstep(.4, .5, texture(syn_Spectrum,x).z);
 #endif
 }
 
@@ -99,6 +99,8 @@ vec4 fpass0() {
       ; j < 7
       ; ++j
       ) {
+      // Try length(P.xyz) or length(P.xy)
+      //  Might need to adjust the global_div
       d = min(d, length(P) * s);
       D = dot(P, P);
       s *= D;
@@ -131,7 +133,7 @@ vec4 fpass1() {
     col0=clamp(tanh(texture(pass0, q0).xyz),0,1)
   , col1=(texture(pass1, q1).xyz)
   ;
-  vec4 
+  vec4
     mcol=_loadMedia()
   ;
   col0=mix(col0,vec3(0), isnan(col0));
