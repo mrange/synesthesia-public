@@ -133,11 +133,14 @@ vec4 fpass1() {
     col0=clamp(tanh(texture(pass0, q0).xyz),0,1)
   , col1=(texture(pass1, q1).xyz)
   ;
+  col0=mix(col0,vec3(0), isnan(col0));
+#ifdef KODELIFE
+#else
   vec4
     mcol=_loadMedia()
   ;
-  col0=mix(col0,vec3(0), isnan(col0));
   col0=mix(col0,mcol.xyz,mcol.w*media_opacity*media_multiplier);
+#endif
   return vec4((col0+mix(feedback_strength.x, feedback_strength.y, b*b)*mix(feedback_min, feedback_max, b)*col1),1.);
 }
 
