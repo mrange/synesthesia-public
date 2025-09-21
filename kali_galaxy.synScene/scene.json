@@ -1,19 +1,19 @@
 {
-	"CONTROLS" : 
+	"CONTROLS" :
 	[
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.7,
 				0.7
 			],
 			"DESCRIPTION" : "Bass mixer",
-			"MAX" : 
+			"MAX" :
 			[
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
@@ -24,18 +24,18 @@
 			"UI_GROUP" : "Audio"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				3,
 				1
 			],
 			"DESCRIPTION" : "Bass power",
-			"MAX" : 
+			"MAX" :
 			[
 				6,
 				6
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
@@ -46,62 +46,62 @@
 			"UI_GROUP" : "Audio"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.5,
 				1
 			],
 			"DESCRIPTION" : "",
-			"MAX" : 
+			"MAX" :
 			[
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
 			],
 			"NAME" : "bass_limit",
-			"PARAMS" : 0.20301,
+			"PARAMS" : 0.2,
 			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Audio"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.1,
 				0.1
 			],
 			"DESCRIPTION" : "Rotation speed",
-			"MAX" : 
+			"MAX" :
 			[
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				-1,
 				-1
 			],
 			"NAME" : "rotation_speed",
-			"PARAMS" : 0.25001,
+			"PARAMS" : 0.2,
 			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Movement"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.5,
 				2
 			],
 			"DESCRIPTION" : "W offset",
-			"MAX" : 
+			"MAX" :
 			[
 				2,
 				5
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				-2,
 				0
@@ -111,49 +111,49 @@
 			"UI_GROUP" : "Shape"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.3333,
 				0.6666,
 				1
 			],
 			"DESCRIPTION" : "Flash col",
-			"MAX" : 
+			"MAX" :
 			[
 				1,
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0,
 				0
 			],
 			"NAME" : "flash_col",
-			"PARAMS" : 0.25201,
+			"PARAMS" : 0.2,
 			"TYPE" : "color smooth",
 			"UI_GROUP" : "Colors"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0,
 				10
 			],
 			"DESCRIPTION" : "Flash min max",
-			"MAX" : 
+			"MAX" :
 			[
 				40,
 				40
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
 			],
 			"NAME" : "flash_xy",
-			"PARAMS" : 0.24601,
+			"PARAMS" : 0.2,
 			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Colors"
 		},
@@ -163,177 +163,189 @@
 			"MAX" : 10,
 			"MIN" : 1,
 			"NAME" : "global_div",
-			"PARAMS" : 0.24201,
+			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Colors"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				2,
 				1
 			],
 			"DESCRIPTION" : "Base color xy",
-			"MAX" : 
+			"MAX" :
 			[
 				9,
 				9
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
 			],
 			"NAME" : "base_xy",
-			"PARAMS" : 0.24301,
+			"PARAMS" : 0.2,
 			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Colors"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0,
 				0
 			],
 			"DESCRIPTION" : "Colors zw",
-			"MAX" : 
+			"MAX" :
 			[
 				9,
 				9
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
 			],
 			"NAME" : "base_zw",
-			"PARAMS" : 0.23901,
+			"PARAMS" : 0.2,
 			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Colors"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.7,
 				1
 			],
 			"DESCRIPTION" : "Base mod",
-			"MAX" : 
+			"MAX" :
 			[
 				3,
 				7
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
 			],
 			"NAME" : "base_mod",
-			"PARAMS" : 0.25,
+			"PARAMS" : 0.2,
 			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Colors"
 		},
 		{
-			"DEFAULT" : 0.4,
+			"DEFAULT" :
+			[
+				0.1,
+				0.4
+			],
 			"DESCRIPTION" : "Feedback strength",
-			"MAX" : 1,
-			"MIN" : 0,
+			"MAX" :
+			[
+				1,
+				1
+			],
+			"MIN" :
+			[
+				0,
+				0
+			],
 			"NAME" : "feedback_strength",
-			"PARAMS" : 0.26201,
-			"TYPE" : "slider smooth",
+			"PARAMS" : 0.2,
+			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Feedback"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.9,
 				0.8
 			],
 			"DESCRIPTION" : "Feedback zoom",
-			"MAX" : 
+			"MAX" :
 			[
 				2,
 				2
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0.5,
 				0.5
 			],
 			"NAME" : "feedback_zoom",
-			"PARAMS" : 0.23901,
+			"PARAMS" : 0.2,
 			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Feedback"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0,
 				0
 			],
 			"DESCRIPTION" : "Feedback rotation",
-			"MAX" : 
+			"MAX" :
 			[
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				-1,
 				-1
 			],
 			"NAME" : "feedback_rot",
-			"PARAMS" : 0.24201,
+			"PARAMS" : 0.2,
 			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Feedback"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.55555,
 				0.11111,
 				1
 			],
 			"DESCRIPTION" : "Feedback min col",
-			"MAX" : 
+			"MAX" :
 			[
 				1,
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0,
 				0
 			],
 			"NAME" : "feedback_min",
-			"PARAMS" : 0.25101,
+			"PARAMS" : 0.2,
 			"TYPE" : "color smooth",
 			"UI_GROUP" : "Feedback"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				1,
 				1,
 				1
 			],
 			"DESCRIPTION" : "Feedback max col",
-			"MAX" : 
+			"MAX" :
 			[
 				1,
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0,
 				0
 			],
 			"NAME" : "feedback_max",
-			"PARAMS" : 0.24601,
+			"PARAMS" : 0.2,
 			"TYPE" : "color smooth",
 			"UI_GROUP" : "Feedback"
 		}
@@ -343,14 +355,14 @@
 	"GPU" : 1,
 	"HEIGHT" : 1080,
 	"IMAGE_PATH" : "scene.png",
-	"MEDIA" : 
+	"MEDIA" :
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"PASSES" : 
+	"PASSES" :
 	[
 		{
 			"FILTER" : "linear",
@@ -369,7 +381,7 @@
 			"WRAP" : "repeat"
 		}
 	],
-	"TAGS" : 
+	"TAGS" :
 	[
 		"mrange",
 		"kali",

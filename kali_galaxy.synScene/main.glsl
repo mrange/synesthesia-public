@@ -1,14 +1,33 @@
+// This file is released under CC0 1.0 Universal (Public Domain Dedication).
+// To the extent possible under law, Mårten Rånge has waived all copyright
+// and related or neighboring rights to this work.
+// See <https://creativecommons.org/publicdomain/zero/1.0/> for details.
+
+
 #ifdef KODELIFE
 uniform sampler2D pass0;
 uniform sampler2D pass1;
 
-const vec2 
-  bass_limit     = vec2(0.5,1)
-, rotation_speed = vec2(1,1)
-, shape_xy       = vec2(0.5, 2)
+const float
+  global_div        = 3.
+;
+const vec2
+  bass_limit        = vec2(0.5,1)
+, base_xy           = vec2(2,1)
+, base_zw           = vec2(0,0)
+, base_mod          = vec2(.7,1)
+, feedback_rot      = vec2(0,0)
+, feedback_strength = vec2(0.1,.4)
+, feedback_zoom     = vec2(0.9,0.8)
+, flash_xy          = vec2(0,10)
+, shape_xy          = vec2(0.5, 2)
+, rotation_speed    = vec2(.1,.1)
+
 ;
 const vec3
-  flash_col      = vec3(1,2,3)/3.
+  feedback_min   = vec3(5,1,9)/9.
+, feedback_max   = vec3(1)
+, flash_col      = vec3(1,2,3)/3.
 ;
 #endif
 
@@ -19,21 +38,13 @@ float beat() {
   return dot(pow(vec2(syn_BassLevel,syn_BassHits), bass_pow), bass_mix);
 #endif
 }
+
 float freq(float x) {
 #ifdef KODELIFE
   x=fract(x);
   return exp(-3.*x*x)*(1.-sqrt(fract(TIME)));
 #else
   return smoothstep(0.4, .5, texture(syn_Spectrum,x).z);
-#endif
-}
-
-float wave(float x) {
-#ifdef KODELIFE
-  x=fract(x);
-  return (.5+.25*sin(x*10.+TIME));
-#else
-  return texture(syn_Spectrum,x).w;
 #endif
 }
 
@@ -52,7 +63,7 @@ vec4 fpass0() {
     , L
     , b=smoothstep(bass_limit.x, bass_limit.y, beat())
 #ifdef KODELIFE
-    , T=TIME+floor(TIME)+sqrt(fract(TIME))
+    , T=(TIME+floor(TIME)+sqrt(fract(TIME)))*.1
 #else
     , T=dot(vec2(syn_BassTime,TIME),rotation_speed)
 #endif
@@ -107,21 +118,20 @@ vec4 fpass0() {
   return (o / (global_div*1E3));
 }
 
-
 vec4 fpass1() {
   float
     b=smoothstep(.5, 1., beat())
   ;
   vec2
-    q=_uv
-  , p=_uvc*mix(feedback_zoom.x,feedback_zoom.y, b)*rot(mix(feedback_rot.x,feedback_rot.y, b))
-  , qq=p*RENDERSIZE.y/RENDERSIZE+.5
+    q0=_uv
+  , pp=_uvc*mix(feedback_zoom.x,feedback_zoom.y, b)*rot(mix(feedback_rot.x,feedback_rot.y, b))
+  , q1=pp*RENDERSIZE.y/RENDERSIZE+.5
   ;
   vec4
-    col0=tanh(texture(pass0, q))
-  , col1=(texture(pass1, qq))
+    col0=tanh(texture(pass0, q0))
+  , col1=(texture(pass1, q1))
   ;
-  return vec4((col0+feedback_strength*b*b*mix(vec4(feedback_min,0), vec4(feedback_max,0), b)*col1).xyz,1.);
+  return vec4((col0+mix(feedback_strength.x, feedback_strength.y, b*b)*mix(vec4(feedback_min,0), vec4(feedback_max,0), b)*col1).xyz,1.);
 }
 
 vec4 renderMain() {
