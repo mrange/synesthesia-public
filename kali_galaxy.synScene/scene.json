@@ -7,7 +7,7 @@
 				0.7,
 				0.7
 			],
-			"DESCRIPTION" : "Bass mixer. mixes bass hit and bass level",
+			"DESCRIPTION" : "Bass cocktail mixer – blend those thumping hits with smooth basslines for the perfect audio sauce",
 			"MAX" :
 			[
 				1,
@@ -29,7 +29,7 @@
 				3,
 				1
 			],
-			"DESCRIPTION" : "Bass power, takes 'pow' of bass hit and bass level, increased 'pow' increased distinctness",
+			"DESCRIPTION" : "Bass amplifier – crank up the power to make those beats punch through reality itself",
 			"MAX" :
 			[
 				6,
@@ -51,7 +51,7 @@
 				0.5,
 				1
 			],
-			"DESCRIPTION" : "Detects the bass hits from a min and max value",
+			"DESCRIPTION" : "Bass bouncer – only lets the strongest beats through the velvet rope",
 			"MAX" :
 			[
 				1,
@@ -73,7 +73,7 @@
 				0.1,
 				0.1
 			],
-			"DESCRIPTION" : "Controls rotation speed as a mix between bass time and normal time",
+			"DESCRIPTION" : "Cosmic spinner – sync your galaxy's rotation to the beat or let it drift in space-time",
 			"MAX" :
 			[
 				1,
@@ -95,7 +95,7 @@
 				0.5,
 				2
 			],
-			"DESCRIPTION" : "Controls the shape and the distance to the kali fractal",
+			"DESCRIPTION" : "Fractal sculptor – reshape your Kali galaxy from delicate wisps to bold cosmic structures",
 			"MAX" :
 			[
 				2,
@@ -117,7 +117,7 @@
 				0.6666,
 				1
 			],
-			"DESCRIPTION" : "The color of the flash",
+			"DESCRIPTION" : "Lightning palette – paint your bass-driven flashes with cosmic colors",
 			"MAX" :
 			[
 				1,
@@ -141,7 +141,7 @@
 				0,
 				10
 			],
-			"DESCRIPTION" : "The min max amplitude of the flash",
+			"DESCRIPTION" : "Flash intensity – from subtle twinkles to supernova explosions",
 			"MAX" :
 			[
 				40,
@@ -159,7 +159,7 @@
 		},
 		{
 			"DEFAULT" : 3,
-			"DESCRIPTION" : "Global divider of the color pre feedback",
+			"DESCRIPTION" : "Color contrast dial – tame wild hues or embrace the psychedelic chaos",
 			"MAX" : 10,
 			"MIN" : 1,
 			"NAME" : "global_div",
@@ -173,7 +173,7 @@
 				2,
 				1
 			],
-			"DESCRIPTION" : "Controls the base xy component of the fractal color function",
+			"DESCRIPTION" : "Primary color engine – the main palette generator for your fractal masterpiece",
 			"MAX" :
 			[
 				9,
@@ -195,7 +195,7 @@
 				0,
 				0
 			],
-			"DESCRIPTION" : "Controls the base zw component of the fractal color function",
+			"DESCRIPTION" : "Secondary color engine – adds depth and complexity to your color symphony",
 			"MAX" :
 			[
 				9,
@@ -217,7 +217,7 @@
 				0.7,
 				1
 			],
-			"DESCRIPTION" : "Controls the saturation and offset of the fractal color function",
+			"DESCRIPTION" : "Color personality – control saturation richness and hue shifting magic",
 			"MAX" :
 			[
 				3,
@@ -239,7 +239,7 @@
 				0.1,
 				0.4
 			],
-			"DESCRIPTION" : "The min max of the feedback function",
+			"DESCRIPTION" : "Echo strength – how much of the past bleeds into the present frame",
 			"MAX" :
 			[
 				1,
@@ -261,7 +261,7 @@
 				0.95,
 				0.9
 			],
-			"DESCRIPTION" : "The min max zoom factor of the feedback",
+			"DESCRIPTION" : "Time warp zoom – shrink or expand the echoes of your visual history",
 			"MAX" :
 			[
 				2,
@@ -283,7 +283,7 @@
 				0,
 				0
 			],
-			"DESCRIPTION" : "Min max rotation of feedback",
+			"DESCRIPTION" : "Echo spin – twist your visual memories as they fade into the void",
 			"MAX" :
 			[
 				1,
@@ -306,7 +306,7 @@
 				0.11111,
 				1
 			],
-			"DESCRIPTION" : "Feedback min color modifier",
+			"DESCRIPTION" : "Shadow tint – color the darker echoes with mysterious hues",
 			"MAX" :
 			[
 				1,
@@ -331,7 +331,7 @@
 				1,
 				1
 			],
-			"DESCRIPTION" : "Feedback max color modifier",
+			"DESCRIPTION" : "Highlight tint – paint the brightest echoes with brilliant colors",
 			"MAX" :
 			[
 				1,
