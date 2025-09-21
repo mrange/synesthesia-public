@@ -1,19 +1,19 @@
 {
-	"CONTROLS" :
+	"CONTROLS" : 
 	[
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.7,
 				0.7
 			],
 			"DESCRIPTION" : "Bass cocktail mixer – blend those thumping hits with smooth basslines for the perfect audio sauce",
-			"MAX" :
+			"MAX" : 
 			[
 				1,
 				1
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0
@@ -24,18 +24,18 @@
 			"UI_GROUP" : "Audio"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				3,
 				1
 			],
 			"DESCRIPTION" : "Bass amplifier – crank up the power to make those beats punch through reality itself",
-			"MAX" :
+			"MAX" : 
 			[
 				6,
 				6
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0
@@ -46,18 +46,18 @@
 			"UI_GROUP" : "Audio"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.5,
 				1
 			],
 			"DESCRIPTION" : "Bass bouncer – only lets the strongest beats through the velvet rope",
-			"MAX" :
+			"MAX" : 
 			[
 				1,
 				1
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0
@@ -68,7 +68,7 @@
 			"UI_GROUP" : "Audio"
 		},
 		{
-			"DEFAULT" : 0.7,
+			"DEFAULT" : 0.5,
 			"DESCRIPTION" : "Rotation level 0",
 			"MAX" : 1,
 			"MIN" : 0,
@@ -88,7 +88,7 @@
 			"UI_GROUP" : "Movement"
 		},
 		{
-			"DEFAULT" : 0.3,
+			"DEFAULT" : 0.5,
 			"DESCRIPTION" : "Rotation level 2",
 			"MAX" : 1,
 			"MIN" : 0,
@@ -98,18 +98,18 @@
 			"UI_GROUP" : "Movement"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.5,
 				2
 			],
 			"DESCRIPTION" : "Fractal sculptor – reshape your Kali galaxy from delicate wisps to bold cosmic structures",
-			"MAX" :
+			"MAX" : 
 			[
 				2,
 				5
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				-2,
 				0
@@ -119,20 +119,20 @@
 			"UI_GROUP" : "Shape"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.3333,
 				0.6666,
 				1
 			],
 			"DESCRIPTION" : "Lightning palette – paint your bass-driven flashes with cosmic colors",
-			"MAX" :
+			"MAX" : 
 			[
 				1,
 				1,
 				1
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0,
@@ -144,18 +144,18 @@
 			"UI_GROUP" : "Colors"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0,
 				10
 			],
 			"DESCRIPTION" : "Flash intensity – from subtle twinkles to supernova explosions",
-			"MAX" :
+			"MAX" : 
 			[
 				40,
 				40
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0
@@ -176,18 +176,18 @@
 			"UI_GROUP" : "Colors"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				2,
 				1
 			],
 			"DESCRIPTION" : "Primary color engine – the main palette generator for your fractal masterpiece",
-			"MAX" :
+			"MAX" : 
 			[
 				9,
 				9
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0
@@ -198,18 +198,18 @@
 			"UI_GROUP" : "Colors"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0,
 				0
 			],
 			"DESCRIPTION" : "Secondary color engine – adds depth and complexity to your color symphony",
-			"MAX" :
+			"MAX" : 
 			[
 				9,
 				9
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0
@@ -220,18 +220,18 @@
 			"UI_GROUP" : "Colors"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.7,
 				1
 			],
 			"DESCRIPTION" : "Color personality – control saturation richness and hue shifting magic",
-			"MAX" :
+			"MAX" : 
 			[
 				3,
 				7
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0
@@ -242,18 +242,18 @@
 			"UI_GROUP" : "Colors"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.1,
 				0.4
 			],
 			"DESCRIPTION" : "Echo strength – how much of the past bleeds into the present frame",
-			"MAX" :
+			"MAX" : 
 			[
 				1,
 				1
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0
@@ -264,18 +264,18 @@
 			"UI_GROUP" : "Feedback"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.95,
 				0.9
 			],
 			"DESCRIPTION" : "Time warp zoom – shrink or expand the echoes of your visual history",
-			"MAX" :
+			"MAX" : 
 			[
 				2,
 				2
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0.5,
 				0.5
@@ -286,18 +286,18 @@
 			"UI_GROUP" : "Feedback"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0,
 				0
 			],
 			"DESCRIPTION" : "Echo spin – twist your visual memories as they fade into the void",
-			"MAX" :
+			"MAX" : 
 			[
 				1,
 				1
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				-1,
 				-1
@@ -308,20 +308,20 @@
 			"UI_GROUP" : "Feedback"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.55555,
 				0.11111,
 				1
 			],
 			"DESCRIPTION" : "Shadow tint – color the darker echoes with mysterious hues",
-			"MAX" :
+			"MAX" : 
 			[
 				1,
 				1,
 				1
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0,
@@ -333,20 +333,20 @@
 			"UI_GROUP" : "Feedback"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				1,
 				1,
 				1
 			],
 			"DESCRIPTION" : "Highlight tint – paint the brightest echoes with brilliant colors",
-			"MAX" :
+			"MAX" : 
 			[
 				1,
 				1,
 				1
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0,
@@ -383,14 +383,14 @@
 	"GPU" : 1,
 	"HEIGHT" : 1080,
 	"IMAGE_PATH" : "scene.png",
-	"MEDIA" :
+	"MEDIA" : 
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"PASSES" :
+	"PASSES" : 
 	[
 		{
 			"FILTER" : "linear",
@@ -409,7 +409,7 @@
 			"WRAP" : "repeat"
 		}
 	],
-	"TAGS" :
+	"TAGS" : 
 	[
 		"mrange",
 		"kali",

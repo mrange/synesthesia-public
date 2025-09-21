@@ -23,7 +23,7 @@ function update(dt) {
   var hits    = [syn_BassHits,syn_MidHits,syn_MidHighHits];
   var levels  = [rotation_level_0,rotation_level_1,rotation_level_2];
   for(var idx=0;idx<3;++idx) {
-    if (hits[idx] > levels[idx]) {
+    if (hits[idx] > 1.41*levels[idx]) {
       rotationSpeed[idx] = 2.0 * rotationBaseSpeed[idx];
     } else {
       rotationSpeed[idx] = mix(rotationBaseSpeed[idx], rotationSpeed[idx], Math.pow(10.0, -dt));
