@@ -258,8 +258,8 @@
 		{
 			"DEFAULT" :
 			[
-				0.9,
-				0.8
+				0.95,
+				0.9
 			],
 			"DESCRIPTION" : "Feedback zoom",
 			"MAX" :
@@ -273,7 +273,7 @@
 				0.5
 			],
 			"NAME" : "feedback_zoom",
-			"PARAMS" : 0.2,
+			"PARAMS" : 0.14701,
 			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Feedback"
 		},
@@ -348,6 +348,26 @@
 			"PARAMS" : 0.2,
 			"TYPE" : "color smooth",
 			"UI_GROUP" : "Feedback"
+		},
+		{
+			"DEFAULT" : 1,
+			"DESCRIPTION" : "Media opacity – fade your visuals from ghostly transparent to boldly solid.",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "media_opacity",
+			"PARAMS" : 0.1,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Media"
+		},
+		{
+			"DEFAULT" : 1,
+			"DESCRIPTION" : "Media multiplier – boosts opacity strength for extra punch and wild color flares.",
+			"MAX" : 9,
+			"MIN" : -9,
+			"NAME" : "media_multiplier",
+			"PARAMS" : 0.1,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Media"
 		}
 	],
 	"CREDIT" : "mrange",

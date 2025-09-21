@@ -127,11 +127,16 @@ vec4 fpass1() {
   , pp=_uvc*mix(feedback_zoom.x,feedback_zoom.y, b)*rot(mix(feedback_rot.x,feedback_rot.y, b))
   , q1=pp*RENDERSIZE.y/RENDERSIZE+.5
   ;
-  vec4
-    col0=tanh(texture(pass0, q0))
-  , col1=(texture(pass1, q1))
+  vec3
+    col0=clamp(tanh(texture(pass0, q0).xyz),0,1)
+  , col1=(texture(pass1, q1).xyz)
   ;
-  return vec4((col0+mix(feedback_strength.x, feedback_strength.y, b*b)*mix(vec4(feedback_min,0), vec4(feedback_max,0), b)*col1).xyz,1.);
+  vec4 
+    mcol=_loadMedia()
+  ;
+  col0=mix(col0,vec3(0), isnan(col0));
+  col0=mix(col0,mcol.xyz,mcol.w*media_opacity*media_multiplier);
+  return vec4((col0+mix(feedback_strength.x, feedback_strength.y, b*b)*mix(feedback_min, feedback_max, b)*col1),1.);
 }
 
 vec4 renderMain() {
