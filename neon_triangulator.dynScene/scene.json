@@ -3,7 +3,7 @@
 	[
 		{
 			"DEFAULT" : 1,
-			"DESCRIPTION" : "Travel speed through neon triangle world",
+			"DESCRIPTION" : "Cruise through the neon highway – forward or reverse",
 			"MAX" : 5,
 			"MIN" : -5,
 			"NAME" : "path_speed",
@@ -12,7 +12,7 @@
 		},
 		{
 			"DEFAULT" : -2,
-			"DESCRIPTION" : "Triangle base speed",
+			"DESCRIPTION" : "Triangle birth rate – spawn geometric chaos",
 			"MAX" : 10,
 			"MIN" : -10,
 			"NAME" : "tri_speed",
@@ -21,7 +21,7 @@
 		},
 		{
 			"DEFAULT" : 0,
-			"DESCRIPTION" : "Rotation speed of the neon triangle world",
+			"DESCRIPTION" : "Spin the synthwave universe",
 			"MAX" : 5,
 			"MIN" : -5,
 			"NAME" : "rot_speed",
@@ -30,7 +30,7 @@
 		},
 		{
 			"DEFAULT" : 0,
-			"DESCRIPTION" : "Fixed rotation of the neon triangle world",
+			"DESCRIPTION" : "Lock rotation at specific angle",
 			"MAX" : 0,
 			"MIN" : 1,
 			"NAME" : "rot_base",
@@ -39,7 +39,7 @@
 		},
 		{
 			"DEFAULT" : 0.5,
-			"DESCRIPTION" : "Pattern size",
+			"DESCRIPTION" : "Scale the geometric madness",
 			"MAX" : 2,
 			"MIN" : 0,
 			"NAME" : "pattern_size",
@@ -53,7 +53,7 @@
 				20,
 				2
 			],
-			"DESCRIPTION" : "Flash max level",
+			"DESCRIPTION" : "Strobe intensity – seizure warning level",
 			"MAX" :
 			[
 				50,
@@ -70,7 +70,7 @@
 		},
 		{
 			"DEFAULT" : 1,
-			"DESCRIPTION" : "Show snakes",
+			"DESCRIPTION" : "Release the glowing serpents",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "show_snakes",
@@ -79,7 +79,7 @@
 		},
 		{
 			"DEFAULT" : 0.7,
-			"DESCRIPTION" : "Hue base for triangles",
+			"DESCRIPTION" : "Triangle color spectrum shift",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "tri_hue",
@@ -94,7 +94,7 @@
 				0.1,
 				1
 			],
-			"DESCRIPTION" : "Flash color – the strobe’s personality.",
+			"DESCRIPTION" : "Strobe color – choose your lightning",
 			"MAX" :
 			[
 				1,
@@ -114,7 +114,7 @@
 		},
 		{
 			"DEFAULT" : 0.6,
-			"DESCRIPTION" : "Hue of the glowing snakes effect",
+			"DESCRIPTION" : "Snake trail color spectrum",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "snake_hue",
@@ -124,7 +124,7 @@
 		},
 		{
 			"DEFAULT" : 1,
-			"DESCRIPTION" : "Opacity multiplier",
+			"DESCRIPTION" : "Boost media visibility (go wild!)",
 			"MAX" : 9,
 			"MIN" : -9,
 			"NAME" : "media_multiplier",
@@ -134,7 +134,7 @@
 		},
 		{
 			"DEFAULT" : 1,
-			"DESCRIPTION" : "Media opacity – push past 0–1 for wild color effects",
+			"DESCRIPTION" : "Media blend strength – break reality at >1",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "media_opacity",
@@ -148,7 +148,7 @@
 				0.7,
 				0.7
 			],
-			"DESCRIPTION" : "Bass mixer",
+			"DESCRIPTION" : "Bass frequency response mixer",
 			"MAX" :
 			[
 				1,
@@ -170,7 +170,7 @@
 				3,
 				1
 			],
-			"DESCRIPTION" : "Bass power",
+			"DESCRIPTION" : "Bass impact amplification",
 			"MAX" :
 			[
 				6,
@@ -188,7 +188,7 @@
 		},
 		{
 			"DEFAULT" : 0,
-			"DESCRIPTION" : "Twist on",
+			"DESCRIPTION" : "Geometric distortion mode",
 			"LABELS" :
 			[
 				"None",
@@ -209,7 +209,7 @@
 		},
 		{
 			"DEFAULT" : 0,
-			"DESCRIPTION" : "Twist mix between straight and sine",
+			"DESCRIPTION" : "Blend linear and sine distortions",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "twist_mix",
@@ -219,7 +219,7 @@
 		},
 		{
 			"DEFAULT" : 0.3,
-			"DESCRIPTION" : "Twist straight",
+			"DESCRIPTION" : "Linear geometry warping intensity",
 			"MAX" : 3,
 			"MIN" : -3,
 			"NAME" : "twist_straight",
@@ -233,7 +233,7 @@
 				0.4,
 				0.5
 			],
-			"DESCRIPTION" : "Sine twister",
+			"DESCRIPTION" : "Sine wave reality bender",
 			"MAX" :
 			[
 				3,
@@ -254,7 +254,7 @@
 				2,
 				0
 			],
-			"DESCRIPTION" : "Warp the world",
+			"DESCRIPTION" : "Dimensional space distortion field",
 			"MAX" :
 			[
 				5,
@@ -272,7 +272,7 @@
 		}
 	],
 	"CREDIT" : "mrange",
-	"DESCRIPTION" : "Neon Triangulator",
+	"DESCRIPTION" : "A synthwave scene. Built on the shoulders of shader legends Inigo Quilez and Sam Hocevar (MIT & WTFPL respectively).",
 	"GPU" : 1,
 	"HEIGHT" : 1080,
 	"IMAGE_PATH" : "scene.png",

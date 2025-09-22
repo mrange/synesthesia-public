@@ -253,7 +253,7 @@
 		}
 	],
 	"CREDIT" : "mrange",
-	"DESCRIPTION" : "Step inside the shimmering Blue Steel grid – a tunnel so stylish even Zoolander would nod. Built on the shoulders of shader legends Inigo Quilez and Sam Hocevar (MIT & WTFPL magic).",
+	"DESCRIPTION" : "Step inside the shimmering Blue Steel grid – a tunnel so stylish even Zoolander would nod. Built on the shoulders of shader legends Inigo Quilez and Sam Hocevar (MIT & WTFPL respectively).",
 	"GPU" : 1,
 	"HEIGHT" : 1080,
 	"IMAGE_PATH" : "scene.png",
