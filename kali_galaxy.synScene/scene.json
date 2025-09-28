@@ -1,19 +1,19 @@
 {
-	"CONTROLS" : 
+	"CONTROLS" :
 	[
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.7,
 				0.7
 			],
-			"DESCRIPTION" : "Bass cocktail mixer – blend those thumping hits with smooth basslines for the perfect audio sauce",
-			"MAX" : 
+			"DESCRIPTION" : "Mixes bass hit and bass level",
+			"MAX" :
 			[
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
@@ -24,18 +24,18 @@
 			"UI_GROUP" : "Audio"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				3,
 				1
 			],
-			"DESCRIPTION" : "Bass amplifier – crank up the power to make those beats punch through reality itself",
-			"MAX" : 
+			"DESCRIPTION" : "Takes pow of bass hit and bass level, increments makes more distinct",
+			"MAX" :
 			[
 				6,
 				6
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
@@ -46,18 +46,18 @@
 			"UI_GROUP" : "Audio"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.5,
 				1
 			],
-			"DESCRIPTION" : "Bass bouncer – only lets the strongest beats through the velvet rope",
-			"MAX" : 
+			"DESCRIPTION" : "Bass limit detector, min and max edge",
+			"MAX" :
 			[
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
@@ -69,7 +69,7 @@
 		},
 		{
 			"DEFAULT" : 0.5,
-			"DESCRIPTION" : "Rotation level 0",
+			"DESCRIPTION" : "Bass hit level",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "rotation_level_0",
@@ -78,8 +78,40 @@
 			"UI_GROUP" : "Movement"
 		},
 		{
+			"DEFAULT" : 10,
+			"DESCRIPTION" : "Bass rotation speed falloff",
+			"MAX" : 40,
+			"MIN" : 2,
+			"NAME" : "rotation_falloff_0",
+			"PARAMS" : 0.2,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Movement"
+		},
+		{
+			"DEFAULT" :
+			[
+				0.25,
+				1
+			],
+			"DESCRIPTION" : "Bass rotation speed, base and hit",
+			"MAX" :
+			[
+				5,
+				5
+			],
+			"MIN" :
+			[
+				-5,
+				-5
+			],
+			"NAME" : "rotation_speed_0",
+			"PARAMS" : 0.2,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Movement"
+		},
+		{
 			"DEFAULT" : 0.5,
-			"DESCRIPTION" : "Rotation level 0",
+			"DESCRIPTION" : "Mid hit level",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "rotation_level_1",
@@ -88,8 +120,40 @@
 			"UI_GROUP" : "Movement"
 		},
 		{
+			"DEFAULT" : 10,
+			"DESCRIPTION" : "Mid rotation speed falloff",
+			"MAX" : 40,
+			"MIN" : 2,
+			"NAME" : "rotation_falloff_1",
+			"PARAMS" : 0.2,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Movement"
+		},
+		{
+			"DEFAULT" :
+			[
+				0.25,
+				1
+			],
+			"DESCRIPTION" : "Mid rotation speed, base and hit",
+			"MAX" :
+			[
+				5,
+				5
+			],
+			"MIN" :
+			[
+				-5,
+				-5
+			],
+			"NAME" : "rotation_speed_1",
+			"PARAMS" : 0.2,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Movement"
+		},
+		{
 			"DEFAULT" : 0.5,
-			"DESCRIPTION" : "Rotation level 2",
+			"DESCRIPTION" : "Mid/high hit level",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "rotation_level_2",
@@ -98,18 +162,50 @@
 			"UI_GROUP" : "Movement"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" : 10,
+			"DESCRIPTION" : "Mid/high rotation speed falloff",
+			"MAX" : 40,
+			"MIN" : 2,
+			"NAME" : "rotation_falloff_2",
+			"PARAMS" : 0.2,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Movement"
+		},
+		{
+			"DEFAULT" :
+			[
+				0.25,
+				1
+			],
+			"DESCRIPTION" : "Mid/high rotation speed, base and hit",
+			"MAX" :
+			[
+				5,
+				5
+			],
+			"MIN" :
+			[
+				-5,
+				-5
+			],
+			"NAME" : "rotation_speed_2",
+			"PARAMS" : 0.2,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Movement"
+		},
+		{
+			"DEFAULT" :
 			[
 				0.5,
 				2
 			],
-			"DESCRIPTION" : "Fractal sculptor – reshape your Kali galaxy from delicate wisps to bold cosmic structures",
-			"MAX" : 
+			"DESCRIPTION" : "Distance and modulator of the kali fractal",
+			"MAX" :
 			[
 				2,
 				5
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				-2,
 				0
@@ -119,20 +215,20 @@
 			"UI_GROUP" : "Shape"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.3333,
 				0.6666,
 				1
 			],
-			"DESCRIPTION" : "Lightning palette – paint your bass-driven flashes with cosmic colors",
-			"MAX" : 
+			"DESCRIPTION" : "Flash color",
+			"MAX" :
 			[
 				1,
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0,
@@ -144,18 +240,18 @@
 			"UI_GROUP" : "Colors"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0,
 				10
 			],
-			"DESCRIPTION" : "Flash intensity – from subtle twinkles to supernova explosions",
-			"MAX" : 
+			"DESCRIPTION" : "Flash intensity, min max",
+			"MAX" :
 			[
 				40,
 				40
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
@@ -167,7 +263,7 @@
 		},
 		{
 			"DEFAULT" : 3,
-			"DESCRIPTION" : "Color contrast dial – tame wild hues or embrace the psychedelic chaos",
+			"DESCRIPTION" : "Controls global light level",
 			"MAX" : 10,
 			"MIN" : 1,
 			"NAME" : "global_div",
@@ -176,18 +272,18 @@
 			"UI_GROUP" : "Colors"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				2,
 				1
 			],
-			"DESCRIPTION" : "Primary color engine – the main palette generator for your fractal masterpiece",
-			"MAX" : 
+			"DESCRIPTION" : "Base color for kali fractal, xy dimension",
+			"MAX" :
 			[
 				9,
 				9
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
@@ -198,18 +294,18 @@
 			"UI_GROUP" : "Colors"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0,
 				0
 			],
-			"DESCRIPTION" : "Secondary color engine – adds depth and complexity to your color symphony",
-			"MAX" : 
+			"DESCRIPTION" : "Base color for kali fractal, zw dimension",
+			"MAX" :
 			[
 				9,
 				9
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
@@ -220,18 +316,18 @@
 			"UI_GROUP" : "Colors"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.7,
 				1
 			],
-			"DESCRIPTION" : "Color personality – control saturation richness and hue shifting magic",
-			"MAX" : 
+			"DESCRIPTION" : "Controls kali fractal color saturation and offset",
+			"MAX" :
 			[
 				3,
 				7
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
@@ -242,18 +338,18 @@
 			"UI_GROUP" : "Colors"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.1,
 				0.4
 			],
-			"DESCRIPTION" : "Echo strength – how much of the past bleeds into the present frame",
-			"MAX" : 
+			"DESCRIPTION" : "How much of the past bleeds into the present frame, different values for non-beat and beat",
+			"MAX" :
 			[
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
@@ -264,18 +360,18 @@
 			"UI_GROUP" : "Feedback"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.95,
 				0.9
 			],
-			"DESCRIPTION" : "Time warp zoom – shrink or expand the echoes of your visual history",
-			"MAX" : 
+			"DESCRIPTION" : "How the past scales into the present frame, different values for non-beat and beat",
+			"MAX" :
 			[
 				2,
 				2
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0.5,
 				0.5
@@ -286,18 +382,18 @@
 			"UI_GROUP" : "Feedback"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0,
 				0
 			],
-			"DESCRIPTION" : "Echo spin – twist your visual memories as they fade into the void",
-			"MAX" : 
+			"DESCRIPTION" : "How the past rotates into the present frame, different values for non-beat and beat",
+			"MAX" :
 			[
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				-1,
 				-1
@@ -308,20 +404,20 @@
 			"UI_GROUP" : "Feedback"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.55555,
 				0.11111,
 				1
 			],
-			"DESCRIPTION" : "Shadow tint – color the darker echoes with mysterious hues",
-			"MAX" : 
+			"DESCRIPTION" : "Feedback non-beat color modified",
+			"MAX" :
 			[
 				1,
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0,
@@ -333,20 +429,20 @@
 			"UI_GROUP" : "Feedback"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				1,
 				1,
 				1
 			],
-			"DESCRIPTION" : "Highlight tint – paint the brightest echoes with brilliant colors",
-			"MAX" : 
+			"DESCRIPTION" : "Feedback beat color modified",
+			"MAX" :
 			[
 				1,
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0,
@@ -359,7 +455,7 @@
 		},
 		{
 			"DEFAULT" : 1,
-			"DESCRIPTION" : "Media opacity – fade your visuals from ghostly transparent to boldly solid.",
+			"DESCRIPTION" : "Media opacity",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "media_opacity",
@@ -369,7 +465,7 @@
 		},
 		{
 			"DEFAULT" : 1,
-			"DESCRIPTION" : "Media multiplier – boosts opacity strength for extra punch and wild color flares.",
+			"DESCRIPTION" : "Media multiplier, allows for funky colors",
 			"MAX" : 9,
 			"MIN" : -9,
 			"NAME" : "media_multiplier",
@@ -379,18 +475,18 @@
 		}
 	],
 	"CREDIT" : "mrange",
-	"DESCRIPTION" : "Kali galaxy",
+	"DESCRIPTION" : "Kali galaxy, based on the Kali fractal obviously.",
 	"GPU" : 1,
 	"HEIGHT" : 1080,
 	"IMAGE_PATH" : "scene.png",
-	"MEDIA" : 
+	"MEDIA" :
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"PASSES" : 
+	"PASSES" :
 	[
 		{
 			"FILTER" : "linear",
@@ -409,7 +505,7 @@
 			"WRAP" : "repeat"
 		}
 	],
-	"TAGS" : 
+	"TAGS" :
 	[
 		"mrange",
 		"kali",

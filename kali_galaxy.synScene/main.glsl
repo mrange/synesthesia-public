@@ -21,7 +21,6 @@ const vec2
 , feedback_zoom     = vec2(0.9,0.8)
 , flash_xy          = vec2(0,10)
 , shape_xy          = vec2(0.5, 2)
-, rotation_speed    = vec2(.1,.1)
 
 ;
 const vec3
