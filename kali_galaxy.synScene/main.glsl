@@ -62,11 +62,20 @@ vec4 fpass0() {
     , L
     , b=smoothstep(bass_limit.x, bass_limit.y, beat())
     ;
+#ifdef KODELIFE
+  mat2
+      M=rot(.5*TIME)
+    , M0=M
+    , M1=M
+    , M2=M
+    ;
+#else
   mat2
       M0=mat2(rotation_components_0)
     , M1=mat2(rotation_components_1)
     , M2=mat2(rotation_components_2)
     ;
+#endif
   vec3
       I=normalize(vec3(_uvc, 1))
     ;
