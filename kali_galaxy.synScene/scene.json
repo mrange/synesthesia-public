@@ -1,19 +1,19 @@
 {
-	"CONTROLS" : 
+	"CONTROLS" :
 	[
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.7,
 				0.7
 			],
 			"DESCRIPTION" : "Blend of bass punch and bass level – balance thump with body",
-			"MAX" : 
+			"MAX" :
 			[
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
@@ -24,18 +24,18 @@
 			"UI_GROUP" : "Audio"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				3,
 				1
 			],
 			"DESCRIPTION" : "Bass power curve – higher values make kicks sharper and more distinct",
-			"MAX" : 
+			"MAX" :
 			[
 				6,
 				6
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
@@ -46,18 +46,18 @@
 			"UI_GROUP" : "Audio"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.5,
 				1
 			],
 			"DESCRIPTION" : "Bass threshold – sets the floor and ceiling for bass response",
-			"MAX" : 
+			"MAX" :
 			[
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
@@ -88,18 +88,18 @@
 			"UI_GROUP" : "Movement"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.25,
 				1
 			],
 			"DESCRIPTION" : "Bass rotation speed – steady motion plus an extra push on hits",
-			"MAX" : 
+			"MAX" :
 			[
 				5,
 				5
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				-5,
 				-5
@@ -130,18 +130,18 @@
 			"UI_GROUP" : "Movement"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.25,
 				1
 			],
 			"DESCRIPTION" : "Mid rotation speed – baseline motion plus boost on hits",
-			"MAX" : 
+			"MAX" :
 			[
 				5,
 				5
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				-5,
 				-5
@@ -172,18 +172,18 @@
 			"UI_GROUP" : "Movement"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.25,
 				1
 			],
 			"DESCRIPTION" : "High rotation speed – from subtle shimmer to wild whirl",
-			"MAX" : 
+			"MAX" :
 			[
 				5,
 				5
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				-5,
 				-5
@@ -194,41 +194,42 @@
 			"UI_GROUP" : "Movement"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.5,
 				2
 			],
 			"DESCRIPTION" : "Fractal distance and modulation – stretch or compress the galaxy",
-			"MAX" : 
+			"MAX" :
 			[
 				2,
 				5
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				-2,
 				0
 			],
 			"NAME" : "shape_xy",
-			"TYPE" : "xy",
+			"PARAMS" : 0.2,
+			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Shape"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.3333,
 				0.6666,
 				1
 			],
 			"DESCRIPTION" : "Flash color – pick your strobe vibe",
-			"MAX" : 
+			"MAX" :
 			[
 				1,
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0,
@@ -240,18 +241,18 @@
 			"UI_GROUP" : "Colors"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0,
 				10
 			],
 			"DESCRIPTION" : "Flash intensity – from gentle pulse to full blast",
-			"MAX" : 
+			"MAX" :
 			[
 				40,
 				40
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
@@ -272,18 +273,18 @@
 			"UI_GROUP" : "Colors"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				2,
 				1
 			],
 			"DESCRIPTION" : "Fractal base color (XY) – your main palette",
-			"MAX" : 
+			"MAX" :
 			[
 				9,
 				9
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
@@ -294,18 +295,18 @@
 			"UI_GROUP" : "Colors"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0,
 				0
 			],
 			"DESCRIPTION" : "Fractal base color (ZW) – extra palette controls",
-			"MAX" : 
+			"MAX" :
 			[
 				9,
 				9
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
@@ -316,18 +317,18 @@
 			"UI_GROUP" : "Colors"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.7,
 				1
 			],
 			"DESCRIPTION" : "Fractal saturation and offset – vivid neon or soft pastel",
-			"MAX" : 
+			"MAX" :
 			[
 				3,
 				7
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
@@ -338,18 +339,18 @@
 			"UI_GROUP" : "Colors"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.1,
 				0.4
 			],
 			"DESCRIPTION" : "Feedback strength – how much the past lingers (off-beat vs. beat)",
-			"MAX" : 
+			"MAX" :
 			[
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
@@ -360,18 +361,18 @@
 			"UI_GROUP" : "Feedback"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.95,
 				0.9
 			],
 			"DESCRIPTION" : "Feedback zoom – past frame scaling (off-beat vs. beat)",
-			"MAX" : 
+			"MAX" :
 			[
 				2,
 				2
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0.5,
 				0.5
@@ -382,18 +383,18 @@
 			"UI_GROUP" : "Feedback"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0,
 				0
 			],
 			"DESCRIPTION" : "Feedback rotation – ghost spin added to the current frame",
-			"MAX" : 
+			"MAX" :
 			[
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				-1,
 				-1
@@ -404,20 +405,20 @@
 			"UI_GROUP" : "Feedback"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.55555,
 				0.11111,
 				1
 			],
 			"DESCRIPTION" : "Feedback tint for off-beat moments",
-			"MAX" : 
+			"MAX" :
 			[
 				1,
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0,
@@ -429,20 +430,20 @@
 			"UI_GROUP" : "Feedback"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				1,
 				1,
 				1
 			],
 			"DESCRIPTION" : "Feedback tint for on-beat highlights",
-			"MAX" : 
+			"MAX" :
 			[
 				1,
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0,
@@ -479,14 +480,14 @@
 	"GPU" : 1,
 	"HEIGHT" : 1080,
 	"IMAGE_PATH" : "scene.png",
-	"MEDIA" : 
+	"MEDIA" :
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"PASSES" : 
+	"PASSES" :
 	[
 		{
 			"FILTER" : "linear",
@@ -505,7 +506,7 @@
 			"WRAP" : "repeat"
 		}
 	],
-	"TAGS" : 
+	"TAGS" :
 	[
 		"mrange",
 		"kali",
