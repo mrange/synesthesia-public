@@ -15,7 +15,7 @@ function smoothstep(edge0, edge1, x) {
   return t * t * (3.0 - 2.0 * t);
 }
 
-var rotationBaseSpeed = [0.5, 0.5, 0.5];
+var rotationBaseSpeed = [0.25, 0.25, 0.25];
 var rotationTime      = [0, 0, 0];
 var rotationSpeed     = [0.5, 0.5, 0.5];
 var rotationUniforms  = ["rotation_components_0","rotation_components_1","rotation_components_2"];
@@ -24,7 +24,7 @@ function update(dt) {
   var levels  = [rotation_level_0,rotation_level_1,rotation_level_2];
   for(var idx=0;idx<3;++idx) {
     if (hits[idx] > 1.41*levels[idx]) {
-      rotationSpeed[idx] = 2.0 * rotationBaseSpeed[idx];
+      rotationSpeed[idx] = 4.0 * rotationBaseSpeed[idx];
     } else {
       rotationSpeed[idx] = mix(rotationBaseSpeed[idx], rotationSpeed[idx], Math.pow(10.0, -dt));
     }
