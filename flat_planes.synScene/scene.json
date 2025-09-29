@@ -1,20 +1,152 @@
 {
+	"CONTROLS" :
+	[
+		{
+			"DEFAULT" :
+			[
+				1,
+				0.0444,
+				0.2
+			],
+			"DESCRIPTION" : "Flash colors",
+			"MAX" :
+			[
+				1,
+				1,
+				1
+			],
+			"MIN" :
+			[
+				0,
+				0,
+				0
+			],
+			"NAME" : "flash_color",
+			"TYPE" : "color",
+			"UI_GROUP" : "Colors"
+		},
+		{
+			"DEFAULT" :
+			[
+				0.3,
+				2
+			],
+			"DESCRIPTION" : "Color mod",
+			"MAX" :
+			[
+				1,
+				5
+			],
+			"MIN" :
+			[
+				-1,
+				-5
+			],
+			"NAME" : "color_mod",
+			"PARAMS" : 0.2,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Colors"
+		},
+		{
+			"DEFAULT" :
+			[
+				0,
+				4
+			],
+			"DESCRIPTION" : "Color xy",
+			"MAX" :
+			[
+				9,
+				9
+			],
+			"MIN" :
+			[
+				0,
+				0
+			],
+			"NAME" : "color_xy",
+			"PARAMS" : 0.2,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Colors"
+		},
+		{
+			"DEFAULT" :
+			[
+				2,
+				1
+			],
+			"DESCRIPTION" : "Color ZW",
+			"MAX" :
+			[
+				9,
+				3
+			],
+			"MIN" :
+			[
+				0,
+				0
+			],
+			"NAME" : "color_zw",
+			"PARAMS" : 0.2,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Colors"
+		},
+		{
+			"DEFAULT" :
+			[
+				0.5,
+				0.5
+			],
+			"DESCRIPTION" : "fade",
+			"MAX" :
+			[
+				1,
+				1
+			],
+			"MIN" :
+			[
+				0,
+				0
+			],
+			"NAME" : "fade",
+			"PARAMS" : 0.2,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Colors"
+		},
+		{
+			"DEFAULT" :
+			[
+				2,
+				1
+			],
+			"DESCRIPTION" : "Ray distortion",
+			"MAX" :
+			[
+				6,
+				6
+			],
+			"MIN" :
+			[
+				0,
+				0
+			],
+			"NAME" : "ray_dist",
+			"PARAMS" : 0.2,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Shape"
+		}
+	],
 	"CREDIT" : "mrange",
 	"DESCRIPTION" : "Flat planes scene",
 	"GPU" : 1,
+	"HEIGHT" : 1080,
 	"IMAGE_PATH" : "scene.png",
-	"IMAGES" :
-	[
-	],
 	"MEDIA" :
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
-	],
-	"PASSES" :
-	[
 	],
 	"TAGS" :
 	[
@@ -23,6 +155,5 @@
 		"flat"
 	],
 	"TITLE" : "Flat planes",
-	"HEIGHT" : 1080,
 	"WIDTH" : 1920
 }

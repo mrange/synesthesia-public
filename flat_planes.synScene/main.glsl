@@ -3,30 +3,34 @@
 // and related or neighboring rights to this work.
 // See <https://creativecommons.org/publicdomain/zero/1.0/> for details.
 
-const float
+const float 
   TAU           =2.*PI
 , PI_2          =.5*PI
 , no_planes     =14.
-, flash_at_plane  =3.
+, flash_at_plane  =3. 
 ;
 
-const vec2
-  color_mod =vec2(.3,2)
-, color_xy  =vec2(0,4)
-, color_zw  =vec2(2,1)
-, fade      =vec2(.5,.5)
-, path_a    =vec2(1,sqrt(.5))/9.
+const vec2 
+  path_a    =vec2(1,sqrt(.5))/9.
 , path_b    =vec2(3)
-, ray_dist  =vec2(2,0)
 , ray_limits=sqrt(vec2(.5,2))
 , rep       =vec2(5.,30)
 , width     =vec2(.03,.24)
 , zoom      =vec2(.4,2)
 ;
 
-const vec3
-  flash_color = 4.*vec3(45,2,9)*1e-5
+#ifdef KODELIFE
+const vec2
+  color_mod =vec2(.3,2)
+, color_xy  =vec2(0,4)
+, color_zw  =vec2(2,1)
+, fade      =vec2(.5,.5)
+, ray_dist  =vec2(2,1)
 ;
+const vec3
+  flash_color = vec3(1,2./45.,1./5.)
+;
+#endif
 
 float hash1(float co) {
   return fract(sin(co*12.9898) * 13758.5453);
@@ -115,14 +119,14 @@ float smoothKaleidoscope(inout vec2 p, float sm, float rep) {
 }
 
 mat2 rot(float a) {
-  float
+  float 
     c=cos(a)
   , s =sin(a)
   ;
   return mat2(c,s,-s,c);
 }
 
-float
+float 
   g_B
 ;
 
@@ -176,14 +180,14 @@ vec4 plane(vec3 p) {
 }
 
 vec4 renderMain() {
-  float
+  float 
     T=mod(TIME*114./60.,200.)
   , F=sqrt(fract(T))
   , B=floor(T)+F
   , z=B
   ;
   g_B=B;
-  vec2
+  vec2 
     p=2.*_uvc
   , s=sin(29.*p)
   ;
@@ -211,7 +215,7 @@ vec4 renderMain() {
     z+=1./I.z;
   }
   o.w*=fade.x;
-  R.xyz=pow((1.-F),2.)*flash_color/(1.0001-dot(I,S));
+  R.xyz=pow((1.-F),2.)*2e-3*flash_color/(1.0001-dot(I,S));
   R.w=1.;
   o=alphaBlend(R,o);
   o.xyz *= o.w;
