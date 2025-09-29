@@ -1,0 +1,28 @@
+{
+	"CREDIT" : "mrange",
+	"DESCRIPTION" : "Flat planes scene",
+	"GPU" : 1,
+	"IMAGE_PATH" : "scene.png",
+	"IMAGES" :
+	[
+	],
+	"MEDIA" :
+	[
+		{
+			"FILTER" : "linear",
+			"WRAP" : "mirror"
+		}
+	],
+	"PASSES" :
+	[
+	],
+	"TAGS" :
+	[
+		"mrange",
+		"planes",
+		"flat"
+	],
+	"TITLE" : "Flat planes",
+	"HEIGHT" : 1080,
+	"WIDTH" : 1920
+}
