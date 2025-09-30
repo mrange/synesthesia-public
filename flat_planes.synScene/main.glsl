@@ -10,22 +10,19 @@ const float
 , flash_at_plane  =3. 
 ;
 
-const vec2 
-  path_a    =vec2(1,sqrt(.5))/9.
-, path_b    =vec2(3)
-, ray_limits=sqrt(vec2(.5,2))
-, rep       =vec2(5.,30)
-, width     =vec2(.03,.24)
-, zoom      =vec2(.4,2)
-;
-
 #ifdef KODELIFE
 const vec2
   color_mod =vec2(.3,2)
 , color_xy  =vec2(0,4)
 , color_zw  =vec2(2,1)
 , fade      =vec2(.5,.5)
+, path_a    =vec2(1,sqrt(.5))/9.
+, path_b    =vec2(3)
 , ray_dist  =vec2(2,1)
+, ray_limits=sqrt(vec2(.5,2))
+, rep       =vec2(5.,30)
+, width     =vec2(.03,.24)
+, zoom      =vec2(.4,2)
 ;
 const vec3
   flash_color = vec3(1,2./45.,1./5.)

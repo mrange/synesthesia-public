@@ -133,7 +133,138 @@
 			"NAME" : "ray_dist",
 			"PARAMS" : 0.2,
 			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Distortion"
+		},
+		{
+			"DEFAULT" :
+			[
+				0.707,
+				1.414
+			],
+			"DESCRIPTION" : "Ray limits",
+			"MAX" :
+			[
+				3,
+				3
+			],
+			"MIN" :
+			[
+				0,
+				0
+			],
+			"NAME" : "ray_limits",
+			"PARAMS" : 0.2,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Distortion"
+		},
+		{
+			"DEFAULT" :
+			[
+				5,
+				25
+			],
+			"DESCRIPTION" : "Repetitions",
+			"MAX" :
+			[
+				50,
+				50
+			],
+			"MIN" :
+			[
+				3,
+				3
+			],
+			"NAME" : "rep",
+			"PARAMS" : 0.2,
+			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Shape"
+		},
+		{
+			"DEFAULT" :
+			[
+				0.03,
+				0.24
+			],
+			"DESCRIPTION" : "Widths",
+			"MAX" :
+			[
+				0.15,
+				0.4
+			],
+			"MIN" :
+			[
+				0,
+				0
+			],
+			"NAME" : "width",
+			"PARAMS" : 0.2,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Shape"
+		},
+		{
+			"DEFAULT" :
+			[
+				0.4,
+				2
+			],
+			"DESCRIPTION" : "Zooms",
+			"MAX" :
+			[
+				4,
+				4
+			],
+			"MIN" :
+			[
+				0,
+				0
+			],
+			"NAME" : "zoom",
+			"TYPE" : "xy",
+			"UI_GROUP" : "Shape"
+		},
+		{
+			"DEFAULT" :
+			[
+				0.1111,
+				0.0786
+			],
+			"DESCRIPTION" : "Path A",
+			"MAX" :
+			[
+				0.3,
+				0.3
+			],
+			"MIN" :
+			[
+				-0.3,
+				-0.3
+			],
+			"NAME" : "path_a",
+			"PARAMS" : 0.2,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Movement"
+		},
+		{
+			"DEFAULT" :
+			[
+				3,
+				3
+			],
+			"DESCRIPTION" : "Path B",
+			"MAX" :
+			[
+				6,
+				6
+			],
+			"MIN" :
+			[
+				-6,
+				-6
+			],
+			"NAME" : "path_b",
+			"PARAMS" : 0.2,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Movement"
 		}
 	],
 	"CREDIT" : "mrange",
