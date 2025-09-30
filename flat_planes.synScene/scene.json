@@ -4,11 +4,11 @@
 		{
 			"DEFAULT" :
 			[
-				1,
-				0.0444,
-				0.2
+				0.1,
+				0.00444,
+				0.02
 			],
-			"DESCRIPTION" : "Flash colors",
+			"DESCRIPTION" : "Flash color",
 			"MAX" :
 			[
 				1,
@@ -117,20 +117,20 @@
 			"DEFAULT" :
 			[
 				2,
-				1
+				0
 			],
 			"DESCRIPTION" : "Ray distortion",
 			"MAX" :
 			[
-				6,
-				6
+				4,
+				4
 			],
 			"MIN" :
 			[
-				0,
-				0
+				-4,
+				-4
 			],
-			"NAME" : "ray_dist",
+			"NAME" : "warp_world",
 			"PARAMS" : 0.2,
 			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Distortion"
@@ -153,6 +153,28 @@
 				0
 			],
 			"NAME" : "ray_limits",
+			"PARAMS" : 0.2,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Distortion"
+		},
+		{
+			"DEFAULT" :
+			[
+				0,
+				1
+			],
+			"DESCRIPTION" : "Ray beat",
+			"MAX" :
+			[
+				1,
+				1
+			],
+			"MIN" :
+			[
+				-1,
+				-1
+			],
+			"NAME" : "ray_beat",
 			"PARAMS" : 0.2,
 			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Distortion"
@@ -265,6 +287,92 @@
 			"PARAMS" : 0.2,
 			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Movement"
+		},
+		{
+			"DEFAULT" :
+			[
+				0.7,
+				0.7
+			],
+			"DESCRIPTION" : "Bass mix",
+			"MAX" :
+			[
+				1,
+				1
+			],
+			"MIN" :
+			[
+				0,
+				0
+			],
+			"NAME" : "bass_mix",
+			"PARAMS" : 0.2,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Audio"
+		},
+		{
+			"DEFAULT" :
+			[
+				3,
+				1
+			],
+			"DESCRIPTION" : "Bass power",
+			"MAX" :
+			[
+				6,
+				6
+			],
+			"MIN" :
+			[
+				0,
+				0
+			],
+			"NAME" : "bass_pow",
+			"PARAMS" : 0.2,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Audio"
+		},
+		{
+			"DEFAULT" :
+			[
+				0.707,
+				0.5
+			],
+			"DESCRIPTION" : "Bass speed",
+			"MAX" :
+			[
+				6,
+				2
+			],
+			"MIN" :
+			[
+				-6,
+				-2
+			],
+			"NAME" : "bass_speed",
+			"PARAMS" : 0.2,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Audio"
+		},
+		{
+			"DEFAULT" : 1,
+			"DESCRIPTION" : "Media opacity",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "media_opacity",
+			"PARAMS" : 0.1,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Media"
+		},
+		{
+			"DEFAULT" : 1,
+			"DESCRIPTION" : "Media multiplier",
+			"MAX" : 9,
+			"MIN" : -9,
+			"NAME" : "media_multiplier",
+			"PARAMS" : 0.1,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Media"
 		}
 	],
 	"CREDIT" : "mrange",

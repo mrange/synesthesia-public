@@ -3,11 +3,11 @@
 // and related or neighboring rights to this work.
 // See <https://creativecommons.org/publicdomain/zero/1.0/> for details.
 
-const float 
+const float
   TAU           =2.*PI
 , PI_2          =.5*PI
 , no_planes     =14.
-, flash_at_plane  =3. 
+, flash_at_plane  =3.
 ;
 
 #ifdef KODELIFE
@@ -18,16 +18,33 @@ const vec2
 , fade      =vec2(.5,.5)
 , path_a    =vec2(1,sqrt(.5))/9.
 , path_b    =vec2(3)
-, ray_dist  =vec2(2,1)
+, ray_beat  =vec2(0,1)
+, warp_world=vec2(2,0)
 , ray_limits=sqrt(vec2(.5,2))
 , rep       =vec2(5.,30)
 , width     =vec2(.03,.24)
 , zoom      =vec2(.4,2)
 ;
 const vec3
-  flash_color = vec3(1,2./45.,1./5.)
+  flash_color = vec3(1,2./45.,1./5.)/10.
 ;
 #endif
+
+float beatTime() {
+#ifdef KODELIFE
+  return floor(T)+sqrt(fract(T));
+#else
+  return dot(bass_speed,vec2(TIME,syn_BassTime));
+#endif
+}
+
+float beat() {
+#ifdef KODELIFE
+  return pow(1.-fract(TIME),2.);
+#else
+  return dot(pow(vec2(syn_BassLevel,syn_BassHits), bass_pow), bass_mix);
+#endif
+}
 
 float hash1(float co) {
   return fract(sin(co*12.9898) * 13758.5453);
@@ -116,14 +133,14 @@ float smoothKaleidoscope(inout vec2 p, float sm, float rep) {
 }
 
 mat2 rot(float a) {
-  float 
+  float
     c=cos(a)
   , s =sin(a)
   ;
   return mat2(c,s,-s,c);
 }
 
-float 
+float
   g_B
 ;
 
@@ -177,14 +194,13 @@ vec4 plane(vec3 p) {
 }
 
 vec4 renderMain() {
-  float 
-    T=mod(TIME*114./60.,200.)
-  , F=sqrt(fract(T))
-  , B=floor(T)+F
-  , z=B
+  float
+    T=beatTime()
+  , B=beat()
+  , z=T
   ;
-  g_B=B;
-  vec2 
+  g_B=T;
+  vec2
     p=2.*_uvc
   , s=sin(29.*p)
   ;
@@ -194,7 +210,7 @@ vec4 renderMain() {
   , Z=normalize(dpath(z))
   , X=normalize(cross(vec3(0,1,0)-ddpath(z),Z))
   , Y=cross(X,Z)
-  , I=normalize(p.x*X+p.y*Y+(ray_dist.x+ray_dist.y*(.5+.5*s.x*s.y)*smoothstep(ray_limits.x, ray_limits.y, length(p)))*Z)
+  , I=normalize(p.x*X+p.y*Y+(warp_world.x-warp_world.y*length(p)+mix(ray_beat.x, ray_beat.y, B)*(.5+.5*s.x*s.y)*smoothstep(ray_limits.x, ray_limits.y, length(p)))*Z)
   , P
   ;
   vec4
@@ -203,7 +219,7 @@ vec4 renderMain() {
   ;
   z=fract(-z)/I.z;
   const int LoopEnd=int(no_planes);
-  for (int i=0;i<LoopEnd;++i) {
+  for (int i=0;i<LoopEnd&&o.w<1.;++i) {
     P=O+z*I;
     P.xy -= path(P.z).xy;
     R=plane(P);
@@ -212,10 +228,16 @@ vec4 renderMain() {
     z+=1./I.z;
   }
   o.w*=fade.x;
-  R.xyz=pow((1.-F),2.)*2e-3*flash_color/(1.0001-dot(I,S));
+  R.xyz=beat()*2e-2*flash_color/(1.0001-dot(I,S));
   R.w=1.;
   o=alphaBlend(R,o);
   o.xyz *= o.w;
   o=sqrt(tanh(o));
+#ifdef KODELIFE
+#else
+  vec4 mcol=_loadMedia();
+  o.xyz=mix(o.xyz,mcol.xyz,mcol.w*media_opacity*media_multiplier);
+#endif
+  o.w = 1.;
   return o;
 }
