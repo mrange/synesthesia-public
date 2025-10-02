@@ -34,7 +34,8 @@
 			"MAX" : 0,
 			"MIN" : 1,
 			"NAME" : "rot_base",
-			"TYPE" : "knob",
+			"PARAMS" : 0.2,
+			"TYPE" : "knob smooth",
 			"UI_GROUP" : "Motion"
 		},
 		{
@@ -133,13 +134,35 @@
 			"UI_GROUP" : "Media"
 		},
 		{
-			"DEFAULT" : 1,
-			"DESCRIPTION" : "Media blend strength – break reality at >1",
+			"DEFAULT" : 0.707,
+			"DESCRIPTION" : "Media opacity",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "media_opacity",
 			"PARAMS" : 0.1,
 			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Media"
+		},
+		{
+			"DEFAULT" :
+			[
+				0,
+				0
+			],
+			"DESCRIPTION" : "Warps the media to the music",
+			"MAX" :
+			[
+				1,
+				1
+			],
+			"MIN" :
+			[
+				-1,
+				-1
+			],
+			"NAME" : "media_warp",
+			"PARAMS" : 0.2,
+			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Media"
 		},
 		{
@@ -220,11 +243,10 @@
 		{
 			"DEFAULT" : 0.3,
 			"DESCRIPTION" : "Linear geometry warping intensity",
-			"MAX" : 3,
-			"MIN" : -3,
+			"MAX" : 1,
+			"MIN" : -1,
 			"NAME" : "twist_straight",
-			"PARAMS" : 0.2,
-			"TYPE" : "slider smooth",
+			"TYPE" : "knob",
 			"UI_GROUP" : "Shape"
 		},
 		{

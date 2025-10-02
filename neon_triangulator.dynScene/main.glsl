@@ -48,6 +48,7 @@ const float
 ;
 const vec2
   flash_control   = vec2(20,2)
+, media_warp      = vec2(0,0)
 , twist_sine      = vec2(.4,.5)
 , warp_world      = vec2(2.,-1.)
 ;
@@ -65,6 +66,14 @@ float beat() {
 #endif
 }
 
+float freq(float x) {
+#ifdef KODELIFE
+  x=fract(x);
+  return exp(-3.*x*x)*(1.-sqrt(fract(TIME)));
+#else
+  return texture(syn_Spectrum,x).z;
+#endif
+}
 
 // License: Unknown, author: Matt Taylor (https://github.com/64), found: https://64.github.io/tonemapping/
 vec3 aces_approx(vec3 v) {
@@ -225,6 +234,7 @@ vec3 normal(vec3 pos) {
     );
 }
 
+
 vec3 render(vec3 ro, vec3 rd, float noise) {
   const float
       aa = 0.00025
@@ -288,6 +298,7 @@ vec3 render(vec3 ro, vec3 rd, float noise) {
       ccol += glowCol0/max(gd.x*gd.x, 5e-6);
       ccol += glowCol0/max(gd.y*gd.y, 5e-5)*(1.+sin(1e2*p.z));
       ccol += glowCol1/max(gd.z*gd.z, 5e-6);
+
       ccol *= cabs;
 
       col += ccol;
@@ -306,7 +317,6 @@ vec3 render(vec3 ro, vec3 rd, float noise) {
   }
   return col;
 }
-
 
 vec3 effect(vec2 p, float noise) {
   p.xy*=rot(rot_speed+TAU*rot_base);
@@ -339,7 +349,7 @@ vec3 effect(vec2 p, float noise) {
 
 #ifdef KODELIFE
 #else
-  vec4 mcol=_loadMedia();
+  vec4 mcol=_loadMedia(media_warp.x*normalize(p)*freq(media_warp.y*length(p)));
   col=mix(col,mcol.xyz,mcol.w*media_opacity*media_multiplier);
 #endif
 
