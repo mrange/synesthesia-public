@@ -1,21 +1,21 @@
 {
-	"CONTROLS" :
+	"CONTROLS" : 
 	[
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.1,
 				0.00444,
 				0.02
 			],
 			"DESCRIPTION" : "Flash color",
-			"MAX" :
+			"MAX" : 
 			[
 				1,
 				1,
 				1
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0,
@@ -26,18 +26,18 @@
 			"UI_GROUP" : "Colors"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.3,
 				2
 			],
 			"DESCRIPTION" : "Color mod",
-			"MAX" :
+			"MAX" : 
 			[
 				1,
 				5
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				-1,
 				-5
@@ -48,18 +48,18 @@
 			"UI_GROUP" : "Colors"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0,
 				4
 			],
 			"DESCRIPTION" : "Color xy",
-			"MAX" :
+			"MAX" : 
 			[
 				9,
 				9
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0
@@ -70,18 +70,18 @@
 			"UI_GROUP" : "Colors"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				2,
 				1
 			],
 			"DESCRIPTION" : "Color ZW",
-			"MAX" :
+			"MAX" : 
 			[
 				9,
 				3
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0
@@ -92,18 +92,18 @@
 			"UI_GROUP" : "Colors"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.5,
 				0.5
 			],
 			"DESCRIPTION" : "fade",
-			"MAX" :
+			"MAX" : 
 			[
 				1,
 				1
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0
@@ -114,18 +114,18 @@
 			"UI_GROUP" : "Colors"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				2,
 				0
 			],
 			"DESCRIPTION" : "Ray distortion",
-			"MAX" :
+			"MAX" : 
 			[
 				4,
 				4
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				-4,
 				-4
@@ -136,62 +136,62 @@
 			"UI_GROUP" : "Distortion"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.707,
 				1.414
 			],
 			"DESCRIPTION" : "Ray limits",
-			"MAX" :
+			"MAX" : 
 			[
 				3,
 				3
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0
 			],
-			"NAME" : "ray_limits",
+			"NAME" : "warp_limit",
 			"PARAMS" : 0.2,
 			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Distortion"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0,
 				1
 			],
 			"DESCRIPTION" : "Ray beat",
-			"MAX" :
+			"MAX" : 
 			[
 				1,
 				1
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				-1,
 				-1
 			],
-			"NAME" : "ray_beat",
+			"NAME" : "warp_beat",
 			"PARAMS" : 0.2,
 			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Distortion"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				5,
 				25
 			],
 			"DESCRIPTION" : "Repetitions",
-			"MAX" :
+			"MAX" : 
 			[
 				50,
 				50
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				3,
 				3
@@ -202,18 +202,18 @@
 			"UI_GROUP" : "Shape"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.03,
 				0.24
 			],
 			"DESCRIPTION" : "Widths",
-			"MAX" :
+			"MAX" : 
 			[
 				0.15,
 				0.4
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0
@@ -224,18 +224,18 @@
 			"UI_GROUP" : "Shape"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.4,
 				2
 			],
 			"DESCRIPTION" : "Zooms",
-			"MAX" :
+			"MAX" : 
 			[
 				4,
 				4
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0
@@ -245,18 +245,18 @@
 			"UI_GROUP" : "Shape"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.1111,
 				0.0786
 			],
 			"DESCRIPTION" : "Path A",
-			"MAX" :
+			"MAX" : 
 			[
 				0.3,
 				0.3
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				-0.3,
 				-0.3
@@ -267,18 +267,18 @@
 			"UI_GROUP" : "Movement"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				3,
 				3
 			],
 			"DESCRIPTION" : "Path B",
-			"MAX" :
+			"MAX" : 
 			[
 				6,
 				6
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				-6,
 				-6
@@ -289,18 +289,18 @@
 			"UI_GROUP" : "Movement"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.7,
 				0.7
 			],
 			"DESCRIPTION" : "Bass mix",
-			"MAX" :
+			"MAX" : 
 			[
 				1,
 				1
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0
@@ -311,18 +311,18 @@
 			"UI_GROUP" : "Audio"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				3,
 				1
 			],
 			"DESCRIPTION" : "Bass power",
-			"MAX" :
+			"MAX" : 
 			[
 				6,
 				6
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0
@@ -333,18 +333,18 @@
 			"UI_GROUP" : "Audio"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.707,
 				0.5
 			],
 			"DESCRIPTION" : "Bass speed",
-			"MAX" :
+			"MAX" : 
 			[
 				6,
 				2
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				-6,
 				-2
@@ -380,14 +380,14 @@
 	"GPU" : 1,
 	"HEIGHT" : 1080,
 	"IMAGE_PATH" : "scene.png",
-	"MEDIA" :
+	"MEDIA" : 
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"TAGS" :
+	"TAGS" : 
 	[
 		"mrange",
 		"planes",

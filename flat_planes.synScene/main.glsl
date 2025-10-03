@@ -18,9 +18,9 @@ const vec2
 , fade      =vec2(.5,.5)
 , path_a    =vec2(1,sqrt(.5))/9.
 , path_b    =vec2(3)
-, ray_beat  =vec2(0,1)
+, warp_beat =vec2(0,1)
 , warp_world=vec2(2,0)
-, ray_limits=sqrt(vec2(.5,2))
+, warp_limit=sqrt(vec2(.5,2))
 , rep       =vec2(5.,30)
 , width     =vec2(.03,.24)
 , zoom      =vec2(.4,2)
@@ -210,7 +210,7 @@ vec4 renderMain() {
   , Z=normalize(dpath(z))
   , X=normalize(cross(vec3(0,1,0)-ddpath(z),Z))
   , Y=cross(X,Z)
-  , I=normalize(p.x*X+p.y*Y+(warp_world.x-warp_world.y*length(p)+mix(ray_beat.x, ray_beat.y, B)*(.5+.5*s.x*s.y)*smoothstep(ray_limits.x, ray_limits.y, length(p)))*Z)
+  , I=normalize(p.x*X+p.y*Y+(warp_world.x-warp_world.y*length(p)+mix(warp_beat.x, warp_beat.y, B)*(.5+.5*s.x*s.y)*smoothstep(warp_limit.x, warp_limit.y, length(p)))*Z)
   , P
   ;
   vec4

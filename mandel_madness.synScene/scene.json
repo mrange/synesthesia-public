@@ -1,0 +1,28 @@
+{
+	"CREDIT" : "mrange",
+	"DESCRIPTION" : "Mandel madness",
+	"GPU" : 1,
+	"IMAGE_PATH" : "scene.png",
+	"IMAGES" :
+	[
+	],
+	"MEDIA" :
+	[
+		{
+			"FILTER" : "linear",
+			"WRAP" : "mirror"
+		}
+	],
+	"PASSES" :
+	[
+	],
+	"TAGS" :
+	[
+		"mrange",
+		"mandelbrot",
+		"madness"
+	],
+	"TITLE" : "Mandel madness",
+	"HEIGHT" : 1080,
+	"WIDTH" : 1920
+}
