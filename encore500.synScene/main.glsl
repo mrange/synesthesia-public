@@ -346,7 +346,7 @@ vec3 pass0() {
   return col;
 }
 
-vec3 gb(sampler2D pp, vec2 n, vec2 dir) {
+vec3 gb(sampler2D pp, vec2 dir) {
   vec2 
     q=_uv
   , p=2.*_uvc
@@ -356,7 +356,7 @@ vec3 gb(sampler2D pp, vec2 n, vec2 dir) {
   ;
 
   float
-    s=max(2.+1.*dot(n,p),.001)
+    s=max(2.+1.*dot(nstripe,p),.001)
   , s2=2.*s*s
   , w
   , ws=1.
@@ -374,57 +374,11 @@ vec3 gb(sampler2D pp, vec2 n, vec2 dir) {
 }
 
 vec3 pass1() {
-  vec3 col=vec3(0);
-  vec2
-    r=RENDERSIZE
-  , q=_uv
-  , p=2.*_uvc
-  , n=normalize(vec2(1.,1.06))
-  , dir=n/r
-  ;
-  float
-    s=max(2.+1.*dot(n,p),.001)
-  , s2=2.*s*s
-  , w
-  , ws=1.
-  ;
-  col+=texture(passA,q).xyz;
-  for(float i=1.;i<9.;++i) {
-    w=exp(-(i*i)/s2);
-    vec2 off=dir*i;
-
-    col+=w*(texture(passA,q-off).xyz+texture(passA,q+off).xyz);
-    ws+=2.*w;
-  }
-  col/=ws;
-  return col;
+  return gb(passA,vec2(1,0)/RENDERSIZE);
 }
 
 vec3 pass2() {
-  vec3 col=vec3(0);
-  vec2
-    r=RENDERSIZE
-  , q=_uv
-  , p=2.*_uvc
-  , n=normalize(vec2(1.,1.06))
-  , dir=vec2(n.y,-n.x)/r
-  ;
-  float
-    s=max(2.+1.*dot(n,p),.001)
-  , s2=2.*s*s
-  , w
-  , ws=1.
-  ;
-  col+=texture(passB,q).xyz;
-  for(float i=1.;i<9.;++i) {
-    w=exp(-(i*i)/s2);
-    vec2 off=dir*i;
-
-    col+=w*(texture(passB,q-off).xyz+texture(passB,q+off).xyz);
-    ws+=2.*w;
-  }
-  col/=ws;
-  return col;
+  return gb(passB,vec2(0,1)/RENDERSIZE);
 }
 
 vec3 pass3() {
