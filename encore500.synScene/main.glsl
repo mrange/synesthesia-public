@@ -50,12 +50,6 @@ vec3 hash3(vec3 p) {
   );
   return fract(sin(p) * 43758.5453123);
 }
-/*
-vec3 hash3(vec3 r) {
-  return fract(sin(dot(r.xy,vec2(1.38984*sin(r.z),1.13233*cos(r.z))))*653758.5453);
-}
-*/
-
 
 vec3 shash3(vec3 p) {
   return -1.+2.*hash3(p);
@@ -74,14 +68,16 @@ float badbox(vec3 p, vec3 d) {
 
 float dbox(vec3 c, vec3 n) {
   vec3 tn=clamp(n,-bb_dim, bb_dim);
-  if(tn!=n) return 1e3;
+  if(any(notEqual(tn, n))) return 1e3;
   vec3 s0=shash3(n);
   float
     h0=fract(s0.x+s0.y)
-  , h1=mix(-.2,.2,fract(s0.x+s0.z))*TIME
+  ;
+  if(h0<.6667) return 1e3;
+  float
+    h1=mix(-.2,.2,fract(s0.x+s0.z))*TIME
   , h2=mix(-.2,.2,fract(s0.y+s0.z))*TIME
   ;
-  if(h0<.666) return 1e3;
   if(abs(6.+dot(n,normalize(vec3(-nstripe.y,nstripe.x,1))))>1.) return 1e3;
   vec3
     off=.4*shash3(n)
@@ -134,8 +130,6 @@ float raymarch(vec3 ro, vec3 rd, float tinit, out float iter) {
     z=tinit
   , d
   , i
-  , N=1e3
-  , Z=z
   ;
   vec3
     p=ro+z*rd
@@ -144,10 +138,6 @@ float raymarch(vec3 ro, vec3 rd, float tinit, out float iter) {
     d=df(p);
     if(d<MinDistance||z>MaxDistance) {
       break;
-    }
-    if (d<N) {
-      N=d;
-      Z=z;
     }
     z+=d;
     p+=d*rd;
@@ -386,9 +376,8 @@ vec3 pass3() {
     r=RENDERSIZE
   , q=_uv
   , p=2.*_uvc
-  , n=normalize(vec2(1.,1.06))
-  , dir=n/r
-  , off=(3.+1.*dot(n,p))*dir
+  , dir=nstripe/r
+  , off=(3.+1.*dot(nstripe,p))*dir
   ;
 
   float
