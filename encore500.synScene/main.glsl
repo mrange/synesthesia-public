@@ -2,6 +2,15 @@
 #define OKRGB(a)    LINEARTOOKLAB((vec3(a*a)/(255.*255.)))
 #define ROT(a)      mat2(cos(a), sin(a), -sin(a), cos(a))
 
+#ifdef KODELIFE
+const float
+    volume_control=0.
+,   motion_blur   =.5
+,   glitch_freq   =.9
+,   glitch_level  =.9
+;
+#endif
+
 const float
   TAU         = 2.*PI
 , MaxDistance = 30.
@@ -48,10 +57,6 @@ const mat3
   , -0.0041960863, -0.7034186147,  1.7076147010
   )
 ;
-
-float transition() {
-  return 0.;
-}
 
 #define LINEARTOOKLAB(c) (OKLAB_M2*pow(OKLAB_M1*(c), vec3(1./3.)))
 vec3 linearToOklab(vec3 c) {
@@ -363,7 +368,7 @@ vec3 logo(vec3 col, vec2 p, float aa) {
     h1=fract(h0.x+h0.y)
   , h2=hash(round(TIME*.5))
   ;
-  if(h1>.9&&h2>.9)
+  if(h1>glitch_level&&h2>glitch_freq)
     p+=gsz*vec2(.5,1)*(-1.+2.*h0);
   float
     d0=dencore((p-vec2(-.663,-.197))/Z0)*Z0
@@ -380,13 +385,39 @@ vec3 logo(vec3 col, vec2 p, float aa) {
 
   col=mix(
     col
-  , mix(col_1, col_2, transition())
+  , mix(col_1, col_2, volume_control)
   , smoothstep(aa,-aa,d)
   );
 
   return col;
 }
 
+vec3 gb(sampler2D pp, vec2 dir) {
+  vec2
+    q=_uv
+  , p=2.*_uvc
+  ;
+  vec3
+    col=texture(pp,q).xyz
+  ;
+
+  float
+    s=max(2.+1.*dot(nstripe,p),.001)
+  , s2=2.*s*s
+  , w
+  , ws=1.
+  ;
+
+  for(float i=1.;i<9.;++i) {
+    w=exp(-(i*i)/s2);
+    vec2 off=dir*i;
+
+    col+=w*(texture(pp,clamp(q-off,0.,1.)).xyz+texture(pp,clamp(q+off,0.,1.)).xyz);
+    ws+=2.*w;
+  }
+  col/=ws;
+  return col;
+}
 
 vec3 pass0() {
   vec2
@@ -398,7 +429,6 @@ vec3 pass0() {
   , z
   , aa=sqrt(2.)/r.y
   , sd
-  , t =transition()
   ;
   const vec3
   , Z=vec3(0,0,1)
@@ -415,8 +445,8 @@ vec3 pass0() {
   , grd_2=cool(.25+.5*dot(nstripe,p))
   , str_1=amiga_white
   , str_2=grd_2
-  , str  =mix(str_1, str_2, t)
-  , bkg  =mix(bkg_1, bkg_2, t)
+  , str  =mix(str_1, str_2, volume_control)
+  , bkg  =mix(bkg_1, bkg_2, volume_control)
   , col  =bkg
   ;
 
@@ -447,40 +477,13 @@ vec3 pass0() {
       box_1=amiga_black;
     }
     box_2=grd_2;
-    col=mix(box_1, box_2, t);
+    col=mix(box_1, box_2, volume_control);
     col*=mix(1.,.5,i/MaxIter);
     col+=spe;
     col=mix(bkg, col, exp(-.002*z*z));
   }
   // Surprisingly nice!
   // col=vec3(i/MaxIter);
-  return col;
-}
-
-vec3 gb(sampler2D pp, vec2 dir) {
-  vec2
-    q=_uv
-  , p=2.*_uvc
-  ;
-  vec3
-    col=texture(pp,q).xyz
-  ;
-
-  float
-    s=max(2.+1.*dot(nstripe,p),.001)
-  , s2=2.*s*s
-  , w
-  , ws=1.
-  ;
-
-  for(float i=1.;i<9.;++i) {
-    w=exp(-(i*i)/s2);
-    vec2 off=dir*i;
-
-    col+=w*(texture(pp,q-off).xyz+texture(pp,q+off).xyz);
-    ws+=2.*w;
-  }
-  col/=ws;
   return col;
 }
 
@@ -514,7 +517,7 @@ vec3 pass3() {
   );
   col=logo(col,p,aa);
   col=sqrt(col);
-  col=mix(col,pcol.xyz,.5);
+  col=mix(col,pcol.xyz,motion_blur);
   return col;
 }
 
