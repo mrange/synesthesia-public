@@ -1,4 +1,6 @@
 #define RGB(a)      (vec3(a*a)/(255.*255.))
+#define OKRGB(a)    LINEARTOOKLAB((vec3(a*a)/(255.*255.)))
+#define ROT(a)      mat2(cos(a), sin(a), -sin(a), cos(a))
 
 const float
   TAU         = 2.*PI
@@ -13,15 +15,90 @@ const vec2
 ;
 
 const vec3
-  amiga_blue  =RGB(ivec3(0x00,0x34,0x9A))
-, amiga_blue2 =RGB(ivec3(0x00,0x49,0xCC))
+  amiga_bkg   =RGB(ivec3(0x00,0x34,0x9A))
+, amiga_blue  =RGB(ivec3(0x00,0x49,0xCC))
 , amiga_orange=RGB(ivec3(0xFF,0x80,0x18))
 , amiga_white =RGB(ivec3(0xE4,0xE4,0xE4))
 , amiga_black =RGB(ivec3(0x11,0x12,0x13))
+, real_black  =RGB(ivec3(0x01,0x01,0x01))
+, real_white  =RGB(ivec3(0xFD,0xFD,0xFD))
 , bb_dim      =vec3(1e3,1e3,10)
 , light_dir   =normalize(vec3(-1,1,-1))
 ;
 
+const mat3
+  OKLAB_M1=mat3(
+    0.4122214708, 0.5363325363, 0.0514459929
+  , 0.2119034982, 0.6806995451, 0.1073969566
+  , 0.0883024619, 0.2817188376, 0.6299787005
+  )
+, OKLAB_M2=mat3(
+    0.2104542553,  0.7936177850, -0.0040720468
+  , 1.9779984951, -2.4285922050,  0.4505937099
+  , 0.0259040371,  0.7827717662, -0.8086757660
+  )
+, OKLAB_N1 = mat3(
+    1,  0.3963377774,  0.2158037573
+  , 1, -0.1055613458, -0.0638541728
+  , 1, -0.0894841775, -1.2914855480
+  )
+, OKLAB_N2 = mat3(
+     4.0767416621, -3.3077115913,  0.2309699292
+  , -1.2684380046,  2.6097574011, -0.3413193965
+  , -0.0041960863, -0.7034186147,  1.7076147010
+  )
+;
+
+float transition() {
+  return 0.;
+}
+
+#define LINEARTOOKLAB(c) (OKLAB_M2*pow(OKLAB_M1*(c), vec3(1./3.)))
+vec3 linearToOklab(vec3 c) {
+  return OKLAB_M2*pow(OKLAB_M1*(c), vec3(1./3.));
+}
+
+#define OKLABTOLINEAR(c) (OKLAB_N2*pow(OKLAB_N1*(c),vec3(3)))
+vec3 oklabToLinear(vec3 c) {
+  return OKLAB_N2*pow(OKLAB_N1*(c),vec3(3));
+}
+
+vec3 cool(float t) {
+  const vec3
+    ok_red   = OKRGB(ivec3(0xF0,0x00,0x0A))
+  , ok_orange= OKRGB(ivec3(0xFB,0x82,0x17))
+  , ok_white = OKRGB(ivec3(0xFF,0xFF,0xFF))
+  , ok_blue  = OKRGB(ivec3(0x00,0x40,0xFA))
+  ;
+
+  vec3
+    ok_color
+  , ok_from
+  , ok_to
+  ;
+
+  float
+    sub
+  ;
+
+  if(t < 1./3.) {
+    ok_from=ok_red    ;
+    ok_to  =ok_orange ;
+    sub    =0.        ;
+  } else if (t < 2./3.){
+    ok_from=ok_orange ;
+    ok_to  =ok_white  ;
+    sub    =1./3.     ;
+  } else {
+    ok_from=ok_white  ;
+    ok_to  =ok_blue   ;
+    sub    =2./3.     ;
+  }
+
+  ok_color = mix(ok_from, ok_to, smoothstep(0., .33, t-sub));
+
+  return oklabToLinear(ok_color);
+}
 
 float length8(vec3 p) {
   p*=p;
@@ -170,12 +247,12 @@ float dstripe(vec2 p) {
   return d;
 }
 
-vec3 stripe(vec3 col, vec2 p, float aa, out float d) {
+vec3 stripe(vec3 col, vec3 fg, vec2 p, float aa, out float d) {
   float
     Z2=.13-.015*p.y
   , ds=dstripe((p-vec2(.59,0))/Z2)*Z2
   ;
-  col=mix(col,amiga_white,smoothstep(aa,-aa,ds));
+  col=mix(col,fg,smoothstep(aa,-aa,ds));
   d=ds;
   return col;
 }
@@ -241,6 +318,24 @@ float d500(vec2 p) {
   return d;
 }
 
+float dheart(vec2 p, out vec2 cellid) {
+  const mat2
+    R=ROT(radians(-45.))
+  ;
+  p*=R;
+  vec2
+    n=clamp(round(p),vec2(-1), vec2(1))
+  , c=p-n
+  ;
+  float
+    d0=box(c,vec2(.465))
+  , d1=-max(.5+p.x,.5-p.y)
+  , d=max(d0,d1)
+  ;
+  cellid=n;
+  return d;
+}
+
 float hash(float co) {
   return fract(sin(co*12.9898) * 13758.5453);
 }
@@ -254,6 +349,7 @@ vec3 logo(vec3 col, vec2 p, float aa) {
   const float
     Z0=.266
   , Z1=.355
+  , Z2=.2
   ;
   const vec2
     gsz=vec2(10,1)/20.
@@ -261,6 +357,7 @@ vec3 logo(vec3 col, vec2 p, float aa) {
   vec2
     n=round(p/gsz)
   , h0=hash2(n-round(TIME*10.)*.1234)
+  , cellid
   ;
   float
     h1=fract(h0.x+h0.y)
@@ -271,9 +368,22 @@ vec3 logo(vec3 col, vec2 p, float aa) {
   float
     d0=dencore((p-vec2(-.663,-.197))/Z0)*Z0
   , d1=d500((p-vec2(-.663,-.505))/Z1)*Z1
+  , d2=dheart((p-vec2(-.663,0.55))/Z2,cellid)*Z2
   , d=min(d0,d1)
   ;
-  col=mix(col,amiga_orange,smoothstep(aa,-aa,d));
+  d=min(d,d2);
+
+  vec3
+    col_1=d==d2&&(cellid.x==1.||cellid.y==-1.)?amiga_white:amiga_orange
+  , col_2=d==d2?cool(-.12+p.y):real_white
+  ;
+
+  col=mix(
+    col
+  , mix(col_1, col_2, transition())
+  , smoothstep(aa,-aa,d)
+  );
+
   return col;
 }
 
@@ -288,6 +398,7 @@ vec3 pass0() {
   , z
   , aa=sqrt(2.)/r.y
   , sd
+  , t =transition()
   ;
   const vec3
   , Z=vec3(0,0,1)
@@ -297,14 +408,22 @@ vec3 pass0() {
   vec3
     ro=vec3(nstripe*TIME*.3,-12)
   , rd=normalize(p.x*X+p.y*Y+2.*Z)
-  , bkg=amiga_blue*(1.-.1*dot(nstripe,p))
-  , col=bkg
+  , box_1
+  , box_2
+  , bkg_1=amiga_bkg*(1.-.1*dot(nstripe,p))
+  , bkg_2=real_black
+  , grd_2=cool(.25+.5*dot(nstripe,p))
+  , str_1=amiga_white
+  , str_2=grd_2
+  , str  =mix(str_1, str_2, t)
+  , bkg  =mix(bkg_1, bkg_2, t)
+  , col  =bkg
   ;
 
-  col=stripe(col,p,aa, sd);
+  col=stripe(col, str, p , aa, sd);
+
   g_hsrd=sign(rd)*.5;
   g_ird=1./rd;
-
 
   z=raymarch(ro,rd,0.,i);
   if(z<MaxDistance&&(sd>.0||z<6.)) {
@@ -319,14 +438,16 @@ vec3 pass0() {
     , spe=pow(max(dot(r3,light_dir),0.),10.)
     ;
     if(h0<.25) {
-      col=amiga_orange;
+      box_1=amiga_orange;
     } else if (h0<.5) {
-      col=amiga_blue2;
+      box_1=amiga_blue;
     } else if (h0<.75) {
-      col=amiga_white;
+      box_1=amiga_white;
     } else {
-      col=amiga_black;
+      box_1=amiga_black;
     }
+    box_2=grd_2;
+    col=mix(box_1, box_2, t);
     col*=mix(1.,.5,i/MaxIter);
     col+=spe;
     col=mix(bkg, col, exp(-.002*z*z));
@@ -337,11 +458,11 @@ vec3 pass0() {
 }
 
 vec3 gb(sampler2D pp, vec2 dir) {
-  vec2 
+  vec2
     q=_uv
   , p=2.*_uvc
   ;
-  vec3 
+  vec3
     col=texture(pp,q).xyz
   ;
 
