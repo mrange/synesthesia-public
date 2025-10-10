@@ -1,5 +1,5 @@
 {
-	"CONTROLS" : 
+	"CONTROLS" :
 	[
 		{
 			"DEFAULT" : 0,
@@ -7,7 +7,7 @@
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "volume_control",
-			"PARAMS" : 0.13001,
+			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Volume"
 		},
@@ -17,7 +17,7 @@
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "motion_blur",
-			"PARAMS" : 0.20101,
+			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Blur"
 		},
@@ -27,7 +27,7 @@
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "glitch_level",
-			"PARAMS" : 0.19401,
+			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Glitch"
 		},
@@ -37,7 +37,7 @@
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "glitch_freq",
-			"PARAMS" : 0.24101,
+			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Glitch"
 		}
@@ -47,14 +47,14 @@
 	"GPU" : 1,
 	"HEIGHT" : 1080,
 	"IMAGE_PATH" : "scene.png",
-	"MEDIA" : 
+	"MEDIA" :
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"PASSES" : 
+	"PASSES" :
 	[
 		{
 			"FILTER" : "linear",
@@ -81,7 +81,7 @@
 			"WRAP" : "repeat"
 		}
 	],
-	"TAGS" : 
+	"TAGS" :
 	[
 		"mrange",
 		"encore500"
