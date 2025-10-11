@@ -1,5 +1,5 @@
 {
-	"CONTROLS" :
+	"CONTROLS" : 
 	[
 		{
 			"DEFAULT" : 0,
@@ -40,6 +40,48 @@
 			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Glitch"
+		},
+		{
+			"DEFAULT" : 
+			[
+				0.5,
+				0.05
+			],
+			"DESCRIPTION" : "Glitch size",
+			"MAX" : 
+			[
+				1,
+				1
+			],
+			"MIN" : 
+			[
+				0.01,
+				0.01
+			],
+			"NAME" : "glitch_size",
+			"PARAMS" : 0.01,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Glitch"
+		},
+		{
+			"DEFAULT" : 0,
+			"DESCRIPTION" : "Show heart beat",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "show_beat",
+			"PARAMS" : 0.19701,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Effect"
+		},
+		{
+			"DEFAULT" : 60,
+			"DESCRIPTION" : "Beat speed",
+			"MAX" : 120,
+			"MIN" : 10,
+			"NAME" : "beat_speed",
+			"PARAMS" : 0.23801,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Effect"
 		}
 	],
 	"CREDIT" : "mrange",
@@ -47,14 +89,14 @@
 	"GPU" : 1,
 	"HEIGHT" : 1080,
 	"IMAGE_PATH" : "scene.png",
-	"MEDIA" :
+	"MEDIA" : 
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"PASSES" :
+	"PASSES" : 
 	[
 		{
 			"FILTER" : "linear",
@@ -81,7 +123,7 @@
 			"WRAP" : "repeat"
 		}
 	],
-	"TAGS" :
+	"TAGS" : 
 	[
 		"mrange",
 		"encore500"

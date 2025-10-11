@@ -8,6 +8,9 @@ const float
 ,   motion_blur   =.5
 ,   glitch_freq   =.9
 ,   glitch_level  =.9
+,   show_beat     =0.
+,   beat_speed    =60.
+,   glitch_size   =vec2(10,1)/20.
 ;
 #endif
 
@@ -379,11 +382,10 @@ vec3 logo(vec3 col, vec2 p, float aa) {
   , ZH =.2
   ;
   const vec2
-    gsz=vec2(10,1)/20.
-  , off=vec2(1.1,.550)
+    off=vec2(1.1,.550)
   ;
   vec2
-    n=round(p/gsz)
+    n=round(p/glitch_size)
   , h0=hash2(n-round(TIME*10.)*.1234)
   , cellid
   , ph
@@ -393,9 +395,10 @@ vec3 logo(vec3 col, vec2 p, float aa) {
   , h2=hash(round(TIME*.5))
   , Z2 =.643*Z0*mix(9.,1.,volume_control)
   ;
-    if(h1>glitch_level&&h2>glitch_freq)
-    p+=gsz*vec2(.5,1)*(-1.+2.*h0);
+  if(h1>glitch_level&&h2>glitch_freq)
+    p+=glitch_size*vec2(.5,1)*(-1.+2.*h0);
   ph=(p-vec2(-off.x, off.y))/ZH;
+  ph*=mix(vec2(1.),vec2(.9,.95), show_beat*smoothstep(.5,.9,sin(beat_speed*(TAU/60.)*TIME+ph.y*.5)));
   float
     de=dencore500((p-vec2(-off.x,-off.y+.024))/ZE)*ZE
   , dh=dheart(ph,cellid)*ZH
