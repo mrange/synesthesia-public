@@ -5,6 +5,7 @@
 #ifdef KODELIFE
 const float
     beat_speed      =60.
+,   box_level       =0.6667
 ,   blurriness      =.2
 ,   color_distortion=.2
 ,   glitch_freq     =.9
@@ -161,7 +162,7 @@ float dbox(vec3 c, vec3 n) {
   float
     h0=fract(s0.x+s0.y)
   ;
-  if(h0<.6667) return 1e3;
+  if(h0<box_level) return 1e3;
   float
     h1=mix(-.2,.2,fract(s0.x+s0.z))*TIME
   , h2=mix(-.2,.2,fract(s0.y+s0.z))*TIME

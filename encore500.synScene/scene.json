@@ -102,6 +102,16 @@
 			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Effect"
+		},
+		{
+			"DEFAULT" : 0.6667,
+			"DESCRIPTION" : "Box level",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "box_level",
+			"PARAMS" : 0.2,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Effect"
 		}
 	],
 	"CREDIT" : "mrange",
