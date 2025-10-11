@@ -4,13 +4,15 @@
 
 #ifdef KODELIFE
 const float
-    volume_control=0.
-,   motion_blur   =.5
-,   glitch_freq   =.9
-,   glitch_level  =.9
-,   show_beat     =0.
-,   beat_speed    =60.
-,   glitch_size   =vec2(10,1)/20.
+    beat_speed      =60.
+,   blurriness      =.2
+,   color_distortion=.2
+,   glitch_freq     =.9
+,   glitch_level    =.9
+,   glitch_size     =vec2(10,1)/20.
+,   motion_blur     =.5
+,   show_beat       =0.
+,   volume_control  =0.
 ;
 #endif
 
@@ -447,16 +449,16 @@ vec3 gb(sampler2D pp, vec2 dir) {
 
   float
     s=max(2.+1.*dot(nstripe,p),.001)
-  , s2=2.*s*s
+  , s2=blurriness*10.*s*s
   , w
   , ws=1.
   ;
 
-  for(float i=1.;i<9.;++i) {
+  for(float i=1.;i<19.;++i) {
     w=exp(-(i*i)/s2);
     vec2 off=dir*i;
 
-    col+=w*(texture(pp,clamp(q-off,0.,1.)).xyz+texture(pp,clamp(q+off,0.,1.)).xyz);
+    col+=w*(texture(pp,clamp(q-off, 0., 1.)).xyz+texture(pp,clamp(q+off, 0., 1.)).xyz);
     ws+=2.*w;
   }
   col/=ws;
@@ -545,7 +547,7 @@ vec3 pass3() {
   , q=_uv
   , p=2.*_uvc
   , dir=nstripe/r
-  , off=(3.+1.*dot(nstripe,p))*dir
+  , off=(3.+1.*dot(nstripe,p))*dir*color_distortion*5.
   ;
 
   float
@@ -555,9 +557,9 @@ vec3 pass3() {
   vec4 pcol=texture(syn_FinalPass, q);
   vec3 col=vec3(0);
   col+=vec3(
-    texture(passC, q-off).x
-  , texture(passC, q).y
-  , texture(passC, q+off).z
+    texture(passC, clamp(q-off,0.,1.)).x
+  , texture(passC, clamp(q,0.,1.)).y
+  , texture(passC, clamp(q+off,0.,1.)).z
   );
   col=logo(col,p,aa);
   col=sqrt(col);
@@ -580,6 +582,7 @@ vec4 renderMain() {
     break;
   default:
     col=pass3();
+    break;
   };
   return vec4(col,1);
 }

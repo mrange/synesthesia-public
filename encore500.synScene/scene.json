@@ -1,5 +1,5 @@
 {
-	"CONTROLS" : 
+	"CONTROLS" :
 	[
 		{
 			"DEFAULT" : 0,
@@ -14,9 +14,29 @@
 		{
 			"DEFAULT" : 0.5,
 			"DESCRIPTION" : "Motion blur",
-			"MAX" : 1,
+			"MAX" : 0.99,
 			"MIN" : 0,
 			"NAME" : "motion_blur",
+			"PARAMS" : 0.2,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Blur"
+		},
+		{
+			"DEFAULT" : 0.2,
+			"DESCRIPTION" : "Blurirness level",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "blurriness",
+			"PARAMS" : 0.2,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Blur"
+		},
+		{
+			"DEFAULT" : 0.2,
+			"DESCRIPTION" : "Color distortion",
+			"MAX" : 1,
+			"MIN" : -1,
+			"NAME" : "color_distortion",
 			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Blur"
@@ -42,24 +62,24 @@
 			"UI_GROUP" : "Glitch"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.5,
 				0.05
 			],
 			"DESCRIPTION" : "Glitch size",
-			"MAX" : 
+			"MAX" :
 			[
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0.01,
 				0.01
 			],
 			"NAME" : "glitch_size",
-			"PARAMS" : 0.01,
+			"PARAMS" : 0.2,
 			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Glitch"
 		},
@@ -69,7 +89,7 @@
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "show_beat",
-			"PARAMS" : 0.19701,
+			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Effect"
 		},
@@ -79,7 +99,7 @@
 			"MAX" : 120,
 			"MIN" : 10,
 			"NAME" : "beat_speed",
-			"PARAMS" : 0.23801,
+			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Effect"
 		}
@@ -89,14 +109,14 @@
 	"GPU" : 1,
 	"HEIGHT" : 1080,
 	"IMAGE_PATH" : "scene.png",
-	"MEDIA" : 
+	"MEDIA" :
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"PASSES" : 
+	"PASSES" :
 	[
 		{
 			"FILTER" : "linear",
@@ -123,7 +143,7 @@
 			"WRAP" : "repeat"
 		}
 	],
-	"TAGS" : 
+	"TAGS" :
 	[
 		"mrange",
 		"encore500"
