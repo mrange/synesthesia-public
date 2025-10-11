@@ -35,6 +35,7 @@ const vec3
 , amiga_white =RGB(ivec3(0xE4,0xE4,0xE4))
 , amiga_black =RGB(ivec3(0x11,0x12,0x13))
 , real_black  =RGB(ivec3(0x01,0x01,0x01))
+, real_orange =RGB(ivec3(0xFF,0x80,0x18))
 , real_white  =RGB(ivec3(0xFD,0xFD,0xFD))
 , bb_dim      =vec3(1e3,1e3,10)
 , light_dir   =normalize(vec3(-1,1,-1))
@@ -377,15 +378,26 @@ vec2 hash2(vec2 p) {
 }
 
 
+//#define DEBUG
+
 vec3 logo(vec3 col, vec2 p, float aa) {
+#ifdef DEBUG
+  vec2 ap=abs(p);
+
+#endif
+  p.y -= 0.283;
   const float
     Z0 = 0.53*1.11
-  , ZE =1.*Z0
+  , ZE = Z0
   , ZH =.2
   ;
   const vec2
-    off=vec2(1.1,.550)
+    off=vec2(.89,-.425)
+  , bsz=5.2*vec2(1,85./588.)
   ;
+  vec3
+    bcol=real_orange
+    ;
   vec2
     n=round(p/glitch_size)
   , h0=hash2(n-round(TIME*10.)*.1234)
@@ -395,7 +407,8 @@ vec3 logo(vec3 col, vec2 p, float aa) {
   float
     h1=fract(h0.x+h0.y)
   , h2=hash(round(TIME*.5))
-  , Z2 =.643*Z0*mix(9.,1.,volume_control)
+  , bz=mix(9.,1.,volume_control)
+  , Z2=.10*Z0*bz
   ;
   if(h1>glitch_level&&h2>glitch_freq)
     p+=glitch_size*vec2(.5,1)*(-1.+2.*h0);
@@ -404,7 +417,8 @@ vec3 logo(vec3 col, vec2 p, float aa) {
   float
     de=dencore500((p-vec2(-off.x,-off.y+.024))/ZE)*ZE
   , dh=dheart(ph,cellid)*ZH
-  , d2=d2((p-vec2(off.x,-off.y))/Z2)*Z2
+  , d2=d2((p-vec2(-off.x,-off.y-.27))/Z2)*Z2
+  , db=box(p-vec2(-off.x,-off.y-.27),Z2*bsz)
   ;
 
   col=mix(
@@ -419,15 +433,18 @@ vec3 logo(vec3 col, vec2 p, float aa) {
   , smoothstep(aa,-aa,de)
   );
 
-  col=mix(
-    col
-  , mix(col, real_white, volume_control)
+  bcol=mix(
+    bcol
+  , real_black
   , smoothstep(aa,-aa,d2)
   );
-//#define DEBUG
-#ifdef DEBUG
-  vec2 ap=abs(p);
 
+  col=mix(
+    col
+  , mix(col, bcol, volume_control)
+  , smoothstep(aa,-aa,db)
+  );
+#ifdef DEBUG
   col=mix(
     col
   , real_white
