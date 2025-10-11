@@ -322,6 +322,27 @@ float d500(vec2 p) {
   if(nx==-1.) d=d5;
   return d;
 }
+float d2(vec2 p) {
+  float
+    db=box(p,vec2(.465))
+  , ds=min(.03-abs(abs(p.y)-1./6.),-sign(p.y)*p.x+.205)
+  , d =max(db,ds)
+  ;
+  return d;
+}
+
+float dencore500(vec2 p) {
+  const float
+    Z0=.266
+  , Z1=.355
+  ;
+  float
+    d0=dencore((p-vec2(0., .134))/Z0)*Z0
+  , d1=d500((p-vec2(0.,-.174))/Z1)*Z1
+  ;
+
+  return min(d0, d1);
+}
 
 float dheart(vec2 p, out vec2 cellid) {
   const mat2
@@ -350,44 +371,64 @@ vec2 hash2(vec2 p) {
   return fract(sin(p)*43758.5453123);
 }
 
+
 vec3 logo(vec3 col, vec2 p, float aa) {
   const float
-    Z0=.266
-  , Z1=.355
-  , Z2=.2
+    Z0 = 0.53*1.11
+  , ZE =1.*Z0
+  , ZH =.2
   ;
   const vec2
     gsz=vec2(10,1)/20.
+  , off=vec2(1.1,.550)
   ;
   vec2
     n=round(p/gsz)
   , h0=hash2(n-round(TIME*10.)*.1234)
   , cellid
+  , ph
   ;
   float
     h1=fract(h0.x+h0.y)
   , h2=hash(round(TIME*.5))
+  , Z2 =.643*Z0*mix(9.,1.,volume_control)
   ;
-  if(h1>glitch_level&&h2>glitch_freq)
+    if(h1>glitch_level&&h2>glitch_freq)
     p+=gsz*vec2(.5,1)*(-1.+2.*h0);
+  ph=(p-vec2(-off.x, off.y))/ZH;
   float
-    d0=dencore((p-vec2(-.663,-.197))/Z0)*Z0
-  , d1=d500((p-vec2(-.663,-.505))/Z1)*Z1
-  , d2=dheart((p-vec2(-.663,0.55))/Z2,cellid)*Z2
-  , d=min(d0,d1)
-  ;
-  d=min(d,d2);
-
-  vec3
-    col_1=d==d2&&(cellid.x==1.||cellid.y==-1.)?amiga_white:amiga_orange
-  , col_2=d==d2?cool(-.12+p.y):real_white
+    de=dencore500((p-vec2(-off.x,-off.y+.024))/ZE)*ZE
+  , dh=dheart(ph,cellid)*ZH
+  , d2=d2((p-vec2(off.x,-off.y))/Z2)*Z2
   ;
 
   col=mix(
     col
-  , mix(col_1, col_2, volume_control)
-  , smoothstep(aa,-aa,d)
+  , mix((cellid.x==1.||cellid.y==-1.)?amiga_white:amiga_orange, cool(.43+ph.y*.2), volume_control)
+  , smoothstep(aa,-aa,dh)
   );
+
+  col=mix(
+    col
+  , mix(amiga_orange, real_white, volume_control)
+  , smoothstep(aa,-aa,de)
+  );
+
+  col=mix(
+    col
+  , mix(col, real_white, volume_control)
+  , smoothstep(aa,-aa,d2)
+  );
+//#define DEBUG
+#ifdef DEBUG
+  vec2 ap=abs(p);
+
+  col=mix(
+    col
+  , real_white
+  , smoothstep(aa,-aa,min(ap.x,ap.y))
+  );
+#endif
 
   return col;
 }
