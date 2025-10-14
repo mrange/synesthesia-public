@@ -62,6 +62,15 @@
 			"UI_GROUP" : "Glitch"
 		},
 		{
+			"DEFAULT" : 0,
+			"DESCRIPTION" : "Glitch variant",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "glitch_variant",
+			"TYPE" : "toggle",
+			"UI_GROUP" : "Glitch"
+		},
+		{
 			"DEFAULT" :
 			[
 				0.5,
@@ -79,6 +88,28 @@
 				0.01
 			],
 			"NAME" : "glitch_size",
+			"PARAMS" : 0.2,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Glitch"
+		},
+		{
+			"DEFAULT" :
+			[
+				0.02,
+				0.02
+			],
+			"DESCRIPTION" : "Pixel size",
+			"MAX" :
+			[
+				0.1,
+				0.1
+			],
+			"MIN" :
+			[
+				0.001,
+				0.001
+			],
+			"NAME" : "pixel_size",
 			"PARAMS" : 0.2,
 			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Glitch"
@@ -118,6 +149,9 @@
 	"DESCRIPTION" : "Encore 500",
 	"GPU" : 1,
 	"HEIGHT" : 1080,
+	"IMAGES" :
+	[
+	],
 	"IMAGE_PATH" : "scene.png",
 	"MEDIA" :
 	[
@@ -134,7 +168,7 @@
 			"HEIGHT" : 1080,
 			"TARGET" : "passA",
 			"WIDTH" : 1920,
-			"WRAP" : "repeat"
+			"WRAP" : "clamp"
 		},
 		{
 			"FILTER" : "linear",
@@ -142,7 +176,7 @@
 			"HEIGHT" : 1080,
 			"TARGET" : "passB",
 			"WIDTH" : 1920,
-			"WRAP" : "repeat"
+			"WRAP" : "clamp"
 		},
 		{
 			"FILTER" : "linear",
@@ -150,7 +184,7 @@
 			"HEIGHT" : 1080,
 			"TARGET" : "passC",
 			"WIDTH" : 1920,
-			"WRAP" : "repeat"
+			"WRAP" : "clamp"
 		}
 	],
 	"TAGS" :

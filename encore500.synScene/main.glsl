@@ -10,10 +10,15 @@ const float
 ,   color_distortion=.2
 ,   glitch_freq     =.9
 ,   glitch_level    =.9
-,   glitch_size     =vec2(10,1)/20.
+,   glitch_variant  =0.
 ,   motion_blur     =.5
 ,   show_beat       =0.
-,   volume_control  =0.
+,   volume_control  =1.
+;
+
+const vec2
+  glitch_size       =vec2(10,1)/20.
+, pixel_size        =vec2(1./80.)
 ;
 #endif
 
@@ -379,7 +384,7 @@ vec2 hash2(vec2 p) {
 }
 
 
-//#define DEBUG
+#define DEBUG
 
 vec3 logo(vec3 col, vec2 p, float aa) {
 #ifdef DEBUG
@@ -411,8 +416,14 @@ vec3 logo(vec3 col, vec2 p, float aa) {
   , bz=mix(9.,1.,volume_control)
   , Z2=.10*Z0*bz
   ;
-  if(h1>glitch_level&&h2>glitch_freq)
-    p+=glitch_size*vec2(.5,1)*(-1.+2.*h0);
+  if(h1>glitch_level&&h2>glitch_freq) {
+    if (glitch_variant>.5) {
+      p=round(p/pixel_size)*pixel_size;
+    } else {
+      p+=glitch_size*vec2(.5,1)*(-1.+2.*h0);
+    }
+  }
+
   ph=(p-vec2(-off.x, off.y))/ZH;
   ph*=mix(vec2(1.),vec2(.9,.95), show_beat*smoothstep(.5,.9,sin(beat_speed*(TAU/60.)*TIME+ph.y*.5)));
   float
@@ -476,14 +487,14 @@ vec3 gb(sampler2D pp, vec2 dir) {
     w=exp(-(i*i)/s2);
     vec2 off=dir*i;
 
-    col+=w*(texture(pp,clamp(q-off, 0., 1.)).xyz+texture(pp,clamp(q+off, 0., 1.)).xyz);
+    col+=w*(texture(pp,q-off).xyz+texture(pp,q+off).xyz);
     ws+=2.*w;
   }
   col/=ws;
   return col;
 }
 
-vec3 pass0() {
+vec4 pass0() {
   vec2
     r=RENDERSIZE
   , p=2.*_uvc
@@ -548,18 +559,18 @@ vec3 pass0() {
   }
   // Surprisingly nice!
   // col=vec3(i/MaxIter);
-  return col;
+  return vec4(col,1);
 }
 
-vec3 pass1() {
-  return gb(passA,vec2(1,0)/RENDERSIZE);
+vec4 pass1() {
+  return vec4(gb(passA,vec2(1,0)/RENDERSIZE),1);
 }
 
-vec3 pass2() {
-  return gb(passB,vec2(0,1)/RENDERSIZE);
+vec4 pass2() {
+  return vec4(gb(passB,vec2(0,1)/RENDERSIZE),1);
 }
 
-vec3 pass3() {
+vec4 pass3() {
   vec2
     r=RENDERSIZE
   , q=_uv
@@ -575,18 +586,19 @@ vec3 pass3() {
   vec4 pcol=texture(syn_FinalPass, q);
   vec3 col=vec3(0);
   col+=vec3(
-    texture(passC, clamp(q-off,0.,1.)).x
-  , texture(passC, clamp(q,0.,1.)).y
-  , texture(passC, clamp(q+off,0.,1.)).z
+    texture(passC, q-off).x
+  , texture(passC, q).y
+  , texture(passC, q+off).z
   );
+//  col*=0.;
   col=logo(col,p,aa);
   col=sqrt(col);
   col=mix(col,pcol.xyz,motion_blur);
-  return col;
+  return vec4(col,1);
 }
 
 vec4 renderMain() {
-  vec3 col=vec3(0);
+  vec4 col;
   switch(PASSINDEX)
   {
   case 0:
@@ -602,5 +614,5 @@ vec4 renderMain() {
     col=pass3();
     break;
   };
-  return vec4(col,1);
+  return col;
 }
