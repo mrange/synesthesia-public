@@ -560,6 +560,10 @@ vec3 pass2() {
 }
 
 vec3 pass3() {
+  return vec3(1);
+}
+
+vec3 pass4() {
   vec2
     r=RENDERSIZE
   , q=_uv
@@ -598,8 +602,11 @@ vec4 renderMain() {
   case 2:
     col=pass2();
     break;
-  default:
+  case 3:
     col=pass3();
+    break;
+  default:
+    col=pass4();
     break;
   };
   return vec4(col,1);

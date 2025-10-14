@@ -119,6 +119,15 @@
 	"GPU" : 1,
 	"HEIGHT" : 1080,
 	"IMAGE_PATH" : "scene.png",
+	"IMAGES" :
+	[
+		{
+			"NAME" : "t_topaz",
+			"PATH" : "font_amiga_topaz.png",
+			"FILTER" : "linear",
+			"WRAP" : "clamp"
+		}
+	],
 	"MEDIA" :
 	[
 		{
@@ -150,6 +159,14 @@
 			"HEIGHT" : 1080,
 			"TARGET" : "passC",
 			"WIDTH" : 1920,
+			"WRAP" : "repeat"
+		},
+		{
+			"FILTER" : "mipmap",
+			"FLOAT" : true,
+			"HEIGHT" : 128,
+			"TARGET" : "passD",
+			"WIDTH" : 128,
 			"WRAP" : "repeat"
 		}
 	],
