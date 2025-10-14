@@ -172,7 +172,7 @@
 			"HEIGHT" : 1080,
 			"TARGET" : "passA",
 			"WIDTH" : 1920,
-			"WRAP" : "repeat"
+			"WRAP" : "clamp"
 		},
 		{
 			"FILTER" : "linear",
@@ -180,7 +180,7 @@
 			"HEIGHT" : 1080,
 			"TARGET" : "passB",
 			"WIDTH" : 1920,
-			"WRAP" : "repeat"
+			"WRAP" : "clamp"
 		},
 		{
 			"FILTER" : "linear",
@@ -188,7 +188,7 @@
 			"HEIGHT" : 1080,
 			"TARGET" : "passC",
 			"WIDTH" : 1920,
-			"WRAP" : "repeat"
+			"WRAP" : "clamp"
 		},
 		{
 			"FILTER" : "mipmap",
@@ -196,7 +196,7 @@
 			"HEIGHT" : 128,
 			"TARGET" : "passD",
 			"WIDTH" : 128,
-			"WRAP" : "repeat"
+			"WRAP" : "clamp"
 		}
 	],
 	"TAGS" : 

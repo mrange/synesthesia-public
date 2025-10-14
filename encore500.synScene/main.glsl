@@ -487,7 +487,7 @@ vec3 gb(sampler2D pp, vec2 dir) {
     w=exp(-(i*i)/s2);
     vec2 off=dir*i;
 
-    col+=w*(texture(pp,clamp(q-off, 0., 1.)).xyz+texture(pp,clamp(q+off, 0., 1.)).xyz);
+    col+=w*(texture(pp,q-off).xyz+texture(pp,q+off).xyz);
     ws+=2.*w;
   }
   col/=ws;
@@ -692,6 +692,7 @@ vec4 pass3() {
     ch=Text[int(N.x+N.y*16.)]-32.
   , T
   ;
+    return vec4(_xy/128.,0,1);
   if (ch>0.) {
     O=vec2(mod(ch,32.),floor(ch/32.))*csz;
     T=texelFetch(t_topaz,ivec2(C+O+vec2(0,N.y!=1.?48.:0.)),0).w;
@@ -717,14 +718,15 @@ vec4 pass4() {
   vec4 pcol=texture(syn_FinalPass, q);
   vec3 col=vec3(0);
   col+=vec3(
-    texture(passC, clamp(q-off,0.,1.)).x
-  , texture(passC, clamp(q,0.,1.)).y
-  , texture(passC, clamp(q+off,0.,1.)).z
+    texture(passC, q-off).x
+  , texture(passC, q).y
+  , texture(passC, q+off).z
   );
 //  col*=0.;
   col=logo(col,p,aa);
   col=sqrt(col);
   col=mix(col,pcol.xyz,motion_blur);
+//  return texture(passD,q);
   return vec4(col,1);
 }
 
