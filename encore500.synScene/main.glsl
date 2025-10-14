@@ -10,10 +10,15 @@ const float
 ,   color_distortion=.2
 ,   glitch_freq     =.9
 ,   glitch_level    =.9
-,   glitch_size     =vec2(10,1)/20.
+,   glitch_variant  =0.
 ,   motion_blur     =.5
 ,   show_beat       =0.
-,   volume_control  =0.
+,   volume_control  =1.
+;
+
+const vec2
+  glitch_size       =vec2(10,1)/20.
+, pixel_size        =vec2(1./80.)
 ;
 #endif
 
@@ -411,8 +416,14 @@ vec3 logo(vec3 col, vec2 p, float aa) {
   , bz=mix(9.,1.,volume_control)
   , Z2=.10*Z0*bz
   ;
-  if(h1>glitch_level&&h2>glitch_freq)
-    p+=glitch_size*vec2(.5,1)*(-1.+2.*h0);
+  if(h1>glitch_level&&h2>glitch_freq) {
+    if (glitch_variant>.5) {
+      p=round(p/pixel_size)*pixel_size;
+    } else {
+      p+=glitch_size*vec2(.5,1)*(-1.+2.*h0);
+    }
+  }
+
   ph=(p-vec2(-off.x, off.y))/ZH;
   ph*=mix(vec2(1.),vec2(.9,.95), show_beat*smoothstep(.5,.9,sin(beat_speed*(TAU/60.)*TIME+ph.y*.5)));
   float
@@ -483,7 +494,7 @@ vec3 gb(sampler2D pp, vec2 dir) {
   return col;
 }
 
-vec3 pass0() {
+vec4 pass0() {
   vec2
     r=RENDERSIZE
   , p=2.*_uvc
@@ -548,22 +559,149 @@ vec3 pass0() {
   }
   // Surprisingly nice!
   // col=vec3(i/MaxIter);
-  return col;
+  return vec4(col,1);
 }
 
-vec3 pass1() {
-  return gb(passA,vec2(1,0)/RENDERSIZE);
+vec4 pass1() {
+  return vec4(gb(passA,vec2(1,0)/RENDERSIZE),1);
 }
 
-vec3 pass2() {
-  return gb(passB,vec2(0,1)/RENDERSIZE);
+vec4 pass2() {
+  return vec4(gb(passB,vec2(0,1)/RENDERSIZE),1);
 }
 
-vec3 pass3() {
-  return vec3(1);
+#define _          32.
+#define _EXCL      33.
+#define _QUOTE     34.
+#define _HASH      35.
+#define _DOLLAR    36.
+#define _PERCENT   37.
+#define _AMP       38.
+#define _APOST     39.
+#define _LPAREN    40.
+#define _RPAREN    41.
+#define _STAR      42.
+#define _PLUS      43.
+#define _COMMA     44.
+#define _MINUS     45.
+#define _DOT       46.
+#define _SLASH     47.
+#define _0         48.
+#define _1         49.
+#define _2         50.
+#define _3         51.
+#define _4         52.
+#define _5         53.
+#define _6         54.
+#define _7         55.
+#define _8         56.
+#define _9         57.
+#define _COLON     58.
+#define _SEMI      59.
+#define _LT        60.
+#define _EQ        61.
+#define _GT        62.
+#define _QUESTION  63.
+#define _AT        64.
+#define _A         65.
+#define _B         66.
+#define _C         67.
+#define _D         68.
+#define _E         69.
+#define _F         70.
+#define _G         71.
+#define _H         72.
+#define _I         73.
+#define _J         74.
+#define _K         75.
+#define _L         76.
+#define _M         77.
+#define _N         78.
+#define _O         79.
+#define _P         80.
+#define _Q         81.
+#define _R         82.
+#define _S         83.
+#define _T         84.
+#define _U         85.
+#define _V         86.
+#define _W         87.
+#define _X         88.
+#define _Y         89.
+#define _Z         90.
+#define _LBRACK    91.
+#define _BACKSL    92.
+#define _RBRACK    93.
+#define _CARET     94.
+#define _UNDER     95.
+#define _BACKTIC   96.
+#define _a         97.
+#define _b         98.
+#define _c         99.
+#define _d        100.
+#define _e        101.
+#define _f        102.
+#define _g        103.
+#define _h        104.
+#define _i        105.
+#define _j        106.
+#define _k        107.
+#define _l        108.
+#define _m        109.
+#define _n        110.
+#define _o        111.
+#define _p        112.
+#define _q        113.
+#define _r        114.
+#define _s        115.
+#define _t        116.
+#define _u        117.
+#define _v        118.
+#define _w        119.
+#define _x        120.
+#define _y        121.
+#define _z        122.
+#define _LBRACE   123.
+#define _BAR      124.
+#define _RBRACE   125.
+#define _TILDE    126.
+
+const float[] Text=float[16*3](
+  _I,_n, _,_l,_o,_v,_i,_n,_g, _,_m,_e,_m,_o,_r,_y
+,  _, _,_P,_E,_T,_E,_R, _,_C,_L,_A,_R,_K,_E, _, _
+,  _, _,_1,_9,_5,_8, _,_MINUS, _,_2,_0,_2,_5, _, _, _
+);
+
+vec4 pass3() {
+  const vec2
+    csz=vec2(8,16)
+  ;
+  vec2
+    P =_xy
+  , N
+  , C
+  , O
+  ;
+#ifdef KODELIFE
+  P.y=128.-P.y;
+#endif
+  P.y-=16.*(8.-3.)/2.;
+  N =floor(P/csz);
+  C =P-N*csz;
+  float
+    ch=Text[int(N.x+N.y*16.)]-32.
+  , T
+  ;
+  if (ch>0.) {
+    O=vec2(mod(ch,32.),floor(ch/32.))*csz;
+    T=texelFetch(t_topaz,ivec2(C+O+vec2(0,N.y!=1.?48.:0.)),0).w;
+    return vec4(N.y==2.?real_orange:real_white, T);
+  } else {
+    return vec4(0);
+  }
 }
 
-vec3 pass4() {
+vec4 pass4() {
   vec2
     r=RENDERSIZE
   , q=_uv
@@ -583,14 +721,15 @@ vec3 pass4() {
   , texture(passC, clamp(q,0.,1.)).y
   , texture(passC, clamp(q+off,0.,1.)).z
   );
+//  col*=0.;
   col=logo(col,p,aa);
   col=sqrt(col);
   col=mix(col,pcol.xyz,motion_blur);
-  return col;
+  return vec4(col,1);
 }
 
 vec4 renderMain() {
-  vec3 col=vec3(0);
+  vec4 col;
   switch(PASSINDEX)
   {
   case 0:
@@ -609,5 +748,5 @@ vec4 renderMain() {
     col=pass4();
     break;
   };
-  return vec4(col,1);
+  return col;
 }
