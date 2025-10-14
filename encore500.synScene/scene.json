@@ -151,6 +151,12 @@
 	"HEIGHT" : 1080,
 	"IMAGES" :
 	[
+		{
+			"NAME" : "t_peterclarke",
+			"PATH" : "peterclarke.png",
+			"FILTER" : "linear",
+			"WRAP" : "clamp"
+		}
 	],
 	"IMAGE_PATH" : "scene.png",
 	"MEDIA" :

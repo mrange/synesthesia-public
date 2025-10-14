@@ -1,3 +1,5 @@
+//#define DEBUG
+
 #define RGB(a)      (vec3(a*a)/(255.*255.))
 #define OKRGB(a)    LINEARTOOKLAB((vec3(a*a)/(255.*255.)))
 #define ROT(a)      mat2(cos(a), sin(a), -sin(a), cos(a))
@@ -383,9 +385,6 @@ vec2 hash2(vec2 p) {
   return fract(sin(p)*43758.5453123);
 }
 
-
-#define DEBUG
-
 vec3 logo(vec3 col, vec2 p, float aa) {
 #ifdef DEBUG
   vec2 ap=abs(p);
@@ -577,13 +576,18 @@ vec4 pass3() {
   , p=2.*_uvc
   , dir=nstripe/r
   , off=(3.+1.*dot(nstripe,p))*dir*color_distortion*5.
+  , tp=_xy
   ;
 
   float
     aa=sqrt(2.)/r.y
   ;
-
-  vec4 pcol=texture(syn_FinalPass, q);
+  tp-=vec2(350.,70.);
+  vec4
+    pcol=texture(syn_FinalPass, q)
+      , lcol=texelFetch(t_peterclarke, ivec2(tp),0)
+//  , lcol=texture(t_peterclarke, clamp(tp/vec2(260.,89.),0., 1.))
+  ;
   vec3 col=vec3(0);
   col+=vec3(
     texture(passC, q-off).x
@@ -593,6 +597,7 @@ vec4 pass3() {
 //  col*=0.;
   col=logo(col,p,aa);
   col=sqrt(col);
+  col=mix(col,lcol.xyz,volume_control*lcol.w);
   col=mix(col,pcol.xyz,motion_blur);
   return vec4(col,1);
 }
