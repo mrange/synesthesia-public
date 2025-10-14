@@ -682,21 +682,21 @@ vec4 pass3() {
   , C
   , O
   ;
-#ifdef KODELIFE
-  P.y=128.-P.y;
-#endif
-  P.y-=16.*(8.-3.)/2.;
+  P.y-=16.*(9.)/2.;
   N =floor(P/csz);
   C =P-N*csz;
-  float
-    ch=Text[int(N.x+N.y*16.)]-32.
+  float 
+    ch=Text[int(N.x-N.y*16.)]-32.
   , T
   ;
-    return vec4(_xy/128.,0,1);
   if (ch>0.) {
-    O=vec2(mod(ch,32.),floor(ch/32.))*csz;
-    T=texelFetch(t_topaz,ivec2(C+O+vec2(0,N.y!=1.?48.:0.)),0).w;
-    return vec4(N.y==2.?real_orange:real_white, T);
+    O=vec2(mod(ch,32.),5.-(N.y!=-1.?3.:0.)-floor(ch/32.))*csz;
+    C+=O;
+#ifdef KODELIFE
+    C.y=96.-C.y;
+#endif
+    T=texelFetch(t_topaz,ivec2(C),0).w;
+    return vec4(N.y==-2.?real_orange:real_white, T);
   } else {
     return vec4(0);
   }
@@ -724,9 +724,13 @@ vec4 pass4() {
   );
 //  col*=0.;
   col=logo(col,p,aa);
-  col=sqrt(col);
   col=mix(col,pcol.xyz,motion_blur);
-//  return texture(passD,q);
+  col*=0.;
+  vec4 xxx= texelFetch(passD,ivec2(q*128.),0);
+  col.xyz=mix(col, xxx.xyz,xxx.w);
+  vec4 yyy= texelFetch(passD,ivec2(q*32.),2);
+  col.xyz=mix(col, yyy.xyz,.2*yyy.w);
+  col=sqrt(col);
   return vec4(col,1);
 }
 
