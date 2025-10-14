@@ -384,7 +384,7 @@ vec2 hash2(vec2 p) {
 }
 
 
-//#define DEBUG
+#define DEBUG
 
 vec3 logo(vec3 col, vec2 p, float aa) {
 #ifdef DEBUG
@@ -702,6 +702,77 @@ vec4 pass3() {
   }
 }
 
+vec3 pixel(vec3 col, vec2 p, float aa, float n, float w) {
+  vec2
+    N=round(p)
+  , C=p-N
+  , O
+  , P=N+vec2(59,64.+n)
+  ;
+  
+  float
+    x
+  , y
+  , D
+  , d
+  ;
+  vec4
+    t
+  , T
+  ;
+  const float 
+    W=1.
+  ;
+  d=1e3;
+
+  for(y=-W;y<=W;++y) {
+    for(x=-W;x<=W;++x) {
+      O=vec2(x,y);
+      T=texelFetch(passD,ivec2(P+O),0);
+      T.w*=step((O+N).y, 7.);
+      T.w*=step(-8.,(O+N).y);
+      if (T.w<=.0) continue;
+      D=box(C-O,vec2(.4*T.w))-.2*T.w;
+      if (D<d) {
+        t=T;
+        d=D;
+      }
+    }
+  }
+
+  col = mix(col, t.xyz, w*exp(-12.*max(d,0.)));
+  return col;
+}
+
+vec3 pc(vec3 col, vec2 p) {
+  p -= -vec2(.89,.8);
+  const float mul=.25;
+  const vec2
+    csz = vec2(10,.25*mul)
+  ;
+
+  vec2
+      n = round(p/csz)
+    , c = p-n*csz
+  ;
+  float 
+    aa=1./RENDERSIZE.y
+  , w=volume_control
+  ;
+
+  c.x+=aa;
+  float Z=aa*16.;
+  if (n.y==1.) {
+    Z=aa*8.;
+  } else if (n.y==-1.) {
+    Z=aa*8.;
+  }
+  Z*=mul;
+  
+  col = pixel(col, c/Z, aa/Z, 16.*n.y,w);
+  return col;
+}
+
 vec4 pass4() {
   vec2
     r=RENDERSIZE
@@ -724,13 +795,9 @@ vec4 pass4() {
   );
 //  col*=0.;
   col=logo(col,p,aa);
-  col=mix(col,pcol.xyz,motion_blur);
-  col*=0.;
-  vec4 xxx= texelFetch(passD,ivec2(q*128.),0);
-  col.xyz=mix(col, xxx.xyz,xxx.w);
-  vec4 yyy= texelFetch(passD,ivec2(q*32.),2);
-  col.xyz=mix(col, yyy.xyz,.2*yyy.w);
+  col=pc(col,p);
   col=sqrt(col);
+  col=mix(col,pcol.xyz,motion_blur);
   return vec4(col,1);
 }
 
