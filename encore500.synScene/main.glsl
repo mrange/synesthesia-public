@@ -1,5 +1,4 @@
-//#define DEBUG
-
+// #define DEBUG
 #define RGB(a)      (vec3(a*a)/(255.*255.))
 #define OKRGB(a)    LINEARTOOKLAB((vec3(a*a)/(255.*255.)))
 #define ROT(a)      mat2(cos(a), sin(a), -sin(a), cos(a))
@@ -13,6 +12,9 @@ const float
 ,   glitch_freq     =.9
 ,   glitch_level    =.9
 ,   glitch_variant  =0.
+,   media_fade      =0.
+,   media_fadestrength=10.
+,   media_zoom      =1.
 ,   motion_blur     =.5
 ,   show_beat       =0.
 ,   volume_control  =1.
@@ -21,6 +23,10 @@ const float
 const vec2
   glitch_size       =vec2(10,1)/20.
 , pixel_size        =vec2(1./80.)
+;
+
+const vec3
+    media_fadecol   =vec3(.9,.8,1)
 ;
 #endif
 
@@ -386,18 +392,14 @@ vec2 hash2(vec2 p) {
 }
 
 vec3 logo(vec3 col, vec2 p, float aa) {
-#ifdef DEBUG
-  vec2 ap=abs(p);
-
-#endif
-  p.y -= 0.283;
+  p.y -= 0.29;
   const float
-    Z0 = 0.53*1.11
+    Z0 = 0.58
   , ZE = Z0
   , ZH =.2
   ;
   const vec2
-    off=vec2(.89,-.425)
+    off=vec2(.90,-.43)
   , bsz=5.2*vec2(1,85./588.)
   ;
   vec3
@@ -455,13 +457,6 @@ vec3 logo(vec3 col, vec2 p, float aa) {
   , mix(col, bcol, volume_control)
   , smoothstep(aa,-aa,db)
   );
-#ifdef DEBUG
-  col=mix(
-    col
-  , real_white
-  , smoothstep(aa,-aa,min(ap.x,ap.y))
-  );
-#endif
 
   return col;
 }
@@ -570,6 +565,8 @@ vec4 pass2() {
 }
 
 vec4 pass3() {
+  const float 
+    moff=.14;
   vec2
     r=RENDERSIZE
   , q=_uv
@@ -577,16 +574,46 @@ vec4 pass3() {
   , dir=nstripe/r
   , off=(3.+1.*dot(nstripe,p))*dir*color_distortion*5.
   , tp=_xy
+  , sp0=p
+  , sp1=p
+  , sz=vec2(textureSize(syn_Media,0))
   ;
 
   float
     aa=sqrt(2.)/r.y
   ;
-  tp-=vec2(350.,70.);
+  tp-=vec2(343.,62.);
+#ifdef KODELIFE
+  tp.y = 89.-tp.y;
+#endif
+
+  sp0.x-=.9;
+  sp0.y -=.5*sz.y/sz.x+(1.+moff)*media_fade-moff;
+  sp0.y*=sz.x/sz.y;
+  sp0.y+=.5;
+  sp0/=media_zoom;
+  sp0.y-=.5;
+  sp0+=.5;
+#ifdef KODELIFE
+  sp0.y = 1.-sp0.y;
+#endif
+
+  sp1.x-=.9;
+  sp1.y +=.5*sz.y/sz.x+(1.+moff)*media_fade+moff;
+  sp1.y*=sz.x/sz.y;
+  sp1.y-=.5;
+  sp1/=media_zoom;
+  sp1.y+=.5;
+  sp1+=.5;
+#ifndef KODELIFE
+  sp1.y = 1.-sp1.y;
+#endif
+
   vec4
-    pcol=texture(syn_FinalPass, q)
-      , lcol=texelFetch(t_peterclarke, ivec2(tp),0)
-//  , lcol=texture(t_peterclarke, clamp(tp/vec2(260.,89.),0., 1.))
+      pcol=texture(syn_FinalPass, q)
+    , lcol=texelFetch(t_peterclarke, ivec2(tp),0)
+    , mcol0=texture(syn_Media,clamp(sp0,0.,1.))
+    , mcol1=texture(syn_Media,clamp(sp1,0.,1.))
   ;
   vec3 col=vec3(0);
   col+=vec3(
@@ -594,10 +621,14 @@ vec4 pass3() {
   , texture(passC, q).y
   , texture(passC, q+off).z
   );
-//  col*=0.;
+#ifdef DEBUG
+  col*=0.;
+#endif
   col=logo(col,p,aa);
   col=sqrt(col);
   col=mix(col,lcol.xyz,volume_control*lcol.w);
+  col=mix(col,mcol0.xyz,mcol0.w);
+  col=mix(col,mcol1.xyz,mcol1.w*exp(media_fadestrength*media_fadecol*min(p.y+moff,0.)));
   col=mix(col,pcol.xyz,motion_blur);
   return vec4(col,1);
 }
@@ -619,5 +650,22 @@ vec4 renderMain() {
     col=pass3();
     break;
   };
+
+#ifdef DEBUG
+  const float ZZ=.1;
+  vec2 
+    p=2.*_uvc
+  , ap=abs(p)
+  ;
+  float 
+    aa = sqrt(2.)/RENDERSIZE.y
+  ;
+
+  col.xyz=mix(col.xyz,sqrt(real_orange),smoothstep(aa,-aa,min(ap.x,ap.y)-8e-4));
+  p -= round(p/ZZ)*ZZ;
+  ap = abs(p);
+  col.xyz=mix(col.xyz,sqrt(real_white),smoothstep(aa,-aa,min(ap.x,ap.y)-3e-4));
+  
+#endif
   return col;
 }
