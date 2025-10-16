@@ -1,5 +1,5 @@
 {
-	"CONTROLS" :
+	"CONTROLS" : 
 	[
 		{
 			"DEFAULT" : 0,
@@ -71,18 +71,18 @@
 			"UI_GROUP" : "Glitch"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.5,
 				0.05
 			],
 			"DESCRIPTION" : "Glitch size",
-			"MAX" :
+			"MAX" : 
 			[
 				1,
 				1
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0.01,
 				0.01
@@ -93,18 +93,18 @@
 			"UI_GROUP" : "Glitch"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.02,
 				0.02
 			],
 			"DESCRIPTION" : "Pixel size",
-			"MAX" :
+			"MAX" : 
 			[
 				0.1,
 				0.1
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0.001,
 				0.001
@@ -157,28 +157,28 @@
 		{
 			"DEFAULT" : 1,
 			"DESCRIPTION" : "Media zoom",
-			"MAX" : 5,
-			"MIN" : 0.2,
+			"MAX" : 9,
+			"MIN" : 0.125,
 			"NAME" : "media_zoom",
 			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Media"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.9,
-				1.0,
+				1,
 				0.8
 			],
 			"DESCRIPTION" : "Media fade col",
-			"MAX" :
+			"MAX" : 
 			[
 				1,
 				1,
 				1
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0,
@@ -197,13 +197,35 @@
 			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Media"
+		},
+		{
+			"DEFAULT" : 
+			[
+				0.9,
+				-0.13
+			],
+			"DESCRIPTION" : "Media offset",
+			"MAX" : 
+			[
+				1.5,
+				1.5
+			],
+			"MIN" : 
+			[
+				-1.5,
+				-1.5
+			],
+			"NAME" : "media_off",
+			"PARAMS" : 0.19901,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Media"
 		}
 	],
 	"CREDIT" : "mrange",
 	"DESCRIPTION" : "Encore 500",
 	"GPU" : 1,
 	"HEIGHT" : 1080,
-	"IMAGES" :
+	"IMAGES" : 
 	[
 		{
 			"NAME" : "t_peterclarke",
@@ -211,14 +233,14 @@
 		}
 	],
 	"IMAGE_PATH" : "scene.png",
-	"MEDIA" :
+	"MEDIA" : 
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"PASSES" :
+	"PASSES" : 
 	[
 		{
 			"FILTER" : "linear",
@@ -245,7 +267,7 @@
 			"WRAP" : "clamp"
 		}
 	],
-	"TAGS" :
+	"TAGS" : 
 	[
 		"mrange",
 		"encore500"

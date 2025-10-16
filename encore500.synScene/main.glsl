@@ -565,8 +565,6 @@ vec4 pass2() {
 }
 
 vec4 pass3() {
-  const float 
-    moff=.14;
   vec2
     r=RENDERSIZE
   , q=_uv
@@ -587,8 +585,8 @@ vec4 pass3() {
   tp.y = 89.-tp.y;
 #endif
 
-  sp0.x-=.9;
-  sp0.y -=.5*sz.y/sz.x+(1.+moff)*media_fade-moff;
+  sp0.x-=media_off.x;
+  sp0.y -=.5*sz.y/sz.x+(1.-media_off.y)*media_fade+media_off.y;
   sp0.y*=sz.x/sz.y;
   sp0.y+=.5;
   sp0/=media_zoom;
@@ -598,8 +596,8 @@ vec4 pass3() {
   sp0.y = 1.-sp0.y;
 #endif
 
-  sp1.x-=.9;
-  sp1.y +=.5*sz.y/sz.x+(1.+moff)*media_fade+moff;
+  sp1.x-=media_off.x;
+  sp1.y +=.5*sz.y/sz.x+(1.-media_off.y)*media_fade-media_off.y;
   sp1.y*=sz.x/sz.y;
   sp1.y-=.5;
   sp1/=media_zoom;
@@ -628,7 +626,7 @@ vec4 pass3() {
   col=sqrt(col);
   col=mix(col,lcol.xyz,volume_control*lcol.w);
   col=mix(col,mcol0.xyz,mcol0.w);
-  col=mix(col,mcol1.xyz,mcol1.w*exp(media_fadestrength*media_fadecol*min(p.y+moff,0.)));
+  col=mix(col,mcol1.xyz,mcol1.w*exp(media_fadestrength*media_fadecol*min(p.y-media_off.y,0.)));
   col=mix(col,pcol.xyz,motion_blur);
   return vec4(col,1);
 }
