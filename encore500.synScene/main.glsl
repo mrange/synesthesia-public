@@ -554,16 +554,18 @@ vec3 audio(vec3 col, vec2 p, float aa) {
   , d
   , f=freq(abs(n/(N+1.)))
   ;
+//  f=.9;
   c.x-=n*SZ;
   c.y=abs(c.y);
 
   vec3
-    acol=cool(c.y+.1+c.x+.5*f*f)
+    acol=cool(c.y+3.*sqrt(.25*SZ*SZ-c.x*c.x)+.5*f*f)
   ;
   d=c.y-aa;
   acol=mix(acol,real_black,smoothstep(aa,-aa,d));
 
   d=dsegment(c-vec2(0,0.2*f*f))-.465*SZ;
+  acol=mix(acol,acol*.333,smoothstep(aa,-aa, -d-2.*aa));
   col=mix(col,acol,smoothstep(aa,-aa,d)*exp(-40.*max(-p.y,0.))*media_fade);
   return col;
 }
