@@ -698,7 +698,8 @@ vec4 pass3() {
 #ifdef DEBUG
   col*=0.;
 #endif
-  if(p.x<0.) {
+  if(abs(p.x)<.2) {
+  } else if(p.x<0.) {
     col=logo(col,p,aa);
   } else {
     col=audio(col,p,aa);
