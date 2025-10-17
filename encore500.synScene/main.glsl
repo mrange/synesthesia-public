@@ -696,8 +696,11 @@ vec4 pass3() {
 #ifdef DEBUG
   col*=0.;
 #endif
-  col=logo(col,p,aa);
-  col=audio(col,p,aa);
+  if(p.x<0.) {
+    col=logo(col,p,aa);
+  } else {
+    col=audio(col,p,aa);
+  }
   col=sqrt(col);
   col=media(col,p);
 #ifndef DEBUG
