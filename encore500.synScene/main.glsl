@@ -22,7 +22,8 @@ const float
 ;
 
 const vec2
-  glitch_size       =vec2(10,1)/20.
+  audio_react       =vec2(.1,1)
+, glitch_size       =vec2(10,1)/20.
 , media_off         =vec2(.9,-.139)
 , pixel_size        =vec2(1./80.)
 ;
@@ -95,7 +96,7 @@ float freq(float x) {
   x=fract(x);
   return exp(-3.*x*x)*(1.-sqrt(fract(TIME)));
 #else
-  return texture(syn_Spectrum,x).y;
+  return smoothstep(audio_react.x, audio_react.y, texture(syn_Spectrum,x).y);
 #endif
 }
 
@@ -566,6 +567,7 @@ vec3 audio(vec3 col, vec2 p, float aa) {
 
   d=dsegment(c-vec2(0,0.2*f*f))-.465*SZ;
   acol=mix(acol,acol*.333,smoothstep(aa,-aa, -d-2.*aa));
+//  acol=mix(acol, acol.zyx, volume_control);
   col=mix(col,acol,smoothstep(aa,-aa,d)*exp(-40.*max(-p.y,0.))*media_fade);
   return col;
 }
