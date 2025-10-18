@@ -8,6 +8,7 @@
 const float
     beat_speed      =60.
 ,   box_level       =0.6667
+,   box_size        =.05
 ,   blurriness      =.2
 ,   color_distortion=.2
 ,   glitch_freq     =.9
@@ -19,6 +20,10 @@ const float
 ,   motion_blur     =.5
 ,   show_beat       =0.
 ,   volume_control  =1.
+,   vu_fade         =1.
+,   wave_fade       =1.
+,   wave_level      =.1
+,   wave_glow_level =.5
 ;
 
 const vec2
