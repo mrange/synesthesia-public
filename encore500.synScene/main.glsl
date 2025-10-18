@@ -91,6 +91,14 @@ vec3 oklabToLinear(vec3 c) {
   return OKLAB_N2*pow(OKLAB_N1*(c),vec3(3));
 }
 
+float beat() {
+#ifdef KODELIFE
+  return pow(1.-fract(TIME),2.);
+#else
+  return dot(pow(vec2(syn_BassLevel,syn_BassHits), bass_pow), bass_mix);
+#endif
+}
+
 float freq(float x) {
 #ifdef KODELIFE
   x=fract(x);
@@ -210,14 +218,14 @@ float dbox(vec3 c, vec3 n) {
   ;
   if(abs(6.+dot(n,normalize(vec3(-nstripe.y,nstripe.x,1))))>1.) return 1e3;
   vec3
-    off=.4*shash3(n)
+    off=(.5-box_size*sqrt(3.))*shash3(n)
   , bc=c-off
   ;
   rot(bc.xy,TAU*h1);
   rot(bc.xz,TAU*h2);
 
-//  return length8(bc)-.05;
-  return badbox(bc,vec3(.05));
+//  return length8(bc)-box_size;
+  return badbox(bc,vec3(box_size));
 }
 
 // in
@@ -558,27 +566,25 @@ float dsegment(vec2 p, vec2 a, vec2 b) {
   return length( pa - ba*h );
 }
 
-vec3 audio_wave(vec3 col, vec2 p, float aa) {
-  const float 
+vec3 audio_wave(vec3 col, vec2 p, float aa, float b) {
+  const float
     SZ=.025
   , I =3.
   ;
   p-=vec2(-.9,-.139);
   p.x=abs(p.x)-.4;
-
   vec2
     c=p
   ;
   vec3
     acol=vec3(0)
   ;
-  float 
+  float
     n=round(p.x/SZ)
   , d=1e3
-  , l=syn_BassLevel
   , L=length(p)
-  , G=smoothstep(wave_glow_level,1.,l)
-  , B=smoothstep(wave_level,1.,l)
+  , G=smoothstep(wave_glow_level,1.01,b)
+  , B=smoothstep(wave_level,1.01,b)
   , d0
   , d1
   , fi
@@ -587,7 +593,7 @@ vec3 audio_wave(vec3 col, vec2 p, float aa) {
   ;
   c.x-=n*SZ;
   fi=smoothstep(-0.3,.1,p.x);
-  fo=fi*smoothstep(l*l,-0.1234,p.x)*smoothstep(.9,.0,L);
+  fo=fi*smoothstep(b*b,-0.1234,p.x)*smoothstep(.9,.0,L);
 
   for(i=0.;i<I;++i) {
       vec3
@@ -595,12 +601,12 @@ vec3 audio_wave(vec3 col, vec2 p, float aa) {
           wave(n*SZ-SZ, .7, i*.1)
         , wave(n*SZ   , .7, i*.1)
         , wave(n*SZ+SZ, .7, i*.1)
-        ); 
+        );
       w*=.1*fi;
-      d0=dsegment(c,vec2(-SZ, w.x), vec2(0, w.y)); 
+      d0=dsegment(c,vec2(-SZ, w.x), vec2(0, w.y));
       d1=dsegment(c,vec2(+SZ, w.z), vec2(0, w.y));
       d=min(d0,d1);
-      acol += (G*3e-3/max(d*d,1e-3)+B*3e-5/max(d*d,1e-6))*cool(.2*i+.7*l*l);
+      acol += (G*3e-3/max(d*d,1e-3)+B*3e-5/max(d*d,1e-6))*cool(.2*i+.7*b*b);
   }
   return col+tanh(fo*wave_fade*acol);
 }
@@ -751,6 +757,7 @@ vec4 pass3() {
 
   float
     aa=sqrt(2.)/r.y
+  , b=clamp(beat(),0.,1.)
   ;
 
   vec4
@@ -765,7 +772,7 @@ vec4 pass3() {
 #ifdef DEBUG
   col*=0.;
 #endif
-  col=audio_wave(col,p,aa);
+  col=audio_wave(col,p,aa,b);
   if(abs(p.x)<.2) {
   } else if(p.x<0.) {
     col=logo(col,p,aa);
