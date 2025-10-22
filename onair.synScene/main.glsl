@@ -485,8 +485,8 @@ vec4 renderMain() {
   , p =2.*_uvc
   ;
   vec3
-    ro  =vec3(0,.55,-3)
-  , up  = normalize(vec3(.4,1,0))
+    ro  =vec3(0,camera.x,-camera.y)
+  , up  = normalize(vec3(tilt_control,1,0))
   ;
   mat2 R=ROT(.2*TIME);
   ro.xz *= R;
@@ -507,7 +507,7 @@ vec4 renderMain() {
   vec4
     pcol=texture(syn_FinalPass,q)
   ;
-  col=mix(col,pcol.xyz*pcol.xyz,.5);
+  col=mix(col,pcol.xyz*pcol.xyz,motion_blur);
   col=sqrt(col);
   return vec4(col,1.);
 }

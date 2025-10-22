@@ -1,27 +1,66 @@
 {
+	"CONTROLS" : 
+	[
+		{
+			"DEFAULT" : 0.4,
+			"DESCRIPTION" : "Tilt control",
+			"MAX" : 3,
+			"MIN" : -3,
+			"NAME" : "tilt_control",
+			"PARAMS" : 0.01,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Tweaks"
+		},
+		{
+			"DEFAULT" : 
+			[
+				0.55,
+				3
+			],
+			"DESCRIPTION" : "camera",
+			"MAX" : 
+			[
+				3,
+				6
+			],
+			"MIN" : 
+			[
+				-1,
+				1
+			],
+			"NAME" : "camera",
+			"PARAMS" : 0.01,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Tweaks"
+		},
+		{
+			"DEFAULT" : 0.4,
+			"DESCRIPTION" : "motion blur",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "motion_blur",
+			"PARAMS" : 0.01,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Tweaks"
+		}
+	],
 	"CREDIT" : "mrange",
 	"DESCRIPTION" : "On Air",
 	"GPU" : 1,
+	"HEIGHT" : 1080,
 	"IMAGE_PATH" : "scene.png",
-	"IMAGES" :
-	[
-	],
-	"MEDIA" :
+	"MEDIA" : 
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"PASSES" :
-	[
-	],
-	"TAGS" :
+	"TAGS" : 
 	[
 		"mrange",
 		"onair"
 	],
 	"TITLE" : "On Air",
-	"HEIGHT" : 1080,
 	"WIDTH" : 1920
 }
