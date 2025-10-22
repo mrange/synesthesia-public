@@ -36,7 +36,7 @@ const float
 , tolerance_1     = 1e-4
 , pi              = acos(-1.)
 , tau             = 2.*pi
-, sea_level       =-.6
+//, sea_level       =-.66
 ;
 
 float freq(float x) {
@@ -173,7 +173,7 @@ float box(vec3 p, vec3 b, vec3 bb) {
 
 float torus(vec3 p, vec2 t) {
   vec2 q = vec2(length(p.xz)-t.x,p.y);
-  return length(q)-t.y;
+  return length4(q)-t.y;
 }
 
 // License: Unknown, author: Unknown, found: don't remember
@@ -282,8 +282,8 @@ float df1(vec3 p) {
   , d3=torus(p3.yzx,1.41*vec2(1.,.02))
   , d=min(min(d0.x,d0.y),d0.z)-.02
   ;
-  d1=min(d1,d2);
   d1=min(d1,d3);
+  d1=min(d1,d2);
   g_G=min(g_G,d0);
   d=min(d,d1);
   g_H=vec4(d0,d1);
@@ -485,10 +485,10 @@ vec4 renderMain() {
   , p =2.*_uvc
   ;
   vec3
-    ro  =vec3(0,camera.x,-camera.y)
+    ro  =vec3(0,camera.y,-camera.x)
   , up  = normalize(vec3(tilt_control,1,0))
   ;
-  mat2 R=ROT(.2*TIME);
+  mat2 R=ROT(rotation_speed);
   ro.xz *= R;
   up.xz *= R;
   vec3

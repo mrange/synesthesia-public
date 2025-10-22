@@ -14,19 +14,19 @@
 		{
 			"DEFAULT" : 
 			[
-				0.55,
-				3
+				3,
+				0.55
 			],
 			"DESCRIPTION" : "camera",
 			"MAX" : 
 			[
-				3,
-				6
+				6,
+				3
 			],
 			"MIN" : 
 			[
-				-1,
-				1
+				1,
+				-1
 			],
 			"NAME" : "camera",
 			"PARAMS" : 0.01,
@@ -39,6 +39,25 @@
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "motion_blur",
+			"PARAMS" : 0.01,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Tweaks"
+		},
+		{
+			"DEFAULT" : 0.2,
+			"DESCRIPTION" : "rotation speed",
+			"MAX" : 3,
+			"MIN" : -3,
+			"NAME" : "rotation_speed",
+			"TYPE" : "slider speed",
+			"UI_GROUP" : "Tweaks"
+		},
+		{
+			"DEFAULT" : -0.66,
+			"DESCRIPTION" : "",
+			"MAX" : 1,
+			"MIN" : -3,
+			"NAME" : "sea_level",
 			"PARAMS" : 0.01,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Tweaks"
