@@ -21,8 +21,12 @@ let hsv2rgb (h : float32) (s : float32) (v : float32) : Vector3 =
     )
 let inline HSV2RGB (h, s, v) =
   let rgb = hsv2rgb (float32 h) (float32 s) (float32 v)
-  printfn "vec3(%.2f, %.2f, %.2f)" rgb.X rgb.Y rgb.Z
+  printfn "HSV2RGB(%.2f,%.2f,%.2f): vec3(%.2f, %.2f, %.2f)" h s v rgb.X rgb.Y rgb.Z
 
-HSV2RGB (0.58,0.8,1.)
-HSV2RGB (0.75,0.85,1.)
-HSV2RGB (0.72,0.9,1.)
+HSV2RGB (0.85, 0.90, 0.5)
+HSV2RGB (0.06, 0.90, 0.5)
+HSV2RGB (0.03, 0.90, 0.5)
+HSV2RGB (0.60, 0.90, 0.5)
+HSV2RGB (0.64, 0.98, 0.5)
+HSV2RGB (0.0 , 0.98, 0.5)
+HSV2RGB (0.1 , 0.0 , 0.5)

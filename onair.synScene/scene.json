@@ -7,7 +7,7 @@
 			"MAX" : 3,
 			"MIN" : -3,
 			"NAME" : "tilt_control",
-			"PARAMS" : 0.01,
+			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Tweaks"
 		},
@@ -29,7 +29,7 @@
 				-1
 			],
 			"NAME" : "camera",
-			"PARAMS" : 0.01,
+			"PARAMS" : 0.2,
 			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Tweaks"
 		},
@@ -39,7 +39,7 @@
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "motion_blur",
-			"PARAMS" : 0.01,
+			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Tweaks"
 		},
@@ -58,9 +58,33 @@
 			"MAX" : 1,
 			"MIN" : -3,
 			"NAME" : "sea_level",
-			"PARAMS" : 0.01,
+			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Tweaks"
+		},
+		{
+			"DEFAULT" : 
+			[
+				0,
+				0,
+				0
+			],
+			"DESCRIPTION" : "Bars color",
+			"MAX" : 
+			[
+				1,
+				1,
+				1
+			],
+			"MIN" : 
+			[
+				0,
+				0,
+				0
+			],
+			"NAME" : "bars_col",
+			"TYPE" : "color",
+			"UI_GROUP" : "Colors"
 		}
 	],
 	"CREDIT" : "mrange",

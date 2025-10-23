@@ -13,16 +13,27 @@ vec3 hsv2rgb(vec3 c) {
 #define HSV2RGB(c)  (c.z * mix(hsv2rgb_K.xxx, clamp(abs(fract(c.xxx + hsv2rgb_K.xyz) * 6.0 - hsv2rgb_K.www) - hsv2rgb_K.xxx, 0.0, 1.0), c.y))
 
 const vec3 
-  bars_col        = HSV2RGB(vec3(0.85, 0.90, 1E-3))
-, bottom_box_col  = HSV2RGB(vec3(0.66, 0.80, 0.5))
-, horiz_col       = HSV2RGB(vec3(0.06, 0.90, 2E-3))
-, sun_col         = HSV2RGB(vec3(0.03, 0.90, 2E-4))
-, sun_dir         = normalize(vec3(1,.2,1))
-, top_box_col     = HSV2RGB(vec3(0.60, 0.90, 1.))
+  sun_dir         = normalize(vec3(1,.2,1))
 
-, border_col      = HSV2RGB(vec3(0.64,.98 ,1.))
-, air_col         = HSV2RGB(vec3(0.0 ,.98 ,1.))
-, on_col          = HSV2RGB(vec3(0.1 ,.0  ,1.))
+, bars_col        = HSV2RGB(vec3(0.85, 0.90, .5))
+, horiz_col       = HSV2RGB(vec3(0.06, 0.90, .5))
+, sun_col         = HSV2RGB(vec3(0.03, 0.90, .5))
+, top_box_col     = HSV2RGB(vec3(0.60, 0.90, .5))
+
+, border_col      = HSV2RGB(vec3(0.64,.98 ,.5))
+, air_col         = HSV2RGB(vec3(0.0 ,.98 ,.5))
+, on_col          = HSV2RGB(vec3(0.1 ,.0  ,.5))
+
+/*
+, bars_col        = vec3(0.50, 0.05, 0.45)
+, horiz_col       = vec3(0.50, 0.21, 0.05)
+, sun_col         = vec3(0.50, 0.13, 0.05)
+, top_box_col     = vec3(0.05, 0.23, 0.50)
+
+, border_col      = vec3(0.01, 0.09, 0.50)
+, air_col         = vec3(0.50, 0.01, 0.01)
+, on_col          = vec3(0.50, 0.50, 0.50)
+*/
 ;
 
 const vec4
@@ -336,23 +347,18 @@ vec3 render0(vec3 ro, vec3 rd) {
   vec3 col = vec3(0.0);
   
   float 
-    srd  = sign(rd.y)
-  , tp   = -(ro.y-9.)/abs(rd.y)
+    tp   = (9.-ro.y)/(rd.y)
   ;
 
-/*
-  if (srd < 0.) {
-    col += bottom_box_col*exp(-0.5*(length((ro + tp*rd).xz)));
-  }
-*/
-  if (srd > 0.0) {
+  if (tp>0.) {
     vec3 pos  = ro + tp*rd;
     vec2 pp = pos.xz;
     float db = box(pp, vec2(5.0, 9.0))-3.0;
     
-    col += top_box_col*rd.y*rd.y*smoothstep(0.25, 0.0, db);
-    col += 0.2*top_box_col*exp(-0.5*max(db, 0.0));
-    col += 0.05*sqrt(top_box_col)*max(-db, 0.0);
+    col += rd.y*rd.y*smoothstep(0.25, 0.0, db)*top_box_col;
+    col += 2e-1*exp(-0.5*max(db, 0.0))*top_box_col;
+    col += 5e-2*max(-db, 0.0)*sqrt(top_box_col);
+    col *= 4.;
   }
 
   vec2 
@@ -360,9 +366,8 @@ vec3 render0(vec3 ro, vec3 rd) {
   , S=raysphere(ro,rd,planet_dim)
   ;
 
-  col*=2.;
-  col += sun_col*.002/pow(1.01-dot(rd,sun_dir),4.)*mix(0.,1.,exp(-.3*(S.y-S.x)));
-  col += horiz_col/abs(rd.y);
+  col += 8e-7/pow(1.01-dot(rd,sun_dir),4.)*mix(0.,1.,exp(-.3*(S.y-S.x)))*sun_col;
+  col += 4e-3/abs(rd.y)*horiz_col;
   const float ZZ=.01,CC=2.;
   float 
     N=round(P.x/ZZ)
@@ -374,7 +379,7 @@ vec3 render0(vec3 ro, vec3 rd) {
     D=min(D, box(P+vec2(-ZZ*j,0),vec2(ZZ*.1,(freq((N+j)*ZZ))*.04))-ZZ*.2);
   }
   
-  col+=1e-0/max(D,1e-3)*(bars_col-.02*D);
+  col+=1e-0/max(D,1e-3)*(bars_col*2E-3-.02*D);
   //col+=sin(1000.*D);
   return col; 
 }
@@ -417,9 +422,9 @@ vec3 render1(vec3 ro, vec3 rd) {
   vec4 
     H
   ;
-  col_on=on_col*(h0>H0-.6?1.:0.);
-  col_air=air_col*(h1>H1-.6?1.:0.);
-  col_border=border_col*(h2>H2-.6?1.:0.);
+  col_on=(h0>H0-.6?2.:0.)*on_col;
+  col_air=(h1>H1-.6?2.:0.)*air_col;
+  col_border=(h2>H2-.6?2.:0.)*border_col;
   for(i=0.;i<3.;++i) {
     col=vec3(0.);
     Z=(sea_level-ro.y)/rd.y;
