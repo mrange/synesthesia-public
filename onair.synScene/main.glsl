@@ -492,7 +492,7 @@ vec4 renderMain() {
   ;
   vec3
     ro  =vec3(0,camera.y,-camera.x)
-  , up  = normalize(vec3(tilt_control,1,0))
+  , up  = normalize(vec3(-tilt_control,1,0))
   ;
   mat2 R=ROT(rotation_speed);
   ro.xz *= R;
