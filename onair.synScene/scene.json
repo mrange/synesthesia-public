@@ -1,5 +1,5 @@
 {
-	"CONTROLS" : 
+	"CONTROLS" :
 	[
 		{
 			"DEFAULT" : 0.4,
@@ -12,18 +12,18 @@
 			"UI_GROUP" : "Tweaks"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				3,
 				0.55
 			],
 			"DESCRIPTION" : "camera",
-			"MAX" : 
+			"MAX" :
 			[
 				6,
 				3
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				1,
 				-1
@@ -63,26 +63,156 @@
 			"UI_GROUP" : "Tweaks"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
-				0,
-				0,
-				0
+				0.50, 0.05, 0.45
 			],
 			"DESCRIPTION" : "Bars color",
-			"MAX" : 
+			"MAX" :
 			[
 				1,
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0,
 				0
 			],
 			"NAME" : "bars_col",
+			"TYPE" : "color",
+			"UI_GROUP" : "Colors"
+		},
+		{
+			"DEFAULT" :
+			[
+				0.50, 0.21, 0.05
+			],
+			"DESCRIPTION" : "Bars color",
+			"MAX" :
+			[
+				1,
+				1,
+				1
+			],
+			"MIN" :
+			[
+				0,
+				0,
+				0
+			],
+			"NAME" : "horiz_col",
+			"TYPE" : "color",
+			"UI_GROUP" : "Colors"
+		},
+		{
+			"DEFAULT" :
+			[
+				0.50, 0.13, 0.05
+			],
+			"DESCRIPTION" : "Bars color",
+			"MAX" :
+			[
+				1,
+				1,
+				1
+			],
+			"MIN" :
+			[
+				0,
+				0,
+				0
+			],
+			"NAME" : "sun_col",
+			"TYPE" : "color",
+			"UI_GROUP" : "Colors"
+		},
+		{
+			"DEFAULT" :
+			[
+				0.05, 0.23, 0.50
+			],
+			"DESCRIPTION" : "Bars color",
+			"MAX" :
+			[
+				1,
+				1,
+				1
+			],
+			"MIN" :
+			[
+				0,
+				0,
+				0
+			],
+			"NAME" : "top_box_col",
+			"TYPE" : "color",
+			"UI_GROUP" : "Colors"
+		},
+		{
+			"DEFAULT" :
+			[
+				0.01, 0.09, 0.50
+			],
+			"DESCRIPTION" : "Bars color",
+			"MAX" :
+			[
+				1,
+				1,
+				1
+			],
+			"MIN" :
+			[
+				0,
+				0,
+				0
+			],
+			"NAME" : "border_col",
+			"TYPE" : "color",
+			"UI_GROUP" : "Colors"
+		},
+		{
+			"DEFAULT" :
+			[
+				0.50, 0.01, 0.01
+			],
+			"DESCRIPTION" : "Bars color",
+			"MAX" :
+			[
+				1,
+				1,
+				1
+			],
+			"MIN" :
+			[
+				0,
+				0,
+				0
+			],
+			"NAME" : "air_col",
+			"TYPE" : "color",
+			"UI_GROUP" : "Colors"
+		},
+		{
+			"DEFAULT" :
+			[
+				0.50, 0.50, 0.50
+			],
+			"DESCRIPTION" : "Bars color",
+			"MAX" :
+			[
+				1,
+				1,
+				1
+			],
+			"MIN" :
+			[
+				0,
+				0,
+				0
+			],
+			"NAME" : "on_col",
 			"TYPE" : "color",
 			"UI_GROUP" : "Colors"
 		}
@@ -92,14 +222,14 @@
 	"GPU" : 1,
 	"HEIGHT" : 1080,
 	"IMAGE_PATH" : "scene.png",
-	"MEDIA" : 
+	"MEDIA" :
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"TAGS" : 
+	"TAGS" :
 	[
 		"mrange",
 		"onair"

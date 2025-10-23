@@ -12,9 +12,9 @@ vec3 hsv2rgb(vec3 c) {
 //  Macro version of above to enable compile-time constants
 #define HSV2RGB(c)  (c.z * mix(hsv2rgb_K.xxx, clamp(abs(fract(c.xxx + hsv2rgb_K.xyz) * 6.0 - hsv2rgb_K.www) - hsv2rgb_K.xxx, 0.0, 1.0), c.y))
 
-const vec3 
+const vec3
   sun_dir         = normalize(vec3(1,.2,1))
-
+#ifdef KODELIFE
 , bars_col        = HSV2RGB(vec3(0.85, 0.90, .5))
 , horiz_col       = HSV2RGB(vec3(0.06, 0.90, .5))
 , sun_col         = HSV2RGB(vec3(0.03, 0.90, .5))
@@ -34,6 +34,7 @@ const vec3
 , air_col         = vec3(0.50, 0.01, 0.01)
 , on_col          = vec3(0.50, 0.50, 0.50)
 */
+#endif
 ;
 
 const vec4
@@ -61,10 +62,10 @@ float freq(float x) {
 
 // IQ's ray sphere intersect: https://iquilezles.org/articles/intersectors
 vec2 raysphere(vec3 ro, vec3 rd, vec4 sph) {
-  vec3 
+  vec3
     oc = ro-sph.xyz
   ;
-  float 
+  float
     b = dot(oc, rd)
   , c = dot(oc, oc)-sph.w*sph.w
   , h = b*b-c
@@ -78,7 +79,7 @@ vec2 raysphere(vec3 ro, vec3 rd, vec4 sph) {
 float arc(vec2 p, vec2 sc, float ra, float rb ) {
   // sc is the sin/cos of the arc's aperture
   p.x = abs(p.x);
-  return ((sc.y*p.x>sc.x*p.y) ? length(p-sc*ra) : 
+  return ((sc.y*p.x>sc.x*p.y) ? length(p-sc*ra) :
                                 abs(length(p)-ra)) - rb;
 }
 
@@ -164,7 +165,7 @@ float segmenty(vec2 p, vec2 d) {
   float
     d0=length(p)
   , d1=abs(p.x);
-  
+
   return (p.y>0.?d0:d1)-d.y;
 }
 
@@ -173,7 +174,7 @@ float segmentx(vec2 p, vec2 d) {
   float
     d0=length(p)
   , d1=abs(p.y);
-  
+
   return (p.x>0.?d0:d1)-d.y;
 }
 
@@ -193,10 +194,10 @@ float hash(float co) {
 }
 
 vec3 onair(vec2 p) {
-  const float 
+  const float
     RB=0.19
   ;
-  const float 
+  const float
     AN=10.635
   ;
   const vec2
@@ -256,7 +257,7 @@ vec3 onair(vec2 p) {
       , segmenty(pr-vec2(-0.1,-.14),vec2(0.2,0)))
     , segment(pr,vec2(0,-0.12), vec2(0.11,-.34))
     );
-  
+
   don=min(do_,dn);
   dair=min(min(da,di),dr);
 
@@ -281,13 +282,13 @@ float df1(vec3 p) {
   , p1=p
   , p3=p
   ;
-  vec2 
+  vec2
     S=sin(p.xz*vec2(23.0,13.0))
   ;
   p0.z=-abs(p0.z);
   p0.z+=.07;
   d0=onair(p0);
-  float 
+  float
     d1=box(p1,vec2(1.1,.5),vec2(.29,.01))-.01
   , d2=p.y-sea_level+1e-3/(1.+0.1*dot(p.xz,p.xz))*S.x*S.y
   , d3=torus(p3.yzx,1.41*vec2(1.,.02))
@@ -320,7 +321,7 @@ float raymarch1(vec3 ro, vec3 rd, float initz) {
   , D=1e3
   , Z=initz
   ;
-  
+
   for(i=0.;i<max_iteration_1;++i) {
     vec3
       p=ro+rd*z
@@ -330,12 +331,12 @@ float raymarch1(vec3 ro, vec3 rd, float initz) {
       D=d;
       Z=z;
     }
-    if(d<tolerance_1||z>max_distance_1) { 
-      break; 
+    if(d<tolerance_1||z>max_distance_1) {
+      break;
     }
     z+=d;
   }
-  
+
   if(i==max_iteration_1) {
 //    z=Z;
   }
@@ -345,8 +346,8 @@ float raymarch1(vec3 ro, vec3 rd, float initz) {
 
 vec3 render0(vec3 ro, vec3 rd) {
   vec3 col = vec3(0.0);
-  
-  float 
+
+  float
     tp   = (9.-ro.y)/(rd.y)
   ;
 
@@ -354,14 +355,14 @@ vec3 render0(vec3 ro, vec3 rd) {
     vec3 pos  = ro + tp*rd;
     vec2 pp = pos.xz;
     float db = box(pp, vec2(5.0, 9.0))-3.0;
-    
+
     col += rd.y*rd.y*smoothstep(0.25, 0.0, db)*top_box_col;
     col += 2e-1*exp(-0.5*max(db, 0.0))*top_box_col;
     col += 5e-2*max(-db, 0.0)*sqrt(top_box_col);
     col *= 4.;
   }
 
-  vec2 
+  vec2
     P=vec2(pi+atan(rd.x,rd.z),rd.y)/pi
   , S=raysphere(ro,rd,planet_dim)
   ;
@@ -369,7 +370,7 @@ vec3 render0(vec3 ro, vec3 rd) {
   col += 8e-7/pow(1.01-dot(rd,sun_dir),4.)*mix(0.,1.,exp(-.3*(S.y-S.x)))*sun_col;
   col += 4e-3/abs(rd.y)*horiz_col;
   const float ZZ=.01,CC=2.;
-  float 
+  float
     N=round(P.x/ZZ)
   , D=1e3
   , j
@@ -378,10 +379,10 @@ vec3 render0(vec3 ro, vec3 rd) {
   for(j=-CC;j<=CC;++j) {
     D=min(D, box(P+vec2(-ZZ*j,0),vec2(ZZ*.1,(freq((N+j)*ZZ))*.04))-ZZ*.2);
   }
-  
+
   col+=1e-0/max(D,1e-3)*(bars_col*2E-3-.02*D);
   //col+=sin(1000.*D);
-  return col; 
+  return col;
 }
 
 vec3 render1(vec3 ro, vec3 rd) {
@@ -403,7 +404,7 @@ vec3 render1(vec3 ro, vec3 rd) {
   , col_air
   , col_border
   ;
-  
+
   float
     d
   , f
@@ -419,7 +420,7 @@ vec3 render1(vec3 ro, vec3 rd) {
   , H1=fract(6047.*H0)
   , H2=fract(7907.*H0)
   ;
-  vec4 
+  vec4
     H
   ;
   col_on=(h0>H0-.6?2.:0.)*on_col;
@@ -434,7 +435,7 @@ vec3 render1(vec3 ro, vec3 rd) {
     H=g_H;
     p=ro+rd*z;
     n=nf1(p);
-    
+
     if (z<=max_distance_1) {
       hit = true;
     } else if(Z>=max_distance_1){
@@ -466,9 +467,9 @@ vec3 render1(vec3 ro, vec3 rd) {
       col+=clamp(S*g,0.,3.);
     }
     G*=G;
-    
+
     col += 5e-4/G.x*col_border;
-    col += 5e-4/G.y*col_on;  
+    col += 5e-4/G.y*col_on;
     col += 5e-4/G.z*col_air;
     tcol+=col*mcol;
     if(!hit) {
@@ -479,12 +480,12 @@ vec3 render1(vec3 ro, vec3 rd) {
     rd=r;
     ro=p+tolerance_1*1e1*(n+rd*1e1);
   }
-  
+
   return tcol;
 }
 
 vec4 renderMain() {
-  vec2 
+  vec2
     r =RENDERSIZE.xy
   , q =_uv
   , p =2.*_uvc
@@ -504,7 +505,7 @@ vec4 renderMain() {
   , rd  =normalize(-p.x*X+p.y*Y+2.*Z)
   , col =vec3(0)
   ;
-  
+
   col=render1(ro,rd);
   col -=vec3(2,3,1)*3e-3*(.25+length(p));
   col=tanh(col);
