@@ -22,7 +22,8 @@ const float
 ;
 
 const vec2
-  camera          =vec2(3.,.55)
+  camera        =vec2(3.,.55)
+, media_control =vec2(10.,.5)
 ;
 
 const vec3
@@ -357,6 +358,25 @@ float raymarch1(vec3 ro, vec3 rd, float initz) {
   return z;
 }
 
+vec4 tcol(vec2 p) {
+  vec2
+    sz=vec2(textureSize(syn_Media,0))
+  , S
+  ;
+  p.x*=sz.y/sz.x;
+  S=step(abs(p),vec2(.5));
+  p+=.5;
+
+#ifdef KODELIFE
+  p.y=1.-p.y;
+#endif
+  vec4
+    tcol=texture(syn_Media, p)
+  ;
+  tcol.xyz*=tcol.xyz;
+  tcol.w*=S.x*S.y;
+  return tcol;
+}
 
 vec3 render0(vec3 ro, vec3 rd) {
   vec3 col = vec3(0.0);
@@ -381,6 +401,9 @@ vec3 render0(vec3 ro, vec3 rd) {
   , S=raysphere(ro,rd,planet_dim)
   ;
 
+  vec4
+    tcol=tcol(media_control.x*P-vec2(media_control.x*.25,media_control.y))
+  ;
   col += 8e-7/pow(1.01-dot(rd,sun_dir),4.)*mix(0.,1.,exp(-.3*(S.y-S.x)))*sun_col;
   col += 4e-3/abs(rd.y)*horiz_col;
   const float ZZ=.01,CC=2.;
@@ -394,8 +417,9 @@ vec3 render0(vec3 ro, vec3 rd) {
     D=min(D, box(P+vec2(-ZZ*j,0),vec2(ZZ*.1,(freq((N+j)*ZZ))*.04))-ZZ*.2);
   }
 
-  col+=1e-0/max(D,1e-3)*(bars_col*2E-3-.02*D);
-  //col+=sin(1000.*D);
+  col+=1./max(D,1e-3)*(bars_col*2E-3-.02*D);
+  col = mix(col,tcol.xyz*tcol.xyz,tcol.w);
+
   return col;
 }
 
@@ -509,14 +533,15 @@ vec4 renderMain() {
   , up  = normalize(vec3(-tilt_control,1,0))
   ;
 #ifdef KODELIFE
-  mat2 
-    R=ROT(rotation_speed*TIME)
+  mat2
+    R=ROT(radians(rotation_speed*TIME))
   ;
 #else
-  mat2 
+  mat2
+//    R=ROT(radians(45.+180.))
     R=ROT(rotation_speed)
   ;
-#endif  
+#endif
   ro.xz *= R;
   up.xz *= R;
   vec3
