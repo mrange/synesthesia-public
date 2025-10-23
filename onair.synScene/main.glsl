@@ -279,13 +279,30 @@ vec3 onair(vec2 p) {
   return vec3(db, min(do_,dn), min(min(da,di),dr));
 }
 
-vec3 onair(vec3 p) {
+vec3 onair_(vec3 p) {
   vec4 d = vec4(onair(p.xy),abs(p.z));
   return vec3(
     min(max(d.x,d.w),0.) + length(max(d.xw,0.))
   , min(max(d.y,d.w),0.) + length(max(d.yw,0.))
   , min(max(d.z,d.w),0.) + length(max(d.zw,0.))
   );
+}
+
+vec3 onair(vec3 p) {
+  float
+    z2 = p.z*p.z
+  ;
+
+  vec3
+    d2d  = onair(p.xy)
+  , d2d2 = d2d*d2d
+  ;
+
+  return sqrt(vec3(
+    d2d.x <= 0.0 ? z2 : (d2d2.x + z2)
+  , d2d.y <= 0.0 ? z2 : (d2d2.y + z2)
+  , d2d.z <= 0.0 ? z2 : (d2d2.z + z2)
+  ));
 }
 
 vec3 g_G;
@@ -534,11 +551,11 @@ vec4 renderMain() {
   ;
 #ifdef KODELIFE
   mat2
-    R=ROT(radians(rotation_speed*TIME))
+//    R=ROT(radians(3.+180.))
+    R=ROT(rotation_speed*TIME)
   ;
 #else
   mat2
-//    R=ROT(radians(45.+180.))
     R=ROT(rotation_speed)
   ;
 #endif
