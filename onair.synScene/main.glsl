@@ -12,9 +12,20 @@ vec3 hsv2rgb(vec3 c) {
 //  Macro version of above to enable compile-time constants
 #define HSV2RGB(c)  (c.z * mix(hsv2rgb_K.xxx, clamp(abs(fract(c.xxx + hsv2rgb_K.xyz) * 6.0 - hsv2rgb_K.www) - hsv2rgb_K.xxx, 0.0, 1.0), c.y))
 
-const vec3
-  sun_dir         = normalize(vec3(1,.2,1))
 #ifdef KODELIFE
+const float
+  flickerness     =.6
+, motion_blur     =.4
+, rotation_speed  = .2
+, sea_level       =-.66
+, tilt_control    =-.4
+;
+
+const vec2
+  camera          =vec2(3.,.55)
+;
+
+const vec3
 , bars_col        = HSV2RGB(vec3(0.85, 0.90, .5))
 , horiz_col       = HSV2RGB(vec3(0.06, 0.90, .5))
 , sun_col         = HSV2RGB(vec3(0.03, 0.90, .5))
@@ -34,12 +45,8 @@ const vec3
 , air_col         = vec3(0.50, 0.01, 0.01)
 , on_col          = vec3(0.50, 0.50, 0.50)
 */
+;
 #endif
-;
-
-const vec4
-  planet_dim      = vec4(50.*sun_dir-vec3(0,3,-2), 10.)
-;
 
 const float
   max_distance_1  = 14.
@@ -48,7 +55,14 @@ const float
 , tolerance_1     = 1e-4
 , pi              = acos(-1.)
 , tau             = 2.*pi
-//, sea_level       =-.66
+;
+
+const vec3
+  sun_dir         = normalize(vec3(1,.2,1))
+;
+
+const vec4
+  planet_dim      = vec4(50.*sun_dir-vec3(0,3,-2), 10.)
 ;
 
 float freq(float x) {
@@ -423,9 +437,9 @@ vec3 render1(vec3 ro, vec3 rd) {
   vec4
     H
   ;
-  col_on=(h0>H0-.6?2.:0.)*on_col;
-  col_air=(h1>H1-.6?2.:0.)*air_col;
-  col_border=(h2>H2-.6?2.:0.)*border_col;
+  col_on=(h0>H0-flickerness?2.:0.)*on_col;
+  col_air=(h1>H1-flickerness?2.:0.)*air_col;
+  col_border=(h2>H2-flickerness?2.:0.)*border_col;
   for(i=0.;i<3.;++i) {
     col=vec3(0.);
     Z=(sea_level-ro.y)/rd.y;
@@ -494,7 +508,15 @@ vec4 renderMain() {
     ro  =vec3(0,camera.y,-camera.x)
   , up  = normalize(vec3(-tilt_control,1,0))
   ;
-  mat2 R=ROT(rotation_speed);
+#ifdef KODELIFE
+  mat2 
+    R=ROT(rotation_speed*TIME)
+  ;
+#else
+  mat2 
+    R=ROT(rotation_speed)
+  ;
+#endif  
   ro.xz *= R;
   up.xz *= R;
   vec3
