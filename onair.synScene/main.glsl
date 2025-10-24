@@ -1,7 +1,6 @@
 #define ROT(a)      mat2(cos(a), sin(a), -sin(a), cos(a))
 #define SC(a)       vec2(sin(a),cos(a))
 
-
 // License: WTFPL, author: sam hocevar, found: https://stackoverflow.com/a/17897228/418488
 const vec4 hsv2rgb_K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
 vec3 hsv2rgb(vec3 c) {
@@ -53,7 +52,7 @@ const float
   max_distance_1  = 14.
 , max_bounces     = 3.
 , max_iteration_1 = 70.
-, norm_eps_1      = 1e-3
+, norm_eps_1      = 2e-3
 , tolerance_1     = 1e-4
 , pi              = acos(-1.)
 , tau             = 2.*pi
@@ -460,6 +459,7 @@ vec3 render1(vec3 ro, vec3 rd) {
   , L
   , g
   , i
+  , I=1.
   , h0=hash(floor(9.*TIME))
   , h1=fract(6047.*h0)
   , h2=fract(7907.*h0)
@@ -477,7 +477,7 @@ vec3 render1(vec3 ro, vec3 rd) {
     col=vec3(0.);
     Z=(sea_level-ro.y)/rd.y;
     g_G=vec3(1e3);
-    z=raymarch1(ro,rd,0.01);
+    z=raymarch1(ro,rd, I);
     G=g_G;
     H=g_H;
     p=ro+rd*z;
@@ -525,7 +525,8 @@ vec3 render1(vec3 ro, vec3 rd) {
     }
     mcol*=f;
     rd=r;
-    ro=p+tolerance_1*1e1*(n+rd*1e1);
+    ro=p+tolerance_1*1e1*n;
+    I=1e2*tolerance_1;
   }
 
   tcol+=mcol*render0(ro,rd);
@@ -533,7 +534,7 @@ vec3 render1(vec3 ro, vec3 rd) {
   return tcol;
 }
 
-vec4 renderMain() {
+vec4 doPass0() {
   vec2
     r =RENDERSIZE.xy
   , q =_uv
@@ -566,12 +567,50 @@ vec4 renderMain() {
 
   col=render1(ro,rd);
   col -=vec3(2,3,1)*3e-3*(.25+length(p));
-  col=tanh(col);
-  col=clamp(col,0.,1.);
-  vec4
-    pcol=texture(syn_FinalPass,q)
+  col=max(col,0.);
+  return vec4(col,1.);
+}
+
+vec3 filter4(sampler2D tex, ivec2 xy) {
+  const vec3
+    luma = vec3(0.2126, 0.7152, 0.0722)
   ;
-  col=mix(col,pcol.xyz*pcol.xyz,motion_blur);
+  vec3
+    c = texelFetch(tex, xy, 0).xyz
+  , a = vec3(0)
+  ;
+  a += texelFetch(tex, xy + ivec2( 0,  1), 0).xyz;
+  a += texelFetch(tex, xy + ivec2( 0, -1), 0).xyz;
+  a += texelFetch(tex, xy + ivec2( 1,  0), 0).xyz;
+  a += texelFetch(tex, xy + ivec2(-1,  0), 0).xyz;
+
+  a/=4;
+
+  return dot(luma,c) > dot(luma,a) ? a : c;
+}
+
+vec4 doPass1() {
+  ivec2
+    xy=ivec2(_xy)
+  ;
+  vec3
+    col=filter4(pass0,xy)
+  , pcol=texelFetch(syn_FinalPass,xy,0).xyz
+  ;
+  vec4
+  ;
+  pcol.xyz=pcol.xyz;
+  col=tanh(col);
+  col=mix(col,pcol*pcol,motion_blur);
   col=sqrt(col);
   return vec4(col,1.);
+}
+
+vec4 renderMain() {
+  switch(PASSINDEX) {
+  case 0:
+    return doPass0();
+  default:
+    return doPass1();
+  }
 }
