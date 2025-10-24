@@ -1,5 +1,5 @@
 {
-	"CONTROLS" :
+	"CONTROLS" : 
 	[
 		{
 			"DEFAULT" : -0.4,
@@ -11,18 +11,18 @@
 			"UI_GROUP" : "Tweaks"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				3,
 				0.55
 			],
 			"DESCRIPTION" : "camera",
-			"MAX" :
+			"MAX" : 
 			[
 				6,
 				3
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				1,
 				-1
@@ -72,18 +72,18 @@
 			"UI_GROUP" : "Tweaks"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				10,
 				0.5
 			],
 			"DESCRIPTION" : "Media control",
-			"MAX" :
+			"MAX" : 
 			[
 				20,
 				5
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				1,
 				-5
@@ -94,20 +94,20 @@
 			"UI_GROUP" : "Tweaks"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.5,
 				0.05,
 				0.45
 			],
 			"DESCRIPTION" : "Bars color",
-			"MAX" :
+			"MAX" : 
 			[
 				1,
 				1,
 				1
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0,
@@ -118,20 +118,20 @@
 			"UI_GROUP" : "Colors"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.5,
 				0.21,
 				0.05
 			],
 			"DESCRIPTION" : "Bars color",
-			"MAX" :
+			"MAX" : 
 			[
 				1,
 				1,
 				1
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0,
@@ -142,20 +142,20 @@
 			"UI_GROUP" : "Colors"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.5,
 				0.13,
 				0.05
 			],
 			"DESCRIPTION" : "Bars color",
-			"MAX" :
+			"MAX" : 
 			[
 				1,
 				1,
 				1
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0,
@@ -166,20 +166,20 @@
 			"UI_GROUP" : "Colors"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.05,
 				0.23,
 				0.5
 			],
 			"DESCRIPTION" : "Bars color",
-			"MAX" :
+			"MAX" : 
 			[
 				1,
 				1,
 				1
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0,
@@ -190,20 +190,20 @@
 			"UI_GROUP" : "Colors"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.01,
 				0.09,
 				0.5
 			],
 			"DESCRIPTION" : "Bars color",
-			"MAX" :
+			"MAX" : 
 			[
 				1,
 				1,
 				1
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0,
@@ -214,20 +214,20 @@
 			"UI_GROUP" : "Colors"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.5,
 				0.01,
 				0.01
 			],
 			"DESCRIPTION" : "Bars color",
-			"MAX" :
+			"MAX" : 
 			[
 				1,
 				1,
 				1
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0,
@@ -238,20 +238,20 @@
 			"UI_GROUP" : "Colors"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.5,
 				0.5,
 				0.5
 			],
 			"DESCRIPTION" : "Bars color",
-			"MAX" :
+			"MAX" : 
 			[
 				1,
 				1,
 				1
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0,
@@ -267,7 +267,14 @@
 	"GPU" : 1,
 	"HEIGHT" : 1080,
 	"IMAGE_PATH" : "scene.png",
-	"PASSES":
+	"MEDIA" : 
+	[
+		{
+			"FILTER" : "linear",
+			"WRAP" : "mirror"
+		}
+	],
+	"PASSES" : 
 	[
 		{
 			"FILTER" : "linear",
@@ -278,14 +285,7 @@
 			"WRAP" : "clamp"
 		}
 	],
-	"MEDIA" :
-	[
-		{
-			"FILTER" : "linear",
-			"WRAP" : "mirror"
-		}
-	],
-	"TAGS" :
+	"TAGS" : 
 	[
 		"mrange",
 		"onair"
