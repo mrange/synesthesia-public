@@ -51,6 +51,7 @@ const vec3
 
 const float
   max_distance_1  = 14.
+, max_bounces     = 3.
 , max_iteration_1 = 70.
 , norm_eps_1      = 1e-3
 , tolerance_1     = 1e-4
@@ -350,8 +351,6 @@ float raymarch1(vec3 ro, vec3 rd, float initz) {
     i
   , d
   , z=initz
-  , D=1e3
-  , Z=initz
   ;
 
   for(i=0.;i<max_iteration_1;++i) {
@@ -359,19 +358,12 @@ float raymarch1(vec3 ro, vec3 rd, float initz) {
       p=ro+rd*z
     ;
     d=df1(p);
-    if(d<D) {
-      D=d;
-      Z=z;
-    }
     if(d<tolerance_1||z>max_distance_1) {
       break;
     }
     z+=d;
   }
 
-  if(i==max_iteration_1) {
-//    z=Z;
-  }
   return z;
 }
 
@@ -481,7 +473,7 @@ vec3 render1(vec3 ro, vec3 rd) {
   col_on=(h0>H0-flickerness?2.:0.)*on_col;
   col_air=(h1>H1-flickerness?2.:0.)*air_col;
   col_border=(h2>H2-flickerness?2.:0.)*border_col;
-  for(i=0.;i<3.;++i) {
+  for(i=0.;i<max_bounces;++i) {
     col=vec3(0.);
     Z=(sea_level-ro.y)/rd.y;
     g_G=vec3(1e3);
@@ -497,6 +489,7 @@ vec3 render1(vec3 ro, vec3 rd) {
       hit=true;
       n=vec3(0,1,0);
       // TODO: Unsure why *Z doesn't work
+      //  it seems to cause multiple bounces when I am expecting a single bounch and then hit sky
       p=ro+rd*max_distance_1;
     } else {
       hit = false;
@@ -528,13 +521,14 @@ vec3 render1(vec3 ro, vec3 rd) {
     col += 5e-4/G.z*col_air;
     tcol+=col*mcol;
     if(!hit) {
-      tcol+=mcol*render0(ro,rd);
       break;
     }
     mcol*=f;
     rd=r;
     ro=p+tolerance_1*1e1*(n+rd*1e1);
   }
+
+  tcol+=mcol*render0(ro,rd);
 
   return tcol;
 }
