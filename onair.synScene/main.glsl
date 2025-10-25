@@ -599,7 +599,6 @@ vec4 doPass1() {
   ;
   vec4
   ;
-  pcol.xyz=pcol.xyz;
   col=tanh(col);
   col=mix(col,pcol*pcol,motion_blur);
   col=sqrt(col);

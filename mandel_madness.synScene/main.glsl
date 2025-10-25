@@ -3,6 +3,8 @@
 // and related or neighboring rights to this work.
 // See <https://creativecommons.org/publicdomain/zero/1.0/> for details.
 
+//#define IMAGE_SAMPLE
+
 vec4 image(vec2 p, vec2 tz) {
   float
     fade = smoothstep(15., 1., abs(p.x))*smoothstep(9., 1., p.y)
@@ -14,8 +16,11 @@ vec4 image(vec2 p, vec2 tz) {
   if (fade < 0.1 || p.y < 00.0)
     return vec4(0.0);
   p.y = fract(p.y);
-
+#ifdef KODELIFE
+  p.y=1.-p.y;
+#endif
   vec4 col = texture(syn_Media, p);
+  col.xyz*=col.xyz;
   return vec4(col.xyz, col.w*fade);
 }
 
@@ -35,34 +40,50 @@ vec4 alphaBlend(vec4 back, vec4 front) {
   return w > 0.0 ? vec4(xyz, w) : vec4(0.0);
 }
 
+float freq(float x) {
+#ifdef KODELIFE
+  return 0.;
+#else
+  return texture(syn_Spectrum,.5+.5*sin(x)).y;
+#endif
+}
 
 vec4 renderMain() {
-  const float maxIterF = 80.;
+  const float
+    maxIterF = 80.
+  ;
 
-  float tm = .5*TIME+.5*syn_BassTime;
+#ifdef KODELIFE
+  float
+    tm = .5*TIME
+#else
+  float
+    tm = dot(speed_control,vec2(TIME, syn_BassTime))
+#endif
+  , i
+  , l
+  ;
   vec2
     q   = _uv
   , p   = 2.*_uvc
   , op  = p
   , tsz = vec2(textureSize(syn_Media,0))
   , tz  = vec2(tsz.y/tsz.x, 1)
+  , c = vec2(-0.76, 0.15)
+  , z
   ;
 
   rot(p,.3*tm);
   p = vec2(0.5, -0.05) + p*0.75*pow(0.9, 20.0*(0.5+0.5*cos(0.3*sqrt(2.0)*tm)));
 
-  //vec4 col = vec4(0.0);
-  vec3 ss = mix(vec3(0.2, 0.2, 0.5), vec3(0.2,-0.2,1.0), 2.2 + 1.25*sin(tm/2.0));
-
-  vec2 c = vec2(-0.76, 0.15);
-  rot(c, 0.2*sin(tm*sqrt(3.0)/6.0));
-  vec2 z = p;
-
-  float
-    i
+  vec3
+    ss = mix(vec3(0.2, 0.2, 0.5), vec3(0.2,-0.2,1.0), 2.2 + 1.25*sin(tm/2.0))
+  , col = vec3(0)
   ;
-  vec4 col = vec4(0);
-  vec3 bg = vec3(0);
+
+  z=p;
+  rot(c, 0.2*sin(tm*sqrt(3.0)/6.0));
+
   for(i=0.; i<maxIterF; ++i) {
     float
       re2  = z.x*z.x
@@ -74,23 +95,29 @@ vec4 renderMain() {
     z = vec2(re2 - im2, 2.*reim) + c;
 
     float shade = smoothstep(maxIterF, 0., i);
+#ifdef IMAGE_SAMPLE
     vec4 img = image(ss.xy + ss.z*z,tz);
     img.w*=tanh(shade);
     col=alphaBlend(img, col);
+#endif
     shade /= re2+im2+0.01;
-    bg+=shade*3e-3*(1.+sin(vec3(4.*z, 0.2*i)+vec3(0,1,2)))/abs(z.y+.1*(texture(syn_Spectrum,.5+.5*sin(2.*z.x)).y-.5));
+    col+=shade*3e-3*(1.+sin(vec3(4.*z, 0.2*i)+vec3(0,color_control)))/abs(z.y+.1*(freq(2.*z.x)-.5));
 //    bg+=shade*3e-3*(1.+sin(vec3(4.*z, 0.2*i)+vec3(0,1,2)))/abs(z.y+sin(TIME+10.*z.x)-.2);
 //    bg+=shade*3e-3*(1.+sin(vec3(5.*z, 0.1*i)+vec3(2,1,0)))/abs(z.y*z.y-.2);
 //    bg+=shade*3e-3*(1.+sin(vec3(5.*z, 0.1*i)+vec3(2,1,0)))/abs(z.x*z.x-.3);
 //  bg+=shade*3e-3*(1.+sin(vec3(6.*z, 0.1*i)+vec3(1,2,0)))/abs(z.x*z.y-.3);
   }
-  bg /= 9.;
-  bg=tanh(bg);
-//  col.w*=0.;
-  col.xyz = mix(bg, col.xyz, col.w);
+  l = i - log2(log2(dot(z,z)));
 
+  col /= 9.;
+  if (!isnan(l)) {
+    col += (0.5 + 0.5*cos(l*.5 + 3.+ vec3(0,2.*color_control)))/(1.+l*l);
+  }
+  col = tanh(col);
+
+  col = max(col,0.);
   vec4 pcol = texture(syn_FinalPass, q);
-  col.xyz = mix(col.xyz, pcol.xyz, mix(.5, .9, smoothstep(.5, 1.5, length(p))));
+  col.xyz = mix(col.xyz, pcol.xyz, mix(motion_blur_intensity.x, motion_blur_intensity.y, smoothstep(motion_blur_limits.x, motion_blur_limits.y, length(p))));
   return vec4(col.xyz, 1);
 }
 
