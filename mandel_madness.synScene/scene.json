@@ -1,63 +1,63 @@
 {
-	"CONTROLS" : 
+	"CONTROLS" :
 	[
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.7,
 				0.7
 			],
 			"DESCRIPTION" : "Bass mix",
-			"MAX" : 
+			"MAX" :
 			[
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
 			],
 			"NAME" : "bass_mix",
-			"PARAMS" : 0.2,
+			"PARAMS" : 0.1,
 			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Audio"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				2,
 				1
 			],
 			"DESCRIPTION" : "Bass power",
-			"MAX" : 
+			"MAX" :
 			[
 				6,
 				6
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
 			],
 			"NAME" : "bass_pow",
-			"PARAMS" : 0.2,
+			"PARAMS" : 0.1,
 			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Audio"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0,
 				0
 			],
 			"DESCRIPTION" : "Twist",
-			"MAX" : 
+			"MAX" :
 			[
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				-1,
 				-1
@@ -68,40 +68,50 @@
 			"UI_GROUP" : "Audio"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0,
 				0.5
 			],
 			"DESCRIPTION" : "Zoom beat",
-			"MAX" : 
+			"MAX" :
 			[
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
 			],
 			"NAME" : "zoom_beat",
-			"PARAMS" : 0.14201,
+			"PARAMS" : 0.1,
 			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Audio"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" : 0,
+			"DESCRIPTION" : "Fade on beat",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "fade_beat",
+			"PARAMS" : 0.1,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Audio"
+		},
+		{
+			"DEFAULT" :
 			[
 				0.5,
 				0.25
 			],
 			"DESCRIPTION" : "Speed control",
-			"MAX" : 
+			"MAX" :
 			[
 				2,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				-2,
 				-1
@@ -121,18 +131,18 @@
 			"UI_GROUP" : "Speed"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				1,
 				2
 			],
 			"DESCRIPTION" : "Color control",
-			"MAX" : 
+			"MAX" :
 			[
 				7,
 				7
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
@@ -163,18 +173,18 @@
 			"UI_GROUP" : "Color"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.5,
 				1.5
 			],
 			"DESCRIPTION" : "Motion blur",
-			"MAX" : 
+			"MAX" :
 			[
 				3,
 				3
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
@@ -185,18 +195,18 @@
 			"UI_GROUP" : "Blur"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.5,
 				0.9
 			],
 			"DESCRIPTION" : "",
-			"MAX" : 
+			"MAX" :
 			[
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
@@ -207,18 +217,18 @@
 			"UI_GROUP" : "Blur"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.5,
 				-0.05
 			],
 			"DESCRIPTION" : "Zoom center",
-			"MAX" : 
+			"MAX" :
 			[
 				2,
 				2
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				-2,
 				-2
@@ -229,18 +239,18 @@
 			"UI_GROUP" : "Shape"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.75,
 				0.125
 			],
 			"DESCRIPTION" : "Zoom factor",
-			"MAX" : 
+			"MAX" :
 			[
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
@@ -251,18 +261,18 @@
 			"UI_GROUP" : "Shape"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				-0.76,
 				0.15
 			],
 			"DESCRIPTION" : "Initial c",
-			"MAX" : 
+			"MAX" :
 			[
 				1.5,
 				1.5
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				-1.5,
 				-1.5
@@ -273,18 +283,18 @@
 			"UI_GROUP" : "Shape"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
-				0.2,
-				0.289
+				0.5,
+				0.125
 			],
 			"DESCRIPTION" : "Rotation c",
-			"MAX" : 
+			"MAX" :
 			[
 				6,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
@@ -295,18 +305,18 @@
 			"UI_GROUP" : "Shape"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0,
 				0
 			],
 			"DESCRIPTION" : "Warps the media to the music",
-			"MAX" : 
+			"MAX" :
 			[
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				-1,
 				-1
@@ -342,14 +352,14 @@
 	"GPU" : 1,
 	"HEIGHT" : 1080,
 	"IMAGE_PATH" : "scene.png",
-	"MEDIA" : 
+	"MEDIA" :
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"TAGS" : 
+	"TAGS" :
 	[
 		"mrange",
 		"mandelbrot",

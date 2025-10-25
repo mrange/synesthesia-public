@@ -3,6 +3,29 @@
 // and related or neighboring rights to this work.
 // See <https://creativecommons.org/publicdomain/zero/1.0/> for details.
 
+#ifdef KODELIFE
+const vec2
+  initial_c             = vec2(-.76,.15)
+, color_control         = vec2(1,2)
+, motion_blur_intensity = vec2(.5,.9)
+, motion_blur_limits    = vec2(.5,1.5)
+, rotation_c            = vec2(.2,.289)
+, twist                 = vec2(0)
+, zoom_beat             = vec2(.5,0)
+, zoom_center           = vec2(.5,-.05)
+, zoom_factor           = vec2(.75,.125)
+;
+
+const float
+  color_divider   = 9.
+, fade_beat       = 0.
+, invert_color    = 0.
+, rotation_speed        = .3
+;
+#endif
+
+
+
 void rot(inout vec2 p, float a) {
   float
     c=cos(a)
@@ -10,15 +33,6 @@ void rot(inout vec2 p, float a) {
   ;
   p = vec2(c*p.x+s*p.y,c*p.y-s*p.x);
 }
-
-
-vec4 alphaBlend(vec4 back, vec4 front) {
-  // Based on: https://en.wikipedia.org/wiki/Alpha_compositing
-  float w = front.w + back.w*(1.0-front.w);
-  vec3 xyz = (front.xyz*front.w + back.xyz*back.w*(1.-front.w))/w;
-  return w > 0.0 ? vec4(xyz, w) : vec4(0.0);
-}
-
 
 float beat() {
 #ifdef KODELIFE
@@ -28,12 +42,11 @@ float beat() {
 #endif
 }
 
-
 float freq(float x) {
 #ifdef KODELIFE
   return 0.;
 #else
-  return texture(syn_Spectrum,.5+.5*sin(x)).y;
+  return texture(syn_Spectrum,.5+.45*sin(x)).y;
 #endif
 }
 
@@ -59,24 +72,25 @@ vec4 renderMain() {
   , reim
   , mag2=0.
   , shd
+  , F=mix(1.,2.*B, fade_beat)
   ;
+
   vec2
     q   = _uv
   , p   = 2.*_uvc
-  , tsz = vec2(textureSize(syn_Media,0))
-  , tz  = vec2(tsz.y/tsz.x, 1)
-  , c = initial_c
+  , c   = initial_c
   , z
   ;
+
+  vec3
+    col = vec3(0)
+  ;
+
   D=dot(p,p);
   L=sqrt(D);
   p*=mix(1.,1./(1.+dot(zoom_beat, vec2(L,D))),B);
   rot(p,rotation_speed+dot(B*twist,vec2(L,D)));
   p = zoom_center + zoom_factor.x*pow(zoom_factor.y, 0.5+0.5*cos(0.3*sqrt(2.0)*tm))*p;
-
-  vec3
-    col = vec3(0)
-  ;
 
   z=p;
   rot(c, rotation_c.x*sin(rotation_c.y*tm));
@@ -84,12 +98,11 @@ vec4 renderMain() {
   for(i=0.; i<maxIterF; ++i) {
     re2  = z.x*z.x;
     im2  = z.y*z.y;
-    reim = z.x*z.y;
     mag2 = re2+im2;
+    reim = z.x*z.y;
+    z = vec2(re2 - im2+c.x, 2.*reim+c.y);
 
-    z = vec2(re2 - im2, 2.*reim) + c;
-
-    shd = smoothstep(maxIterF, 0., i);
+    shd = F*smoothstep(maxIterF, 0., i);
     shd /= mag2+.01;
     col+=shd*3e-3/abs(z.y+.1*(freq(2.*z.x)-.5))*(1.+sin(vec3(4.*z, 0.2*i)+vec3(0,color_control)));
     if (mag2>20.) break;
@@ -98,21 +111,20 @@ vec4 renderMain() {
 
   col /= color_divider;
   if (!isnan(l)) {
-    col += 1./(1.+l*l)*(0.5 + 0.5*cos(l*.5 + 3.+ vec3(0,2.*color_control)));
+    col += F/(1.+l*l)*(0.5 + 0.5*cos(l*.5 + 3.+ vec3(0,2.*color_control)));
   }
   col = tanh(col);
   col = mix(col, 1.-col, invert_color);
 
   col = max(col,0.);
   vec4 pcol = texture(syn_FinalPass, q);
-  col.xyz = mix(col.xyz, pcol.xyz, mix(motion_blur_intensity.x, motion_blur_intensity.y, smoothstep(motion_blur_limits.x, motion_blur_limits.y, L)));
+  col.xyz = mix(col, pcol.xyz, mix(motion_blur_intensity.x, motion_blur_intensity.y, smoothstep(motion_blur_limits.x, motion_blur_limits.y, L)));
 
 #ifdef KODELIFE
 #else
   vec4 mcol=_loadMedia(media_warp.x*normalize(p)*freq(media_warp.y*L));
   col=mix(col,mcol.xyz,mcol.w*media_opacity*media_multiplier);
 #endif
-  
-  return vec4(col.xyz, 1);
+  return vec4(col, 1);
 }
 
