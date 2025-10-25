@@ -5,23 +5,32 @@
 			"DEFAULT" : 
 			[
 				0.5,
-				0.5
+				0.25
 			],
 			"DESCRIPTION" : "Speed control",
 			"MAX" : 
 			[
 				2,
-				2
+				1
 			],
 			"MIN" : 
 			[
 				-2,
-				-2
+				-1
 			],
 			"NAME" : "speed_control",
-			"PARAMS" : 0.2,
+			"PARAMS" : 0.1,
 			"TYPE" : "xy smooth",
-			"UI_GROUP" : "default"
+			"UI_GROUP" : "Speed"
+		},
+		{
+			"DEFAULT" : 0.3,
+			"DESCRIPTION" : "Rotation speed",
+			"MAX" : 3,
+			"MIN" : -3,
+			"NAME" : "rotation_speed",
+			"TYPE" : "slider speed",
+			"UI_GROUP" : "Speed"
 		},
 		{
 			"DEFAULT" : 
@@ -41,9 +50,29 @@
 				0
 			],
 			"NAME" : "color_control",
-			"PARAMS" : 0.2,
+			"PARAMS" : 0.1,
 			"TYPE" : "xy smooth",
-			"UI_GROUP" : "default"
+			"UI_GROUP" : "Color"
+		},
+		{
+			"DEFAULT" : 0,
+			"DESCRIPTION" : "",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "invert_color",
+			"PARAMS" : 0.1,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Color"
+		},
+		{
+			"DEFAULT" : 9,
+			"DESCRIPTION" : "color divider",
+			"MAX" : 30,
+			"MIN" : 1,
+			"NAME" : "color_divider",
+			"PARAMS" : 0.1,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Color"
 		},
 		{
 			"DEFAULT" : 
@@ -63,9 +92,9 @@
 				0
 			],
 			"NAME" : "motion_blur_limits",
-			"PARAMS" : 0.2,
+			"PARAMS" : 0.1,
 			"TYPE" : "xy smooth",
-			"UI_GROUP" : "default"
+			"UI_GROUP" : "Blur"
 		},
 		{
 			"DEFAULT" : 
@@ -85,39 +114,119 @@
 				0
 			],
 			"NAME" : "motion_blur_intensity",
-			"PARAMS" : 0.2,
+			"PARAMS" : 0.1,
 			"TYPE" : "xy smooth",
-			"UI_GROUP" : "default"
+			"UI_GROUP" : "Blur"
 		},
 		{
-			"DEFAULT" : 0,
-			"DESCRIPTION" : "Invert coor",
-			"MAX" : 1,
-			"MIN" : 0,
-			"NAME" : "invert_color",
-			"PARAMS" : 0.25201,
-			"TYPE" : "slider smooth",
-			"UI_GROUP" : "default"
+			"DEFAULT" : 
+			[
+				0,
+				0
+			],
+			"DESCRIPTION" : "Twist",
+			"MAX" : 
+			[
+				1,
+				1
+			],
+			"MIN" : 
+			[
+				-1,
+				-1
+			],
+			"NAME" : "twist",
+			"PARAMS" : 0.1,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Shape"
 		},
 		{
-			"DEFAULT" : 1,
-			"DESCRIPTION" : "Boost media visibility (go wild!)",
-			"MAX" : 9,
-			"MIN" : -9,
-			"NAME" : "media_multiplier",
-			"PARAMS" : 0.2,
-			"TYPE" : "slider smooth",
-			"UI_GROUP" : "Media"
+			"DEFAULT" : 
+			[
+				0.5,
+				-0.05
+			],
+			"DESCRIPTION" : "Zoom center",
+			"MAX" : 
+			[
+				2,
+				2
+			],
+			"MIN" : 
+			[
+				-2,
+				-2
+			],
+			"NAME" : "zoom_center",
+			"PARAMS" : 0.1,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Shape"
 		},
 		{
-			"DEFAULT" : 0.707,
-			"DESCRIPTION" : "Media opacity",
-			"MAX" : 1,
-			"MIN" : 0,
-			"NAME" : "media_opacity",
-			"PARAMS" : 0.2,
-			"TYPE" : "slider smooth",
-			"UI_GROUP" : "Media"
+			"DEFAULT" : 
+			[
+				0.75,
+				0.125
+			],
+			"DESCRIPTION" : "Zoom factor",
+			"MAX" : 
+			[
+				1,
+				1
+			],
+			"MIN" : 
+			[
+				0,
+				0
+			],
+			"NAME" : "zoom_factor",
+			"PARAMS" : 0.1,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Shape"
+		},
+		{
+			"DEFAULT" : 
+			[
+				-0.76,
+				0.15
+			],
+			"DESCRIPTION" : "Initial c",
+			"MAX" : 
+			[
+				1.5,
+				1.5
+			],
+			"MIN" : 
+			[
+				-1.5,
+				-1.5
+			],
+			"NAME" : "initial_c",
+			"PARAMS" : 0.1,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Shape"
+		},
+		{
+			"DEFAULT" : 
+			[
+				0.2,
+				0.289
+			],
+			"DESCRIPTION" : "Rotation c",
+			"MAX" : 
+			[
+				6,
+				1
+			],
+			"MIN" : 
+			[
+				0,
+				0
+			],
+			"NAME" : "rotation_c",
+			"PARAMS" : 0.1,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Shape"
 		},
 		{
 			"DEFAULT" : 
@@ -137,8 +246,28 @@
 				-1
 			],
 			"NAME" : "media_warp",
-			"PARAMS" : 0.2,
+			"PARAMS" : 0.1,
 			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Media"
+		},
+		{
+			"DEFAULT" : 1,
+			"DESCRIPTION" : "Boost media visibility (go wild!)",
+			"MAX" : 9,
+			"MIN" : -9,
+			"NAME" : "media_multiplier",
+			"PARAMS" : 0.1,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Media"
+		},
+		{
+			"DEFAULT" : 0.707,
+			"DESCRIPTION" : "Media opacity",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "media_opacity",
+			"PARAMS" : 0.1,
+			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Media"
 		}
 	],

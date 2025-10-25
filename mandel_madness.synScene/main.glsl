@@ -3,27 +3,6 @@
 // and related or neighboring rights to this work.
 // See <https://creativecommons.org/publicdomain/zero/1.0/> for details.
 
-//#define IMAGE_SAMPLE
-
-vec4 image(vec2 p, vec2 tz) {
-  float
-    fade = smoothstep(15., 1., abs(p.x))*smoothstep(9., 1., p.y)
-  ;
-  p *= tz;
-  p.x+=.1*TIME-.125*
-  floor(p.y);
-  p.x = fract(p.x);
-  if (fade < 0.1 || p.y < 00.0)
-    return vec4(0.0);
-  p.y = fract(p.y);
-#ifdef KODELIFE
-  p.y=1.-p.y;
-#endif
-  vec4 col = texture(syn_Media, p);
-  col.xyz*=col.xyz;
-  return vec4(col.xyz, col.w*fade);
-}
-
 void rot(inout vec2 p, float a) {
   float
     c=cos(a)
@@ -69,12 +48,12 @@ vec4 renderMain() {
   , op  = p
   , tsz = vec2(textureSize(syn_Media,0))
   , tz  = vec2(tsz.y/tsz.x, 1)
-  , c = vec2(-0.76, 0.15)
+  , c = initial_c
   , z
   ;
 
-  rot(p,.3*tm);
-  p = vec2(0.5, -0.05) + p*0.75*pow(0.9, 20.0*(0.5+0.5*cos(0.3*sqrt(2.0)*tm)));
+  rot(p,rotation_speed+dot(twist,vec2(length(p),dot(p,p))));
+  p = zoom_center + p*zoom_factor.x*pow(zoom_factor.y, 0.5+0.5*cos(0.3*sqrt(2.0)*tm));
 
   vec3
     ss = mix(vec3(0.2, 0.2, 0.5), vec3(0.2,-0.2,1.0), 2.2 + 1.25*sin(tm/2.0))
@@ -82,7 +61,7 @@ vec4 renderMain() {
   ;
 
   z=p;
-  rot(c, 0.2*sin(tm*sqrt(3.0)/6.0));
+  rot(c, rotation_c.x*sin(rotation_c.y*tm));
 
   for(i=0.; i<maxIterF; ++i) {
     float
@@ -95,11 +74,6 @@ vec4 renderMain() {
     z = vec2(re2 - im2, 2.*reim) + c;
 
     float shade = smoothstep(maxIterF, 0., i);
-#ifdef IMAGE_SAMPLE
-    vec4 img = image(ss.xy + ss.z*z,tz);
-    img.w*=tanh(shade);
-    col=alphaBlend(img, col);
-#endif
     shade /= re2+im2+0.01;
     col+=shade*3e-3*(1.+sin(vec3(4.*z, 0.2*i)+vec3(0,color_control)))/abs(z.y+.1*(freq(2.*z.x)-.5));
 //    bg+=shade*3e-3*(1.+sin(vec3(4.*z, 0.2*i)+vec3(0,1,2)))/abs(z.y+sin(TIME+10.*z.x)-.2);
@@ -109,7 +83,7 @@ vec4 renderMain() {
   }
   l = i - log2(log2(dot(z,z)));
 
-  col /= 9.;
+  col /= color_divider;
   if (!isnan(l)) {
     col += (0.5 + 0.5*cos(l*.5 + 3.+ vec3(0,2.*color_control)))/(1.+l*l);
   }
