@@ -114,10 +114,18 @@ vec4 renderMain() {
     col += (0.5 + 0.5*cos(l*.5 + 3.+ vec3(0,2.*color_control)))/(1.+l*l);
   }
   col = tanh(col);
+  col = mix(col, 1.-col, invert_color);
 
   col = max(col,0.);
   vec4 pcol = texture(syn_FinalPass, q);
   col.xyz = mix(col.xyz, pcol.xyz, mix(motion_blur_intensity.x, motion_blur_intensity.y, smoothstep(motion_blur_limits.x, motion_blur_limits.y, length(p))));
+
+#ifdef KODELIFE
+#else
+  vec4 mcol=_loadMedia(media_warp.x*normalize(p)*freq(media_warp.y*length(p)));
+  col=mix(col,mcol.xyz,mcol.w*media_opacity*media_multiplier);
+#endif
+  
   return vec4(col.xyz, 1);
 }
 
