@@ -1,0 +1,207 @@
+{
+	"CONTROLS": [
+		{
+			"DEFAULT": [0.7, 0.7],
+			"DESCRIPTION": "Audio response strength (X: bass level, Y: bass hits)",
+			"MAX": [1, 1],
+			"MIN": [0, 0],
+			"NAME": "bass_mix",
+			"PARAMS": 0.1,
+			"TYPE": "xy smooth",
+			"UI_GROUP": "Audio"
+		},
+		{
+			"DEFAULT": [2, 1],
+			"DESCRIPTION": "Audio response curve (higher = more intense reaction)",
+			"MAX": [6, 6],
+			"MIN": [0, 0],
+			"NAME": "bass_pow",
+			"PARAMS": 0.1,
+			"TYPE": "xy smooth",
+			"UI_GROUP": "Audio"
+		},
+		{
+			"DEFAULT": [0, 0],
+			"DESCRIPTION": "Twist rotation on beat (X: by distance, Y: by distance²)",
+			"MAX": [1, 1],
+			"MIN": [-1, -1],
+			"NAME": "twist_beat",
+			"PARAMS": 0.1,
+			"TYPE": "xy smooth",
+			"UI_GROUP": "Audio"
+		},
+		{
+			"DEFAULT": [0, 0.5],
+			"DESCRIPTION": "Zoom pulse on beat (X: linear, Y: squared)",
+			"MAX": [1, 1],
+			"MIN": [0, 0],
+			"NAME": "zoom_beat",
+			"PARAMS": 0.1,
+			"TYPE": "xy smooth",
+			"UI_GROUP": "Audio"
+		},
+		{
+			"DEFAULT": 0,
+			"DESCRIPTION": "Brightness pulse on beat (0 = off, 1 = full)",
+			"MAX": 1,
+			"MIN": 0,
+			"NAME": "fade_beat",
+			"PARAMS": 0.1,
+			"TYPE": "slider smooth",
+			"UI_GROUP": "Audio"
+		},
+		{
+			"DEFAULT": [0.5, 0.25],
+			"DESCRIPTION": "Animation speed (X: normal time, Y: bass-synced time)",
+			"MAX": [2, 1],
+			"MIN": [-2, -1],
+			"NAME": "speed_control",
+			"PARAMS": 0.1,
+			"TYPE": "xy smooth",
+			"UI_GROUP": "Speed"
+		},
+		{
+			"DEFAULT": 0.3,
+			"DESCRIPTION": "Base rotation speed (negative = reverse)",
+			"MAX": 3,
+			"MIN": -3,
+			"NAME": "rotation_speed",
+			"TYPE": "slider speed",
+			"UI_GROUP": "Speed"
+		},
+		{
+			"DEFAULT": [1, 2],
+			"DESCRIPTION": "Color cycle offsets",
+			"MAX": [7, 7],
+			"MIN": [0, 0],
+			"NAME": "color_control",
+			"PARAMS": 0.1,
+			"TYPE": "xy smooth",
+			"UI_GROUP": "Color"
+		},
+		{
+			"DEFAULT": 0,
+			"DESCRIPTION": "Invert colors (0 = normal, 1 = inverted)",
+			"MAX": 1,
+			"MIN": 0,
+			"NAME": "invert_color",
+			"PARAMS": 0.1,
+			"TYPE": "slider smooth",
+			"UI_GROUP": "Color"
+		},
+		{
+			"DEFAULT": 9,
+			"DESCRIPTION": "Overall brightness (higher = darker)",
+			"MAX": 30,
+			"MIN": 1,
+			"NAME": "color_divider",
+			"PARAMS": 0.1,
+			"TYPE": "slider smooth",
+			"UI_GROUP": "Color"
+		},
+		{
+			"DEFAULT": [0.5, 1.5],
+			"DESCRIPTION": "Blur range by distance (X: start, Y: end)",
+			"MAX": [3, 3],
+			"MIN": [0, 0],
+			"NAME": "motion_blur_limits",
+			"PARAMS": 0.1,
+			"TYPE": "xy smooth",
+			"UI_GROUP": "Blur"
+		},
+		{
+			"DEFAULT": [0.5, 0.9],
+			"DESCRIPTION": "Blur strength (X: at start, Y: at end)",
+			"MAX": [1, 1],
+			"MIN": [0, 0],
+			"NAME": "motion_blur_intensity",
+			"PARAMS": 0.1,
+			"TYPE": "xy smooth",
+			"UI_GROUP": "Blur"
+		},
+		{
+			"DEFAULT": [0.5, -0.05],
+			"DESCRIPTION": "Fractal center position (X: horizontal, Y: vertical)",
+			"MAX": [2, 2],
+			"MIN": [-2, -2],
+			"NAME": "zoom_center",
+			"PARAMS": 0.1,
+			"TYPE": "xy smooth",
+			"UI_GROUP": "Shape"
+		},
+		{
+			"DEFAULT": [0.75, 0.125],
+			"DESCRIPTION": "Zoom level (X: base, Y: pulse amount)",
+			"MAX": [1, 1],
+			"MIN": [0, 0],
+			"NAME": "zoom_factor",
+			"PARAMS": 0.1,
+			"TYPE": "xy smooth",
+			"UI_GROUP": "Shape"
+		},
+		{
+			"DEFAULT": [-0.76, 0.15],
+			"DESCRIPTION": "Mandelbrot C parameter (defines fractal shape)",
+			"MAX": [1.5, 1.5],
+			"MIN": [-1.5, -1.5],
+			"NAME": "initial_c",
+			"PARAMS": 0.1,
+			"TYPE": "xy smooth",
+			"UI_GROUP": "Shape"
+		},
+		{
+			"DEFAULT": [0.5, 0.125],
+			"DESCRIPTION": "Mandelbrot C rotation (X: speed, Y: frequency)",
+			"MAX": [6, 1],
+			"MIN": [0, 0],
+			"NAME": "rotation_c",
+			"PARAMS": 0.1,
+			"TYPE": "xy smooth",
+			"UI_GROUP": "Shape"
+		},
+		{
+			"DEFAULT": [0, 0],
+			"DESCRIPTION": "Media distortion on beat (X: strength, Y: frequency)",
+			"MAX": [1, 1],
+			"MIN": [-1, -1],
+			"NAME": "media_warp",
+			"PARAMS": 0.1,
+			"TYPE": "xy smooth",
+			"UI_GROUP": "Media"
+		},
+		{
+			"DEFAULT": 1,
+			"DESCRIPTION": "Media visibility strength (negative = inverted)",
+			"MAX": 9,
+			"MIN": -9,
+			"NAME": "media_multiplier",
+			"PARAMS": 0.1,
+			"TYPE": "slider smooth",
+			"UI_GROUP": "Media"
+		},
+		{
+			"DEFAULT": 0.707,
+			"DESCRIPTION": "Media blend amount (0 = hidden, 1 = full)",
+			"MAX": 1,
+			"MIN": 0,
+			"NAME": "media_opacity",
+			"PARAMS": 0.1,
+			"TYPE": "slider smooth",
+			"UI_GROUP": "Media"
+		}
+	],
+	"CREDIT": "mrange",
+	"DESCRIPTION": "Spinning mandelbrot fractal with electric lightning spokes that pulse and twist to the music",
+	"GPU": 1,
+	"HEIGHT": 1080,
+	"IMAGE_PATH": "scene.png",
+	"MEDIA": [
+		{
+			"FILTER": "linear",
+			"WRAP": "mirror"
+		}
+	],
+	"TAGS": ["mrange", "mandelbrot", "electric", "audio-reactive", "fractal", "lightning", "music-visualizer", "bass-reactive", "fft", "rotation"],
+	"TITLE": "Electric mandelbrot",
+	"WIDTH": 1920
+}

@@ -10,7 +10,7 @@ const vec2
 , motion_blur_intensity = vec2(.5,.9)
 , motion_blur_limits    = vec2(.5,1.5)
 , rotation_c            = vec2(.2,.289)
-, twist                 = vec2(0)
+, twist_beat            = vec2(0)
 , zoom_beat             = vec2(.5,0)
 , zoom_center           = vec2(.5,-.05)
 , zoom_factor           = vec2(.75,.125)
@@ -23,8 +23,6 @@ const float
 , rotation_speed        = .3
 ;
 #endif
-
-
 
 void rot(inout vec2 p, float a) {
   float
@@ -89,7 +87,7 @@ vec4 renderMain() {
   D=dot(p,p);
   L=sqrt(D);
   p*=mix(1.,1./(1.+dot(zoom_beat, vec2(L,D))),B);
-  rot(p,rotation_speed+dot(B*twist,vec2(L,D)));
+  rot(p,rotation_speed+dot(B*twist_beat,vec2(L,D)));
   p = zoom_center + zoom_factor.x*pow(zoom_factor.y, 0.5+0.5*cos(0.3*sqrt(2.0)*tm))*p;
 
   z=p;
