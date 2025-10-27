@@ -64,7 +64,7 @@ vec4 renderMain() {
        , min(p.w,min(p.x,min(p.z,p.y)))+.05)
        )/k;
 
-    p=1.+sin(P.z+log2(k)+vec4(0,1,2,0));
+    p=1.+sin(P.z+log2(k)+vec4(1,3,6,0));
 
     o+=vec3(1,2,3)*exp(.7*k+6.*B-6.);
     o+=p.w*p.xyz/max(d,1e-3);
