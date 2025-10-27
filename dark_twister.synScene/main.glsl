@@ -18,34 +18,38 @@ const float
 , tolerance = 5e-4
 ;
 
+/*
 const vec2
   PathA=vec2(1,sqrt(.5))/6.
 , PathB=vec2(6,4)
 ;
+*/
 
 const vec3
-  light_col = HSV2RGB(vec3(.58,.7,2.))
-, ref_col   = HSV2RGB(vec3(.62,.7,1.))
+//  light_col = HSV2RGB(vec3(.58,.7,1.))
+//  light_col = vec3(0.30, 0.66, 1.00)
+  ref_col   = HSV2RGB(vec3(.62,.7,1.))
 ;
 
 float
   g_G
 , g_H
+, g_T
 ;
 mat2
   g_R
 ;
 
 vec3 path(float z){
-  return vec3(PathB*sin(PathA*z),z);
+  return vec3(path_b*sin(path_a*z),z);
 }
 
 vec3 dpath(float z){
-  return vec3(PathB*PathA*cos(PathA*z),1);
+  return vec3(path_b*path_a*cos(path_a*z),1);
 }
 
 vec3 ddpath(float z){
-  return -vec3(PathB*PathA*PathA*sin(PathA*z),0);
+  return -vec3(path_b*path_a*path_a*sin(path_a*z),0);
 }
 
 void warpWorld(inout vec3 p){
@@ -98,7 +102,7 @@ float df(vec2 p, float a) {
     P=abs(P);
     P-=.125*S;
     H=hash(s+.123*I);
-    g=length(P)+.05*(smoothstep(1.,.9,sin(1.*TIME+.5*a+TAU*fract(8667.*H))));
+    g=length(P)+.05*(smoothstep(1.,.9,sin(g_T+.5*a+TAU*fract(8667.*H))));
     if (g<g_G) {
       g_G=g;
       g_H=H;
@@ -170,8 +174,10 @@ vec3 render3D() {
   , F
   , H
   , L
-  , z=mod(TIME,100.)
+  , T=dot(vec2(TIME,syn_BassTime),time_mix)
+  , z=mod(T,100.)
   ;
+  g_T=T;
   vec2
     p=2.*_uvc;
   vec3
@@ -186,11 +192,13 @@ vec3 render3D() {
   , N
   , R
   , LD0
+  , FL=mix(flash_col_min, flash_col_max,B)*mix(flash_mix.x, flash_mix.y, B)
   ;
   vec4
     pcol
+  , mcol
   ;
-  g_R=ROT(.3*TIME);
+  g_R=ROT(.3*T);
   g_G=1e3;
   z=raymarch(O,I,.1,i);
   G=g_G;
@@ -202,21 +210,25 @@ vec3 render3D() {
   F=mix(.1,1.,F*F*F)*smoothstep(1.,.99,F);
   R=reflect(I,N);
   if (z<max_dist) {
-    col+=F*pow(max(dot(R,LD0),0.),190.)*20./dot(O-L0,O-L0)*ref_col;
+    col+=F*pow(max(dot(R,LD0),0.),ref_focus)*200.*ref_factor/dot(O-L0,O-L0)*FL;
   }
 
-  D=raySphereDensity(O,I,vec4(L0,2.),z);
+  D=raySphereDensity(O,I,vec4(L0,mix(flash_radius.x, flash_radius.y, B)),z);
   L=(1.+dot(normalize(O-L0),I));
-  col+=D*D*light_col*mix(flash_mix.x, flash_mix.y, B);
-  col+=1e-4/max(G*G,2e-6)*hsv2rgb(vec3(.7+.2*H,.9,.1));
+  col+=D*D*FL;
+  col+=1e-4/max(G*G,2e-6)*hsv2rgb(vec3(beam_hue.x+beam_hue.y*H,.9,.2*beam_lum));
   col-=1e-1*L*vec3(2,3,1);
   col=max(col,0.);
   col=tanh(col);
   col=sqrt(col);
+  mcol=_loadMedia();
+  col=mix(col,mcol.xyz,mcol.w*media_alpha*media_mult);
   pcol=texture(syn_FinalPass,_uv);
-  col=mix(col,pcol.xyz,.3);
+  col=mix(col,pcol.xyz,motion_blur);
   return col;
 }
+// Synesthesia
+
 
 vec3 render2D() {
   vec2
