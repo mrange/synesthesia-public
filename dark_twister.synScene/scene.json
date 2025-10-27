@@ -1,28 +1,100 @@
 {
+	"CONTROLS" : 
+	[
+		{
+			"DEFAULT" : 
+			[
+				0.7,
+				0.7
+			],
+			"DESCRIPTION" : "",
+			"MAX" : 
+			[
+				1,
+				1
+			],
+			"MIN" : 
+			[
+				0,
+				0
+			],
+			"NAME" : "bass_mix",
+			"TYPE" : "xy",
+			"UI_GROUP" : "Audio"
+		},
+		{
+			"DEFAULT" : 
+			[
+				3,
+				0
+			],
+			"DESCRIPTION" : "",
+			"MAX" : 
+			[
+				5,
+				5
+			],
+			"MIN" : 
+			[
+				0,
+				0
+			],
+			"NAME" : "bass_pow",
+			"PARAMS" : 0.22301,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Audio"
+		},
+		{
+			"DEFAULT" : 
+			[
+				0.25,
+				3
+			],
+			"DESCRIPTION" : "",
+			"MAX" : 
+			[
+				5,
+				5
+			],
+			"MIN" : 
+			[
+				0,
+				0
+			],
+			"NAME" : "flash_mix",
+			"PARAMS" : 0.19601,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "default"
+		},
+		{
+			"DEFAULT" : 5,
+			"DESCRIPTION" : "",
+			"MAX" : 10,
+			"MIN" : 0.5,
+			"NAME" : "flash_dist",
+			"PARAMS" : 0.19201,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "default"
+		}
+	],
 	"CREDIT" : "mrange",
 	"DESCRIPTION" : "Dark twister",
 	"GPU" : 1,
+	"HEIGHT" : 1080,
 	"IMAGE_PATH" : "scene.png",
-	"IMAGES" :
-	[
-	],
-	"MEDIA" :
+	"MEDIA" : 
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"PASSES" :
-	[
-	],
-	"TAGS" :
+	"TAGS" : 
 	[
 		"mrange",
 		"dark",
 		"twister"
 	],
 	"TITLE" : "Dark twister",
-	"HEIGHT" : 1080,
 	"WIDTH" : 1920
 }

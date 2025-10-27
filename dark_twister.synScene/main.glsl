@@ -164,18 +164,19 @@ float raymarch(vec3 O, vec3 I, float initz, out float iter) {
 vec3 render3D() {
   float
     i
+  , B=dot(pow(vec2(syn_BassLevel, syn_BassHits),bass_pow),bass_mix)
   , D
   , G
   , F
   , H
   , L
-  , z=TIME
+  , z=mod(TIME,100.)
   ;
   vec2
     p=2.*_uvc;
   vec3
     O=path(z)
-  , L0=path(z+5.)
+  , L0=path(z+flash_dist)
   , Z=normalize(dpath(z))
   , X=normalize(cross(vec3(0,1,0)-ddpath(z),Z))
   , Y=cross(X,Z)
@@ -206,7 +207,7 @@ vec3 render3D() {
 
   D=raySphereDensity(O,I,vec4(L0,2.),z);
   L=(1.+dot(normalize(O-L0),I));
-  col+=D*D*light_col;
+  col+=D*D*light_col*mix(flash_mix.x, flash_mix.y, B);
   col+=1e-4/max(G*G,2e-6)*hsv2rgb(vec3(.7+.2*H,.9,.1));
   col-=1e-1*L*vec3(2,3,1);
   col=max(col,0.);
