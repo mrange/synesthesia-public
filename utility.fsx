@@ -25,3 +25,4 @@ let inline HSV2RGB (h, s, v) =
 
 
 HSV2RGB (0.58 , 0.7 , 1.0)
+HSV2RGB (0.63 , 0.9 , 1.0)
