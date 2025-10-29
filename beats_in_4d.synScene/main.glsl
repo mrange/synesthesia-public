@@ -11,6 +11,31 @@ float beat() {
 #endif
 }
 
+#ifdef KODELIFE
+const float
+  media_transparency  = 0.7
+, media_multiplier    = 1.0
+, zoom_factor         = 9.0
+, wcut                = 0.2
+, translation_speed   = 0.5
+;
+
+const vec2
+  bass_mix        = vec2(0.5, 0.5)
+, bass_pow        = vec2(4.0, 1.0)
+, speed_control   = vec2(0.5, 0.5)
+, visual_mix      = vec2(1.0, 1.0)
+, effect_base0    = vec2(0.0, 1.0)
+, effect_base1    = vec2(2.0, 0.0)
+, rotation_speed  = vec2(1.0, 2.0)
+, sine_distortion = vec2(29.0, 0.0)
+;
+
+const vec3
+  flash_color = vec3(0.3333, 0.6666, 1.0)
+;
+#endif
+
 mat2 rot(float a) {
   float
       c=cos(a)
@@ -26,7 +51,13 @@ vec4 renderMain() {
   , d
   , k
   , B=beat()
+#ifdef KODELIFE
+  , t=2.*TIME
+  , H=0.
+#else
   , t=dot(speed_control,vec2(TIME, syn_BassTime))
+  , H=syn_BassHits
+#endif
   , T=.1*t
   ;
 
@@ -37,7 +68,7 @@ vec4 renderMain() {
   , S=sin(U*sine_distortion.x)
   ;
   vec3
-    I=normalize(vec3(C-.5*r,(1.+syn_BassHits*sine_distortion.y*dot(U,U)*S.x*S.y)*r.y))
+    I=normalize(vec3(C-.5*r,(1.+H*sine_distortion.y*dot(U,U)*S.x*S.y)*r.y))
   , o=vec3(0)
   ;
   vec4
@@ -85,7 +116,9 @@ vec4 renderMain() {
 
   o=tanh(o/1e4)/0.9;
   o=mix(o,vec3(0),isnan(o));
-  M=_loadMedia();  
+#ifndef KODELIFE
+  M=_loadMedia();
   o=mix(o,M.xyz,M.w*media_transparency*media_multiplier);
+#endif
   return vec4(o,1);
 }
