@@ -262,7 +262,7 @@ vec3 render3D() {
   L=(1.+dot(normalize(O-L0),I));
   col+=D*D*FL;
   col+=1e-2/max(G0,2e-3)*FL;
-  col+=10.*(G0<tolerance?(pow(dot(RR,I),10.)):0.)*FL;
+  col+=10.*(G0<tolerance?(pow(abs(dot(RR,I)),10.)):0.)*FL;
   col+=1e-4/max(G*G,2e-6)*hsv2rgb(vec3(beam_hue.x+beam_hue.y*H,.9,.2*beam_lum));
   col-=1e-1*L*vec3(2,3,1);
   col=max(col,0.);
