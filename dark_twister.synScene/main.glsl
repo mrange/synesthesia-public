@@ -26,7 +26,7 @@ const float
 #ifdef KODELIFE
 const float
   beam_lum    =.5
-, flash_dist  =1.
+, flash_dist  =3.
 , motion_blur =.3
 , ref_factor  =.1
 , ref_focus   =190.
@@ -262,7 +262,7 @@ vec3 render3D() {
   L=(1.+dot(normalize(O-L0),I));
   col+=D*D*FL;
   col+=1e-2/max(G0,2e-3)*FL;
-  col+=10.*(G0<tolerance?(pow(abs(dot(RR,I)),10.)):0.)*FL;
+  col+=10.*(G0<=tolerance?(pow(abs(dot(RR,I)),10.)):0.)*FL;
   col+=1e-4/max(G*G,2e-6)*hsv2rgb(vec3(beam_hue.x+beam_hue.y*H,.9,.2*beam_lum));
   col-=1e-1*L*vec3(2,3,1);
   col=max(col,0.);
@@ -271,13 +271,11 @@ vec3 render3D() {
 #ifndef KODELIFE
   mcol=_loadMedia();
   col=mix(col,mcol.xyz,mcol.w*media_alpha*media_mult);
-#endif
+#endif  
   pcol=texture(syn_FinalPass,_uv);
   col=mix(col,pcol.xyz,motion_blur);
   return col;
 }
-// Synesthesia
-
 
 vec3 render2D() {
   vec2
