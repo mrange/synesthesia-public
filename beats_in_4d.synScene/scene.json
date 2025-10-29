@@ -4,8 +4,8 @@
 		{
 			"DEFAULT" : 
 			[
-				0.7,
-				0.7
+				0.5,
+				0.5
 			],
 			"DESCRIPTION" : "Audio response strength (X: bass level, Y: bass hits)",
 			"MAX" : 
@@ -26,8 +26,8 @@
 		{
 			"DEFAULT" : 
 			[
-				3,
-				2
+				4,
+				1
 			],
 			"DESCRIPTION" : "Audio response curve (higher = more intense reaction)",
 			"MAX" : 
@@ -66,6 +66,191 @@
 			"PARAMS" : 0.1,
 			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Speed"
+		},
+		{
+			"DEFAULT" : 0.7,
+			"DESCRIPTION" : "",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "media_transparency",
+			"PARAMS" : 0.19001,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Media"
+		},
+		{
+			"DEFAULT" : 1,
+			"DESCRIPTION" : "",
+			"MAX" : 5,
+			"MIN" : -5,
+			"NAME" : "media_multiplier",
+			"PARAMS" : 0.18101,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Media"
+		},
+		{
+			"DEFAULT" : 
+			[
+				1,
+				1
+			],
+			"DESCRIPTION" : "",
+			"MAX" : 
+			[
+				1,
+				1
+			],
+			"MIN" : 
+			[
+				0,
+				0
+			],
+			"NAME" : "visual_mix",
+			"PARAMS" : 0.23301,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Color"
+		},
+		{
+			"DEFAULT" : 
+			[
+				0,
+				1
+			],
+			"DESCRIPTION" : "",
+			"MAX" : 
+			[
+				7,
+				7
+			],
+			"MIN" : 
+			[
+				0,
+				0
+			],
+			"NAME" : "effect_base0",
+			"PARAMS" : 0.21901,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Color"
+		},
+		{
+			"DEFAULT" : 
+			[
+				2,
+				0
+			],
+			"DESCRIPTION" : "",
+			"MAX" : 
+			[
+				7,
+				7
+			],
+			"MIN" : 
+			[
+				0,
+				0
+			],
+			"NAME" : "effect_base1",
+			"PARAMS" : 0.23201,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Color"
+		},
+		{
+			"DEFAULT" : 
+			[
+				0.3333,
+				0.6666,
+				1
+			],
+			"DESCRIPTION" : "",
+			"MAX" : 
+			[
+				1,
+				1,
+				1
+			],
+			"MIN" : 
+			[
+				0,
+				0,
+				0
+			],
+			"NAME" : "flash_color",
+			"PARAMS" : 0.20301,
+			"TYPE" : "color smooth",
+			"UI_GROUP" : "Color"
+		},
+		{
+			"DEFAULT" : 9,
+			"DESCRIPTION" : "",
+			"MAX" : 20,
+			"MIN" : 3,
+			"NAME" : "zoom_factor",
+			"PARAMS" : 0.21401,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 0.2,
+			"DESCRIPTION" : "",
+			"MAX" : 4,
+			"MIN" : -4,
+			"NAME" : "wcut",
+			"PARAMS" : 0.20801,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 0.5,
+			"DESCRIPTION" : "",
+			"MAX" : 2,
+			"MIN" : -2,
+			"NAME" : "translation_speed",
+			"PARAMS" : 0.22601,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 
+			[
+				1,
+				1
+			],
+			"DESCRIPTION" : "",
+			"MAX" : 
+			[
+				9,
+				9
+			],
+			"MIN" : 
+			[
+				-9,
+				-9
+			],
+			"NAME" : "rotation_speed",
+			"PARAMS" : 0.21801,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 
+			[
+				29,
+				0
+			],
+			"DESCRIPTION" : "",
+			"MAX" : 
+			[
+				49,
+				0.5
+			],
+			"MIN" : 
+			[
+				1,
+				0
+			],
+			"NAME" : "sine_distortion",
+			"PARAMS" : 0.20501,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Visual"
 		}
 	],
 	"CREDIT" : "mrange",
