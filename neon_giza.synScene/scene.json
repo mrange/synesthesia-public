@@ -1,0 +1,94 @@
+{
+	"CONTROLS" :
+	[
+		{
+			"DEFAULT" :
+			[
+				0.7,
+				0.7
+			],
+			"DESCRIPTION" : "",
+			"MAX" :
+			[
+				1,
+				1
+			],
+			"MIN" :
+			[
+				0,
+				0
+			],
+			"NAME" : "bass_mix",
+			"TYPE" : "xy",
+			"UI_GROUP" : "Audio"
+		},
+		{
+			"DEFAULT" :
+			[
+				3,
+				1
+			],
+			"DESCRIPTION" : "",
+			"MAX" :
+			[
+				5,
+				5
+			],
+			"MIN" :
+			[
+				0,
+				0
+			],
+			"NAME" : "bass_pow",
+			"PARAMS" : 0.2,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Audio"
+		},
+		{
+			"DEFAULT" : 1,
+			"DESCRIPTION" : "Media opacity – fade visuals in or out",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "media_opacity",
+			"PARAMS" : 0.1,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Media"
+		},
+		{
+			"DEFAULT" : 1,
+			"DESCRIPTION" : "Media multiplier – boost opacity for bold color effects",
+			"MAX" : 9,
+			"MIN" : -9,
+			"NAME" : "media_multiplier",
+			"PARAMS" : 0.1,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Media"
+		}
+	],
+	"CREDIT" : "mrange",
+	"DESCRIPTION" : "Neon giza",
+	"GPU" : 1,
+	"IMAGE_PATH" : "scene.png",
+	"IMAGES" :
+	[
+	],
+	"MEDIA" :
+	[
+		{
+			"FILTER" : "linear",
+			"WRAP" : "mirror"
+		}
+	],
+	"PASSES" :
+	[
+	],
+	"TAGS" :
+	[
+		"mrange",
+		"neon",
+		"giza"
+	],
+	"TITLE" : "Neon giza",
+	"HEIGHT" : 1080,
+	"WIDTH" : 1920
+}
