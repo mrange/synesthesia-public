@@ -19,8 +19,13 @@ vec3 hsv2rgb(vec3 c) {
 //  Macro version of above to enable compile-time constants
 #define HSV2RGB(c)  (c.z * mix(hsv2rgb_K.xxx, clamp(abs(fract(c.xxx + hsv2rgb_K.xyz) * 6.0 - hsv2rgb_K.www) - hsv2rgb_K.xxx, 0.0, 1.0), c.y))
 
-#define PATHA (0.33*vec2(0.1147, 0.2093))
-#define PATHB (0.33*vec2(13.0, 3.0))
+//#define PATHA (0.33*vec2(0.1147, 0.2093))
+//#define PATHB (0.33*vec2(13.0, 3.0))
+const vec2
+  PATHA = (TAU/300.*vec2(3,2))
+, PATHB = (vec2(2, 3))
+;
+  
 vec3 path(float z) {
   return vec3(sin(z*PATHA)*PATHB, z);
 }
@@ -138,7 +143,7 @@ const mat3
   roty      = ROTY(radians(10.0))
 ;
 const vec3
-  sunDir     = normalize(vec3(0.0, -0.01, 1.0))*roty
+  sunDir     = normalize(vec3(0.0,-0.01, 1.0))*roty
 , lightPos   = vec3(0.0, -60.0, -200.0)*roty
 , sunColor   = HSV2RGB(vec3(hoff+0.0, 0.9, 0.0005))
 , topColor   = HSV2RGB(vec3(hoff+0.0, 0.9, 0.0001))
@@ -146,8 +151,6 @@ const vec3
 , glowColor2 = HSV2RGB(vec3(hoff+0.3, 0.95, 0.001))
 , diffColor  = HSV2RGB(vec3(hoff+0.0, 0.9, .25))
 , glowCol1   = HSV2RGB(vec3(hoff+0.2, 0.85, 0.0125))
-, diffCol    = diffColor
-, sunCol     = sunColor
 ;
 
 vec2 planeCoord(vec3 p, vec3 c, vec3 up, vec4 dim) {
@@ -191,7 +194,7 @@ vec3 sky(vec3 ro, vec3 rd) {
     hd = max(abs(rd.y+0.15), 0.00066)
   ;
   vec3
-    col = sunColor/(1.0+0.00001 - dot(sunDir, rd))
+    col = sunColor/(1.0+1e-5 - dot(sunDir, rd))
   ;
   col += 100.0*glowColor0/sqrt(hd);
   col += glowColor2/(hd);
@@ -328,7 +331,7 @@ vec2 dfArcs(vec3 p) {
   ;
   float
     n1 = round(.25*p1.z)
-  , h1 = hash(n1)
+  , h1 = hash(mod(n1+37.5,75.)-37.5)
   , sh1 = -1.0+2.0*h1
   ;
   p1.z-=4.*n1;
@@ -426,14 +429,14 @@ vec3 render0(vec3 ro, vec3 rd, float beat) {
 vec3 render1(vec3 ro, vec3 rd, vec2 sp) {
   g_gd = 1E3;
   float
-    beat = beat()
+    B = beat()
   , iter
   , t = rayMarch(ro, rd, 0.0, iter)
   , gd = g_gd
   ;
   vec3
-    ggcol = (glowCol1)/(max(gd, 0.00125))
-  , skyCol = render0(ro, rd, beat)
+    ggcol = (glowCol1)/(max(gd, 1e-3))
+  , skyCol = render0(ro, rd, B)
   , col = skyCol
   ;
 
@@ -455,7 +458,7 @@ vec3 render1(vec3 ro, vec3 rd, vec2 sp) {
     fre *= fre;
 
     float
-      dif = dot(sunDir, n)
+      dif = max(dot(sunDir, n),0.)
     , ao = 1.0-iter/float(MAX_RAY_MARCHES_HI)
     , fo = mix(0.2, 0.5, ao)
     ;
@@ -471,30 +474,30 @@ vec3 render1(vec3 ro, vec3 rd, vec2 sp) {
       float riter;
       float rt = rayMarch(p, r, 0.5,riter);
       float rgd = g_gd;
-      vec3 rggcol = (glowCol1)/(max(rgd, 0.00125));
-      rcol = clamp(rggcol, 0.0, 40.0);
+      vec3 rggcol = 0.5/(max(rgd*rgd, 1e-3))*(glowCol1);
+      rcol = rggcol;
       rcol *= smoothstep(0.66, 0.1, tt);
       if (rt < MAX_RAY_LENGTH_HI) {
-        rcol += diffCol*0.2;
+        rcol += diffColor*.2;
       } else {
-        rcol += .5*render0(p, r, beat);
+        rcol += .5*render0(p, r, B);
       }
     }
 
-    rcol += 4.0*(diffCol+0.5)*glowCol1/max(dd.x*dd.x, 0.01);
+    rcol += 4.0*smoothstep(0.,0.01,gd)/max(dd.x*dd.x, 0.01)*(diffColor+0.5)*glowCol1;
     col = vec3(0);
-    col += sunCol*dif*dif*diffCol*fo;
-    col += rcol*fre;
+    col += dif*dif*fo*1e5*sunColor*diffColor;
+    col += fre*rcol;
   }
 
-  col = clamp(col, 0., 4.);
   col = mix(col, skyCol, sfo);
 
-  col += clamp(ggcol, 0., 4.);
+  col += ggcol;
 
   vec3 rrd = rd*transpose(roty)*ROTX(0.027);
   float flash = dot(rrd, normalize(vec3(0.0, -0.2, -1.0)))+1.0005;
-  col += (0.01*vec3(0.5, 0.25, 1.0))*smoothstep(2.5, 4.0, (syn_BassLevel+syn_MidLevel+syn_MidHighLevel+syn_HighLevel))/flash;
+  col += (0.01*vec3(0.5, 0.25, 1.0))*smoothstep(.5, 1., B*B)/flash;
+
 
   return col;
 }
@@ -506,8 +509,7 @@ vec3 effect(vec2 p, vec2 pp, vec2 q) {
   ;
 
   float
-    tm  = mod(TIME, 60.)-30.0
-  , z = 5.0*tm
+    z = 5.0*(mod(TIME, 60.)-30.0)
   ;
 
   vec2
@@ -526,7 +528,6 @@ vec3 effect(vec2 p, vec2 pp, vec2 q) {
   col -= 0.025*vec3(2,3,1)*(.25+length(pp));
   col *= smoothstep(1.5, 0.5, length(pp));
   col = clamp(col, 0.0, 4.0);
-  col *= smoothstep(30.0, 28.0, abs(tm));
   vec4
     pcol=texture(syn_FinalPass,q)
   ;
@@ -538,7 +539,7 @@ vec3 effect(vec2 p, vec2 pp, vec2 q) {
   ;
   col=mix(col,mcol.xyz,mcol.w*media_opacity*media_multiplier);
 #endif
-  col=mix(col,pcol.xyz,.25);
+  col=mix(col,pcol.xyz,motion_blur);
   return col;
 }
 

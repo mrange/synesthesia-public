@@ -1,19 +1,19 @@
 {
-	"CONTROLS" :
+	"CONTROLS" : 
 	[
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.7,
 				0.7
 			],
 			"DESCRIPTION" : "",
-			"MAX" :
+			"MAX" : 
 			[
 				1,
 				1
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0
@@ -23,18 +23,18 @@
 			"UI_GROUP" : "Audio"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				3,
 				1
 			],
 			"DESCRIPTION" : "",
-			"MAX" :
+			"MAX" : 
 			[
 				5,
 				5
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0
@@ -63,32 +63,35 @@
 			"PARAMS" : 0.1,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Media"
+		},
+		{
+			"DEFAULT" : 0.3,
+			"DESCRIPTION" : "",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "motion_blur",
+			"TYPE" : "slider",
+			"UI_GROUP" : "Visual"
 		}
 	],
 	"CREDIT" : "mrange",
 	"DESCRIPTION" : "Neon giza",
 	"GPU" : 1,
+	"HEIGHT" : 1080,
 	"IMAGE_PATH" : "scene.png",
-	"IMAGES" :
-	[
-	],
-	"MEDIA" :
+	"MEDIA" : 
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"PASSES" :
-	[
-	],
-	"TAGS" :
+	"TAGS" : 
 	[
 		"mrange",
 		"neon",
 		"giza"
 	],
 	"TITLE" : "Neon giza",
-	"HEIGHT" : 1080,
 	"WIDTH" : 1920
 }
