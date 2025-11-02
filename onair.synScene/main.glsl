@@ -584,7 +584,7 @@ vec3 filter4(sampler2D tex, ivec2 xy) {
   a += texelFetch(tex, xy + ivec2( 1,  0), 0).xyz;
   a += texelFetch(tex, xy + ivec2(-1,  0), 0).xyz;
 
-  a/=4;
+  a/=4.;
 
   return dot(luma,c) > dot(luma,a) ? a : c;
 }

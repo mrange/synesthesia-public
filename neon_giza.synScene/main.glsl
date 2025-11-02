@@ -41,15 +41,15 @@ vec3 hsv2rgb(vec3 c) {
   )
 
 
-const float 
+const float
   PERIOD=300.
 ;
-  
+
 const vec2
   PATHA = (TAU/PERIOD*vec2(3,2))
 , PATHB = (vec2(2, 3))
 ;
-  
+
 const mat2
   R45 = ROT(-PI/4.)
 ;
@@ -174,9 +174,9 @@ const vec3
 , sunColor   = HSV2RGB(vec3(hoff+0.0, 0.9, 0.0005))
 , topColor   = HSV2RGB(vec3(hoff+0.0, 0.9, 0.0001))
 , glowColor0 = HSV2RGB(vec3(hoff+0.0, 0.9, 0.0001))
-, glowColor2 = HSV2RGB(vec3(hoff+0.3, 0.95, 0.001))
-, diffColor  = HSV2RGB(vec3(hoff+0.0, 0.9, .25))
-, glowCol1   = HSV2RGB(vec3(hoff+0.2, 0.85, 0.0125))
+, glowColor2 = HSV2RGB(vec3(hoff+0.3, .95, 0.001))
+, diffColor  = HSV2RGB(vec3(hoff+0.0, 0.5, .25))
+, glowCol1   = HSV2RGB(vec3(hoff+0.2, .85, 0.0125))
 ;
 
 vec2 planeCoord(vec3 p, vec3 c, vec3 up, vec4 dim) {
@@ -266,7 +266,7 @@ vec3 glow(vec3 ro, vec3 rd, float beat) {
 
 vec3 side(vec3 col, vec3 ro, vec3 rd, float t, vec4 dim, vec3 c) {
   const vec2 tri =vec2(485, sqrt(3.0)*356.0);
-  vec3 
+  vec3
     n = dim.xyz
   , p = ro + rd*t
   , r = reflect(rd, n)
@@ -277,18 +277,18 @@ vec3 side(vec3 col, vec3 ro, vec3 rd, float t, vec4 dim, vec3 c) {
 
   float dcol = max(dot(ld, n), 0.0);
   dcol *= dcol;
-  vec2 
+  vec2
     pp = planeCoord(p, c, vec3(0, 1, 0), dim)
   , p0 = pp
   , p1 = pp
   ;
-  float 
+  float
     d0 = triIso(p0, tri)
   , d1 = triIso(p1, 0.11*tri)
   , d = d0
   , hf = smoothstep(-600.0, -400.0, p.y)
   ;
-  vec3 
+  vec3
     bcol = col
   , pcol = 3.0*diffColor*dcol
   ;
@@ -338,7 +338,7 @@ vec2 dfArcs(vec3 p) {
   const vec2
     sc=SCA(PI/16.)
   ;
-  
+
   vec3
     p1 = p
   ;
@@ -358,7 +358,7 @@ vec2 dfArcs(vec3 p) {
     d1 = cappedTorus(p1, sc, vec2(3, 0.225))
   , d2 = flatTorus(p2, vec2(3, .09))
   ;
-  
+
   return vec2(d1, d2);
 }
 
@@ -435,13 +435,76 @@ vec3 render0(vec3 ro, vec3 rd, float beat) {
   return col;
 }
 
-vec3 render1(vec3 ro, vec3 rd, vec2 sp, out float depth) {
+vec3 g_X,g_Y,g_Z;
+vec2 toScreenSpace(vec3 ro, vec3 p3) {
+  vec3 toPoint = p3 - ro;
+
+  float
+    X = dot(toPoint, g_X)
+  , Y = dot(toPoint, g_Y)
+  , Z = dot(toPoint, g_Z)
+  ;
+
+  vec2 p = vec2(
+     -2.0 * X / Z
+    , 2.0 * Y / Z
+  );
+
+  p.x*=RENDERSIZE.y/RENDERSIZE.x;
+
+  vec2 uv = p*.5+.5;
+
+  return uv;
+
+}
+
+//#define SSR
+vec4 ssr(
+  vec3  ro
+, vec3  rd
+, float initz
+) {
+  vec3
+    p0 = ro + rd * initz
+  , p1 = ro + rd * 30.
+  ;
+
+  vec2
+    uv0 = toScreenSpace(ro,p0)
+  , uv1 = toScreenSpace(ro,p1)
+  ;
+  const float MAX=100.;
+  for(float i = 0.; i < MAX; ++i) {
+    float t = float(i) / MAX;
+
+    vec2 uv = mix(uv0, uv1, t);
+
+    float d = mix(p0.z, p1.z, t)-ro.z;
+
+    //uv.y=1.-uv.y;
+    vec4 s = texture(pass0, uv);
+
+    if(d > s.w) {
+      return vec4(s.xyz,1);
+    }
+  }
+
+  return vec4(0);
+}
+
+vec3 render1(
+    vec3 ro
+  , vec3 rd
+  , vec2 sp
+  , vec2 q
+  , out float depth
+  ) {
   g_gd = vec2(1E3);
   float
     B = beat()
   , iter
   , t = rayMarch(ro, rd, 0.0, iter)
-  , hd   
+  , hd
   ;
   vec2
     gd=g_gd
@@ -455,17 +518,18 @@ vec3 render1(vec3 ro, vec3 rd, vec2 sp, out float depth) {
   ;
   ggcol=clamp(ggcol,0.,4.);
 
-  float 
+  float
     tt = max(t/MAX_RAY_LENGTH_HI-.3,0.)
   , sfo = 1.-exp(-9.*tt*tt)
   ;
-  depth=t;
+  depth=1e3;
   if (t < MAX_RAY_LENGTH_HI) {
     vec3
       p = ro+rd*t
     , n = normal(p)
     , r = reflect(rd, n)
     ;
+    depth = p.z-ro.z;
     float
       fre0 = 1.+dot(rd, n)
     , fre  = fre0
@@ -484,12 +548,21 @@ vec3 render1(vec3 ro, vec3 rd, vec2 sp, out float depth) {
 
     float hit = min(dd.x, dd.y);
     if (hit > .05) {
+#ifdef SSR
+      vec4 scol=ssr(
+        p+.1*n
+      , r
+      , .3
+      );
+      rcol=scol.xyz*scol.w;
+      rcol += .5*render0(p, r, B)*(1.-scol.w);
+#else
       g_gd = vec2(1E3);
-      float 
+      float
         riter
-      , rt = rayMarch(p, r, 0.5,riter)
+      , rt = rayMarch(p+.1*n, r, 0.3,riter)
       ;
-      vec2 
+      vec2
         rgd=g_gd
       ;
       vec3 rggcol = 0.5/(max(rgd.x*rgd.x, 1e-3))*(glowCol1);
@@ -497,12 +570,12 @@ vec3 render1(vec3 ro, vec3 rd, vec2 sp, out float depth) {
       rcol = rggcol;
       rcol *= smoothstep(0.66, 0.1, tt);
       if (rt < MAX_RAY_LENGTH_HI) {
-        rcol += diffColor*.2;
+//        rcol += diffColor*.2;
       } else {
         rcol += .5*render0(p, r, B);
       }
+#endif
     }
-
     rcol += 4.0*hd/max(dd.x*dd.x, 0.01)*(diffColor+0.5)*glowCol1;
     col += dif*dif*fo*1e5*sunColor*diffColor;
     col += fre*rcol;
@@ -525,7 +598,7 @@ vec3 render1(vec3 ro, vec3 rd, vec2 sp, out float depth) {
 
 
 vec4 fpass0() {
-  vec2 
+  vec2
     q = _uv
   , pp=-1.+2.*q
   , p = 2.*_uvc
@@ -543,30 +616,80 @@ vec4 fpass0() {
   , X  = normalize(cross(vec3(0, 1, 0)+10.*dd, Z))
   , Y  = cross(Z,X)
   , rd = normalize(-p.x*X + p.y*Y + 2.*Z)
-  , col= render1(ro, rd, p, depth)
+  , col
   ;
+  g_X=X;
+  g_Y=Y;
+  g_Z=Z;
+
+  col= render1(ro, rd, p, q, depth);
 
   col -= .025*(.25+length(pp))*vec3(2,3,1);
   col *= smoothstep(1.5, 0.5, length(pp));
+
+  //col=vec3(10000.*abs(toScreenSpace(ro,ro+rd*1.)-q),0);
+  //col = texture(pass0,toScreenSpace(ro,ro+rd*1.)).xyz;
   col = max(col,0.);
   return vec4(col,depth);
 }
 
+vec3 reduceNoise(sampler2D tex, ivec2 xy) {
+  const vec3
+    luma = vec3(0.2126, 0.7152, 0.0722)
+  ;
+  vec3
+    c = texelFetch(tex, xy, 0).xyz
+  , a = vec3(0)
+  ;
+  a += texelFetch(tex, xy + ivec2( 0,  1), 0).xyz;
+  a += texelFetch(tex, xy + ivec2( 0, -1), 0).xyz;
+  a += texelFetch(tex, xy + ivec2( 1,  0), 0).xyz;
+  a += texelFetch(tex, xy + ivec2(-1,  0), 0).xyz;
+//#define MORE
+#ifdef MORE
+  a += texelFetch(tex, xy + ivec2( 1,  1), 0).xyz;
+  a += texelFetch(tex, xy + ivec2( 1, -1), 0).xyz;
+  a += texelFetch(tex, xy + ivec2(-1, -1), 0).xyz;
+  a += texelFetch(tex, xy + ivec2(-1,  1), 0).xyz;
+  a/=8.;
+#else
+  a/=4.;
+#endif
+  float
+    cl=dot(luma,c)
+  , al=dot(luma,a)
+  ;
+  return cl > al ? a : c;
+}
+
+vec3 aces_approx(vec3 v) {
+  const float
+    a = 2.51
+  , b = 0.03
+  , c = 2.43
+  , d = 0.59
+  , e = 0.14
+  ;
+  v = max(v, 0.);
+  v *= .6;
+  return clamp((v*(a*v+b))/(v*(c*v+d)+e), 0., 1.);
+}
+
 vec4 fpass1() {
-  vec2 
+  vec2
     q = _uv
   ;
-  
-  vec4
-    col0=texture(pass0,q)
-  , pcol=texture(syn_FinalPass,q)
-  ;
-  
-  vec3 
-    col=col0.xyz
-  ;  
 
+  vec3
+    col=reduceNoise(pass0,ivec2(_xy))
+  , pcol=texture(syn_FinalPass,q).xyz
+  ;
+#define USE_ACES
+#ifdef USE_ACES
+  col =aces_approx(col);
+#else
   col =tanh(col);
+#endif
   col= sqrt(col);
 #ifndef KODELIFE
   vec4
@@ -574,7 +697,7 @@ vec4 fpass1() {
   ;
   col=mix(col,mcol.xyz,mcol.w*media_opacity*media_multiplier);
 #endif
-  col=mix(col,pcol.xyz,.25);
+  col=mix(col,clamp(pcol.xyz,0.,1.),motion_blur);
 
   return vec4(col, 1);
 }
