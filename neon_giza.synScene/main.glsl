@@ -1,3 +1,9 @@
+#ifdef KODELIFE
+const float
+  motion_blur = 0.25
+;
+#endif
+
 const float
   TAU                 = 2.*PI
 , MAX_RAY_LENGTH_HI   = 60.0
@@ -92,6 +98,14 @@ float tanh_approx(float x) {
   return clamp(x*(27.0 + x2)/(27.0+9.0*x2), -1.0, 1.0);
 }
 
+// License: Unknown, author: Claude Brezinski, found: https://mathr.co.uk/blog/2017-09-06_approximating_hyperbolic_tangent.html
+vec3 tanh_approx(vec3 x) {
+  //  Found this somewhere on the interwebs
+  //  return tanh(x);
+  vec3 x2 = x*x;
+  return clamp(x*(27.0 + x2)/(27.0+9.0*x2), -1.0, 1.0);
+}
+
 float beat() {
 #ifdef KODELIFE
   return pow(1.-fract(TIME),2.);
@@ -136,6 +150,15 @@ float length4(vec2 p) {
   return sqrt(sqrt(dot(p,p)));
 }
 
+float segment(vec2 p) {
+  float
+    d0=length4(p)
+  , d1=abs(p.x)
+  ;
+
+  return p.y>=0.?d0:d1;
+}
+
 // License: MIT, author: Inigo Quilez, found: https://iquilezles.org/articles/distfunctions2d/
 float flatTorus( vec3 p, vec2 t) {
   p=p.xzy;
@@ -171,12 +194,13 @@ const mat3
 const vec3
   sunDir     = normalize(vec3(0,-0.01, 1))*roty
 , lightPos   = vec3(0, -60, -200)*roty
-, sunColor   = HSV2RGB(vec3(hoff+0.0, 0.9, 0.0005))
-, topColor   = HSV2RGB(vec3(hoff+0.0, 0.9, 0.0001))
-, glowColor0 = HSV2RGB(vec3(hoff+0.0, 0.9, 0.0001))
-, glowColor2 = HSV2RGB(vec3(hoff+0.3, .95, 0.001))
+, sunColor   = HSV2RGB(vec3(hoff+0.0, 0.9, .0005))
+, topColor   = HSV2RGB(vec3(hoff+0.0, 0.9, .0001))
+, glowColor0 = HSV2RGB(vec3(hoff+0.0, 0.9, .0001))
+, glowColor2 = HSV2RGB(vec3(hoff+0.3, .95, .001))
 , diffColor  = HSV2RGB(vec3(hoff+0.0, 0.5, .25))
-, glowCol1   = HSV2RGB(vec3(hoff+0.2, .85, 0.0125))
+, glowCol1   = HSV2RGB(vec3(hoff+0.2, .85, .0125))
+, barCol     = HSV2RGB(vec3(hoff+0.15,.90, 1.))
 ;
 
 vec2 planeCoord(vec3 p, vec3 c, vec3 up, vec4 dim) {
@@ -220,10 +244,31 @@ vec3 sky(vec3 ro, vec3 rd) {
     hd = max(abs(rd.y+0.15), 0.00066)
   ;
   vec3
-    col = sunColor/(1.0+1e-5 - dot(sunDir, rd))
+    col = 0.*sunColor/(1.+1e-5 - dot(sunDir, rd))
   ;
+
+  vec2
+   p=vec2(atan(rd.x,rd.z),rd.y+.15)
+  ,p0=p
+  ;
+  const float SZ=.05;
+  p0.x=abs(p0.x);
+  float
+    n=round(p0.x/SZ)
+  , d
+  ;
+  p0.x-=n*SZ;
+  p0.y-=.2*sqrt(texture(syn_Spectrum,n*SZ+SZ).y)-.05;
+
+  d=segment(p0)-SZ*.4;
+
+  if (d<0.&&p.y>0.) {
+   col+=(barCol+2.*sqrt(-d))*bar_visibility;
+  }
+
   col += 100.0*glowColor0*inversesqrt(hd);
   col += glowColor2/(hd);
+
   return col;
 }
 
@@ -343,7 +388,7 @@ vec2 dfArcs(vec3 p) {
     p1 = p
   ;
   float
-    n1 = round(.25*p1.z)
+    n1 = floor(.25*p1.z+.5)
   , h1 = hash(mod(n1+.125*PERIOD,.25*PERIOD)-.125*PERIOD)
   , sh1 = -1.+2.*h1
   ;
@@ -458,40 +503,6 @@ vec2 toScreenSpace(vec3 ro, vec3 p3) {
 
 }
 
-//#define SSR
-vec4 ssr(
-  vec3  ro
-, vec3  rd
-, float initz
-) {
-  vec3
-    p0 = ro + rd * initz
-  , p1 = ro + rd * 30.
-  ;
-
-  vec2
-    uv0 = toScreenSpace(ro,p0)
-  , uv1 = toScreenSpace(ro,p1)
-  ;
-  const float MAX=100.;
-  for(float i = 0.; i < MAX; ++i) {
-    float t = float(i) / MAX;
-
-    vec2 uv = mix(uv0, uv1, t);
-
-    float d = mix(p0.z, p1.z, t)-ro.z;
-
-    //uv.y=1.-uv.y;
-    vec4 s = texture(pass0, uv);
-
-    if(d > s.w) {
-      return vec4(s.xyz,1);
-    }
-  }
-
-  return vec4(0);
-}
-
 vec3 render1(
     vec3 ro
   , vec3 rd
@@ -514,7 +525,7 @@ vec3 render1(
     ggcol   = glowCol1/(max(gd.x, 1e-3))
   , skyCol  = render0(ro, rd, B)
   , col     = vec3(0)
-  , rcol    = vec3(0.0)
+  , rcol    = vec3(0)
   ;
   ggcol=clamp(ggcol,0.,4.);
 
@@ -548,15 +559,6 @@ vec3 render1(
 
     float hit = min(dd.x, dd.y);
     if (hit > .05) {
-#ifdef SSR
-      vec4 scol=ssr(
-        p+.1*n
-      , r
-      , .3
-      );
-      rcol=scol.xyz*scol.w;
-      rcol += .5*render0(p, r, B)*(1.-scol.w);
-#else
       g_gd = vec2(1E3);
       float
         riter
@@ -574,24 +576,23 @@ vec3 render1(
       } else {
         rcol += .5*render0(p, r, B);
       }
-#endif
     }
-    rcol += 4.0*hd/max(dd.x*dd.x, 0.01)*(diffColor+0.5)*glowCol1;
-    col += dif*dif*fo*1e5*sunColor*diffColor;
+    rcol += 4.0*hd/max(dd.x*dd.x, 0.01)*((diffColor+0.5)*glowCol1);
+    col += dif*dif*fo*1e5*(sunColor*diffColor);
     col += fre*rcol;
   }
 
   col += ggcol;
   col = mix(
       mix(col,col*.25*vec3(2,1,3),sfo)
-    , skyCol+hd*ggcol*smoothstep(MAX_RAY_LENGTH_HI, MAX_RAY_LENGTH_HI*.5, gd.y)
+    , skyCol+hd*smoothstep(MAX_RAY_LENGTH_HI, MAX_RAY_LENGTH_HI*.5, gd.y)*ggcol
     , sfo
     );
 
 
   vec3 rrd = rd*rotline;
   float flash = dot(rrd, normalize(vec3(0.0, -0.2, -1.0)))+1.0005;
-  col += (0.01*vec3(0.5, 0.25, 1.0))*smoothstep(.5, 1., B*B)/flash;
+  col += smoothstep(.5, 1., B*B)/flash*(0.01*vec3(.5, .25, 1.0));
 
   return col;
 }
@@ -605,7 +606,8 @@ vec4 fpass0() {
   ;
 
   float
-    z = mod(5.*TIME, PERIOD)-PERIOD*.5
+    t=dot(vec2(TIME,syn_BassTime),travel_speed)
+  , z=mod(t, PERIOD)-PERIOD*.5
   , depth
   ;
 
@@ -623,6 +625,7 @@ vec4 fpass0() {
   g_Z=Z;
 
   col= render1(ro, rd, p, q, depth);
+//  col= render0(ro, rd, beat());
 
   col -= .025*(.25+length(pp))*vec3(2,3,1);
   col *= smoothstep(1.5, 0.5, length(pp));
@@ -684,11 +687,11 @@ vec4 fpass1() {
     col=reduceNoise(pass0,ivec2(_xy))
   , pcol=texture(syn_FinalPass,q).xyz
   ;
-#define USE_ACES
+// #define USE_ACES
 #ifdef USE_ACES
   col =aces_approx(col);
 #else
-  col =tanh(col);
+  col =tanh_approx(col);
 #endif
   col= sqrt(col);
 #ifndef KODELIFE
@@ -701,6 +704,7 @@ vec4 fpass1() {
 
   return vec4(col, 1);
 }
+
 
 vec4 renderMain() {
   switch(PASSINDEX) {

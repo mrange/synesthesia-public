@@ -72,6 +72,37 @@
 			"NAME" : "motion_blur",
 			"TYPE" : "slider",
 			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" :
+			[
+				5,
+				0
+			],
+			"DESCRIPTION" : "",
+			"MAX" :
+			[
+				9,
+				3
+			],
+			"MIN" :
+			[
+				-9,
+				-3
+			],
+			"NAME" : "travel_speed",
+			"TYPE" : "xy",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 1,
+			"DESCRIPTION" : "",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "bar_visibility",
+			"PARAMS" : 0.19501,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Visual"
 		}
 	],
 	"CREDIT" : "mrange",
