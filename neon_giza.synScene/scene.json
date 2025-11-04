@@ -1,19 +1,19 @@
 {
-	"CONTROLS" :
+	"CONTROLS" : 
 	[
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.7,
 				0.7
 			],
 			"DESCRIPTION" : "",
-			"MAX" :
+			"MAX" : 
 			[
 				1,
 				1
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0
@@ -23,18 +23,18 @@
 			"UI_GROUP" : "Audio"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				3,
 				1
 			],
 			"DESCRIPTION" : "",
-			"MAX" :
+			"MAX" : 
 			[
 				5,
 				5
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0
@@ -74,18 +74,18 @@
 			"UI_GROUP" : "Visual"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				5,
 				0
 			],
 			"DESCRIPTION" : "",
-			"MAX" :
+			"MAX" : 
 			[
 				9,
 				3
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				-9,
 				-3
@@ -103,6 +103,26 @@
 			"PARAMS" : 0.19501,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 0.725,
+			"DESCRIPTION" : "",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "hue_offset",
+			"PARAMS" : 0.23401,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 0.15,
+			"DESCRIPTION" : "",
+			"MAX" : 0.25,
+			"MIN" : 0,
+			"NAME" : "bar_height",
+			"PARAMS" : 0.20801,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Visual"
 		}
 	],
 	"CREDIT" : "mrange",
@@ -110,14 +130,14 @@
 	"GPU" : 1,
 	"HEIGHT" : 1080,
 	"IMAGE_PATH" : "scene.png",
-	"MEDIA" :
+	"MEDIA" : 
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"PASSES" :
+	"PASSES" : 
 	[
 		{
 			"FILTER" : "linear",
@@ -128,7 +148,7 @@
 			"WRAP" : "repeat"
 		}
 	],
-	"TAGS" :
+	"TAGS" : 
 	[
 		"mrange",
 		"neon",

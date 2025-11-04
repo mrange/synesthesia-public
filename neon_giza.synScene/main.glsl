@@ -1,7 +1,17 @@
 #ifdef KODELIFE
 const float
   motion_blur = 0.25
+, hoff      = 0.725
 ;
+
+const vec3
+, sunColor   = HSV2RGB(vec3(hoff+0.0, 0.9, .0005))
+, topColor   = HSV2RGB(vec3(hoff+0.0, 0.9, .0001))
+, glowColor0 = HSV2RGB(vec3(hoff+0.0, 0.9, .0001))
+, glowColor2 = HSV2RGB(vec3(hoff+0.3, .95, .001))
+, diffColor  = HSV2RGB(vec3(hoff+0.0, 0.5, .25))
+, glowCol1   = HSV2RGB(vec3(hoff+0.2, .85, .0125))
+, barCol     = HSV2RGB(vec3(hoff+0.15,.90, 1.))
 #endif
 
 const float
@@ -185,22 +195,14 @@ float arc(vec2 p, vec2 sc, float ra, float rb) {
                                 abs(length(p)-ra)) - rb;
 }
 
-const float
-  hoff      = 0.725;
 const mat3
   roty      = ROTY(radians(10.0))
 , rotline   = transpose(roty)*ROTX(0.027)
 ;
+
 const vec3
   sunDir     = normalize(vec3(0,-0.01, 1))*roty
 , lightPos   = vec3(0, -60, -200)*roty
-, sunColor   = HSV2RGB(vec3(hoff+0.0, 0.9, .0005))
-, topColor   = HSV2RGB(vec3(hoff+0.0, 0.9, .0001))
-, glowColor0 = HSV2RGB(vec3(hoff+0.0, 0.9, .0001))
-, glowColor2 = HSV2RGB(vec3(hoff+0.3, .95, .001))
-, diffColor  = HSV2RGB(vec3(hoff+0.0, 0.5, .25))
-, glowCol1   = HSV2RGB(vec3(hoff+0.2, .85, .0125))
-, barCol     = HSV2RGB(vec3(hoff+0.15,.90, 1.))
 ;
 
 vec2 planeCoord(vec3 p, vec3 c, vec3 up, vec4 dim) {
@@ -258,7 +260,7 @@ vec3 sky(vec3 ro, vec3 rd) {
   , d
   ;
   p0.x-=n*SZ;
-  p0.y-=.2*sqrt(texture(syn_Spectrum,n*SZ+SZ).y)-.05;
+  p0.y-=.2*sqrt(texture(syn_Spectrum,n*SZ+SZ).y)-.25+bar_height;
 
   d=segment(p0)-SZ*.4;
 
@@ -701,7 +703,6 @@ vec4 fpass1() {
   col=mix(col,mcol.xyz,mcol.w*media_opacity*media_multiplier);
 #endif
   col=mix(col,clamp(pcol.xyz,0.,1.),motion_blur);
-
   return vec4(col, 1);
 }
 
