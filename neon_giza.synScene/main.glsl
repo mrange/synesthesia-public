@@ -1,7 +1,23 @@
+// License: WTFPL, author: sam hocevar, found: https://stackoverflow.com/a/17897228/418488
+const vec4 hsv2rgb_K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
+vec3 hsv2rgb(vec3 c) {
+  vec3 p = abs(fract(c.xxx + hsv2rgb_K.xyz) * 6.0 - hsv2rgb_K.www);
+  return c.z * mix(hsv2rgb_K.xxx, clamp(p - hsv2rgb_K.xxx, 0.0, 1.0), c.y);
+}
+// License: WTFPL, author: sam hocevar, found: https://stackoverflow.com/a/17897228/418488
+//  Macro version of above to enable compile-time constants
+#define HSV2RGB(c)  (c.z * mix(hsv2rgb_K.xxx, clamp(abs(fract(c.xxx + hsv2rgb_K.xyz) * 6.0 - hsv2rgb_K.www) - hsv2rgb_K.xxx, 0.0, 1.0), c.y))
+
 #ifdef KODELIFE
 const float
-  motion_blur = 0.25
-, hoff      = 0.725
+  bar_height    =.15
+, bar_visibility=1.0
+, hoff          = 0.725
+, motion_blur   = 0.25
+;
+
+const vec2
+  travel_speed=vec2(3,0)
 ;
 
 const vec3
@@ -12,6 +28,7 @@ const vec3
 , diffColor  = HSV2RGB(vec3(hoff+0.0, 0.5, .25))
 , glowCol1   = HSV2RGB(vec3(hoff+0.2, .85, .0125))
 , barCol     = HSV2RGB(vec3(hoff+0.15,.90, 1.))
+;
 #endif
 
 const float
@@ -24,16 +41,6 @@ const float
 
 #define ROT(a)              mat2(cos(a), sin(a), -sin(a), cos(a))
 #define SCA(a)              vec2(sin(a), cos(a))
-
-// License: WTFPL, author: sam hocevar, found: https://stackoverflow.com/a/17897228/418488
-const vec4 hsv2rgb_K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
-vec3 hsv2rgb(vec3 c) {
-  vec3 p = abs(fract(c.xxx + hsv2rgb_K.xyz) * 6.0 - hsv2rgb_K.www);
-  return c.z * mix(hsv2rgb_K.xxx, clamp(p - hsv2rgb_K.xxx, 0.0, 1.0), c.y);
-}
-// License: WTFPL, author: sam hocevar, found: https://stackoverflow.com/a/17897228/418488
-//  Macro version of above to enable compile-time constants
-#define HSV2RGB(c)  (c.z * mix(hsv2rgb_K.xxx, clamp(abs(fract(c.xxx + hsv2rgb_K.xyz) * 6.0 - hsv2rgb_K.www) - hsv2rgb_K.xxx, 0.0, 1.0), c.y))
 
 #define ROTY(a)               \
   mat3(                       \
@@ -121,6 +128,14 @@ float beat() {
   return pow(1.-fract(TIME),2.);
 #else
   return tanh_approx(dot(pow(vec2(syn_BassLevel,syn_BassHits), bass_pow), bass_mix));
+#endif
+}
+
+float freq(float x) {
+#ifdef KODELIFE
+  return beat()*exp(-2.*x*x)*2.;
+#else
+  return texture(syn_Spectrum,x).y;
 #endif
 }
 
@@ -260,7 +275,7 @@ vec3 sky(vec3 ro, vec3 rd) {
   , d
   ;
   p0.x-=n*SZ;
-  p0.y-=.2*sqrt(texture(syn_Spectrum,n*SZ+SZ).y)-.25+bar_height;
+  p0.y-=.2*sqrt(freq(n*SZ+SZ))-.25+bar_height;
 
   d=segment(p0)-SZ*.4;
 
@@ -608,7 +623,11 @@ vec4 fpass0() {
   ;
 
   float
+#ifdef KODELIFE
+    t=TIME*travel_speed.x
+#else
     t=dot(vec2(TIME,syn_BassTime),travel_speed)
+#endif
   , z=mod(t, PERIOD)-PERIOD*.5
   , depth
   ;
