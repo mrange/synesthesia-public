@@ -215,7 +215,7 @@ vec3 render3D() {
 #else
   , T=dot(vec2(TIME,syn_BassTime),time_mix)
 #endif
-  , z=mod(T,100.)
+  , z=mod(T,300.)
   ;
   g_T=T;
   vec2
