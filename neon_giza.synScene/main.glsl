@@ -1,3 +1,8 @@
+// This file is released under CC0 1.0 Universal (Public Domain Dedication).
+// To the extent possible under law, Mårten Rånge has waived all copyright
+// and related or neighboring rights to this work.
+// See <https://creativecommons.org/publicdomain/zero/1.0/> for details.
+
 // License: WTFPL, author: sam hocevar, found: https://stackoverflow.com/a/17897228/418488
 const vec4 hsv2rgb_K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
 vec3 hsv2rgb(vec3 c) {
@@ -131,11 +136,11 @@ float beat() {
 #endif
 }
 
-float freq(float x) {
+float freq(float x,float off) {
 #ifdef KODELIFE
-  return beat()*exp(-2.*x*x)*2.;
+  return beat()*(.5+.5*sin(99.*x))*2.;
 #else
-  return texture(syn_Spectrum,x).y;
+  return texture(syn_Spectrum,abs(x)+off).y;
 #endif
 }
 
@@ -161,7 +166,6 @@ float pmin(float a, float b, float k) {
   return mix(b, a, h) - k*h*(1.0-h);
 }
 
-// License: CC0, author: Mårten Rånge, found: https://github.com/mrange/glsl-snippets
 float pmax(float a, float b, float k) {
   return -pmin(-a, -b, k);
 }
@@ -184,14 +188,14 @@ float segment(vec2 p) {
   return p.y>=0.?d0:d1;
 }
 
-// License: MIT, author: Inigo Quilez, found: https://iquilezles.org/articles/distfunctions2d/
+// License: MIT, author: Inigo Quilez, found: https://iquilezles.org/articles/distfunctions/
 float flatTorus( vec3 p, vec2 t) {
   p=p.xzy;
   vec2 q = vec2(length(p.xz)-t.x,p.y);
   return length4(q)-t.y;
 }
 
-// License: MIT, author: Inigo Quilez, found: httfps://iquilezles.org/articles/distfunctions2d/
+// License: MIT, author: Inigo Quilez, found: https://iquilezles.org/articles/distfunctions/
 float cappedTorus(vec3 p, vec2 sc, vec2 t) {
   float
     ra = t.x
@@ -259,32 +263,38 @@ vec2 rayBox(vec3 ro, vec3 rd, vec3 boxSize, out vec3 outNormal)  {
 vec3 sky(vec3 ro, vec3 rd) {
   float
     hd = max(abs(rd.y+0.15), 0.00066)
+  , i
   ;
   vec3
     col = 0.*sunColor/(1.+1e-5 - dot(sunDir, rd))
   ;
 
   vec2
-   p=vec2(atan(rd.x,rd.z),rd.y+.15)
-  ,p0=p
+    p=vec2(atan(rd.x,rd.z),rd.y+.15)
+  , c=p
+  , P
   ;
-  const float SZ=.05;
-  p0.x=abs(p0.x);
-  float
-    n=round(p0.x/SZ)
-  , d
-  ;
-  p0.x-=n*SZ;
-  p0.y-=.2*sqrt(freq(n*SZ+SZ))-.25+bar_height;
+  if (p.y>0.) {
+    const float SZ=.05,I=1.;
+    float
+      n=round(c.x/SZ)
+    , d=1e3
+    ;
+    c.x-=n*SZ;
+    for(i=-I;i<=I;++i) {
+      P=c;
+      P-=vec2(
+        i*SZ
+      , .2*(freq((n+i)*SZ,SZ))-.25+bar_height
+      );
+      d=min(d,segment(P)-SZ*.4);
+    }
 
-  d=segment(p0)-SZ*.4;
-
-  if (d<0.&&p.y>0.) {
-   col+=(barCol+2.*sqrt(-d))*bar_visibility;
+    col+=bar_visibility*1e-3/max(d,1e-3)*(barCol+2.*sqrt(max(0.,-d)));
   }
 
-  col += 100.0*glowColor0*inversesqrt(hd);
-  col += glowColor2/(hd);
+  col += 1e2*inversesqrt(hd)*glowColor0;
+  col += glowColor2/hd;
 
   return col;
 }
