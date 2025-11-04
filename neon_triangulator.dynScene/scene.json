@@ -1,5 +1,5 @@
 {
-	"CONTROLS" :
+	"CONTROLS" : 
 	[
 		{
 			"DEFAULT" : 1,
@@ -49,18 +49,18 @@
 			"UI_GROUP" : "Effects"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				20,
 				2
 			],
 			"DESCRIPTION" : "Strobe intensity – seizure warning level",
-			"MAX" :
+			"MAX" : 
 			[
 				50,
 				50
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0
@@ -89,20 +89,20 @@
 			"UI_GROUP" : "Colors"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.39,
 				0.1,
 				1
 			],
 			"DESCRIPTION" : "Strobe color – choose your lightning",
-			"MAX" :
+			"MAX" : 
 			[
 				1,
 				1,
 				1
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0,
@@ -144,18 +144,18 @@
 			"UI_GROUP" : "Media"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0,
 				0
 			],
 			"DESCRIPTION" : "Warps the media to the music",
-			"MAX" :
+			"MAX" : 
 			[
 				1,
 				1
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				-1,
 				-1
@@ -166,18 +166,18 @@
 			"UI_GROUP" : "Media"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.7,
 				0.7
 			],
 			"DESCRIPTION" : "Bass frequency response mixer",
-			"MAX" :
+			"MAX" : 
 			[
 				1,
 				1
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0
@@ -188,18 +188,18 @@
 			"UI_GROUP" : "Audio"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				3,
 				1
 			],
 			"DESCRIPTION" : "Bass impact amplification",
-			"MAX" :
+			"MAX" : 
 			[
 				6,
 				6
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0
@@ -212,7 +212,7 @@
 		{
 			"DEFAULT" : 0,
 			"DESCRIPTION" : "Geometric distortion mode",
-			"LABELS" :
+			"LABELS" : 
 			[
 				"None",
 				"Some",
@@ -223,7 +223,7 @@
 			"NAME" : "twist_on",
 			"TYPE" : "dropdown",
 			"UI_GROUP" : "Shape",
-			"VALUES" :
+			"VALUES" : 
 			[
 				0,
 				1,
@@ -250,18 +250,18 @@
 			"UI_GROUP" : "Shape"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.4,
 				0.5
 			],
 			"DESCRIPTION" : "Sine wave reality bender",
-			"MAX" :
+			"MAX" : 
 			[
 				3,
 				3
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				-3,
 				-3
@@ -271,18 +271,18 @@
 			"UI_GROUP" : "Shape"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				2,
 				0
 			],
 			"DESCRIPTION" : "Dimensional space distortion field",
-			"MAX" :
+			"MAX" : 
 			[
 				5,
 				5
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				-5,
 				-5
@@ -291,6 +291,27 @@
 			"PARAMS" : 0.2,
 			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Shape"
+		},
+		{
+			"DEFAULT" : 
+			[
+				2,
+				0
+			],
+			"DESCRIPTION" : "Warp world  on beat",
+			"MAX" : 
+			[
+				5,
+				5
+			],
+			"MIN" : 
+			[
+				-5,
+				-5
+			],
+			"NAME" : "warp_world_beat",
+			"TYPE" : "xy",
+			"UI_GROUP" : "Shape"
 		}
 	],
 	"CREDIT" : "mrange",
@@ -298,14 +319,14 @@
 	"GPU" : 1,
 	"HEIGHT" : 1080,
 	"IMAGE_PATH" : "scene.png",
-	"MEDIA" :
+	"MEDIA" : 
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"TAGS" :
+	"TAGS" : 
 	[
 		"mrange",
 		"neon",

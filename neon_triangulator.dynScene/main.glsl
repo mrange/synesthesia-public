@@ -327,17 +327,21 @@ vec3 effect(vec2 p, float noise) {
     z  = path_speed
 #endif
   , b  = beat()
-  , rdd= warp_world.x-warp_world.y*length(p)
+  , rdd
   ;
+  vec2 
+    ww=mix(warp_world, warp_world_beat,b)
+;
+  rdd = ww.x-ww.y*length(p);
   const vec3
       up = vec3(0, 1, 0)
-    , ww = normalize(vec3(0, 0, 1))
-    , uu  = normalize(cross(up, ww))
-    , vv  = cross(ww,uu)
+    , Z  = vec3(0, 0, 1)
+    , X  = normalize(cross(up, Z))
+    , Y  = cross(Z,X)
     ;
   vec3
       ro = vec3(0,0,z)
-    , rd  = normalize(p.y*vv -p.x*uu + rdd*ww)
+    , rd  = normalize(p.y*Y -p.x*X + rdd*Z)
     , col = render(ro, rd, noise)
     ;
 
