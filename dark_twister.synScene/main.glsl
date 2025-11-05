@@ -200,6 +200,14 @@ float raymarch(vec3 O, vec3 I, float initz, out float iter) {
   return z;
 }
 
+// License: Unknown, author: Claude Brezinski, found: https://mathr.co.uk/blog/2017-09-06_approximating_hyperbolic_tangent.html
+vec3 tanh_approx(vec3 x) {
+  //  Found this somewhere on the interwebs
+  //  return tanh(x);
+  vec3 x2 = x*x;
+  return clamp(x*(27.0 + x2)/(27.0+9.0*x2), -1.0, 1.0);
+}
+
 vec3 render3D() {
   float
     i
@@ -265,8 +273,8 @@ vec3 render3D() {
   col+=10.*(G0<=tolerance?(pow(abs(dot(RR,I)),10.)):0.)*FL;
   col+=1e-4/max(G*G,2e-6)*hsv2rgb(vec3(beam_hue.x+beam_hue.y*H,.9,.2*beam_lum));
   col-=1e-1*L*vec3(2,3,1);
-  col=max(col,0.);
-  col=tanh(col);
+  col=clamp(col,0.,9.);
+  col=tanh_approx(col);
   col=sqrt(col);
 #ifndef KODELIFE
   mcol=_loadMedia();
