@@ -309,7 +309,9 @@ vec3 render(vec3 ro, vec3 rd, float noise) {
 
       ccol *= cabs;
 
-      vec4 tcol=tex3D(syn_Media, media_zoom*p, n);
+      vec4 
+        tcol=tex3D(syn_Media, media_zoom*p, n)
+      ;
       ccol += tcol.xyz*tcol.w*media_opacity*pf;
       col += ccol;
       rd = r;

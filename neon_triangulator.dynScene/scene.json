@@ -12,7 +12,7 @@
 		},
 		{
 			"DEFAULT" : -2,
-			"DESCRIPTION" : "Triangle birth rate – spawn geometric chaos",
+			"DESCRIPTION" : "Speed of neighboring triangles",
 			"MAX" : 10,
 			"MIN" : -10,
 			"NAME" : "tri_speed",
@@ -21,7 +21,7 @@
 		},
 		{
 			"DEFAULT" : 0,
-			"DESCRIPTION" : "Spin the synthwave universe",
+			"DESCRIPTION" : "Spin speed for the scene",
 			"MAX" : 5,
 			"MIN" : -5,
 			"NAME" : "rot_speed",
@@ -30,7 +30,7 @@
 		},
 		{
 			"DEFAULT" : 0,
-			"DESCRIPTION" : "Lock rotation at specific angle",
+			"DESCRIPTION" : "Fix spin of world",
 			"MAX" : 0,
 			"MIN" : 1,
 			"NAME" : "rot_base",
@@ -40,7 +40,7 @@
 		},
 		{
 			"DEFAULT" : 0.5,
-			"DESCRIPTION" : "Scale the geometric madness",
+			"DESCRIPTION" : "Higher smaller tiles, more transparency",
 			"MAX" : 3,
 			"MIN" : 0,
 			"NAME" : "pattern_size",
@@ -54,7 +54,7 @@
 				20,
 				2
 			],
-			"DESCRIPTION" : "Strobe intensity – seizure warning level",
+			"DESCRIPTION" : "Controls the flash intensity",
 			"MAX" : 
 			[
 				50,
@@ -71,7 +71,7 @@
 		},
 		{
 			"DEFAULT" : 1,
-			"DESCRIPTION" : "Release the glowing serpents",
+			"DESCRIPTION" : "Show or hide the glowing snakes",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "show_snakes",
@@ -80,7 +80,7 @@
 		},
 		{
 			"DEFAULT" : 0.7,
-			"DESCRIPTION" : "Triangle color spectrum shift",
+			"DESCRIPTION" : "Controls color hue of the triangles",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "tri_hue",
@@ -95,7 +95,7 @@
 				0.1,
 				1
 			],
-			"DESCRIPTION" : "Strobe color – choose your lightning",
+			"DESCRIPTION" : "Controls the color of the flashing light",
 			"MAX" : 
 			[
 				1,
@@ -115,7 +115,7 @@
 		},
 		{
 			"DEFAULT" : 0.6,
-			"DESCRIPTION" : "Snake trail color spectrum",
+			"DESCRIPTION" : "Controls color hue of the snakes",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "snake_hue",
@@ -129,7 +129,7 @@
 				0.7,
 				0.7
 			],
-			"DESCRIPTION" : "Bass frequency response mixer",
+			"DESCRIPTION" : "Controls the mix of bass level and hit",
 			"MAX" : 
 			[
 				1,
@@ -151,7 +151,7 @@
 				3,
 				1
 			],
-			"DESCRIPTION" : "Bass impact amplification",
+			"DESCRIPTION" : "Bass impact amplification for bass level and hit",
 			"MAX" : 
 			[
 				6,
@@ -169,7 +169,7 @@
 		},
 		{
 			"DEFAULT" : 0,
-			"DESCRIPTION" : "Geometric distortion mode",
+			"DESCRIPTION" : "Twist mode",
 			"LABELS" : 
 			[
 				"None",
@@ -190,7 +190,7 @@
 		},
 		{
 			"DEFAULT" : 0,
-			"DESCRIPTION" : "Blend linear and sine distortions",
+			"DESCRIPTION" : "Blend linear and sine twists",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "twist_mix",
@@ -200,7 +200,7 @@
 		},
 		{
 			"DEFAULT" : 0.3,
-			"DESCRIPTION" : "Linear geometry warping intensity",
+			"DESCRIPTION" : "Linear geometry twisting",
 			"MAX" : 1,
 			"MIN" : -1,
 			"NAME" : "twist_straight",
@@ -213,7 +213,7 @@
 				0.4,
 				0.5
 			],
-			"DESCRIPTION" : "Sine wave reality bender",
+			"DESCRIPTION" : "Sine wave twist remix",
 			"MAX" : 
 			[
 				3,
@@ -234,7 +234,7 @@
 				2,
 				0
 			],
-			"DESCRIPTION" : "Dimensional space distortion field",
+			"DESCRIPTION" : "Warp world",
 			"MAX" : 
 			[
 				5,
@@ -273,7 +273,7 @@
 		},
 		{
 			"DEFAULT" : 1,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Controls media opacity",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "media_opacity",
@@ -283,7 +283,7 @@
 		},
 		{
 			"DEFAULT" : 1,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Controls media zoom",
 			"MAX" : 8,
 			"MIN" : 0.125,
 			"NAME" : "media_zoom",
