@@ -57,7 +57,15 @@ const vec3
   flash_col       =vec3(.39, .1, 1)
 ;
 #endif
-
+// License: Unknown, author: Shane, found: Discord private message
+// Tri-Planar blending function. Based on an old Nvidia writeup:
+// GPU Gems 3 - Ryan Geiss: http://http.developer.nvidia.com/GPUGems3/gpugems3_ch01.html
+vec4 tex3D(sampler2D tex, vec3 p, vec3 n) {
+  n = max(abs(n), 0.001); // n = max((abs(n) - 0.2)*7., 0.001); // n = max(abs(n), 0.001), etc.
+  n /= (n.x + n.y + n.z);
+  vec4 t=texture(tex, p.yz)*n.x + texture(tex, p.zx)*n.y + texture(tex, p.xy)*n.z;
+  return t;
+}
 float beat() {
 #ifdef KODELIFE
   return pow(1.-fract(TIME),2.);
@@ -301,6 +309,8 @@ vec3 render(vec3 ro, vec3 rd, float noise) {
 
       ccol *= cabs;
 
+      vec4 tcol=tex3D(syn_Media, media_zoom*p, n);
+      ccol += tcol.xyz*tcol.w*media_opacity*pf;
       col += ccol;
       rd = r;
       cabs *= absCol*pf;
@@ -351,11 +361,6 @@ vec3 effect(vec2 p, float noise) {
   col = aces_approx(max(col,0.));
   col = sqrt(col);
 
-#ifdef KODELIFE
-#else
-  vec4 mcol=_loadMedia(media_warp.x*normalize(p)*freq(media_warp.y*length(p)));
-  col=mix(col,mcol.xyz,mcol.w*media_opacity*media_multiplier);
-#endif
 
   return col;
 }

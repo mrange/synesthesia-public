@@ -41,7 +41,7 @@
 		{
 			"DEFAULT" : 0.5,
 			"DESCRIPTION" : "Scale the geometric madness",
-			"MAX" : 2,
+			"MAX" : 3,
 			"MIN" : 0,
 			"NAME" : "pattern_size",
 			"PARAMS" : 0.1,
@@ -122,48 +122,6 @@
 			"PARAMS" : 0.1,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Colors"
-		},
-		{
-			"DEFAULT" : 1,
-			"DESCRIPTION" : "Boost media visibility (go wild!)",
-			"MAX" : 9,
-			"MIN" : -9,
-			"NAME" : "media_multiplier",
-			"PARAMS" : 0.1,
-			"TYPE" : "slider smooth",
-			"UI_GROUP" : "Media"
-		},
-		{
-			"DEFAULT" : 0.707,
-			"DESCRIPTION" : "Media opacity",
-			"MAX" : 1,
-			"MIN" : 0,
-			"NAME" : "media_opacity",
-			"PARAMS" : 0.1,
-			"TYPE" : "slider smooth",
-			"UI_GROUP" : "Media"
-		},
-		{
-			"DEFAULT" : 
-			[
-				0,
-				0
-			],
-			"DESCRIPTION" : "Warps the media to the music",
-			"MAX" : 
-			[
-				1,
-				1
-			],
-			"MIN" : 
-			[
-				-1,
-				-1
-			],
-			"NAME" : "media_warp",
-			"PARAMS" : 0.2,
-			"TYPE" : "xy smooth",
-			"UI_GROUP" : "Media"
 		},
 		{
 			"DEFAULT" : 
@@ -312,6 +270,26 @@
 			"NAME" : "warp_world_beat",
 			"TYPE" : "xy",
 			"UI_GROUP" : "Shape"
+		},
+		{
+			"DEFAULT" : 1,
+			"DESCRIPTION" : "",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "media_opacity",
+			"PARAMS" : 0.19401,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Media"
+		},
+		{
+			"DEFAULT" : 1,
+			"DESCRIPTION" : "",
+			"MAX" : 8,
+			"MIN" : 0.125,
+			"NAME" : "media_zoom",
+			"PARAMS" : 0.23001,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Media"
 		}
 	],
 	"CREDIT" : "mrange",
