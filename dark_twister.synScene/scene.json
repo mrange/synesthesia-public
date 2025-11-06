@@ -50,7 +50,7 @@
 				0.5,
 				5
 			],
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Controls the flashing mix between on beat and off beat",
 			"MAX" : 
 			[
 				9,
@@ -68,7 +68,7 @@
 		},
 		{
 			"DEFAULT" : 5,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Distance to flashing sphere",
 			"MAX" : 10,
 			"MIN" : 0.5,
 			"NAME" : "flash_dist",
@@ -82,7 +82,7 @@
 				1,
 				2
 			],
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Controls the flash radius on beat and off beat",
 			"MAX" : 
 			[
 				5,
@@ -100,7 +100,7 @@
 		},
 		{
 			"DEFAULT" : 0.3,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Global motion blur effect",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "motion_blur",
@@ -110,7 +110,7 @@
 		},
 		{
 			"DEFAULT" : 190,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Reflection focus factor",
 			"MAX" : 300,
 			"MIN" : 1,
 			"NAME" : "ref_focus",
@@ -120,7 +120,7 @@
 		},
 		{
 			"DEFAULT" : 0.1,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Reflection intensity",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "ref_factor",
@@ -134,7 +134,7 @@
 				0.5,
 				0.25
 			],
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Mix  between linear time and bass time",
 			"MAX" : 
 			[
 				1,
@@ -200,7 +200,7 @@
 				0.3,
 				1
 			],
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Flash color off beat",
 			"MAX" : 
 			[
 				1,
@@ -223,7 +223,7 @@
 				0.6,
 				0.3
 			],
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Hue base for glowing beams",
 			"MAX" : 
 			[
 				1,
@@ -246,7 +246,7 @@
 				0.66666,
 				1
 			],
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Flash color on beat",
 			"MAX" : 
 			[
 				1,

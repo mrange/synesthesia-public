@@ -69,7 +69,7 @@
 		},
 		{
 			"DEFAULT" : 0.7,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Media transparency",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "media_transparency",
@@ -79,7 +79,7 @@
 		},
 		{
 			"DEFAULT" : 1,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Media color multiplier.",
 			"MAX" : 5,
 			"MIN" : -5,
 			"NAME" : "media_multiplier",
@@ -93,7 +93,7 @@
 				1,
 				1
 			],
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Controls the mix of the main effect and flashing light",
 			"MAX" : 
 			[
 				1,
@@ -115,7 +115,7 @@
 				0,
 				1
 			],
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Controls the first 2 parameters of the color base",
 			"MAX" : 
 			[
 				7,
@@ -137,7 +137,7 @@
 				2,
 				0
 			],
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Controls the second 2 parameters of the color base",
 			"MAX" : 
 			[
 				7,
@@ -160,7 +160,7 @@
 				0.6666,
 				1
 			],
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "The color of the flashing light",
 			"MAX" : 
 			[
 				1,
@@ -180,7 +180,7 @@
 		},
 		{
 			"DEFAULT" : 9,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Zooms the fractal",
 			"MAX" : 20,
 			"MIN" : 3,
 			"NAME" : "zoom_factor",
@@ -190,7 +190,7 @@
 		},
 		{
 			"DEFAULT" : 0.2,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Controls where the 3D dimensional cut is made",
 			"MAX" : 4,
 			"MIN" : -4,
 			"NAME" : "wcut",
@@ -200,7 +200,7 @@
 		},
 		{
 			"DEFAULT" : 0.5,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Speed of translation offset",
 			"MAX" : 2,
 			"MIN" : -2,
 			"NAME" : "translation_speed",
@@ -214,7 +214,7 @@
 				1,
 				1
 			],
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Speed of rotation",
 			"MAX" : 
 			[
 				9,
@@ -236,7 +236,7 @@
 				29,
 				0
 			],
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Warps world using sine",
 			"MAX" : 
 			[
 				49,
