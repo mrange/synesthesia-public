@@ -36,6 +36,14 @@ const vec3
 ;
 #endif
 
+// License: Unknown, author: Claude Brezinski, found: https://mathr.co.uk/blog/2017-09-06_approximating_hyperbolic_tangent.html
+vec3 tanh_approx(vec3 x) {
+  //  Found this somewhere on the interwebs
+  //  return tanh(x);
+  vec3 x2 = x*x;
+  return clamp(x*(27.0 + x2)/(27.0+9.0*x2), -1.0, 1.0);
+}
+
 mat2 rot(float a) {
   float
       c=cos(a)
@@ -114,7 +122,8 @@ vec4 renderMain() {
     z+=.8*d+1e-3;
   }
 
-  o=tanh(o/1e4)/0.9;
+  o=clamp(o/1e4,0.,9.);
+  o=tanh_approx(o)/0.9;
   o=mix(o,vec3(0),isnan(o));
 #ifndef KODELIFE
   M=_loadMedia();
