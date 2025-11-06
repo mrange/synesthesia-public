@@ -290,6 +290,28 @@
 			"PARAMS" : 0.23001,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Media"
+		},
+		{
+			"DEFAULT" : 
+			[
+				0,
+				0
+			],
+			"DESCRIPTION" : "",
+			"MAX" : 
+			[
+				1,
+				1
+			],
+			"MIN" : 
+			[
+				0,
+				0
+			],
+			"NAME" : "media_offset",
+			"PARAMS" : 0.24001,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Media"
 		}
 	],
 	"CREDIT" : "mrange",

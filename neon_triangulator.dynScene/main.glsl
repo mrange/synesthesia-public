@@ -60,10 +60,10 @@ const vec3
 // License: Unknown, author: Shane, found: Discord private message
 // Tri-Planar blending function. Based on an old Nvidia writeup:
 // GPU Gems 3 - Ryan Geiss: http://http.developer.nvidia.com/GPUGems3/gpugems3_ch01.html
-vec4 tex3D(sampler2D tex, vec3 p, vec3 n) {
+vec4 tex3D(sampler2D tex, vec3 p, vec3 n, vec2 off) {
   n = max(abs(n), 0.001); // n = max((abs(n) - 0.2)*7., 0.001); // n = max(abs(n), 0.001), etc.
   n /= (n.x + n.y + n.z);
-  vec4 t=texture(tex, p.yz)*n.x + texture(tex, p.zx)*n.y + texture(tex, p.xy)*n.z;
+  vec4 t=texture(tex, p.yz+off)*n.x + texture(tex, p.zx+off)*n.y + texture(tex, p.xy+off)*n.z;
   return t;
 }
 float beat() {
@@ -310,7 +310,7 @@ vec3 render(vec3 ro, vec3 rd, float noise) {
       ccol *= cabs;
 
       vec4 
-        tcol=tex3D(syn_Media, media_zoom*p, n)
+        tcol=tex3D(syn_Media, media_zoom*p, n, media_offset)
       ;
       ccol += tcol.xyz*tcol.w*media_opacity*pf;
       col += ccol;
