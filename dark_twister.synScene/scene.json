@@ -1,19 +1,19 @@
 {
-	"CONTROLS" : 
+	"CONTROLS" :
 	[
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.7,
 				0.7
 			],
-			"DESCRIPTION" : "",
-			"MAX" : 
+			"DESCRIPTION" : "Audio response strength (X: bass level, Y: bass hits)",
+			"MAX" :
 			[
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
@@ -23,18 +23,18 @@
 			"UI_GROUP" : "Audio"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				3,
 				1
 			],
-			"DESCRIPTION" : "",
-			"MAX" : 
+			"DESCRIPTION" : "Audio response curve (higher = more intense reaction)",
+			"MAX" :
 			[
 				5,
 				5
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
@@ -45,18 +45,18 @@
 			"UI_GROUP" : "Audio"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.5,
 				5
 			],
-			"DESCRIPTION" : "Controls the flashing mix between on beat and off beat",
-			"MAX" : 
+			"DESCRIPTION" : "Flash brightness (X: off-beat intensity, Y: on-beat intensity)",
+			"MAX" :
 			[
 				9,
 				9
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
@@ -64,31 +64,31 @@
 			"NAME" : "flash_mix",
 			"PARAMS" : 0.2,
 			"TYPE" : "xy smooth",
-			"UI_GROUP" : "default"
+			"UI_GROUP" : "Effects"
 		},
 		{
 			"DEFAULT" : 5,
-			"DESCRIPTION" : "Distance to flashing sphere",
+			"DESCRIPTION" : "Distance of flash sphere from camera along the path",
 			"MAX" : 10,
 			"MIN" : 0.5,
 			"NAME" : "flash_dist",
 			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
-			"UI_GROUP" : "default"
+			"UI_GROUP" : "Effects"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				1,
 				2
 			],
-			"DESCRIPTION" : "Controls the flash radius on beat and off beat",
-			"MAX" : 
+			"DESCRIPTION" : "Flash sphere radius (X: off-beat size, Y: on-beat size)",
+			"MAX" :
 			[
 				5,
 				5
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
@@ -96,51 +96,51 @@
 			"NAME" : "flash_radius",
 			"PARAMS" : 0.2,
 			"TYPE" : "xy smooth",
-			"UI_GROUP" : "default"
+			"UI_GROUP" : "Effects"
 		},
 		{
 			"DEFAULT" : 0.3,
-			"DESCRIPTION" : "Global motion blur effect",
+			"DESCRIPTION" : "Frame blending amount (0 = sharp, 1 = heavy trails)",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "motion_blur",
 			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
-			"UI_GROUP" : "default"
+			"UI_GROUP" : "Effects"
 		},
 		{
 			"DEFAULT" : 190,
-			"DESCRIPTION" : "Reflection focus factor",
+			"DESCRIPTION" : "Specular highlight sharpness (higher = tighter hotspot)",
 			"MAX" : 300,
 			"MIN" : 1,
 			"NAME" : "ref_focus",
 			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
-			"UI_GROUP" : "default"
+			"UI_GROUP" : "Effects"
 		},
 		{
 			"DEFAULT" : 0.1,
-			"DESCRIPTION" : "Reflection intensity",
+			"DESCRIPTION" : "Specular reflection brightness multiplier",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "ref_factor",
 			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
-			"UI_GROUP" : "default"
+			"UI_GROUP" : "Effects"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.5,
 				0.25
 			],
-			"DESCRIPTION" : "Mix  between linear time and bass time",
-			"MAX" : 
+			"DESCRIPTION" : "Animation speed (X: time-based, Y: bass time-based)",
+			"MAX" :
 			[
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
@@ -150,18 +150,18 @@
 			"UI_GROUP" : "Shape"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				6,
 				4
 			],
-			"DESCRIPTION" : "",
-			"MAX" : 
+			"DESCRIPTION" : "Path wave amplitude (X and Y control horizontal/vertical swing)",
+			"MAX" :
 			[
 				9,
 				9
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
@@ -172,18 +172,18 @@
 			"UI_GROUP" : "Shape"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.16667,
 				0.11785
 			],
-			"DESCRIPTION" : "",
-			"MAX" : 
+			"DESCRIPTION" : "Path wave frequency (X and Y control sine wave oscillation)",
+			"MAX" :
 			[
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
@@ -194,20 +194,20 @@
 			"UI_GROUP" : "Shape"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.1,
 				0.3,
 				1
 			],
-			"DESCRIPTION" : "Flash color off beat",
-			"MAX" : 
+			"DESCRIPTION" : "RGB color of flash during off-beat moments",
+			"MAX" :
 			[
 				1,
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0,
@@ -218,18 +218,18 @@
 			"UI_GROUP" : "Color"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.6,
 				0.3
 			],
-			"DESCRIPTION" : "Hue base for glowing beams",
-			"MAX" : 
+			"DESCRIPTION" : "Hue base for fractal beam glow (X: primary hue, Y: variation)",
+			"MAX" :
 			[
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
@@ -240,20 +240,20 @@
 			"UI_GROUP" : "Color"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.3,
 				0.66666,
 				1
 			],
-			"DESCRIPTION" : "Flash color on beat",
-			"MAX" : 
+			"DESCRIPTION" : "RGB color of flash during on-beat moments",
+			"MAX" :
 			[
 				1,
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0,
@@ -266,7 +266,7 @@
 		},
 		{
 			"DEFAULT" : 0.5,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Brightness multiplier for fractal beam glow",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "beam_lum",
@@ -276,7 +276,7 @@
 		},
 		{
 			"DEFAULT" : 1,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Media multiplier – boost opacity for bold color effects",
 			"MAX" : 5,
 			"MIN" : -5,
 			"NAME" : "media_mult",
@@ -286,7 +286,7 @@
 		},
 		{
 			"DEFAULT" : 0.7,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Media opacity – fade visuals in or out",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "media_alpha",
@@ -295,18 +295,18 @@
 			"UI_GROUP" : "Media"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0,
 				0
 			],
-			"DESCRIPTION" : "",
-			"MAX" : 
+			"DESCRIPTION" : "Media texture offset position (X: horizontal, Y: vertical)",
+			"MAX" :
 			[
 				3,
 				3
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				-3,
 				-3
@@ -322,14 +322,14 @@
 	"GPU" : 1,
 	"HEIGHT" : 1080,
 	"IMAGE_PATH" : "scene.png",
-	"MEDIA" : 
+	"MEDIA" :
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"TAGS" : 
+	"TAGS" :
 	[
 		"mrange",
 		"dark",
