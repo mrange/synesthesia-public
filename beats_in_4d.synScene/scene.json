@@ -51,7 +51,7 @@
 				0.5,
 				0.5
 			],
-			"DESCRIPTION" : "Animation speed (X: normal time, Y: bass-synced time)",
+			"DESCRIPTION" : "Animation speed (X: time-based, Y: bass time-based)",
 			"MAX" : 
 			[
 				2,
@@ -69,21 +69,21 @@
 		},
 		{
 			"DEFAULT" : 0.7,
-			"DESCRIPTION" : "Media transparency",
+			"DESCRIPTION" : "Media opacity – fade visuals in or out",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "media_transparency",
-			"PARAMS" : 0.19001,
+			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Media"
 		},
 		{
 			"DEFAULT" : 1,
-			"DESCRIPTION" : "Media color multiplier.",
+			"DESCRIPTION" : "Media multiplier – boost opacity for bold color effects",
 			"MAX" : 5,
 			"MIN" : -5,
 			"NAME" : "media_multiplier",
-			"PARAMS" : 0.18101,
+			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Media"
 		},
@@ -93,7 +93,7 @@
 				1,
 				1
 			],
-			"DESCRIPTION" : "Controls the mix of the main effect and flashing light",
+			"DESCRIPTION" : "Visual blend (X: flash intensity, Y: fractal color strength)",
 			"MAX" : 
 			[
 				1,
@@ -105,7 +105,7 @@
 				0
 			],
 			"NAME" : "visual_mix",
-			"PARAMS" : 0.23301,
+			"PARAMS" : 0.2,
 			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Color"
 		},
@@ -115,7 +115,7 @@
 				0,
 				1
 			],
-			"DESCRIPTION" : "Controls the first 2 parameters of the color base",
+			"DESCRIPTION" : "Color phase offsets (first pair for sine wave modulation)",
 			"MAX" : 
 			[
 				7,
@@ -127,7 +127,7 @@
 				0
 			],
 			"NAME" : "effect_base0",
-			"PARAMS" : 0.21901,
+			"PARAMS" : 0.2,
 			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Color"
 		},
@@ -137,7 +137,7 @@
 				2,
 				0
 			],
-			"DESCRIPTION" : "Controls the second 2 parameters of the color base",
+			"DESCRIPTION" : "Color phase offsets (second pair for sine wave modulation)",
 			"MAX" : 
 			[
 				7,
@@ -149,7 +149,7 @@
 				0
 			],
 			"NAME" : "effect_base1",
-			"PARAMS" : 0.23201,
+			"PARAMS" : 0.2,
 			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Color"
 		},
@@ -160,7 +160,7 @@
 				0.6666,
 				1
 			],
-			"DESCRIPTION" : "The color of the flashing light",
+			"DESCRIPTION" : "RGB color of bass-reactive flash pulses",
 			"MAX" : 
 			[
 				1,
@@ -174,37 +174,37 @@
 				0
 			],
 			"NAME" : "flash_color",
-			"PARAMS" : 0.20301,
+			"PARAMS" : 0.2,
 			"TYPE" : "color smooth",
 			"UI_GROUP" : "Color"
 		},
 		{
 			"DEFAULT" : 9,
-			"DESCRIPTION" : "Zooms the fractal",
+			"DESCRIPTION" : "Fractal zoom level (higher = deeper into 4D structure)",
 			"MAX" : 20,
 			"MIN" : 3,
 			"NAME" : "zoom_factor",
-			"PARAMS" : 0.21401,
+			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Visual"
 		},
 		{
 			"DEFAULT" : 0.2,
-			"DESCRIPTION" : "Controls where the 3D dimensional cut is made",
+			"DESCRIPTION" : "4D slice position through the W-axis (fourth dimension)",
 			"MAX" : 4,
 			"MIN" : -4,
 			"NAME" : "wcut",
-			"PARAMS" : 0.20801,
+			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Visual"
 		},
 		{
 			"DEFAULT" : 0.5,
-			"DESCRIPTION" : "Speed of translation offset",
+			"DESCRIPTION" : "Translation speed through the 4D fractal space",
 			"MAX" : 2,
 			"MIN" : -2,
 			"NAME" : "translation_speed",
-			"PARAMS" : 0.22601,
+			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Visual"
 		},
@@ -214,7 +214,7 @@
 				1,
 				1
 			],
-			"DESCRIPTION" : "Speed of rotation",
+			"DESCRIPTION" : "Rotation speeds around different 4D planes (X and Y axes)",
 			"MAX" : 
 			[
 				9,
@@ -226,7 +226,7 @@
 				-9
 			],
 			"NAME" : "rotation_speed",
-			"PARAMS" : 0.21801,
+			"PARAMS" : 0.2,
 			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Visual"
 		},
@@ -236,7 +236,7 @@
 				29,
 				0
 			],
-			"DESCRIPTION" : "Warps world using sine",
+			"DESCRIPTION" : "Sine distortion (X: wave frequency, Y: bass hit intensity)",
 			"MAX" : 
 			[
 				49,
@@ -248,13 +248,13 @@
 				0
 			],
 			"NAME" : "sine_distortion",
-			"PARAMS" : 0.20501,
+			"PARAMS" : 0.2,
 			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Visual"
 		}
 	],
 	"CREDIT" : "mrange",
-	"DESCRIPTION" : "Beats in 4D",
+	"DESCRIPTION" : "Journey through the fourth dimension with Beats in 4D—a mind-bending fractal visualization that slices through impossible geometry. Glowing orbs and luminous beams radiate from a brilliant core, creating an explosive network of light that shifts between warm golden yellows and cool electric blues. The entire structure rotates through multiple dimensional planes simultaneously, revealing cross-sections of 4D space that would be invisible in our three-dimensional world. Audio-reactive pulses make every bass hit intensify the flash and warp the dimensional fabric with sine distortions. Perfect for progressive house, trance, and experimental electronic music where mathematical beauty meets pure energy.",
 	"GPU" : 1,
 	"HEIGHT" : 1080,
 	"IMAGE_PATH" : "scene.png",
@@ -268,8 +268,19 @@
 	"TAGS" : 
 	[
 		"mrange",
-		"beats",
-		"4D"
+		"4D",
+		"fractal",
+		"fourth-dimension",
+		"audio-reactive",
+		"bass-reactive",
+		"mathematical",
+		"abstract",
+		"geometric",
+		"particles",
+		"explosion",
+		"colorful",
+		"psychedelic",
+		"trance"
 	],
 	"TITLE" : "Beats in 4D",
 	"WIDTH" : 1920
