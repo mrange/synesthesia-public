@@ -1,19 +1,19 @@
 {
-	"CONTROLS" :
+	"CONTROLS" : 
 	[
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.7,
 				0.7
 			],
-			"DESCRIPTION" : "Blend of bass punch and bass level – balance thump with body",
-			"MAX" :
+			"DESCRIPTION" : "Audio response strength (X: bass level, Y: bass hits)",
+			"MAX" : 
 			[
 				1,
 				1
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0
@@ -24,18 +24,18 @@
 			"UI_GROUP" : "Audio"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				3,
 				1
 			],
-			"DESCRIPTION" : "Bass power curve – higher values make kicks sharper and more distinct",
-			"MAX" :
+			"DESCRIPTION" : "Audio response curve (higher = more intense reaction)",
+			"MAX" : 
 			[
 				6,
 				6
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0
@@ -46,18 +46,18 @@
 			"UI_GROUP" : "Audio"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.5,
 				1
 			],
-			"DESCRIPTION" : "Bass threshold – sets the floor and ceiling for bass response",
-			"MAX" :
+			"DESCRIPTION" : "Bass threshold range (X: minimum level, Y: maximum level)",
+			"MAX" : 
 			[
 				1,
 				1
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0
@@ -69,7 +69,7 @@
 		},
 		{
 			"DEFAULT" : 0.5,
-			"DESCRIPTION" : "Bass hit intensity – how strongly beats spin the visuals",
+			"DESCRIPTION" : "Bass rotation intensity (how much bass hits spin the fractal)",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "rotation_level_0",
@@ -79,7 +79,7 @@
 		},
 		{
 			"DEFAULT" : 10,
-			"DESCRIPTION" : "Bass rotation falloff – how quickly spin slows down after a hit",
+			"DESCRIPTION" : "Bass rotation decay rate (how quickly rotation fades after hits)",
 			"MAX" : 40,
 			"MIN" : 2,
 			"NAME" : "rotation_falloff_0",
@@ -88,18 +88,18 @@
 			"UI_GROUP" : "Movement"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.25,
 				1
 			],
-			"DESCRIPTION" : "Bass rotation speed – steady motion plus an extra push on hits",
-			"MAX" :
+			"DESCRIPTION" : "Bass rotation speed (X: base speed, Y: boost on hits)",
+			"MAX" : 
 			[
 				5,
 				5
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				-5,
 				-5
@@ -111,7 +111,7 @@
 		},
 		{
 			"DEFAULT" : 0.5,
-			"DESCRIPTION" : "Mid hit intensity – how much mids shake things up",
+			"DESCRIPTION" : "Mid rotation intensity (how much mids spin the fractal)",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "rotation_level_1",
@@ -121,7 +121,7 @@
 		},
 		{
 			"DEFAULT" : 10,
-			"DESCRIPTION" : "Mid rotation falloff – spin fade for the mids",
+			"DESCRIPTION" : "Mid rotation decay rate (rotation fade speed for mids)",
 			"MAX" : 40,
 			"MIN" : 2,
 			"NAME" : "rotation_falloff_1",
@@ -130,18 +130,18 @@
 			"UI_GROUP" : "Movement"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.25,
 				1
 			],
-			"DESCRIPTION" : "Mid rotation speed – baseline motion plus boost on hits",
-			"MAX" :
+			"DESCRIPTION" : "Mid rotation speed (X: base speed, Y: boost on hits)",
+			"MAX" : 
 			[
 				5,
 				5
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				-5,
 				-5
@@ -153,7 +153,7 @@
 		},
 		{
 			"DEFAULT" : 0.5,
-			"DESCRIPTION" : "High hit intensity – highs and upper mids giving extra push",
+			"DESCRIPTION" : "High rotation intensity (how much highs spin the fractal)",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "rotation_level_2",
@@ -163,7 +163,7 @@
 		},
 		{
 			"DEFAULT" : 10,
-			"DESCRIPTION" : "High rotation falloff – how quickly high-driven spin fades",
+			"DESCRIPTION" : "High rotation decay rate (rotation fade speed for highs)",
 			"MAX" : 40,
 			"MIN" : 2,
 			"NAME" : "rotation_falloff_2",
@@ -172,18 +172,18 @@
 			"UI_GROUP" : "Movement"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.25,
 				1
 			],
-			"DESCRIPTION" : "High rotation speed – from subtle shimmer to wild whirl",
-			"MAX" :
+			"DESCRIPTION" : "High rotation speed (X: base speed, Y: boost on hits)",
+			"MAX" : 
 			[
 				5,
 				5
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				-5,
 				-5
@@ -194,18 +194,18 @@
 			"UI_GROUP" : "Movement"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.5,
 				2
 			],
-			"DESCRIPTION" : "Fractal distance and modulation – stretch or compress the galaxy",
-			"MAX" :
+			"DESCRIPTION" : "Fractal geometry (X: depth offset, Y: Z-axis stretch)",
+			"MAX" : 
 			[
 				2,
 				5
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				-2,
 				0
@@ -216,20 +216,20 @@
 			"UI_GROUP" : "Shape"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.3333,
 				0.6666,
 				1
 			],
-			"DESCRIPTION" : "Flash color – pick your strobe vibe",
-			"MAX" :
+			"DESCRIPTION" : "RGB color of flash effect on bass hits",
+			"MAX" : 
 			[
 				1,
 				1,
 				1
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0,
@@ -241,18 +241,18 @@
 			"UI_GROUP" : "Colors"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0,
 				10
 			],
-			"DESCRIPTION" : "Flash intensity – from gentle pulse to full blast",
-			"MAX" :
+			"DESCRIPTION" : "Flash brightness (X: off-beat, Y: on-beat intensity)",
+			"MAX" : 
 			[
 				40,
 				40
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0
@@ -264,7 +264,7 @@
 		},
 		{
 			"DEFAULT" : 3,
-			"DESCRIPTION" : "Global brightness – set the overall glow",
+			"DESCRIPTION" : "Overall brightness divider (lower = brighter output)",
 			"MAX" : 10,
 			"MIN" : 1,
 			"NAME" : "global_div",
@@ -273,18 +273,18 @@
 			"UI_GROUP" : "Colors"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				2,
 				1
 			],
-			"DESCRIPTION" : "Fractal base color (XY) – your main palette",
-			"MAX" :
+			"DESCRIPTION" : "Base color oscillation (X and Y frequency components)",
+			"MAX" : 
 			[
 				9,
 				9
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0
@@ -295,18 +295,18 @@
 			"UI_GROUP" : "Colors"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0,
 				0
 			],
-			"DESCRIPTION" : "Fractal base color (ZW) – extra palette controls",
-			"MAX" :
+			"DESCRIPTION" : "Base color oscillation (Z and W frequency components)",
+			"MAX" : 
 			[
 				9,
 				9
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0
@@ -317,18 +317,18 @@
 			"UI_GROUP" : "Colors"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.7,
 				1
 			],
-			"DESCRIPTION" : "Fractal saturation and offset – vivid neon or soft pastel",
-			"MAX" :
+			"DESCRIPTION" : "Color modulation (X: saturation multiplier, Y: phase offset)",
+			"MAX" : 
 			[
 				3,
 				7
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0
@@ -339,18 +339,18 @@
 			"UI_GROUP" : "Colors"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.1,
 				0.4
 			],
-			"DESCRIPTION" : "Feedback strength – how much the past lingers (off-beat vs. beat)",
-			"MAX" :
+			"DESCRIPTION" : "Feedback blend amount (X: off-beat, Y: on-beat trails)",
+			"MAX" : 
 			[
 				1,
 				1
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0
@@ -361,18 +361,18 @@
 			"UI_GROUP" : "Feedback"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.95,
 				0.9
 			],
-			"DESCRIPTION" : "Feedback zoom – past frame scaling (off-beat vs. beat)",
-			"MAX" :
+			"DESCRIPTION" : "Feedback scaling (X: off-beat zoom, Y: on-beat zoom)",
+			"MAX" : 
 			[
 				2,
 				2
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0.5,
 				0.5
@@ -383,18 +383,18 @@
 			"UI_GROUP" : "Feedback"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0,
 				0
 			],
-			"DESCRIPTION" : "Feedback rotation – ghost spin added to the current frame",
-			"MAX" :
+			"DESCRIPTION" : "Feedback rotation (X: off-beat spin, Y: on-beat spin)",
+			"MAX" : 
 			[
 				1,
 				1
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				-1,
 				-1
@@ -405,20 +405,20 @@
 			"UI_GROUP" : "Feedback"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.55555,
 				0.11111,
 				1
 			],
-			"DESCRIPTION" : "Feedback tint for off-beat moments",
-			"MAX" :
+			"DESCRIPTION" : "RGB tint for feedback trails during off-beat moments",
+			"MAX" : 
 			[
 				1,
 				1,
 				1
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0,
@@ -430,20 +430,20 @@
 			"UI_GROUP" : "Feedback"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				1,
 				1,
 				1
 			],
-			"DESCRIPTION" : "Feedback tint for on-beat highlights",
-			"MAX" :
+			"DESCRIPTION" : "RGB tint for feedback trails during on-beat moments",
+			"MAX" : 
 			[
 				1,
 				1,
 				1
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0,
@@ -476,18 +476,18 @@
 		}
 	],
 	"CREDIT" : "mrange",
-	"DESCRIPTION" : "Kali galaxy – kali fractal visuals that dance with the beat.",
+	"DESCRIPTION" : "Journey into the heart of a swirling Kali fractal galaxy where mathematics becomes cosmic art. This audio-reactive visualization features an intense, glowing core surrounded by spiraling clouds of blue ice and golden fire. The fractal morphs and rotates in response to bass, mids, and highs, creating a living nebula that pulses with every beat. Feedback trails leave ghostly echoes that zoom and spin, building layers of cosmic complexity. Perfect for deep electronic music and ambient sets, this shader transforms sound into an ever-evolving stellar phenomenon.",
 	"GPU" : 1,
 	"HEIGHT" : 1080,
 	"IMAGE_PATH" : "scene.png",
-	"MEDIA" :
+	"MEDIA" : 
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"PASSES" :
+	"PASSES" : 
 	[
 		{
 			"FILTER" : "linear",
@@ -506,12 +506,21 @@
 			"WRAP" : "repeat"
 		}
 	],
-	"TAGS" :
+	"TAGS" : 
 	[
 		"mrange",
 		"kali",
+		"fractal",
+		"galaxy",
+		"audio-reactive",
+		"cosmic",
+		"nebula",
+		"glow",
 		"raymarch",
-		"glow"
+		"feedback",
+		"bass-reactive",
+		"space",
+		"abstract"
 	],
 	"TITLE" : "Kali galaxy",
 	"WIDTH" : 1920
