@@ -1,25 +1,49 @@
 {
-	"CONTROLS" :
+	"CONTROLS" : 
 	[
 		{
-			"DEFAULT": [0.7, 0.7],
-			"DESCRIPTION": "Audio response strength (X: bass level, Y: bass hits)",
-			"MAX": [1, 1],
-			"MIN": [0, 0],
-			"NAME": "bass_mix",
-			"PARAMS": 0.1,
-			"TYPE": "xy smooth",
-			"UI_GROUP": "Audio"
+			"DEFAULT" : 
+			[
+				0.7,
+				0.7
+			],
+			"DESCRIPTION" : "Audio response strength (X: bass level, Y: bass hits)",
+			"MAX" : 
+			[
+				1,
+				1
+			],
+			"MIN" : 
+			[
+				0,
+				0
+			],
+			"NAME" : "bass_mix",
+			"PARAMS" : 0.1,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Audio"
 		},
 		{
-			"DEFAULT": [3, 1],
-			"DESCRIPTION": "Audio response curve (higher = more intense reaction)",
-			"MAX": [6, 6],
-			"MIN": [0, 0],
-			"NAME": "bass_pow",
-			"PARAMS": 0.1,
-			"TYPE": "xy smooth",
-			"UI_GROUP": "Audio"
+			"DEFAULT" : 
+			[
+				3,
+				1
+			],
+			"DESCRIPTION" : "Audio response curve (higher = more intense reaction)",
+			"MAX" : 
+			[
+				6,
+				6
+			],
+			"MIN" : 
+			[
+				0,
+				0
+			],
+			"NAME" : "bass_pow",
+			"PARAMS" : 0.1,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Audio"
 		},
 		{
 			"DEFAULT" : 1,
@@ -51,18 +75,18 @@
 			"UI_GROUP" : "Visual"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				5,
 				0
 			],
-			"DESCRIPTION" : "Camera movement speed (X: forward, Y: vertical drift)",
-			"MAX" :
+			"DESCRIPTION" : "Camera movement speed (X: linear time, Y: bass time)",
+			"MAX" : 
 			[
 				9,
 				3
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				-9,
 				-3
@@ -103,18 +127,18 @@
 		}
 	],
 	"CREDIT" : "mrange",
-	"DESCRIPTION" : "Neon giza",
+	"DESCRIPTION" : "Dive into an infinite neon tunnel as you travel toward the legendary Pyramid of Giza, reimagined in a synthwave dimension. Glowing purple and pink arcs spiral through space, pulsing with audio-reactive energy. The scene responds dynamically to bass frequencies, transforming every beat into a hypnotic journey through this retro-futuristic desert dreamscape.",
 	"GPU" : 1,
 	"HEIGHT" : 1080,
 	"IMAGE_PATH" : "scene.png",
-	"MEDIA" :
+	"MEDIA" : 
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"PASSES" :
+	"PASSES" : 
 	[
 		{
 			"FILTER" : "linear",
@@ -125,11 +149,19 @@
 			"WRAP" : "repeat"
 		}
 	],
-	"TAGS" :
+	"TAGS" : 
 	[
 		"mrange",
+		"synthwave",
+		"pyramid",
+		"giza",
 		"neon",
-		"giza"
+		"raymarching",
+		"audio-reactive",
+		"purple",
+		"infinite",
+		"hypnotic",
+		"bass-reactive"
 	],
 	"TITLE" : "Neon giza",
 	"WIDTH" : 1920
