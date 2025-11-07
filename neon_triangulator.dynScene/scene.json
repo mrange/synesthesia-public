@@ -1,5 +1,5 @@
 {
-	"CONTROLS" :
+	"CONTROLS" : 
 	[
 		{
 			"DEFAULT" : 1,
@@ -49,18 +49,18 @@
 			"UI_GROUP" : "Effects"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				20,
 				2
 			],
 			"DESCRIPTION" : "Flash light intensity (X: on beat, Y: base intensity)",
-			"MAX" :
+			"MAX" : 
 			[
 				50,
 				50
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0
@@ -89,20 +89,20 @@
 			"UI_GROUP" : "Colors"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.39,
 				0.1,
 				1
 			],
 			"DESCRIPTION" : "RGB color of the flashing light effect",
-			"MAX" :
+			"MAX" : 
 			[
 				1,
 				1,
 				1
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0,
@@ -124,18 +124,18 @@
 			"UI_GROUP" : "Colors"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.7,
 				0.7
 			],
 			"DESCRIPTION" : "Audio response strength (X: bass level, Y: bass hits)",
-			"MAX" :
+			"MAX" : 
 			[
 				1,
 				1
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0
@@ -146,18 +146,18 @@
 			"UI_GROUP" : "Audio"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				3,
 				1
 			],
 			"DESCRIPTION" : "Audio response curve (higher = more intense reaction)",
-			"MAX" :
+			"MAX" : 
 			[
 				6,
 				6
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0
@@ -170,7 +170,7 @@
 		{
 			"DEFAULT" : 0,
 			"DESCRIPTION" : "Enable twisting deformation of geometry sections",
-			"LABELS" :
+			"LABELS" : 
 			[
 				"None",
 				"Some",
@@ -181,7 +181,7 @@
 			"NAME" : "twist_on",
 			"TYPE" : "dropdown",
 			"UI_GROUP" : "Shape",
-			"VALUES" :
+			"VALUES" : 
 			[
 				0,
 				1,
@@ -208,18 +208,18 @@
 			"UI_GROUP" : "Shape"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.4,
 				0.5
 			],
 			"DESCRIPTION" : "Sine wave twist parameters (X: amplitude, Y: frequency)",
-			"MAX" :
+			"MAX" : 
 			[
 				3,
 				3
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				-3,
 				-3
@@ -229,18 +229,18 @@
 			"UI_GROUP" : "Shape"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				2,
 				0
 			],
 			"DESCRIPTION" : "Base tunnel warping (X: forward pull, Y: radial pull)",
-			"MAX" :
+			"MAX" : 
 			[
 				5,
 				5
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				-5,
 				-5
@@ -251,18 +251,18 @@
 			"UI_GROUP" : "Shape"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				2,
 				0
 			],
 			"DESCRIPTION" : "Additional warping applied on bass hits for pumping effect",
-			"MAX" :
+			"MAX" : 
 			[
 				5,
 				5
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				-5,
 				-5
@@ -292,18 +292,18 @@
 			"UI_GROUP" : "Media"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0,
 				0
 			],
 			"DESCRIPTION" : "Offset position of media texture (X: horizontal, Y: vertical)",
-			"MAX" :
+			"MAX" : 
 			[
 				1,
 				1
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0
@@ -315,18 +315,18 @@
 		}
 	],
 	"CREDIT" : "mrange",
-	"DESCRIPTION" : "Dive through an infinite synthwave tunnel of neon triangles and glowing geometry. This audio-reactive journey features cascading triangular patterns that pulse and twist with the music, creating a hypnotic path through electric blue and magenta space. Glowing snake-like tubes weave through the geometric landscape while reflective surfaces bounce light in mesmerizing patterns. Every bass hit transforms the tunnel with warping effects and intense flashes, making this the perfect centerpiece for live performances and VJ sets.",
+	"DESCRIPTION" : "Dive through an infinite synthwave tunnel of neon triangles and glowing geometry. This audio-reactive journey features cascading triangular patterns that pulse and twist with the music, creating a hypnotic path through electric blue and magenta space. Glowing snake-like tubes weave through the geometric landscape while reflective surfaces bounce light in mesmerizing patterns. Every bass hit transforms the tunnel with warping effects and intense flashes, making this the perfect centerpiece for live performances and VJ sets",
 	"GPU" : 1,
 	"HEIGHT" : 1080,
 	"IMAGE_PATH" : "scene.png",
-	"MEDIA" :
+	"MEDIA" : 
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-"TAGS" :
+	"TAGS" : 
 	[
 		"mrange",
 		"neon",
