@@ -22,7 +22,7 @@
 		},
 		{
 			"DEFAULT": [0, 0],
-			"DESCRIPTION": "Twist rotation on beat (X: by distance, Y: by distance²)",
+			"DESCRIPTION": "Rotation on beat (X: linear by distance, Y: quadratic by distance)",
 			"MAX": [1, 1],
 			"MIN": [-1, -1],
 			"NAME": "twist_beat",
@@ -32,7 +32,7 @@
 		},
 		{
 			"DEFAULT": [0, 0.5],
-			"DESCRIPTION": "Zoom pulse on beat (X: linear, Y: squared)",
+			"DESCRIPTION": "Zoom pulse on beat (X: linear by distance, Y: quadratic by distance)",
 			"MAX": [1, 1],
 			"MIN": [0, 0],
 			"NAME": "zoom_beat",
@@ -42,7 +42,7 @@
 		},
 		{
 			"DEFAULT": 0,
-			"DESCRIPTION": "Brightness pulse on beat (0 = off, 1 = full)",
+			"DESCRIPTION": "Brightness boost on bass hits (0 = none, 1 = double)",
 			"MAX": 1,
 			"MIN": 0,
 			"NAME": "fade_beat",
@@ -52,7 +52,7 @@
 		},
 		{
 			"DEFAULT": [0.5, 0.25],
-			"DESCRIPTION": "Animation speed (X: normal time, Y: bass-synced time)",
+			"DESCRIPTION": "Animation speed (X: time-based, Y: bass time-based)",
 			"MAX": [2, 1],
 			"MIN": [-2, -1],
 			"NAME": "speed_control",
@@ -62,7 +62,7 @@
 		},
 		{
 			"DEFAULT": 0.3,
-			"DESCRIPTION": "Base rotation speed (negative = reverse)",
+			"DESCRIPTION": "Continuous rotation speed of the fractal",
 			"MAX": 3,
 			"MIN": -3,
 			"NAME": "rotation_speed",
@@ -71,7 +71,7 @@
 		},
 		{
 			"DEFAULT": [1, 2],
-			"DESCRIPTION": "Color cycle offsets",
+			"DESCRIPTION": "Color phase offsets (shifts hue of lightning patterns)",
 			"MAX": [7, 7],
 			"MIN": [0, 0],
 			"NAME": "color_control",
@@ -81,7 +81,7 @@
 		},
 		{
 			"DEFAULT": 0,
-			"DESCRIPTION": "Invert colors (0 = normal, 1 = inverted)",
+			"DESCRIPTION": "Color inversion amount (0 = normal, 1 = fully inverted)",
 			"MAX": 1,
 			"MIN": 0,
 			"NAME": "invert_color",
@@ -91,7 +91,7 @@
 		},
 		{
 			"DEFAULT": 9,
-			"DESCRIPTION": "Overall brightness (higher = darker)",
+			"DESCRIPTION": "Brightness divider (higher = darker overall output)",
 			"MAX": 30,
 			"MIN": 1,
 			"NAME": "color_divider",
@@ -101,7 +101,7 @@
 		},
 		{
 			"DEFAULT": [0.5, 1.5],
-			"DESCRIPTION": "Blur range by distance (X: start, Y: end)",
+			"DESCRIPTION": "Motion blur distance range (X: start fade, Y: full blur)",
 			"MAX": [3, 3],
 			"MIN": [0, 0],
 			"NAME": "motion_blur_limits",
@@ -111,7 +111,7 @@
 		},
 		{
 			"DEFAULT": [0.5, 0.9],
-			"DESCRIPTION": "Blur strength (X: at start, Y: at end)",
+			"DESCRIPTION": "Motion blur strength (X: at center, Y: at edges)",
 			"MAX": [1, 1],
 			"MIN": [0, 0],
 			"NAME": "motion_blur_intensity",
@@ -121,7 +121,7 @@
 		},
 		{
 			"DEFAULT": [0.5, -0.05],
-			"DESCRIPTION": "Fractal center position (X: horizontal, Y: vertical)",
+			"DESCRIPTION": "Fractal viewport center (X: horizontal, Y: vertical offset)",
 			"MAX": [2, 2],
 			"MIN": [-2, -2],
 			"NAME": "zoom_center",
@@ -131,7 +131,7 @@
 		},
 		{
 			"DEFAULT": [0.75, 0.125],
-			"DESCRIPTION": "Zoom level (X: base, Y: pulse amount)",
+			"DESCRIPTION": "Zoom level (X: base magnification, Y: breathing pulse depth)",
 			"MAX": [1, 1],
 			"MIN": [0, 0],
 			"NAME": "zoom_factor",
@@ -141,7 +141,7 @@
 		},
 		{
 			"DEFAULT": [-0.76, 0.15],
-			"DESCRIPTION": "Mandelbrot C parameter (defines fractal shape)",
+			"DESCRIPTION": "Mandelbrot C constant (real and imaginary components)",
 			"MAX": [1.5, 1.5],
 			"MIN": [-1.5, -1.5],
 			"NAME": "initial_c",
@@ -151,7 +151,7 @@
 		},
 		{
 			"DEFAULT": [0.5, 0.125],
-			"DESCRIPTION": "Mandelbrot C rotation (X: speed, Y: frequency)",
+			"DESCRIPTION": "C parameter rotation (X: speed multiplier, Y: sine frequency)",
 			"MAX": [6, 1],
 			"MIN": [0, 0],
 			"NAME": "rotation_c",
@@ -161,7 +161,7 @@
 		},
 		{
 			"DEFAULT": [0, 0],
-			"DESCRIPTION": "Media distortion on beat (X: strength, Y: frequency)",
+			"DESCRIPTION": "Media distortion (X: warp strength, Y: frequency modulation)",
 			"MAX": [1, 1],
 			"MIN": [-1, -1],
 			"NAME": "media_warp",
@@ -171,7 +171,7 @@
 		},
 		{
 			"DEFAULT": 1,
-			"DESCRIPTION": "Media visibility strength (negative = inverted)",
+			"DESCRIPTION": "Media multiplier – boost opacity for bold color effects",
 			"MAX": 9,
 			"MIN": -9,
 			"NAME": "media_multiplier",
@@ -181,7 +181,7 @@
 		},
 		{
 			"DEFAULT": 0.707,
-			"DESCRIPTION": "Media blend amount (0 = hidden, 1 = full)",
+			"DESCRIPTION": "Media opacity – fade visuals in or out",
 			"MAX": 1,
 			"MIN": 0,
 			"NAME": "media_opacity",
@@ -191,7 +191,7 @@
 		}
 	],
 	"CREDIT": "mrange",
-	"DESCRIPTION": "Spinning mandelbrot fractal with electric lightning spokes that pulse and twist to the music",
+	"DESCRIPTION": "Experience the Electric Mandelbrot—a hypnotic fractal that spins and breathes with electric energy. Brilliant lightning spokes radiate from the spiraling core, creating a cosmic wheel of light that pulses and rotates to the music. The fractal morphs through vibrant color gradients while motion blur trails create an ethereal, dreamlike quality at the edges. Audio-reactive elements make every bass hit twist the geometry and intensify the glow, while the continuously evolving C parameter ensures the pattern never repeats exactly. Perfect for trance, psytrance, and ambient electronic music visualizations.",
 	"GPU": 1,
 	"HEIGHT": 1080,
 	"IMAGE_PATH": "scene.png",
@@ -201,7 +201,22 @@
 			"WRAP": "mirror"
 		}
 	],
-	"TAGS": ["mrange", "mandelbrot", "electric", "audio-reactive", "fractal", "lightning", "music-visualizer", "bass-reactive", "fft", "rotation"],
-	"TITLE": "Electric mandelbrot",
+"TAGS": [
+		"mrange",
+		"mandelbrot",
+		"fractal",
+		"electric",
+		"lightning",
+		"audio-reactive",
+		"bass-reactive",
+		"spiral",
+		"psychedelic",
+		"rotation",
+		"glow",
+		"mathematical",
+		"hypnotic",
+		"trance"
+	],
+		"TITLE": "Electric mandelbrot",
 	"WIDTH": 1920
 }
