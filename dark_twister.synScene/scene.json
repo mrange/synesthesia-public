@@ -1,19 +1,19 @@
 {
-	"CONTROLS" :
+	"CONTROLS" : 
 	[
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.7,
 				0.7
 			],
 			"DESCRIPTION" : "Audio response strength (X: bass level, Y: bass hits)",
-			"MAX" :
+			"MAX" : 
 			[
 				1,
 				1
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0
@@ -23,18 +23,18 @@
 			"UI_GROUP" : "Audio"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				3,
 				1
 			],
 			"DESCRIPTION" : "Audio response curve (higher = more intense reaction)",
-			"MAX" :
+			"MAX" : 
 			[
 				5,
 				5
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0
@@ -45,18 +45,18 @@
 			"UI_GROUP" : "Audio"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.5,
 				5
 			],
 			"DESCRIPTION" : "Flash brightness (X: off-beat intensity, Y: on-beat intensity)",
-			"MAX" :
+			"MAX" : 
 			[
 				9,
 				9
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0
@@ -77,18 +77,18 @@
 			"UI_GROUP" : "Effects"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				1,
 				2
 			],
 			"DESCRIPTION" : "Flash sphere radius (X: off-beat size, Y: on-beat size)",
-			"MAX" :
+			"MAX" : 
 			[
 				5,
 				5
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0
@@ -129,18 +129,18 @@
 			"UI_GROUP" : "Effects"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.5,
 				0.25
 			],
 			"DESCRIPTION" : "Animation speed (X: time-based, Y: bass time-based)",
-			"MAX" :
+			"MAX" : 
 			[
 				1,
 				1
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0
@@ -150,18 +150,18 @@
 			"UI_GROUP" : "Shape"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				6,
 				4
 			],
 			"DESCRIPTION" : "Path wave amplitude (X and Y control horizontal/vertical swing)",
-			"MAX" :
+			"MAX" : 
 			[
 				9,
 				9
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0
@@ -172,18 +172,18 @@
 			"UI_GROUP" : "Shape"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.16667,
 				0.11785
 			],
 			"DESCRIPTION" : "Path wave frequency (X and Y control sine wave oscillation)",
-			"MAX" :
+			"MAX" : 
 			[
 				1,
 				1
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0
@@ -194,20 +194,20 @@
 			"UI_GROUP" : "Shape"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.1,
 				0.3,
 				1
 			],
 			"DESCRIPTION" : "RGB color of flash during off-beat moments",
-			"MAX" :
+			"MAX" : 
 			[
 				1,
 				1,
 				1
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0,
@@ -218,18 +218,18 @@
 			"UI_GROUP" : "Color"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.6,
 				0.3
 			],
 			"DESCRIPTION" : "Hue base for fractal beam glow (X: primary hue, Y: variation)",
-			"MAX" :
+			"MAX" : 
 			[
 				1,
 				1
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0
@@ -240,20 +240,20 @@
 			"UI_GROUP" : "Color"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.3,
 				0.66666,
 				1
 			],
 			"DESCRIPTION" : "RGB color of flash during on-beat moments",
-			"MAX" :
+			"MAX" : 
 			[
 				1,
 				1,
 				1
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0,
@@ -295,18 +295,18 @@
 			"UI_GROUP" : "Media"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0,
 				0
 			],
 			"DESCRIPTION" : "Media texture offset position (X: horizontal, Y: vertical)",
-			"MAX" :
+			"MAX" : 
 			[
 				3,
 				3
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				-3,
 				-3
@@ -318,22 +318,31 @@
 		}
 	],
 	"CREDIT" : "mrange",
-	"DESCRIPTION" : "Dark twister",
+	"DESCRIPTION" : "Plunge into the Dark Twister—a mesmerizing journey through a spiraling vortex of neon light and shadow. Recursive fractal geometry twists and folds through infinite space, creating a tunnel of electric blue and vibrant magenta beams that pulse and flash with the music. A glowing sphere of energy leads the way, casting dramatic reflections across the sleek, dark surfaces. The entire structure warps along a sinuous path while audio-reactive elements make every bass hit intensify the flash and twist the geometry deeper. Perfect for dark techno, bass music, and atmospheric sets where mysterious beauty meets raw energy.",
 	"GPU" : 1,
 	"HEIGHT" : 1080,
 	"IMAGE_PATH" : "scene.png",
-	"MEDIA" :
+	"MEDIA" : 
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"TAGS" :
+	"TAGS" : 
 	[
 		"mrange",
 		"dark",
-		"twister"
+		"twister",
+		"vortex",
+		"tunnel",
+		"audio-reactive",
+		"bass-reactive",
+		"neon",
+		"spiral",
+		"recursive",
+		"raymarch",
+		"mysterious"
 	],
 	"TITLE" : "Dark twister",
 	"WIDTH" : 1920
