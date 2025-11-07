@@ -1,9 +1,9 @@
 {
-	"CONTROLS" : 
+	"CONTROLS" :
 	[
 		{
 			"DEFAULT" : 1,
-			"DESCRIPTION" : "Cruise through the neon highway – forward or reverse",
+			"DESCRIPTION" : "Camera travel speed through the tunnel (forward/reverse)",
 			"MAX" : 5,
 			"MIN" : -5,
 			"NAME" : "path_speed",
@@ -12,7 +12,7 @@
 		},
 		{
 			"DEFAULT" : -2,
-			"DESCRIPTION" : "Speed of neighboring triangles",
+			"DESCRIPTION" : "Animation speed of the triangular geometry sections",
 			"MAX" : 10,
 			"MIN" : -10,
 			"NAME" : "tri_speed",
@@ -21,7 +21,7 @@
 		},
 		{
 			"DEFAULT" : 0,
-			"DESCRIPTION" : "Spin speed for the scene",
+			"DESCRIPTION" : "Continuous rotation speed of the entire scene",
 			"MAX" : 5,
 			"MIN" : -5,
 			"NAME" : "rot_speed",
@@ -30,9 +30,9 @@
 		},
 		{
 			"DEFAULT" : 0,
-			"DESCRIPTION" : "Fix spin of world",
-			"MAX" : 0,
-			"MIN" : 1,
+			"DESCRIPTION" : "Fixed rotation angle for the scene orientation",
+			"MAX" : 1,
+			"MIN" : 0,
 			"NAME" : "rot_base",
 			"PARAMS" : 0.2,
 			"TYPE" : "knob smooth",
@@ -40,7 +40,7 @@
 		},
 		{
 			"DEFAULT" : 0.5,
-			"DESCRIPTION" : "Higher smaller tiles, more transparency",
+			"DESCRIPTION" : "Scale of surface pattern tiles (higher = smaller, more transparent)",
 			"MAX" : 3,
 			"MIN" : 0,
 			"NAME" : "pattern_size",
@@ -49,18 +49,18 @@
 			"UI_GROUP" : "Effects"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				20,
 				2
 			],
-			"DESCRIPTION" : "Controls the flash intensity",
-			"MAX" : 
+			"DESCRIPTION" : "Flash light intensity (X: on beat, Y: base intensity)",
+			"MAX" :
 			[
 				50,
 				50
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
@@ -71,7 +71,7 @@
 		},
 		{
 			"DEFAULT" : 1,
-			"DESCRIPTION" : "Show or hide the glowing snakes",
+			"DESCRIPTION" : "Toggle visibility of animated glowing snake tubes",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "show_snakes",
@@ -80,7 +80,7 @@
 		},
 		{
 			"DEFAULT" : 0.7,
-			"DESCRIPTION" : "Controls color hue of the triangles",
+			"DESCRIPTION" : "Hue offset for triangle surface colors",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "tri_hue",
@@ -89,20 +89,20 @@
 			"UI_GROUP" : "Colors"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.39,
 				0.1,
 				1
 			],
-			"DESCRIPTION" : "Controls the color of the flashing light",
-			"MAX" : 
+			"DESCRIPTION" : "RGB color of the flashing light effect",
+			"MAX" :
 			[
 				1,
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0,
@@ -115,7 +115,7 @@
 		},
 		{
 			"DEFAULT" : 0.6,
-			"DESCRIPTION" : "Controls color hue of the snakes",
+			"DESCRIPTION" : "Hue offset for the glowing snake elements",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "snake_hue",
@@ -124,18 +124,18 @@
 			"UI_GROUP" : "Colors"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.7,
 				0.7
 			],
-			"DESCRIPTION" : "Controls the mix of bass level and hit",
-			"MAX" : 
+			"DESCRIPTION" : "Audio response strength (X: bass level, Y: bass hits)",
+			"MAX" :
 			[
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
@@ -146,18 +146,18 @@
 			"UI_GROUP" : "Audio"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				3,
 				1
 			],
-			"DESCRIPTION" : "Bass impact amplification for bass level and hit",
-			"MAX" : 
+			"DESCRIPTION" : "Audio response curve (higher = more intense reaction)",
+			"MAX" :
 			[
 				6,
 				6
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
@@ -169,8 +169,8 @@
 		},
 		{
 			"DEFAULT" : 0,
-			"DESCRIPTION" : "Twist mode",
-			"LABELS" : 
+			"DESCRIPTION" : "Enable twisting deformation of geometry sections",
+			"LABELS" :
 			[
 				"None",
 				"Some",
@@ -181,7 +181,7 @@
 			"NAME" : "twist_on",
 			"TYPE" : "dropdown",
 			"UI_GROUP" : "Shape",
-			"VALUES" : 
+			"VALUES" :
 			[
 				0,
 				1,
@@ -190,7 +190,7 @@
 		},
 		{
 			"DEFAULT" : 0,
-			"DESCRIPTION" : "Blend linear and sine twists",
+			"DESCRIPTION" : "Blend ratio between linear and sine wave twisting",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "twist_mix",
@@ -200,7 +200,7 @@
 		},
 		{
 			"DEFAULT" : 0.3,
-			"DESCRIPTION" : "Linear geometry twisting",
+			"DESCRIPTION" : "Amount of linear twist applied along depth axis",
 			"MAX" : 1,
 			"MIN" : -1,
 			"NAME" : "twist_straight",
@@ -208,18 +208,18 @@
 			"UI_GROUP" : "Shape"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.4,
 				0.5
 			],
-			"DESCRIPTION" : "Sine wave twist remix",
-			"MAX" : 
+			"DESCRIPTION" : "Sine wave twist parameters (X: amplitude, Y: frequency)",
+			"MAX" :
 			[
 				3,
 				3
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				-3,
 				-3
@@ -229,18 +229,18 @@
 			"UI_GROUP" : "Shape"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				2,
 				0
 			],
-			"DESCRIPTION" : "Warp world",
-			"MAX" : 
+			"DESCRIPTION" : "Base tunnel warping (X: forward pull, Y: radial pull)",
+			"MAX" :
 			[
 				5,
 				5
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				-5,
 				-5
@@ -251,18 +251,18 @@
 			"UI_GROUP" : "Shape"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				2,
 				0
 			],
-			"DESCRIPTION" : "Warp world  on beat",
-			"MAX" : 
+			"DESCRIPTION" : "Additional warping applied on bass hits for pumping effect",
+			"MAX" :
 			[
 				5,
 				5
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				-5,
 				-5
@@ -273,7 +273,7 @@
 		},
 		{
 			"DEFAULT" : 1,
-			"DESCRIPTION" : "Controls media opacity",
+			"DESCRIPTION" : "Opacity of media texture overlay on surfaces",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "media_opacity",
@@ -283,7 +283,7 @@
 		},
 		{
 			"DEFAULT" : 1,
-			"DESCRIPTION" : "Controls media zoom",
+			"DESCRIPTION" : "Scale of media texture mapping (higher = zoomed in)",
 			"MAX" : 8,
 			"MIN" : 0.125,
 			"NAME" : "media_zoom",
@@ -292,18 +292,18 @@
 			"UI_GROUP" : "Media"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0,
 				0
 			],
-			"DESCRIPTION" : "",
-			"MAX" : 
+			"DESCRIPTION" : "Offset position of media texture (X: horizontal, Y: vertical)",
+			"MAX" :
 			[
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
@@ -315,24 +315,31 @@
 		}
 	],
 	"CREDIT" : "mrange",
-	"DESCRIPTION" : "A synthwave scene. Built on the shoulders of shader legends Inigo Quilez and Sam Hocevar (MIT & WTFPL respectively).",
+	"DESCRIPTION" : "Dive through an infinite synthwave tunnel of neon triangles and glowing geometry. This audio-reactive journey features cascading triangular patterns that pulse and twist with the music, creating a hypnotic path through electric blue and magenta space. Glowing snake-like tubes weave through the geometric landscape while reflective surfaces bounce light in mesmerizing patterns. Every bass hit transforms the tunnel with warping effects and intense flashes, making this the perfect centerpiece for live performances and VJ sets.",
 	"GPU" : 1,
 	"HEIGHT" : 1080,
 	"IMAGE_PATH" : "scene.png",
-	"MEDIA" : 
+	"MEDIA" :
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"TAGS" : 
+"TAGS" :
 	[
 		"mrange",
 		"neon",
 		"synthwave",
+		"triangle",
+		"tunnel",
 		"raymarch",
-		"flashing"
+		"audio-reactive",
+		"geometric",
+		"bass-reactive",
+		"reflections",
+		"cyberpunk",
+		"purple"
 	],
 	"TITLE" : "Neon Triangulator",
 	"WIDTH" : 1920
