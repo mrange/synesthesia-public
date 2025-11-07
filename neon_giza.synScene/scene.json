@@ -2,47 +2,24 @@
 	"CONTROLS" :
 	[
 		{
-			"DEFAULT" :
-			[
-				0.7,
-				0.7
-			],
-			"DESCRIPTION" : "",
-			"MAX" :
-			[
-				1,
-				1
-			],
-			"MIN" :
-			[
-				0,
-				0
-			],
-			"NAME" : "bass_mix",
-			"TYPE" : "xy",
-			"UI_GROUP" : "Audio"
+			"DEFAULT": [0.7, 0.7],
+			"DESCRIPTION": "Audio response strength (X: bass level, Y: bass hits)",
+			"MAX": [1, 1],
+			"MIN": [0, 0],
+			"NAME": "bass_mix",
+			"PARAMS": 0.1,
+			"TYPE": "xy smooth",
+			"UI_GROUP": "Audio"
 		},
 		{
-			"DEFAULT" :
-			[
-				3,
-				1
-			],
-			"DESCRIPTION" : "",
-			"MAX" :
-			[
-				5,
-				5
-			],
-			"MIN" :
-			[
-				0,
-				0
-			],
-			"NAME" : "bass_pow",
-			"PARAMS" : 0.2,
-			"TYPE" : "xy smooth",
-			"UI_GROUP" : "Audio"
+			"DEFAULT": [3, 1],
+			"DESCRIPTION": "Audio response curve (higher = more intense reaction)",
+			"MAX": [6, 6],
+			"MIN": [0, 0],
+			"NAME": "bass_pow",
+			"PARAMS": 0.1,
+			"TYPE": "xy smooth",
+			"UI_GROUP": "Audio"
 		},
 		{
 			"DEFAULT" : 1,
@@ -66,7 +43,7 @@
 		},
 		{
 			"DEFAULT" : 0.3,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Frame blending amount (0 = sharp, 1 = heavy trails)",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "motion_blur",
@@ -79,7 +56,7 @@
 				5,
 				0
 			],
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Camera movement speed (X: forward, Y: vertical drift)",
 			"MAX" :
 			[
 				9,
@@ -96,7 +73,7 @@
 		},
 		{
 			"DEFAULT" : 1,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Intensity of spectrum bars at horizon (0 = hidden, 1 = full)",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "bar_visibility",
@@ -106,7 +83,7 @@
 		},
 		{
 			"DEFAULT" : 0.725,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Overall color scheme rotation (shifts entire palette hue)",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "hue_offset",
@@ -116,7 +93,7 @@
 		},
 		{
 			"DEFAULT" : 0.125,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Vertical position of spectrum bars on horizon",
 			"MAX" : 0.25,
 			"MIN" : 0,
 			"NAME" : "bar_height",
