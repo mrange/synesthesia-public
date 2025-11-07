@@ -1,19 +1,19 @@
 {
-	"CONTROLS" :
+	"CONTROLS" : 
 	[
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.0825,
 				0.1025
 			],
-			"DESCRIPTION" : "Bends the grid’s path into wavy motion – like giving it a little dance step.",
-			"MAX" :
+			"DESCRIPTION" : "Path wave frequency (X and Y control sine wave oscillation)",
+			"MAX" : 
 			[
 				0.5,
 				0.5
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				-0.5,
 				-0.5
@@ -24,18 +24,18 @@
 			"UI_GROUP" : "Path Shape"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				8,
 				5.656
 			],
-			"DESCRIPTION" : "Wave amplitude – crank it up for dramatic swings or tone it down for gentle ripples.",
-			"MAX" :
+			"DESCRIPTION" : "Path wave amplitude (X and Y set horizontal/vertical swing size)",
+			"MAX" : 
 			[
 				16,
 				16
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				-16,
 				-16
@@ -46,18 +46,18 @@
 			"UI_GROUP" : "Path Shape"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				1,
 				1
 			],
-			"DESCRIPTION" : "Sets how fine or chunky the grid looks in XY – shrink it for crisp detail or go big for bold vibes.",
-			"MAX" :
+			"DESCRIPTION" : "Grid cell size in XY plane (smaller = denser grid)",
+			"MAX" : 
 			[
 				3,
 				3
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0.25,
 				0.25
@@ -67,18 +67,18 @@
 			"UI_GROUP" : "Grid"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				1,
 				0.03
 			],
-			"DESCRIPTION" : "Grid spacing in depth (Z) and radius (R) – dial it in for endless tunnels or tight corridors.",
-			"MAX" :
+			"DESCRIPTION" : "Grid spacing (X: depth interval, Y: tube thickness)",
+			"MAX" : 
 			[
 				3,
 				0.4
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0.25,
 				0.01
@@ -89,7 +89,7 @@
 		},
 		{
 			"DEFAULT" : 2,
-			"DESCRIPTION" : "Travel speed through the Blue Steel grid – from a laid-back cruise to a hyperspace blast.",
+			"DESCRIPTION" : "Camera travel speed through the tunnel",
 			"MAX" : 9,
 			"MIN" : -9,
 			"NAME" : "path_speed",
@@ -98,7 +98,7 @@
 		},
 		{
 			"DEFAULT" : 0,
-			"DESCRIPTION" : "Rotates the entire grid – spin it smooth or whip it around like a DJ platter.",
+			"DESCRIPTION" : "Continuous rotation speed of the entire tunnel",
 			"MAX" : 9,
 			"MIN" : -9,
 			"NAME" : "path_rot",
@@ -107,7 +107,7 @@
 		},
 		{
 			"DEFAULT" : 0,
-			"DESCRIPTION" : "Adds a tasty twist to the tunnel – activate licorice-spiral mode.",
+			"DESCRIPTION" : "Spiral twist amount along the tunnel depth",
 			"MAX" : 1,
 			"MIN" : -1,
 			"NAME" : "path_twist",
@@ -116,18 +116,18 @@
 			"UI_GROUP" : "Path Motion"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.7,
 				0.7
 			],
-			"DESCRIPTION" : "Bass mix – balance steady bass levels with punchy bass hits. Find your groove.",
-			"MAX" :
+			"DESCRIPTION" : "Audio response strength (X: bass level, Y: bass hits)",
+			"MAX" : 
 			[
 				1,
 				1
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0
@@ -138,18 +138,18 @@
 			"UI_GROUP" : "Audio"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				3,
 				1
 			],
-			"DESCRIPTION" : "Bass power – turn up the 'pow' for bass levels and hits. More punch equals brighter flashes.",
-			"MAX" :
+			"DESCRIPTION" : "Audio response curve (higher = more intense reaction)",
+			"MAX" : 
 			[
 				6,
 				6
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0
@@ -161,7 +161,7 @@
 		},
 		{
 			"DEFAULT" : 1,
-			"DESCRIPTION" : "Media opacity – fade your visuals from ghostly transparent to boldly solid.",
+			"DESCRIPTION" : "Media opacity – fade visuals in or out",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "media_opacity",
@@ -171,7 +171,7 @@
 		},
 		{
 			"DEFAULT" : 1,
-			"DESCRIPTION" : "Media multiplier – boosts opacity strength for extra punch and wild color flares.",
+			"DESCRIPTION" : "Media multiplier – boost opacity for bold color effects",
 			"MAX" : 9,
 			"MIN" : -9,
 			"NAME" : "media_multiplier",
@@ -180,20 +180,20 @@
 			"UI_GROUP" : "Media"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.2,
 				0.62,
 				1
 			],
-			"DESCRIPTION" : "Flash color – the strobe’s mood and personality in full RGB flair.",
-			"MAX" :
+			"DESCRIPTION" : "RGB color of flash light effect on bass hits",
+			"MAX" : 
 			[
 				1,
 				1,
 				1
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0,
@@ -205,20 +205,20 @@
 			"UI_GROUP" : "Colors"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.57,
 				0.15,
 				1
 			],
-			"DESCRIPTION" : "Snake color – the slinky traveler weaving through the grid in style.",
-			"MAX" :
+			"DESCRIPTION" : "RGB color of animated snake particles in the grid",
+			"MAX" : 
 			[
 				1,
 				1,
 				1
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0,
@@ -230,18 +230,18 @@
 			"UI_GROUP" : "Colors"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				2,
 				0.5
 			],
-			"DESCRIPTION" : "Warp the world",
-			"MAX" :
+			"DESCRIPTION" : "Camera perspective warp (X: forward pull, Y: radial pull)",
+			"MAX" : 
 			[
 				5,
 				5
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				-5,
 				-5
@@ -253,23 +253,29 @@
 		}
 	],
 	"CREDIT" : "mrange",
-	"DESCRIPTION" : "Step inside the shimmering Blue Steel grid – a tunnel so stylish even Zoolander would nod. Built on the shoulders of shader legends Inigo Quilez and Sam Hocevar (MIT & WTFPL respectively).",
+	"DESCRIPTION" : "Race through an infinite tunnel of chrome and neon in the Blue Steel Grid. This audio-reactive journey features a twisting, undulating grid structure with sleek metallic surfaces that gleam with icy blue reflections. Electric purple snake particles weave through the lattice while flash lights pulse with the bass, creating dramatic light rays that pierce through the geometry. The entire grid bends and warps along a sinuous path, offering an ever-shifting perspective through this cyberpunk corridor. Perfect for techno sets and futuristic visuals.",
 	"GPU" : 1,
 	"HEIGHT" : 1080,
 	"IMAGE_PATH" : "scene.png",
-	"MEDIA" :
+	"MEDIA" : 
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"TAGS" :
+	"TAGS" : 
 	[
 		"mrange",
 		"grid",
+		"tunnel",
+		"chrome",
+		"metallic",
 		"raymarch",
-		"flashing"
+		"audio-reactive",
+		"blue",
+		"purple",
+		"geometric"
 	],
 	"TITLE" : "Blue Steel Grid",
 	"WIDTH" : 1920
