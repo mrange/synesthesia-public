@@ -48,6 +48,14 @@ float freq(float x) {
 #endif
 }
 
+// License: Unknown, author: Claude Brezinski, found: https://mathr.co.uk/blog/2017-09-06_approximating_hyperbolic_tangent.html
+vec3 tanh_approx(vec3 x) {
+  //  Found this somewhere on the interwebs
+  //  return tanh(x);
+  vec3 x2 = x*x;
+  return clamp(x*(27.0 + x2)/(27.0+9.0*x2), -1.0, 1.0);
+}
+
 vec4 renderMain() {
   const float
     maxIterF = 80.
@@ -111,7 +119,8 @@ vec4 renderMain() {
   if (!isnan(l)) {
     col += F/(1.+l*l)*(0.5 + 0.5*cos(l*.5 + 3.+ vec3(0,2.*color_control)));
   }
-  col = tanh(col);
+  col = clamp(col,0.,9.);
+  col = tanh_approx(col);
   col = mix(col, 1.-col, invert_color);
 
   col = max(col,0.);

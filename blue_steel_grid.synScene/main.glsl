@@ -1,6 +1,6 @@
 // This file is released under CC0 1.0 Universal (Public Domain Dedication).
 // To the extent possible under law, Mårten Rånge has waived all copyright
-// and related or neighboring rights to this work.
+// and related or neighoring rights to this work.
 // See <https://creativecommons.org/publicdomain/zero/1.0/> for details.
 
 
@@ -215,6 +215,14 @@ vec3 render1(vec3 ro, vec3 rd) {
   return col;
 }
 
+// License: Unknown, author: Claude Brezinski, found: https://mathr.co.uk/blog/2017-09-06_approximating_hyperbolic_tangent.html
+vec3 tanh_approx(vec3 x) {
+  //  Found this somewhere on the interwebs
+  //  return tanh(x);
+  vec3 x2 = x*x;
+  return clamp(x*(27.0 + x2)/(27.0+9.0*x2), -1.0, 1.0);
+}
+
 vec3 effect(vec2 p) {
   float
 #ifdef KODELIFE
@@ -234,7 +242,8 @@ vec3 effect(vec2 p) {
   vec3 rd = normalize(p.x*uu + p.y*vv + rdd*ww);
 
   vec3 col = render1(ro, rd);
-  col=tanh(col);
+  col=clamp(col,0.,9.);
+  col=tanh_approx(col);
   col = sqrt(col);
 #ifdef KODELIFE
 #else

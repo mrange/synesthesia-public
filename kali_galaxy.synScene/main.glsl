@@ -125,6 +125,14 @@ vec4 fpass0() {
   return (o / (global_div*1E3));
 }
 
+// License: Unknown, author: Claude Brezinski, found: https://mathr.co.uk/blog/2017-09-06_approximating_hyperbolic_tangent.html
+vec3 tanh_approx(vec3 x) {
+  //  Found this somewhere on the interwebs
+  //  return tanh(x);
+  vec3 x2 = x*x;
+  return clamp(x*(27.0 + x2)/(27.0+9.0*x2), -1.0, 1.0);
+}
+
 vec4 fpass1() {
   float
     b=smoothstep(.5, 1., beat())
@@ -135,8 +143,8 @@ vec4 fpass1() {
   , q1=pp*RENDERSIZE.y/RENDERSIZE+.5
   ;
   vec3
-    col0=clamp(tanh(texture(pass0, q0).xyz),0,1)
-  , col1=(texture(pass1, q1).xyz)
+    col0=tanh_approx(clamp(texture(pass0, q0).xyz,0.,9.))
+  , col1=texture(pass1, q1).xyz
   ;
   col0=mix(col0,vec3(0), isnan(col0));
 #ifdef KODELIFE

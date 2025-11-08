@@ -696,19 +696,6 @@ vec3 reduceNoise(sampler2D tex, ivec2 xy) {
   return cl > al ? a : c;
 }
 
-vec3 aces_approx(vec3 v) {
-  const float
-    a = 2.51
-  , b = 0.03
-  , c = 2.43
-  , d = 0.59
-  , e = 0.14
-  ;
-  v = max(v, 0.);
-  v *= .6;
-  return clamp((v*(a*v+b))/(v*(c*v+d)+e), 0., 1.);
-}
-
 vec4 fpass1() {
   vec2
     q = _uv
@@ -718,13 +705,9 @@ vec4 fpass1() {
     col=reduceNoise(pass0,ivec2(_xy))
   , pcol=texture(syn_FinalPass,q).xyz
   ;
-// #define USE_ACES
-#ifdef USE_ACES
-  col =aces_approx(col);
-#else
-  col =tanh_approx(col);
-#endif
-  col= sqrt(col);
+  col=clamp(col,0.,9.);
+  col=tanh_approx(col);
+  col=sqrt(col);
 #ifndef KODELIFE
   vec4
     mcol=_loadMedia()

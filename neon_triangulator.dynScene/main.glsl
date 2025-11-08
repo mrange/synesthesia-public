@@ -309,7 +309,7 @@ vec3 render(vec3 ro, vec3 rd, float noise) {
 
       ccol *= cabs;
 
-      vec4 
+      vec4
         tcol=tex3D(syn_Media, media_zoom*p, n, media_offset)
       ;
       ccol += tcol.xyz*tcol.w*media_opacity*pf;
@@ -341,7 +341,7 @@ vec3 effect(vec2 p, float noise) {
   , b  = beat()
   , rdd
   ;
-  vec2 
+  vec2
     ww=mix(warp_world, warp_world_beat,b)
 ;
   rdd = ww.x-ww.y*length(p);
@@ -360,6 +360,7 @@ vec3 effect(vec2 p, float noise) {
   col += mix(flash_control.y,flash_control.x, b)*flash_col*4e-4/(1.00001+dot(abs(rd), normalize(vec3(0,0,-1))));
 
   col -= .02*vec3(2,3,1)*(length(p)+.25);
+  col = clamp(col,0.,9.);
   col = aces_approx(max(col,0.));
   col = sqrt(col);
 
