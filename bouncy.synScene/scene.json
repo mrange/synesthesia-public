@@ -1,0 +1,31 @@
+{
+	"CREDIT" : "mrange",
+	"DESCRIPTION" : "bouncy scene",
+	"GPU" : 1,
+	"IMAGE_PATH" : "scene.png",
+	"IMAGES" :
+	[
+		{
+			"NAME" : "t_fbm",
+			"PATH" : "fbm.png"
+		}
+	],
+	"MEDIA" :
+	[
+		{
+			"FILTER" : "linear",
+			"WRAP" : "mirror"
+		}
+	],
+	"PASSES" :
+	[
+	],
+	"TAGS" :
+	[
+		"mrange",
+		"bouncy"
+	],
+	"TITLE" : "bouncy scene",
+	"HEIGHT" : 1080,
+	"WIDTH" : 1920
+}
