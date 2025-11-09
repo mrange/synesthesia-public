@@ -52,25 +52,31 @@ float fbm(vec2 p) {
 }
 
 float fbm2(vec2 p) {
-  const float
-#ifdef KODELIFE
-    off=.4
-#else
-    off=.2
-#endif
+  float 
+    a=0.
+  , aa=1.
+  , i
+  , d=0.
   ;
-  return texture(t_fbm,0.002*p).x-off;
+  for (i=0.;i<3.;++i) {
+    a+=aa*sin(p.x);
+    d+=aa;
+    aa*=.5;
+    p*=mat2(6,8,-8,6)/5.;
+    p+=1.234;
+  }
+  return a/d;
 }
 
 
-float freq(float x, float o) {
+float freq(float x, vec2 o) {
 #ifdef KODELIFE
   return smoothstep(.0,.9,sin(TAU*x*TIME));
 #else  
-  float f=texture(syn_Spectrum,o+.4*x).z;
+  float f=texture(syn_Spectrum,o.x+o.y*x).z;
   f*=f;
   f*=f;
-  f*=3.;
+  f*=3.5;
   return f;
 #endif
 }
@@ -79,24 +85,6 @@ float freq(float x, float o) {
 float hash(vec2 co) {
   return fract(sin(dot(co.xy ,vec2(12.9898,58.233))) * 13758.5453);
 }
-
-/*
-// License: MIT, author: Inigo Quilez, found: https://iquilezles.org/www/articles/distfunctions2d/distfunctions2d.htm
-float hexagon(vec2 p, float r) {
-  p=p.yx;
-  const vec3 k = 0.5*vec3(-sqrt(3.0), 1.0, sqrt(4.0/3.0));
-  p = abs(p);
-  p -= 2.0*min(dot(k.xy,p),0.0)*k.xy;
-  p -= vec2(clamp(p.x, -k.z*r, k.z*r), r);
-  return length(p)*sign(p.y);
-}
-
-float hexagon(vec3 p, vec2 r) {
-  float d = hexagon(p.xz,r.x);
-  vec2 w = vec2(d,abs(p.y)-r.y);
-  return min(max(w.x,w.y),0.)+length4(max(w,0.));
-}
-*/
 
 vec2 hexagon(vec2 p, vec2 r) {
   p=p.yx;
@@ -147,6 +135,7 @@ vec2 hextile(inout vec2 p) {
   return round(n*2.0)*0.5;
 }
 
+/*
 float nearest_hex_wall_(vec2 p, vec2 rd) {
   const vec2
     N1 = vec2(1 , .0)
@@ -164,6 +153,7 @@ float nearest_hex_wall_(vec2 p, vec2 rd) {
 
   return min(min(dt.x, dt.y), dt.z);
 }
+*/
 
 float nearest_hex_wall(vec2 p, vec2 rd) {
   const mat3x2
@@ -223,18 +213,25 @@ float df_1(vec3 p) {
   , h
   , d1=p1.y
   , d
+  , f
+  , F
   ;
-  if(fbm2(1.1*n)>.3) {
-    h=freq(h1,.25);
-    g_col=vec3(1,0,0);
-  } else if(fbm2(1.2*n)>.35) {
-    h=freq(h0,.05);
-    g_col=vec3(0.01);
-  } else {
-    h=fbm(n);
-    g_col=vec3(1);
-  }
+  
+  vec3
+    col=vec3(1)
+  ;
+
+  h=fbm(n);
+  F=fbm2(0.23*n);
+  f=smoothstep(.65,.8,abs(F));
+  h=mix(h,freq(h1,F>0.?vec2(.25,.3):vec2(.05,.4)),f);
+  col=mix(col,F>0.?vec3(1,0,0):vec3(1e-3),f);
+  g_col=col;
+
+  // Cool bug
+  // g_col=
   d0=hexagon(p0,vec3(.40,.45,h))-vec3(0.05,0,0);
+  g_col=g_col;
   g_g=d0.yz;
   d=d0.x;
 
@@ -281,7 +278,7 @@ vec3 normal_1(vec3 p) {
 
 vec3 render1(vec3 ro, vec3 rd) {
   const vec3
-    ld=normalize(vec3(1,.5,1))
+    ld=normalize(vec3(-1,.5,1))
   , lc=HSV2RGB(vec3(.58,.0 ,1.))
   , sc=HSV2RGB(vec3(.58,.0,.2))
   , sky=HSV2RGB(vec3(.58,.0,1.))
@@ -346,11 +343,14 @@ vec4 fpass0() {
     ro=vec3(0,20.,TIME)
   , rd =normalize(-p.x*X+p.y*Y+2.*Z)
   , col;
-
+  vec4
+    pcol
+  ;
 
   col=render1(ro,rd);
-//  col=tanh(col);
   col=sqrt(col);
+  pcol=texture(syn_FinalPass,_uv);
+  col=mix(col,pcol.xyz,.3);
   return vec4(col,1.);
 }
 
