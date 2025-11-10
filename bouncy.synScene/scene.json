@@ -1,31 +1,171 @@
 {
+	"CONTROLS" : 
+	[
+		{
+			"DEFAULT" : 
+			[
+				0.65,
+				0.8
+			],
+			"DESCRIPTION" : "",
+			"MAX" : 
+			[
+				1,
+				1
+			],
+			"MIN" : 
+			[
+				0,
+				0
+			],
+			"NAME" : "bouncy_islands",
+			"PARAMS" : 0.20601,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 
+			[
+				0.05,
+				0.4
+			],
+			"DESCRIPTION" : "",
+			"MAX" : 
+			[
+				0.5,
+				0.5
+			],
+			"MIN" : 
+			[
+				0,
+				0
+			],
+			"NAME" : "black_freq",
+			"TYPE" : "xy",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 
+			[
+				0.25,
+				0.3
+			],
+			"DESCRIPTION" : "",
+			"MAX" : 
+			[
+				0.5,
+				0.5
+			],
+			"MIN" : 
+			[
+				0,
+				0
+			],
+			"NAME" : "red_freq",
+			"PARAMS" : 0.19901,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 
+			[
+				1,
+				0,
+				0
+			],
+			"DESCRIPTION" : "",
+			"MAX" : 
+			[
+				1,
+				1,
+				1
+			],
+			"MIN" : 
+			[
+				0,
+				0,
+				0
+			],
+			"NAME" : "red_col",
+			"PARAMS" : 0.20501,
+			"TYPE" : "color smooth",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 
+			[
+				0.001,
+				0.001,
+				0.001
+			],
+			"DESCRIPTION" : "",
+			"MAX" : 
+			[
+				1,
+				1,
+				1
+			],
+			"MIN" : 
+			[
+				0,
+				0,
+				0
+			],
+			"NAME" : "black_col",
+			"PARAMS" : 0.21501,
+			"TYPE" : "color smooth",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 
+			[
+				1,
+				1,
+				1
+			],
+			"DESCRIPTION" : "",
+			"MAX" : 
+			[
+				1,
+				1,
+				1
+			],
+			"MIN" : 
+			[
+				0,
+				0,
+				0
+			],
+			"NAME" : "white_col",
+			"PARAMS" : 0.22701,
+			"TYPE" : "color smooth",
+			"UI_GROUP" : "Visual"
+		}
+	],
 	"CREDIT" : "mrange",
 	"DESCRIPTION" : "bouncy scene",
 	"GPU" : 1,
-	"IMAGE_PATH" : "scene.png",
-	"IMAGES" :
+	"HEIGHT" : 1080,
+	"IMAGES" : 
 	[
 		{
 			"NAME" : "t_fbm",
 			"PATH" : "fbm.png"
 		}
 	],
-	"MEDIA" :
+	"IMAGE_PATH" : "scene.png",
+	"MEDIA" : 
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"PASSES" :
-	[
-	],
-	"TAGS" :
+	"TAGS" : 
 	[
 		"mrange",
 		"bouncy"
 	],
 	"TITLE" : "bouncy scene",
-	"HEIGHT" : 1080,
 	"WIDTH" : 1920
 }

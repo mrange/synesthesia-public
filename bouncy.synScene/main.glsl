@@ -19,7 +19,6 @@ const float
 , normal_eps_1  = 1e-3
 , TAU=2.*PI
 , top_plane=9.
-
 ;
 
 float length4(vec2 p) {
@@ -107,7 +106,6 @@ vec3 hexagon(vec3 p, vec3 r) {
   vec2 
     d   = hexagon(p.xz,r.xy)
   , w0  = vec2(d.x,abs(p.y)-r.z)
-  , w1  = vec2(d.y,abs(p.y)-r.z)
   ;
   return vec3(
     min(max(w0.x,w0.y),0.)+length(max(w0,0.))
@@ -134,26 +132,6 @@ vec2 hextile(inout vec2 p) {
   // Rounding to make hextile 0,0 well behaved
   return round(n*2.0)*0.5;
 }
-
-/*
-float nearest_hex_wall_(vec2 p, vec2 rd) {
-  const vec2
-    N1 = vec2(1 , .0)
-  , N2 = vec2(.5, sqrt(3.)/2.)
-  , N3 = vec2(.5,-sqrt(3.)/2.)
-  ;
-
-  vec3
-    pp  = vec3(dot(p, N1), dot(p, N2), dot(p, N3))
-  , prd = vec3(dot(rd, N1), dot(rd, N2), dot(rd, N3))
-  , ird = 1. / prd
-  , dro = (sign(prd) * 0.5) - pp
-  , dt  = dro * ird
-  ;
-
-  return min(min(dt.x, dt.y), dt.z);
-}
-*/
 
 float nearest_hex_wall(vec2 p, vec2 rd) {
   const mat3x2
@@ -218,14 +196,14 @@ float df_1(vec3 p) {
   ;
   
   vec3
-    col=vec3(1)
+    col=white_col
   ;
 
   h=fbm(n);
   F=fbm2(0.23*n);
-  f=smoothstep(.65,.8,abs(F));
-  h=mix(h,freq(h1,F>0.?vec2(.25,.3):vec2(.05,.4)),f);
-  col=mix(col,F>0.?vec3(1,0,0):vec3(1e-3),f);
+  f=smoothstep(bouncy_islands.x,bouncy_islands.y,abs(F));
+  h=mix(h,freq(h1,F>0.?red_freq:black_freq),f);
+  col=mix(col,F>0.?red_col:black_col,f);
   g_col=col;
 
   // Cool bug
@@ -353,78 +331,6 @@ vec4 fpass0() {
   col=mix(col,pcol.xyz,.3);
   return vec4(col,1.);
 }
-
-#ifdef KODELIFE
-
-float segment(vec2 p, vec2 a, vec2 b ) {
-  vec2 pa = p-a, ba = b-a;
-  float h = clamp( dot(pa,ba)/dot(ba,ba), 0.0, 1.0);
-  return length( pa - ba*h );
-}
-
-vec4 fpass1() {
-  vec2
-    p=2.*_uvc
-  , mp0=-1.+2.*abs(mouse.xy)
-  , mp1=-1.+2.*abs(mouse.zw)
-  , c=p
-  , n
-  , ro
-  , rd
-  , p1
-  ;
-  mp0.x*=RENDERSIZE.x/RENDERSIZE.y;
-  mp1.x*=RENDERSIZE.x/RENDERSIZE.y;
-  p.y*=-1.;
-  n=hextile(c);
-
-  ro=mp1;
-  rd=normalize(mp0-mp1);
-
-  float
-    aa=sqrt(2.)/RENDERSIZE.y
-  , dray=segment(p,mp0,mp1)-0.0075
-  , dhex=abs(hexagon(c,vec2(.5)))-aa
-  , hd=nearest_hex_wall(ro,rd)
-  , dhd=segment(p,ro,ro+rd*hd)-0.0075
-  , dh0=hexagon(mp0,vec2(.5))
-  , dh1=hexagon(mp1,vec2(.5))
-  ;
-
-  vec3
-    col=vec3(0)
-  ;
-
-  col=mix(col,vec3(.5),smoothstep(aa,-aa,dhex));
-  if(dh0<0.&&dh1<0.) {
-    col=mix(col,vec3(0.25,0,1),smoothstep(aa,-aa,dhd));
-  }
-  col=mix(col,vec3(1,0,.25),smoothstep(aa,-aa,dray));
-  col=sqrt(col);
-  return vec4(col,1);
-}
-
-vec4 fpass2() {
-  float
-    aa=sqrt(2.)/RENDERSIZE.y
-  ;
-  vec2
-    p=2.*_uvc
-  , dhex=hexagon(p,vec2(.5,.6))
-  ;
-
-  vec3
-    col=vec3(0)
-  ;
-
-  col=mix(col,vec3(.5),smoothstep(aa,-aa,dhex.x));
-  col=mix(col,vec3(1,0,0),smoothstep(aa,-aa,dhex.y-.1));
-  col=sqrt(col);
-  return vec4(col,1);
-}
-
-
-#endif
 
 vec4 renderMain() {
   return fpass0();
