@@ -1,19 +1,19 @@
 {
-	"CONTROLS" : 
+	"CONTROLS" :
 	[
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.65,
 				0.8
 			],
 			"DESCRIPTION" : "",
-			"MAX" : 
+			"MAX" :
 			[
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
@@ -24,18 +24,18 @@
 			"UI_GROUP" : "Visual"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.05,
 				0.4
 			],
 			"DESCRIPTION" : "",
-			"MAX" : 
+			"MAX" :
 			[
 				0.5,
 				0.5
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
@@ -45,18 +45,18 @@
 			"UI_GROUP" : "Visual"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.25,
 				0.3
 			],
 			"DESCRIPTION" : "",
-			"MAX" : 
+			"MAX" :
 			[
 				0.5,
 				0.5
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
@@ -67,20 +67,20 @@
 			"UI_GROUP" : "Visual"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				1,
 				0,
 				0
 			],
 			"DESCRIPTION" : "",
-			"MAX" : 
+			"MAX" :
 			[
 				1,
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0,
@@ -92,20 +92,20 @@
 			"UI_GROUP" : "Visual"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.001,
 				0.001,
 				0.001
 			],
 			"DESCRIPTION" : "",
-			"MAX" : 
+			"MAX" :
 			[
 				1,
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0,
@@ -117,20 +117,20 @@
 			"UI_GROUP" : "Visual"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				1,
 				1,
 				1
 			],
 			"DESCRIPTION" : "",
-			"MAX" : 
+			"MAX" :
 			[
 				1,
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0,
@@ -140,13 +140,33 @@
 			"PARAMS" : 0.22701,
 			"TYPE" : "color smooth",
 			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 0.7,
+			"DESCRIPTION" : "Media opacity – fade visuals in or out",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "media_opacity",
+			"PARAMS" : 0.2,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Media"
+		},
+		{
+			"DEFAULT" : 1,
+			"DESCRIPTION" : "Media multiplier – boost opacity for bold color effects",
+			"MAX" : 5,
+			"MIN" : -5,
+			"NAME" : "media_multiplier",
+			"PARAMS" : 0.2,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Media"
 		}
 	],
 	"CREDIT" : "mrange",
 	"DESCRIPTION" : "bouncy scene",
 	"GPU" : 1,
 	"HEIGHT" : 1080,
-	"IMAGES" : 
+	"IMAGES" :
 	[
 		{
 			"NAME" : "t_fbm",
@@ -154,14 +174,14 @@
 		}
 	],
 	"IMAGE_PATH" : "scene.png",
-	"MEDIA" : 
+	"MEDIA" :
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"TAGS" : 
+	"TAGS" :
 	[
 		"mrange",
 		"bouncy"

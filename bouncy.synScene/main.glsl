@@ -259,7 +259,6 @@ vec3 render1(vec3 ro, vec3 rd) {
     ld=normalize(vec3(-1,.5,1))
   , lc=HSV2RGB(vec3(.58,.0 ,1.))
   , sc=HSV2RGB(vec3(.58,.0,.2))
-  , sky=HSV2RGB(vec3(.58,.0,1.))
   ;
   float
     i
@@ -274,7 +273,7 @@ vec3 render1(vec3 ro, vec3 rd) {
     g
   ;
   vec3
-    col=sky
+    col=white_col
   , bcol
   , p
   , n
@@ -303,7 +302,7 @@ vec3 render1(vec3 ro, vec3 rd) {
     col+=bcol;
   }
 
-  col=mix(sky,col,exp(-.05*max(z-.5*max_depth_1,0.)));
+  col=mix(white_col,col,exp(-.05*max(z-.5*max_depth_1,0.)));
 
   return col;
 }
@@ -323,11 +322,16 @@ vec4 fpass0() {
   , col;
   vec4
     pcol
+  , mcol
   ;
 
   col=render1(ro,rd);
   col=sqrt(col);
   pcol=texture(syn_FinalPass,_uv);
+#ifndef KODELIFE
+  mcol=_loadMedia();
+  col=mix(col,mcol.xyz,mcol.w*media_opacity*media_multiplier);
+#endif
   col=mix(col,pcol.xyz,.3);
   return vec4(col,1.);
 }
