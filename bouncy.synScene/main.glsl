@@ -249,10 +249,19 @@ vec3 normal_1(vec3 p) {
     ));
 }
 
+void rot(inout vec2 p, float a) {
+  float
+    c=cos(a)
+  , s=sin(a)
+  ;
+  p=vec2(c*p.x+s*p.y,c*p.y-s*p.x);
+}
+
 vec3 render1(vec3 ro, vec3 rd) {
-  const vec3
+  vec3
     ld=normalize(vec3(-1,.5,1))
   ;
+  rot(ld.xz,light_dir);
 
   float
     z
@@ -325,7 +334,8 @@ vec4 fpass0() {
   , rd =normalize(-p.x*X+p.y*Y+2.*Z)
   , col
   ;
-  
+  rot(rd.xz,look_dir);
+
   vec4
     pcol
   , mcol
