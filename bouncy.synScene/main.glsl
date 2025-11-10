@@ -26,6 +26,7 @@ float fbm(vec2 p) {
     off=.2
 #endif
   ;
+  
   return (texture(t_fbm,2e-3*(p-.5*vec2(-1,1)*TIME)+.5).x-off)*11.;
 }
 
@@ -36,6 +37,7 @@ float fbm2(vec2 p) {
   , i
   , d=0.
   ;
+
   for (i=0.;i<3.;++i) {
     a+=aa*sin(p.x);
     d+=aa;
@@ -43,6 +45,7 @@ float fbm2(vec2 p) {
     p*=mat2(6,8,-8,6)/5.;
     p+=1.234;
   }
+
   return a/d;
 }
 
@@ -69,15 +72,19 @@ vec2 hexagon(vec2 p, vec2 r) {
   const vec3 
     k = 0.5*vec3(-sqrt(3.0), 1, sqrt(4.0/3.0))
   ;
+
   p = abs(p);
   p -= 2.0*min(dot(k.xy,p),0.0)*k.xy;
+
   vec2
     p0=p
   , p1=p
   ;
+
   p0-=vec2(clamp(p0.x, -k.z*r.x, k.z*r.x), r.x);
   p1.x=abs(p1.x);
   p1-=r.y*vec2(sqrt(1./3.),1);
+
   return vec2(length(p0)*sign(p0.y),length(p1));
 }
 
@@ -146,27 +153,32 @@ vec2
 // Out
 vec2 
   g_g
-, g_C
 ;
+
 vec3
   g_col
 ;
+
 float df_1(vec3 p) {
   if(p.y>top_plane) {
     return p.y-top_plane+1.;
   }
+  
   vec3
     p0=p
   , p1=p
   , d0
   ;
+  
   vec2
     n
   , c=p.xz
   ;
   ;
+
   n=hextile(c);
   p0.xz=c;
+
   float
     h0=hash(n)
   , h1=fract(8667.*h0)
@@ -189,12 +201,12 @@ float df_1(vec3 p) {
   f=smoothstep(bouncy_islands.x,bouncy_islands.y,abs(F));
   h=mix(h,freq(h1,F>0.?red_freq:black_freq),f);
   col=mix(col,F>0.?red_col:black_col,f);
-  g_col=col;
 
   // Cool bug
   // g_col=
   d0=hexagon(p0,vec3(.40,.45,h))-vec3(0.05,0,0);
-  g_col=g_col;
+
+  g_col=col;
   g_g=d0.yz;
   
   d=d0.x;
@@ -214,6 +226,7 @@ float ray_march_1(vec3 ro, vec3 rd, float initz) {
   , i
   , z=initz
   ;
+  
   for (i=0.;i<max_marches_1;++i) {
     d=df_1(ro+rd*z);
     if(d<tolerance_1||z>max_depth_1) {
@@ -302,13 +315,17 @@ vec4 fpass0() {
   , X=normalize(cross(Z,vec3(0,1,0)))
   , Y=cross(X,Z)
   ;
+  
   vec2
     p=2.*_uvc
   ;
+  
   vec3
-    ro=vec3(0,20.,speed)
+    ro=vec3(0,height,speed)
   , rd =normalize(-p.x*X+p.y*Y+2.*Z)
-  , col;
+  , col
+  ;
+  
   vec4
     pcol
   , mcol
