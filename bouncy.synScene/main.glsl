@@ -9,9 +9,6 @@ vec3 hsv2rgb(vec3 c) {
 #define HSV2RGB(c)  (c.z * mix(hsv2rgb_K.xxx, clamp(abs(fract(c.xxx + hsv2rgb_K.xyz) * 6.0 - hsv2rgb_K.www) - hsv2rgb_K.xxx, 0.0, 1.0), c.y))
 
 
-#define ROT(a)      mat2(cos(a), sin(a), -sin(a), cos(a))
-#define SCA(a)      vec2(sin(a), cos(a))
-
 const float
   max_marches_1 = 90.
 , tolerance_1   = 1e-3
@@ -20,24 +17,6 @@ const float
 , TAU=2.*PI
 , top_plane=9.
 ;
-
-float length4(vec2 p) {
-  p*=p;
-  return sqrt(sqrt(dot(p,p)));
-}
-
-float length4(vec3 p) {
-  p*=p;
-  return sqrt(sqrt(dot(p,p)));
-}
-
-float segment_y(vec3 p) {
-  float
-    d0=length4(p)
-  , d1=length4(p.xz)
-  ;
-  return p.y>0.?d0:d1;
-}
 
 float fbm(vec2 p) {
   const float
@@ -114,23 +93,26 @@ vec3 hexagon(vec3 p, vec3 r) {
   ;
 }
 
-
 // License: Unknown, author: Martijn Steinrucken, found: https://www.youtube.com/watch?v=VmrIDyYiJBA
 vec2 hextile(inout vec2 p) {
   // See Art of Code: Hexagonal Tiling Explained!
   // https://www.youtube.com/watch?v=VmrIDyYiJBA
-  const vec2 sz       = vec2(1, sqrt(3.));
-  const vec2 hsz      = 0.5*sz;
+  const vec2 
+    sz       = vec2(1, 1.7320508)
+  , hsz      = 0.5*sz
+  ;
 
-  vec2 p1 = mod(p, sz)-hsz;
-  vec2 p2 = mod(p - hsz, sz)-hsz;
-  vec2 p3 = dot(p1, p1) < dot(p2, p2) ? p1 : p2;
-  vec2 n = ((p3 - p + hsz)/sz);
+  vec2 
+    p1 = mod(p, sz)-hsz
+  , p2 = mod(p - hsz, sz)-hsz
+  , p3 = dot(p1, p1) < dot(p2, p2) ? p1 : p2
+  , n = ((p3 - p + hsz)/sz)
+  ;
   p = p3;
 
   n -= vec2(0.5);
   // Rounding to make hextile 0,0 well behaved
-  return round(n*2.0)*0.5;
+  return floor(n*2.0+.5)*0.5;
 }
 
 float nearest_hex_wall(vec2 p, vec2 rd) {
@@ -193,14 +175,17 @@ float df_1(vec3 p) {
   , d
   , f
   , F
+  , cd
   ;
   
   vec3
     col=white_col
   ;
 
+  cd=1e-3+nearest_hex_wall(c,g_rd);
+  
   h=fbm(n);
-  F=fbm2(0.23*n);
+  F=fbm2(0.231*n);
   f=smoothstep(bouncy_islands.x,bouncy_islands.y,abs(F));
   h=mix(h,freq(h1,F>0.?red_freq:black_freq),f);
   col=mix(col,F>0.?red_col:black_col,f);
@@ -211,14 +196,11 @@ float df_1(vec3 p) {
   d0=hexagon(p0,vec3(.40,.45,h))-vec3(0.05,0,0);
   g_col=g_col;
   g_g=d0.yz;
+  
   d=d0.x;
-
-  float
-    cd=1e-3+nearest_hex_wall(c,g_rd);
-  ;
   d=min(d,cd);
-
   d=min(d,d1);
+  
   return d;
 }
 
@@ -257,49 +239,56 @@ vec3 normal_1(vec3 p) {
 vec3 render1(vec3 ro, vec3 rd) {
   const vec3
     ld=normalize(vec3(-1,.5,1))
-  , lc=HSV2RGB(vec3(.58,.0 ,1.))
-  , sc=HSV2RGB(vec3(.58,.0,.2))
   ;
+
   float
-    i
-  , z
+    z
   , Z
-  , D
-  , dl
-  , ds
-  , sl
+  , T
   ;
+
   vec2
     g
   ;
+
   vec3
     col=white_col
   , bcol
   , p
   , n
-  , r
   ;
-  D=(top_plane-ro.y)/rd.y;
-  z=ray_march_1(ro,rd,D);
+
+  T=(top_plane-ro.y)/rd.y;
+  z=ray_march_1(ro,rd,max(T,0.));
   g=g_g;
   bcol=g_col;
   p=ro+rd*z;
   n=normal_1(p);
-  r=reflect(rd,n);
   Z=ray_march_1(p+1e-1*n,ld,1e-1);
-  dl=max(dot(n,ld),0.);
-  dl=sqrt(dl);
-  sl=pow(max(dot(r,ld),0.),40.);
-  ds=(1.+n.y)*.5;
+
   if (z<max_depth_1) {
-    col=vec3(0);
-    bcol=mix(.1*sign(bcol), bcol,mix(.25,1.,smoothstep(0.02,0.04,min(g.y,abs(g.x-.05+mix(0.04,0.03,n.y))))));
+    bcol=mix(
+        .1*sign(bcol)
+      , bcol
+      , mix(
+          .25
+        , 1.
+        , smoothstep(
+            .02
+          , .04
+          , min(
+              g.y
+            , abs(g.x-.05+mix(.04,.03,n.y))
+          )
+        )
+      )
+    );
     bcol=mix(vec3(1),bcol,smoothstep(.07,.06,g.x));
     bcol*=min(
       dot(n,ld)>0.?1.:0.25
     , Z<max_depth_1?mix(1.,.25,exp(-.05*Z)):1.
     );
-    col+=bcol;
+    col=bcol;
   }
 
   col=mix(white_col,col,exp(-.05*max(z-.5*max_depth_1,0.)));
@@ -317,7 +306,7 @@ vec4 fpass0() {
     p=2.*_uvc
   ;
   vec3
-    ro=vec3(0,20.,TIME)
+    ro=vec3(0,20.,speed)
   , rd =normalize(-p.x*X+p.y*Y+2.*Z)
   , col;
   vec4
