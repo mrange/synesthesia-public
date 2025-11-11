@@ -204,9 +204,9 @@
 		{
 			"DEFAULT" :
 			[
-				1,
-				1,
-				1
+				0.7,
+				0.7,
+				0.7
 			],
 			"DESCRIPTION" : "",
 			"MAX" :
@@ -224,6 +224,16 @@
 			"NAME" : "border_col",
 			"PARAMS" : 0.2,
 			"TYPE" : "color smooth",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 0.3,
+			"DESCRIPTION" : "",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "motion_blur",
+			"PARAMS" : 0.2,
+			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Visual"
 		},
 		{
@@ -264,6 +274,17 @@
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
+		}
+	],
+	"PASSES" :
+	[
+		{
+			"FILTER" : "linear",
+			"FLOAT" : true,
+			"HEIGHT" : 1080,
+			"TARGET" : "pass0",
+			"WIDTH" : 1920,
+			"WRAP" : "repeat"
 		}
 	],
 	"TAGS" :

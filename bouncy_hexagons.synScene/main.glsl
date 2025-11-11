@@ -11,12 +11,14 @@ const float
 ;
 
 const vec2
-  bouncy_islands=vec2(.65,.8)
+  bar_height    =vec2(11,3.5)
+, bouncy_islands=vec2(.65,.8)
 , black_freq    =vec2(.05,.4)
 , red_freq      =vec2(.25,.3)
 ;
 const vec3
   black_col =vec3(1e-3)
+, border_col=vec3(1)
 , red_col   =vec3(1,0,0)
 , white_col =vec3(1)
 ;
@@ -365,22 +367,108 @@ vec4 fpass0() {
   ;
   rot(rd.xz,look_dir);
 
-  vec4
-    pcol
-  , mcol
-  ;
-
   col=render1(ro,rd);
   col=sqrt(col);
-  pcol=texture(syn_FinalPass,_uv);
-#ifndef KODELIFE
-  mcol=_loadMedia();
-  col=mix(col,mcol.xyz,mcol.w*media_opacity*media_multiplier);
-#endif
-  col=mix(col,pcol.xyz,.3);
   return vec4(col,1.);
 }
 
+// License: Unknown, author: XorDev, found: https://github.com/XorDev/GM_FXAA
+vec4 fxaa(sampler2D tex, vec2 uv, vec2 texelSz) {
+  // See this blog
+  // https://mini.gmshaders.com/p/gm-shaders-mini-fxaa
+
+  // Maximum texel span
+  const float span_max    = 8.0;
+  // These are more technnical and probably don't need changing:
+  // Minimum "dir" reciprocal
+  const float reduce_min  = (1.0/128.0);
+  // Luma multiplier for "dir" reciprocal
+  const float reduce_mul  = (1.0/32.0);
+
+  const vec3  luma        = vec3(0.299, 0.587, 0.114);
+
+  // Sample center and 4 corners
+  vec3 rgbCC = texture(tex, uv).rgb;
+  vec3 rgb00 = texture(tex, uv+vec2(-0.5,-0.5)*texelSz).rgb;
+  vec3 rgb10 = texture(tex, uv+vec2(+0.5,-0.5)*texelSz).rgb;
+  vec3 rgb01 = texture(tex, uv+vec2(-0.5,+0.5)*texelSz).rgb;
+  vec3 rgb11 = texture(tex, uv+vec2(+0.5,+0.5)*texelSz).rgb;
+
+  //Get luma from the 5 samples
+  float lumaCC = dot(rgbCC, luma);
+  float luma00 = dot(rgb00, luma);
+  float luma10 = dot(rgb10, luma);
+  float luma01 = dot(rgb01, luma);
+  float luma11 = dot(rgb11, luma);
+
+  // Compute gradient from luma values
+  vec2 dir = vec2((luma01 + luma11) - (luma00 + luma10), (luma00 + luma01) - (luma10 + luma11));
+
+  // Diminish dir length based on total luma
+  float dirReduce = max((luma00 + luma10 + luma01 + luma11) * reduce_mul, reduce_min);
+
+  // Divide dir by the distance to nearest edge plus dirReduce
+  float rcpDir = 1.0 / (min(abs(dir.x), abs(dir.y)) + dirReduce);
+
+  // Multiply by reciprocal and limit to pixel span
+  dir = clamp(dir * rcpDir, -span_max, span_max) * texelSz.xy;
+
+  // Average middle texels along dir line
+  vec4 A = 0.5 * (
+      texture(tex, uv - dir * (1.0/6.0))
+    + texture(tex, uv + dir * (1.0/6.0))
+    );
+
+  // Average with outer texels along dir line
+  vec4 B = A * 0.5 + 0.25 * (
+      texture(tex, uv - dir * (0.5))
+    + texture(tex, uv + dir * (0.5))
+    );
+
+
+  // Get lowest and highest luma values
+  float lumaMin = min(lumaCC, min(min(luma00, luma10), min(luma01, luma11)));
+  float lumaMax = max(lumaCC, max(max(luma00, luma10), max(luma01, luma11)));
+
+  // Get average luma
+  float lumaB = dot(B.rgb, luma);
+
+  //If the average is outside the luma range, using the middle average
+  return ((lumaB < lumaMin) || (lumaB > lumaMax)) ? A : B;
+}
+
+vec4 fpass1() {
+  vec4
+    pcol
+  , mcol
+  , col
+  ;
+
+#define FXAA
+#ifdef FXAA
+  col = fxaa(pass0,_uv,sqrt(2.)/RENDERSIZE);
+#else
+  col =  texture(pass0,_uv);
+#endif
+
+#ifndef KODELIFE
+  mcol=_loadMedia();
+  col.xyz=mix(col.xyz,mcol.xyz,mcol.w*media_opacity*media_multiplier);
+#endif
+
+  pcol=texture(syn_FinalPass,_uv);
+  col.xyz=mix(col.xyz,pcol.xyz,motion_blur);
+
+  col.w=1.;
+  return col;
+}
+
 vec4 renderMain() {
-  return fpass0();
+  switch(PASSINDEX)
+  {
+  case 0:
+    return fpass0();
+  default:
+    return fpass1();
+  }
 }
