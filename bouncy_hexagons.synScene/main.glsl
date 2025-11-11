@@ -330,7 +330,7 @@ vec3 render1(vec3 ro, vec3 rd) {
         )
       )
     );
-    bcol=mix(vec3(1),bcol,smoothstep(.07,.06,g.x));
+    bcol=mix(border_col,bcol,smoothstep(.07,.06,g.x));
     bcol*=min(
       dot(n,ld)>0.?1.:0.25
     , Z<max_depth_1?mix(1.,.25,exp(-.05*Z)):1.
