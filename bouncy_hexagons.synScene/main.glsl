@@ -1,3 +1,27 @@
+// This file is released under CC0 1.0 Universal (Public Domain Dedication).
+// To the extent possible under law, Mårten Rånge has waived all copyright
+// and related or neighboring rights to this work.
+// See <https://creativecommons.org/publicdomain/zero/1.0/> for details.
+
+#ifdef KODELIFE
+const float
+  light_dir =0.
+, look_dir  =0.
+, height    =20.
+;
+
+const vec2
+  bouncy_islands=vec2(.65,.8)
+, black_freq    =vec2(.05,.4)
+, red_freq      =vec2(.25,.3)
+;
+const vec3
+  black_col =vec3(1e-3)
+, red_col   =vec3(1,0,0)
+, white_col =vec3(1)
+;
+#endif
+
 // License: WTFPL, author: sam hocevar, found: https://stackoverflow.com/a/17897228/418488
 const vec4 hsv2rgb_K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
 vec3 hsv2rgb(vec3 c) {
@@ -7,7 +31,6 @@ vec3 hsv2rgb(vec3 c) {
 // License: WTFPL, author: sam hocevar, found: https://stackoverflow.com/a/17897228/418488
 //  Macro version of above to enable compile-time constants
 #define HSV2RGB(c)  (c.z * mix(hsv2rgb_K.xxx, clamp(abs(fract(c.xxx + hsv2rgb_K.xyz) * 6.0 - hsv2rgb_K.www) - hsv2rgb_K.xxx, 0.0, 1.0), c.y))
-
 
 const float
   max_marches_1 = 90.
@@ -26,12 +49,12 @@ float fbm(vec2 p) {
     off=.2
 #endif
   ;
-  
-  return (texture(t_fbm,2e-3*(p-.5*vec2(-1,1)*TIME)+.5).x-off)*11.;
+
+  return (texture(t_fbm,2e-3*(p-.5*vec2(-1,1)*TIME)+.5).x-off)*bar_height.x;
 }
 
 float fbm2(vec2 p) {
-  float 
+  float
     a=0.
   , aa=1.
   , i
@@ -49,15 +72,14 @@ float fbm2(vec2 p) {
   return a/d;
 }
 
-
 float freq(float x, vec2 o) {
 #ifdef KODELIFE
   return smoothstep(.0,.9,sin(TAU*x*TIME));
-#else  
+#else
   float f=texture(syn_Spectrum,o.x+o.y*x).z;
   f*=f;
   f*=f;
-  f*=3.5;
+  f*=bar_height.y;
   return f;
 #endif
 }
@@ -67,9 +89,10 @@ float hash(vec2 co) {
   return fract(sin(dot(co.xy ,vec2(12.9898,58.233))) * 13758.5453);
 }
 
+// License: MIT, author: Inigo Quilez, found: https://iquilezles.org/www/articles/distfunctions2d/distfunctions2d.htm
 vec2 hexagon(vec2 p, vec2 r) {
   p=p.yx;
-  const vec3 
+  const vec3
     k = 0.5*vec3(-sqrt(3.0), 1, sqrt(4.0/3.0))
   ;
 
@@ -88,8 +111,9 @@ vec2 hexagon(vec2 p, vec2 r) {
   return vec2(length(p0)*sign(p0.y),length(p1));
 }
 
+// License: MIT, author: Inigo Quilez, found: https://iquilezles.org/articles/distfunctions/
 vec3 hexagon(vec3 p, vec3 r) {
-  vec2 
+  vec2
     d   = hexagon(p.xz,r.xy)
   , w0  = vec2(d.x,abs(p.y)-r.z)
   ;
@@ -104,12 +128,12 @@ vec3 hexagon(vec3 p, vec3 r) {
 vec2 hextile(inout vec2 p) {
   // See Art of Code: Hexagonal Tiling Explained!
   // https://www.youtube.com/watch?v=VmrIDyYiJBA
-  const vec2 
+  const vec2
     sz       = vec2(1, 1.7320508)
   , hsz      = 0.5*sz
   ;
 
-  vec2 
+  vec2
     p1 = mod(p, sz)-hsz
   , p2 = mod(p - hsz, sz)-hsz
   , p3 = dot(p1, p1) < dot(p2, p2) ? p1 : p2
@@ -151,10 +175,9 @@ vec2
 
 
 // Out
-vec2 
+vec2
   g_g
 ;
-
 vec3
   g_col
 ;
@@ -163,13 +186,13 @@ float df_1(vec3 p) {
   if(p.y>top_plane) {
     return p.y-top_plane+1.;
   }
-  
+
   vec3
     p0=p
   , p1=p
   , d0
   ;
-  
+
   vec2
     n
   , c=p.xz
@@ -177,6 +200,8 @@ float df_1(vec3 p) {
   ;
 
   n=hextile(c);
+  n.x*=.57735;
+
   p0.xz=c;
 
   float
@@ -189,13 +214,13 @@ float df_1(vec3 p) {
   , F
   , cd
   ;
-  
+
   vec3
     col=white_col
   ;
 
   cd=1e-3+nearest_hex_wall(c,g_rd);
-  
+
   h=fbm(n);
   F=fbm2(0.231*n);
   f=smoothstep(bouncy_islands.x,bouncy_islands.y,abs(F));
@@ -208,11 +233,11 @@ float df_1(vec3 p) {
 
   g_col=col;
   g_g=d0.yz;
-  
+
   d=d0.x;
   d=min(d,cd);
   d=min(d,d1);
-  
+
   return d;
 }
 
@@ -226,7 +251,7 @@ float ray_march_1(vec3 ro, vec3 rd, float initz) {
   , i
   , z=initz
   ;
-  
+
   for (i=0.;i<max_marches_1;++i) {
     d=df_1(ro+rd*z);
     if(d<tolerance_1||z>max_depth_1) {
@@ -320,17 +345,21 @@ vec3 render1(vec3 ro, vec3 rd) {
 
 vec4 fpass0() {
   const vec3
-  , Z=normalize(vec3(-1,-1,1))
+    Z=normalize(vec3(-1,-1,1))
   , X=normalize(cross(Z,vec3(0,1,0)))
   , Y=cross(X,Z)
   ;
-  
+
   vec2
     p=2.*_uvc
   ;
-  
+
   vec3
+#ifdef KODELIFE
+    ro=vec3(0,height,TIME)
+#else
     ro=vec3(0,height,speed)
+#endif
   , rd =normalize(-p.x*X+p.y*Y+2.*Z)
   , col
   ;

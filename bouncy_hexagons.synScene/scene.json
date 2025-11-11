@@ -1,19 +1,19 @@
 {
-	"CONTROLS" : 
+	"CONTROLS" :
 	[
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.65,
 				0.8
 			],
 			"DESCRIPTION" : "",
-			"MAX" : 
+			"MAX" :
 			[
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
@@ -24,18 +24,18 @@
 			"UI_GROUP" : "Visual"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.05,
 				0.4
 			],
 			"DESCRIPTION" : "",
-			"MAX" : 
+			"MAX" :
 			[
 				0.5,
 				0.5
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
@@ -45,18 +45,18 @@
 			"UI_GROUP" : "Visual"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.25,
 				0.3
 			],
 			"DESCRIPTION" : "",
-			"MAX" : 
+			"MAX" :
 			[
 				0.5,
 				0.5
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
@@ -67,20 +67,20 @@
 			"UI_GROUP" : "Visual"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				1,
 				0,
 				0
 			],
 			"DESCRIPTION" : "",
-			"MAX" : 
+			"MAX" :
 			[
 				1,
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0,
@@ -92,20 +92,20 @@
 			"UI_GROUP" : "Visual"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.001,
 				0.001,
 				0.001
 			],
 			"DESCRIPTION" : "",
-			"MAX" : 
+			"MAX" :
 			[
 				1,
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0,
@@ -117,20 +117,20 @@
 			"UI_GROUP" : "Visual"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				1,
 				1,
 				1
 			],
 			"DESCRIPTION" : "",
-			"MAX" : 
+			"MAX" :
 			[
 				1,
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0,
@@ -166,7 +166,7 @@
 			"MAX" : 7,
 			"MIN" : 0,
 			"NAME" : "light_dir",
-			"PARAMS" : 0.19401,
+			"PARAMS" : 0.2,
 			"TYPE" : "knob smooth",
 			"UI_GROUP" : "Visual"
 		},
@@ -176,8 +176,29 @@
 			"MAX" : 7,
 			"MIN" : 0,
 			"NAME" : "look_dir",
-			"PARAMS" : 0.20401,
+			"PARAMS" : 0.2,
 			"TYPE" : "knob smooth",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" :
+			[
+				11,
+				3.5
+			],
+			"DESCRIPTION" : "",
+			"MAX" :
+			[
+				13,
+				8
+			],
+			"MIN" :
+			[
+				0,
+				0
+			],
+			"NAME" : "bar_height",
+			"TYPE" : "xy",
 			"UI_GROUP" : "Visual"
 		},
 		{
@@ -202,10 +223,10 @@
 		}
 	],
 	"CREDIT" : "mrange",
-	"DESCRIPTION" : "bouncy scene",
+	"DESCRIPTION" : "bouncy hexagons",
 	"GPU" : 1,
 	"HEIGHT" : 1080,
-	"IMAGES" : 
+	"IMAGES" :
 	[
 		{
 			"NAME" : "t_fbm",
@@ -213,18 +234,18 @@
 		}
 	],
 	"IMAGE_PATH" : "scene.png",
-	"MEDIA" : 
+	"MEDIA" :
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"TAGS" : 
+	"TAGS" :
 	[
 		"mrange",
 		"bouncy"
 	],
-	"TITLE" : "bouncy scene",
+	"TITLE" : "bouncy hexagons",
 	"WIDTH" : 1920
 }
