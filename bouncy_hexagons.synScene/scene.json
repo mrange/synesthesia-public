@@ -259,6 +259,16 @@
 			"UI_GROUP" : "Visual"
 		},
 		{
+			"DEFAULT" : 1,
+			"DESCRIPTION" : "Applies viginette effect",
+			"MAX" : 1.3,
+			"MIN" : 0.7,
+			"NAME" : "viginette",
+			"PARAMS" : 0.20101,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Visual"
+		},
+		{
 			"DEFAULT" : 0.7,
 			"DESCRIPTION" : "Media opacity — fade visuals in or out",
 			"MAX" : 1,

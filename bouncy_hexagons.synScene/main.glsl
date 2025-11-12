@@ -9,6 +9,7 @@ const float
 , look_dir    =0.
 , height      =20.
 , motion_blur =.3
+, viginette   = 1.
 ;
 
 const vec2
@@ -348,6 +349,12 @@ vec3 render1(vec3 ro, vec3 rd) {
   return col;
 }
 
+float length8(vec2 p) {
+  p*=p;
+  p*=p;
+  return pow(dot(p,p),1./8.);
+}
+
 vec4 fpass0() {
   const vec3
     Z=normalize(vec3(-1,-1,1))
@@ -371,6 +378,8 @@ vec4 fpass0() {
   rot(rd.xz,look_dir);
 
   col=render1(ro,rd);
+  col = mix(vec3(0,0,0), col, smoothstep(0.3,-.3,length8(-1.+2.*_uv)-viginette));
+  col=max(col,0.);
   col=sqrt(col);
   return vec4(col,1.);
 }
