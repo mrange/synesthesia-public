@@ -5,9 +5,10 @@
 
 #ifdef KODELIFE
 const float
-  light_dir =0.
-, look_dir  =0.
-, height    =20.
+  light_dir   =0.
+, look_dir    =0.
+, height      =20.
+, motion_blur =.3
 ;
 
 const vec2
@@ -15,7 +16,9 @@ const vec2
 , bouncy_islands=vec2(.65,.8)
 , black_freq    =vec2(.05,.4)
 , red_freq      =vec2(.25,.3)
+, world_zoom    =vec2(.57735,1)
 ;
+
 const vec3
   black_col =vec3(1e-3)
 , border_col=vec3(1)
@@ -202,7 +205,7 @@ float df_1(vec3 p) {
   ;
 
   n=hextile(c);
-  n.x*=.57735;
+  n*=world_zoom;
 
   p0.xz=c;
 
