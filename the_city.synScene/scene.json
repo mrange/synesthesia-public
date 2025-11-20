@@ -1,27 +1,43 @@
 {
+	"CONTROLS" : 
+	[
+		{
+			"DEFAULT" : 0.2,
+			"DESCRIPTION" : "",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "neon_towers",
+			"PARAMS" : 0.21001,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 0.5,
+			"DESCRIPTION" : "",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "motion_blur",
+			"TYPE" : "slider",
+			"UI_GROUP" : "Visual"
+		}
+	],
 	"CREDIT" : "mrange",
 	"DESCRIPTION" : "The City",
 	"GPU" : 1,
+	"HEIGHT" : 1080,
 	"IMAGE_PATH" : "scene.png",
-	"IMAGES" :
-	[
-	],
-	"MEDIA" :
+	"MEDIA" : 
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"PASSES" :
-	[
-	],
-	"TAGS" :
+	"TAGS" : 
 	[
 		"mrange",
 		"city"
 	],
 	"TITLE" : "The City",
-	"HEIGHT" : 1080,
 	"WIDTH" : 1920
 }

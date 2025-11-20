@@ -1,8 +1,17 @@
 const float
   TAU=2.*PI
 , MISS=-1000.
+, SKY_LIMIT=50.
 ;
 
+
+float freq(float x) {
+#ifdef KODELIFE
+  return exp(-2.*fract(TIME+x));
+#else
+  return (texture(syn_Spectrum, x).y);
+#endif
+}
 
 float g_seed;
 
@@ -50,7 +59,7 @@ vec3 uniform_lambert(vec3 n, float m){
   , // Polar angle cosine: sqrt gives cosine-weighted distribution for diffuse
     cost=mix(m,1.,sqrt(random()))
   , // Polar angle sine: derived from cos via trig identity
-    sint=sqrt(1.0-cost*cost)
+    sint=sqrt(1.12-cost*cost)
   ;
   // Convert from spherical (local) to Cartesian, then transform to world space
   // Local space: Z=up from surface, X/Y=tangent plane
@@ -88,11 +97,18 @@ vec4 pass0() {
   bool
     x0
   , x1
+  , isr
   ;
   float
     j
   , n =1.
+  , d0
+  , d1
+  , d2
   , F
+  , FN=floor(.1*TIME)
+  , FT=fract(.1*TIME)-.4*hash(FN)
+  , FO=smoothstep(.6,.4,FT)
   , H0
   , H1
   , H2
@@ -100,6 +116,7 @@ vec4 pass0() {
   , H
   , bi
   , ti
+  , tz
   , z
   , MX
   , A
@@ -114,9 +131,8 @@ vec4 pass0() {
   ;
 
   g_seed=fract(hash(p)+float(FRAMECOUNT)/1337.0);
-
   vec3
-    ro=vec3(.5,2.,-2.)
+    ro=vec3(.5,2,-2.)
   , la=vec3(.5,1.,0)
   ;
   ro.z+=.5*TIME;
@@ -127,6 +143,7 @@ vec4 pass0() {
   , Y =cross(X,Z)
   , col=vec3(0)
   , P
+  , G
   , PP
   , PN
   , IPN
@@ -135,14 +152,18 @@ vec4 pass0() {
   , L
   , SIN
   , pcol=texture(syn_FinalPass,q).xyz
+  , FL
+  , FP=la+vec3(0,0,mix(-2.,30.,FT))
   , xn
   ;
+
+  FL=FO*mix(vec3(.1,.1,1)*.5,vec3(1,.1,1),step(hash(floor(TIME*19.)),.5));
 
   PP=ro;
   PN=noisy_ray_dir(p,X,Y,Z);
   IPN=1./PN;
-
-  for(j=0.;j<150.;++j) {
+  tz=0.;
+  for(j=0.;j<120.;++j) {
     NN=floor(PP.xz+.5);
     CC=PP.xz-NN;
     S=(sign(PN.xz)*.5-CC)*IPN.xz;
@@ -159,33 +180,56 @@ vec4 pass0() {
     if(ti>0.)          { z=ti; N=vec3(0,-1,0);}
     if(bi>0.&&bi<z)    { z=bi; N=vec3(0,1,0); }
     if(xi>0.&&xi<z)    { z=xi; N=xn;  }
-    if(MX<z) {
+    if(MX<z&&tz<SKY_LIMIT) {
       // Step to next cell
       PP=PP+PN*MX;
+      tz+=MX;
       continue;
     }
 
     P=PP+PN*z;
     SIN=sin((20.*TAU)*P);
-    // If we are too far away or the energe level of the ray is too low then abort
-    x0=length(P-ro)>10.||A<1e-1;
+
+    G=P;
+    G.xz-=FP.xz;
+    d0=dot(G,G);
+    col+=4e-3/max(d0,1e-4)*FL;
+
+    G=P;
+    G.xz-=.5;
+    col+=1e-2*FO*step(P.z,FP.z)*smoothstep(2.,0.,FP.z-P.z)/max(length(G.xy),1e-3)*(vec3(1,0.1,.25)+.3*smoothstep(2.,0.,FP.z-P.z));
+
+    G.z-=round(G.z);
+    d1=min(abs(G.x)-.2,abs(G.z)-.1);
+
+    d2=min(abs(d1),max(abs(G.x),G.z))-.01;
+
+    isr=z==xi&&(SIN.y)>.0;
+    // If we are too far away or lost enough energy
+    x0=tz>10.||A<1e-1;
     // Neon Skyscraper
-    x1=z==xi&&H1<.2&&(SIN.y)>.0;
+    x1=H1<neon_towers&&isr&&(P.y<H*2.*freq(H3));
     if(x0||x1) {
       if(x1) {
-        col+=A*(1.+sin(P.z+P.y+TAU*H2+vec3(2,0,3)))*(1.-dot(N,PN))*step(P.y,H*2.*sqrt(texture(syn_Spectrum, H3).y));
+        col+=A*(1.+sin(P.z+P.y+TAU*H2+vec3(2,0,3)))*(1.-dot(N,PN));
       }
       // Reset current pos and ray
       PP=ro;
       PN=noisy_ray_dir(p,X,Y,Z);
       IPN=1./PN;
       A=1.;
+      tz=0.;
       ++n;
       continue;
     }
+
     F=1.+dot(PN,N);
     F*=F;
-    F*=F;
+    if(!(z==xi&&(SIN.y)>0.)) {
+      F*=F;
+      F*=F;
+      F*=F;
+    }
 
     R=reflect(PN,N);
     L=uniform_lambert(N,0.);
@@ -195,8 +239,18 @@ vec4 pass0() {
       A*=.75;
     } else {
       PN=L;
-      A*=.5;
+      if (d2<0.) {
+        A*=.9;
+      } else if (d1<0.) {
+        A*=.05;
+      } else {
+        A*=.3;
+      }
     }
+    if(z==ti) {
+        A=0.;
+    }
+
     IPN=1./PN;
 
     PP=P+1e-2*N;
@@ -206,7 +260,7 @@ vec4 pass0() {
   col=max(col,0.);
   col*=.5;
   col=tanh(col);
-  col=mix(col,pcol*pcol,.5);
+  col=mix(col,pcol*pcol,motion_blur);
   col=sqrt(col);
 
   return vec4(col,1);
