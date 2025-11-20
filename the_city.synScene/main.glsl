@@ -1,3 +1,10 @@
+#ifdef KODELIFE
+const float
+  neon_towers=.2
+, motion_blur=.5
+;
+#endif
+
 const float
   TAU=2.*PI
 , MISS=-1000.
@@ -52,18 +59,45 @@ mat3 orth_base(vec3 n){
 // License: Unknown, author: 0b5vr, found: https://www.shadertoy.com/view/ss3SD8
 // Generates a cosine-weighted random direction in the hemisphere above normal n
 // The sqrt() on cost creates the cosine weighting - more samples near the normal
-vec3 uniform_lambert(vec3 n, float m){
+vec3 uniform_lambert(vec3 n){
   float
     // Random azimuthal angle: spin around the hemisphere (0 to 2π)
     p=PI*2.*random()
   , // Polar angle cosine: sqrt gives cosine-weighted distribution for diffuse
-    cost=mix(m,1.,sqrt(random()))
+    cost=sqrt(random())
   , // Polar angle sine: derived from cos via trig identity
     sint=sqrt(1.12-cost*cost)
   ;
   // Convert from spherical (local) to Cartesian, then transform to world space
   // Local space: Z=up from surface, X/Y=tangent plane
   return orth_base(n)*vec3(cos(p)*sint,sin(p)*sint,cost);
+}
+
+// Alternative simplified orth_base (less robust than the original, but faster)
+// See: https://schutte.io/monte-carlo-integration
+void generate_tangent_basis(vec3 n, out vec3 t, out vec3 b) {
+    // If n is close to the Y-axis, use Z for the cross product, otherwise use Y.
+    // This is the core logic from the original orth_base, but separated.
+    vec3 up = abs(n.y) < 0.9 ? vec3(0, 1, 0) : vec3(0, 0, 1);
+    t = normalize(cross(up, n));
+    b = cross(n, t);
+}
+
+// Function with inlined trig generation, but simplified rotation
+vec3 simplified_lambert_basis(vec3 n) {
+    // Cosine-weighted local space direction (trig still needed for weighting)
+    float p = PI * 2.0 * random();
+    float cost = sqrt(random());
+    float sint = sqrt(1.0 - cost * cost);
+    vec3 local_L = vec3(cos(p) * sint, sin(p) * sint, cost); // Note: Z is 'up' here
+
+    // Generate basis vectors t and b
+    vec3 t, b;
+    generate_tangent_basis(n, t, b);
+
+    // Transform local_L (x, y, z) into world space using the basis vectors (t, b, n)
+    // This replaces the mat3 multiplication: (t, b, n) * local_L
+    return t * local_L.x + b * local_L.y + n * local_L.z;
 }
 
 vec3 noisy_ray_dir(vec2 p, vec3 X, vec3 Y, vec3 Z) {
@@ -83,7 +117,7 @@ float ray_box_2(vec3 ro, vec3 ird, vec3 boxSize, out vec3 outNormal)  {
   , tF = min( min( t2.x, t2.y ), t2.z )
   ;
   if( tN>tF || tF<0.0) return MISS;
-  outNormal = step(vec3(tN),t1)*-sign(ird);;
+  outNormal = step(vec3(tN),t1)*-sign(ird);
   return tN;
 }
 
@@ -93,7 +127,19 @@ float ray_xy_plane(vec3 ro, vec3 rd, float o) {
   return t;
 }
 
-vec4 pass0() {
+float fbm(vec2 p) {
+  const mat2
+    PP = mat2(1.2, 1.6, -1.6, 1.2)
+  ;
+
+  float h = dot(sin(p), cos(p*1.618).yx);
+  p *= PP;
+  h += 0.5 * dot(sin(p), cos(p*1.618).yx);
+
+  return h;
+}
+
+vec4 doPass0() {
   bool
     x0
   , x1
@@ -106,9 +152,13 @@ vec4 pass0() {
   , d1
   , d2
   , F
-  , FN=floor(.1*TIME)
-  , FT=fract(.1*TIME)-.4*hash(FN)
-  , FO=smoothstep(.6,.4,FT)
+  , B
+  , FB=.1*TIME
+  , FH0=hash(floor(FB)+123.4)
+  , FH1=fract(8667.*FH0)
+  , FO
+  , FD=FH1>.5?1.:-1.
+  , FT=fract(FB)
   , H0
   , H1
   , H2
@@ -121,7 +171,11 @@ vec4 pass0() {
   , MX
   , A
   , xi
+  , SIN
   ;
+  FT=FD>0.?FT:1.-FT;
+  FO=smoothstep(.6,.4,FT);
+
   vec2
     p =2.*_uvc
   , q =_uv
@@ -150,14 +204,13 @@ vec4 pass0() {
   , N
   , R
   , L
-  , SIN
   , pcol=texture(syn_FinalPass,q).xyz
   , FL
-  , FP=la+vec3(0,0,mix(-2.,30.,FT))
+  , FP=la+vec3(0,0,mix(-4.,30.,FT))
   , xn
   ;
 
-  FL=FO*mix(vec3(.1,.1,1)*.5,vec3(1,.1,1),step(hash(floor(TIME*19.)),.5));
+  FL=FO*mix(vec3(.1,.1,1)*.5,vec3(1,.1,.5),step(hash(floor(TIME*19.)),.5));
 
   PP=ro;
   PN=noisy_ray_dir(p,X,Y,Z);
@@ -187,31 +240,39 @@ vec4 pass0() {
       continue;
     }
 
+
     P=PP+PN*z;
-    SIN=sin((20.*TAU)*P);
+    SIN=sin((20.*TAU)*P.y);
+    B=fbm(P.xz*2.);
 
     G=P;
-    G.xz-=FP.xz;
+    G.xz-=FP.xz-vec2(-.1*FD,0);
     d0=dot(G,G);
-    col+=4e-3/max(d0,1e-4)*FL;
+    col+=(4e-3/max(d0,5e-4))*FL;
+
+    G=P;
+    G.xz-=vec2(.5+.1*FD,.5);
+    d1=smoothstep(2.,0.,FD*(FP.z-P.z));
+    col+=
+       (1e-2*FO*(FD*P.z<FD*FP.z?1.:0.)*d1/max(length(G.xy),1e-3))
+      *(.3*smoothstep(2.,0.,FP.z-P.z)+vec3(1,0.1,.25))
+      ;
 
     G=P;
     G.xz-=.5;
-    col+=1e-2*FO*step(P.z,FP.z)*smoothstep(2.,0.,FP.z-P.z)/max(length(G.xy),1e-3)*(vec3(1,0.1,.25)+.3*smoothstep(2.,0.,FP.z-P.z));
-
     G.z-=round(G.z);
     d1=min(abs(G.x)-.2,abs(G.z)-.1);
 
     d2=min(abs(d1),max(abs(G.x),G.z))-.01;
 
-    isr=z==xi&&(SIN.y)>.0;
+    isr=z==xi&&(SIN)>.0;
     // If we are too far away or lost enough energy
     x0=tz>10.||A<1e-1;
     // Neon Skyscraper
     x1=H1<neon_towers&&isr&&(P.y<H*2.*freq(H3));
     if(x0||x1) {
       if(x1) {
-        col+=A*(1.+sin(P.z+P.y+TAU*H2+vec3(2,0,3)))*(1.-dot(N,PN));
+        col+=(A*(1.-dot(N,PN)))*(1.+sin(P.z+P.y+TAU*H2+vec3(2,0,3)));
       }
       // Reset current pos and ray
       PP=ro;
@@ -225,16 +286,16 @@ vec4 pass0() {
 
     F=1.+dot(PN,N);
     F*=F;
-    if(!(z==xi&&(SIN.y)>0.)) {
+    if(!(z==xi&&(SIN)>0.)) {
       F*=F;
       F*=F;
       F*=F;
     }
 
     R=reflect(PN,N);
-    L=uniform_lambert(N,0.);
+    L=uniform_lambert(N);
 
-    if(random()<F) {
+    if(random()<F||(bi==z&&B<.0)) {
       PN=R;
       A*=.75;
     } else {
@@ -257,15 +318,14 @@ vec4 pass0() {
   }
 
   col/=n;
-  col=max(col,0.);
   col*=.5;
   col=tanh(col);
-  col=mix(col,pcol*pcol,motion_blur);
+  col=max(col,0.);
+  col=mix(col,pcol*pcol,.5);
   col=sqrt(col);
-
   return vec4(col,1);
 }
 
 vec4 renderMain() {
-  return pass0();
+  return doPass0();
 }
