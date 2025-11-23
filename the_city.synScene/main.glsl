@@ -1,3 +1,5 @@
+//#define WATER
+
 #ifdef KODELIFE
 const float
   neon_towers=.2
@@ -38,74 +40,21 @@ float hash(vec2 co) {
   return fract(sin(dot(co.xy ,vec2(12.9898,58.233))) * 13758.5453);
 }
 
-
-// License: Unknown, author: 0b5vr, found: https://www.shadertoy.com/view/ss3SD8
-// Returns a rotation matrix that transforms from local space (where Z=up) to world space
-mat3 orth_base(vec3 n){
-  // Assumes n is normalized
-  vec3
-    // Pick a helper vector that won't be parallel to n
-    // Avoids gimbal lock when normal points straight up/down
-    up=abs(n.y)>.999?vec3(0,0,1):vec3(0,1,0)
-  , // First tangent: perpendicular to both 'up' and normal
-    x=normalize(cross(up,n))
-  , // Second tangent: perpendicular to both normal and first tangent
-    // Completes the right-handed coordinate system
-    y=cross(n,x)
-  ;
-  return mat3(x,y,n);
-}
-
-// License: Unknown, author: 0b5vr, found: https://www.shadertoy.com/view/ss3SD8
-// Generates a cosine-weighted random direction in the hemisphere above normal n
-// The sqrt() on cost creates the cosine weighting - more samples near the normal
-vec3 uniform_lambert(vec3 n){
+vec3 uniform_lambert(vec3 X, vec3 Y, vec3 Z){
   float
-    // Random azimuthal angle: spin around the hemisphere (0 to 2π)
     p=PI*2.*random()
-  , // Polar angle cosine: sqrt gives cosine-weighted distribution for diffuse
-    cost=sqrt(random())
-  , // Polar angle sine: derived from cos via trig identity
-    sint=sqrt(1.12-cost*cost)
+  , cost=sqrt(random())
+  , sint=sqrt(1.12-cost*cost)
   ;
-  // Convert from spherical (local) to Cartesian, then transform to world space
-  // Local space: Z=up from surface, X/Y=tangent plane
-  return orth_base(n)*vec3(cos(p)*sint,sin(p)*sint,cost);
-}
-
-// Alternative simplified orth_base (less robust than the original, but faster)
-// See: https://schutte.io/monte-carlo-integration
-void generate_tangent_basis(vec3 n, out vec3 t, out vec3 b) {
-    // If n is close to the Y-axis, use Z for the cross product, otherwise use Y.
-    // This is the core logic from the original orth_base, but separated.
-    vec3 up = abs(n.y) < 0.9 ? vec3(0, 1, 0) : vec3(0, 0, 1);
-    t = normalize(cross(up, n));
-    b = cross(n, t);
-}
-
-// Function with inlined trig generation, but simplified rotation
-vec3 simplified_lambert_basis(vec3 n) {
-    // Cosine-weighted local space direction (trig still needed for weighting)
-    float p = PI * 2.0 * random();
-    float cost = sqrt(random());
-    float sint = sqrt(1.0 - cost * cost);
-    vec3 local_L = vec3(cos(p) * sint, sin(p) * sint, cost); // Note: Z is 'up' here
-
-    // Generate basis vectors t and b
-    vec3 t, b;
-    generate_tangent_basis(n, t, b);
-
-    // Transform local_L (x, y, z) into world space using the basis vectors (t, b, n)
-    // This replaces the mat3 multiplication: (t, b, n) * local_L
-    return t * local_L.x + b * local_L.y + n * local_L.z;
+  return cos(p)*sint*X+sin(p)*sint*Y+cost*Z;
 }
 
 vec3 noisy_ray_dir(vec2 p, vec3 X, vec3 Y, vec3 Z) {
-  p += vec2(random(),random())/RENDERSIZE.y*2.;
+  p += sqrt(2.)/RENDERSIZE.y*(-1.+2.*vec2(random(),random()));
   return normalize(-p.x*X+p.y*Y+2.*Z);
 }
 
-float ray_box_2(vec3 ro, vec3 ird, vec3 boxSize, out vec3 outNormal)  {
+float iray_box(vec3 ro, vec3 ird, vec3 boxSize, out vec3 NZ)  {
   vec3
     n = ird*ro
   , k = abs(ird)*boxSize
@@ -117,15 +66,10 @@ float ray_box_2(vec3 ro, vec3 ird, vec3 boxSize, out vec3 outNormal)  {
   , tF = min( min( t2.x, t2.y ), t2.z )
   ;
   if( tN>tF || tF<0.0) return MISS;
-  outNormal = step(vec3(tN),t1)*-sign(ird);
+  NZ = step(vec3(tN),t1)*-sign(ird);
   return tN;
 }
 
-
-float ray_xy_plane(vec3 ro, vec3 rd, float o) {
-  float t=(o-ro.y)/rd.y;
-  return t;
-}
 
 float fbm(vec2 p) {
   const mat2
@@ -139,11 +83,13 @@ float fbm(vec2 p) {
   return h;
 }
 
+
+
 vec4 doPass0() {
   bool
-    x0
+    isr
+  , x0
   , x1
-  , isr
   ;
   float
     j
@@ -152,19 +98,20 @@ vec4 doPass0() {
   , d1
   , d2
   , F
-  , B
   , FB=.1*TIME
   , FH0=hash(floor(FB)+123.4)
   , FH1=fract(8667.*FH0)
   , FO
   , FD=FH1>.5?1.:-1.
   , FT=fract(FB)
+  , SPD=.5*TIME
   , H0
   , H1
   , H2
   , H3
   , H
   , bi
+  , si
   , ti
   , tz
   , z
@@ -172,6 +119,7 @@ vec4 doPass0() {
   , A
   , xi
   , SIN
+  , W
   ;
   FT=FD>0.?FT:1.-FT;
   FO=smoothstep(.6,.4,FT);
@@ -186,11 +134,9 @@ vec4 doPass0() {
 
   g_seed=fract(hash(p)+float(FRAMECOUNT)/1337.0);
   vec3
-    ro=vec3(.5,2,-2.)
-  , la=vec3(.5,1.,0)
+    ro=vec3(.5,2,SPD-2.)
+  , la=vec3(.5,1.,SPD)
   ;
-  ro.z+=.5*TIME;
-  la.z+=.5*TIME;
   vec3
     Z =normalize(la-ro)
   , X =normalize(cross(Z,vec3(0,1,0)))
@@ -201,13 +147,20 @@ vec4 doPass0() {
   , PP
   , PN
   , IPN
-  , N
+  , NX
+  , NY
+  , NZ
   , R
   , L
   , pcol=texture(syn_FinalPass,q).xyz
   , FL
   , FP=la+vec3(0,0,mix(-4.,30.,FT))
-  , xn
+  , XX
+  , XY
+  , XZ
+  ;
+  vec4
+    M
   ;
 
   FL=FO*mix(vec3(.1,.1,1)*.5,vec3(1,.1,.5),step(hash(floor(TIME*19.)),.5));
@@ -221,29 +174,38 @@ vec4 doPass0() {
     CC=PP.xz-NN;
     S=(sign(PN.xz)*.5-CC)*IPN.xz;
     MX=min(S.x,S.y)+1e-3;
-    ti=ray_xy_plane(PP,PN,3.);
-    bi=ray_xy_plane(PP,PN,0.);
+    ti=(3.-PP.y)*IPN.y;
+    si=(IPN.x>0.?(.8-PP.x):(.2-PP.x))*IPN.x;
+    bi=(-PP.y)*IPN.y;
     H0=hash(NN);
-    H1=fract(3667.*H0);
-    H2=fract(7667.*H0);
-    H3=fract(8667.*H0);
-    H=mix(.5,1.,H0);
-    xi=ray_box_2(PP-vec3(NN.x,H-.02,NN.y),IPN,vec3(.2,H,.3),xn);
+    H1=fract(6977.*H0);
+    H2=fract(7577.*H0);
+    H3=fract(8677.*H0);
+    H=.5+.5*H0;
+    xi=iray_box(PP-vec3(NN.x,H-.02,NN.y),IPN,vec3(.1+.1*H1,H,.2+.1*H),XZ);
     z=1e3;
-    if(ti>0.)          { z=ti; N=vec3(0,-1,0);}
-    if(bi>0.&&bi<z)    { z=bi; N=vec3(0,1,0); }
-    if(xi>0.&&xi<z)    { z=xi; N=xn;  }
-    if(MX<z&&tz<SKY_LIMIT) {
+    if(ti>0.)           { z=ti; NZ=vec3(0,-1,0);}
+    if(bi>0.&&bi<z)     { z=bi; NZ=vec3(0, 1,0);}
+    x0=ro!=PP||si>0.&&si<z;
+    if(x0&&xi>0.&&xi<z) { z=xi; NZ=XZ;  }
+
+    NX = NZ.yzx;
+    NY = NZ.zxy;
+
+    if(x0&&MX<z) {
       // Step to next cell
       PP=PP+PN*MX;
       tz+=MX;
       continue;
     }
 
+    tz+=z;
 
     P=PP+PN*z;
     SIN=sin((20.*TAU)*P.y);
-    B=fbm(P.xz*2.);
+#ifdef WATER
+    W=fbm(P.xz*2.);
+#endif
 
     G=P;
     G.xz-=FP.xz-vec2(-.1*FD,0);
@@ -260,31 +222,31 @@ vec4 doPass0() {
 
     G=P;
     G.xz-=.5;
-    G.z-=round(G.z);
+    G.z-=floor(G.z+.5);
     d1=min(abs(G.x)-.2,abs(G.z)-.1);
 
     d2=min(abs(d1),max(abs(G.x),G.z))-.01;
 
     isr=z==xi&&(SIN)>.0;
     // If we are too far away or lost enough energy
-    x0=tz>10.||A<1e-1;
+    x0=z==ti||A<1e-1||length(P-ro)>20.;
     // Neon Skyscraper
     x1=H1<neon_towers&&isr&&(P.y<H*2.*freq(H3));
     if(x0||x1) {
-      if(x1) {
-        col+=(A*(1.-dot(N,PN)))*(1.+sin(P.z+P.y+TAU*H2+vec3(2,0,3)));
+      A*=step(tz,100.);
+      if(!x0&&x1) {
+        col+=(A*(1.-dot(NZ,PN)))*(1.+sin(P.z+P.y+TAU*H2+vec3(2,0,3)));
       }
       // Reset current pos and ray
       PP=ro;
       PN=noisy_ray_dir(p,X,Y,Z);
       IPN=1./PN;
       A=1.;
-      tz=0.;
       ++n;
       continue;
     }
 
-    F=1.+dot(PN,N);
+    F=1.+dot(PN,NZ);
     F*=F;
     if(!(z==xi&&(SIN)>0.)) {
       F*=F;
@@ -292,37 +254,42 @@ vec4 doPass0() {
       F*=F;
     }
 
-    R=reflect(PN,N);
-    L=uniform_lambert(N);
+    R=reflect(PN,NZ);
+    L=uniform_lambert(NX,NY,NZ);
 
-    if(random()<F||(bi==z&&B<.0)) {
+#ifdef WATER
+    if(random()<F||(bi==z&&W<.0)) {
+#else
+    if(random()<F) {
+#endif
       PN=R;
-      A*=.75;
+      H0=.75;
     } else {
       PN=L;
-      if (d2<0.) {
-        A*=.9;
-      } else if (d1<0.) {
-        A*=.05;
-      } else {
-        A*=.3;
-      }
+      H0=d2<0.
+        ? .9
+        : d1<0.
+          ? .05
+          : .3
+      ;
     }
-    if(z==ti) {
-        A=0.;
-    }
+    A*=H0;
 
     IPN=1./PN;
 
-    PP=P+1e-2*N;
+    PP=P+1e-2*NZ;
   }
 
   col/=n;
   col*=.5;
   col=tanh(col);
   col=max(col,0.);
-  col=mix(col,pcol*pcol,.5);
+  col=mix(col,pcol*pcol,motion_blur);
   col=sqrt(col);
+#ifndef KODELIFE
+  M=_loadMedia();
+  col=mix(col,M.xyz,M.w*media_transparency*media_multiplier);
+#endif
   return vec4(col,1);
 }
 
