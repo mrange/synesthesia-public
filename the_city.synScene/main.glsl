@@ -18,8 +18,13 @@ float freq(float x) {
 #ifdef KODELIFE
   return exp(-2.*fract(TIME+x));
 #else
-  return (texture(syn_Spectrum, x).y);
+  return height_mul*(texture(syn_Spectrum, x).y);
 #endif
+}
+
+// License: Unknown, author: Unknown, found: don't remember
+float hash(float co) {
+  return fract(sin(co*12.9898) * 13758.5453);
 }
 
 float g_seed;
@@ -31,18 +36,13 @@ float random(){
 }
 
 // License: Unknown, author: Unknown, found: don't remember
-float hash(float co) {
-  return fract(sin(co*12.9898) * 13758.5453);
-}
-
-// License: Unknown, author: Unknown, found: don't remember
 float hash(vec2 co) {
   return fract(sin(dot(co.xy ,vec2(12.9898,58.233))) * 13758.5453);
 }
 
 vec3 uniform_lambert(vec3 X, vec3 Y, vec3 Z){
   float
-    p=PI*2.*random()
+    p=TAU*random()
   , cost=sqrt(random())
   , sint=sqrt(1.12-cost*cost)
   ;
@@ -83,8 +83,6 @@ float fbm(vec2 p) {
   return h;
 }
 
-
-
 vec4 doPass0() {
   bool
     isr
@@ -113,7 +111,7 @@ vec4 doPass0() {
   , bi
   , si
   , ti
-  , tz
+  , zi=0.
   , z
   , MX
   , A
@@ -168,8 +166,7 @@ vec4 doPass0() {
   PP=ro;
   PN=noisy_ray_dir(p,X,Y,Z);
   IPN=1./PN;
-  tz=0.;
-  for(j=0.;j<120.;++j) {
+  for(j=0.;j<110.;++j) {
     NN=floor(PP.xz+.5);
     CC=PP.xz-NN;
     S=(sign(PN.xz)*.5-CC)*IPN.xz;
@@ -195,11 +192,13 @@ vec4 doPass0() {
     if(x0&&MX<z) {
       // Step to next cell
       PP=PP+PN*MX;
-      tz+=MX;
       continue;
     }
 
-    tz+=z;
+    if(zi==0.) {
+      zi=(PP-ro).x*IPN.x;
+    }
+
 
     P=PP+PN*z;
     SIN=sin((20.*TAU)*P.y);
@@ -210,13 +209,13 @@ vec4 doPass0() {
     G=P;
     G.xz-=FP.xz-vec2(-.1*FD,0);
     d0=dot(G,G);
-    col+=(4e-3/max(d0,5e-4))*FL;
+    col+=(A*5e-3/max(d0,5e-4))*FL;
 
     G=P;
     G.xz-=vec2(.5+.1*FD,.5);
     d1=smoothstep(2.,0.,FD*(FP.z-P.z));
     col+=
-       (1e-2*FO*(FD*P.z<FD*FP.z?1.:0.)*d1/max(length(G.xy),1e-3))
+       (A*1.5e-2*FO*(FD*P.z<FD*FP.z?1.:0.)*d1/max(length(G.xy),1e-3))
       *(.3*smoothstep(2.,0.,FP.z-P.z)+vec3(1,0.1,.25))
       ;
 
@@ -228,18 +227,15 @@ vec4 doPass0() {
     d2=min(abs(d1),max(abs(G.x),G.z))-.01;
 
     isr=z==xi&&(SIN)>.0;
-    // If we are too far away or lost enough energy
     x0=z==ti||A<1e-1||length(P-ro)>20.;
-    // Neon Skyscraper
     x1=H1<neon_towers&&isr&&(P.y<H*2.*freq(H3));
     if(x0||x1) {
-      A*=step(tz,100.);
-      if(!x0&&x1) {
+      if(x1) {
         col+=(A*(1.-dot(NZ,PN)))*(1.+sin(P.z+P.y+TAU*H2+vec3(2,0,3)));
       }
       // Reset current pos and ray
-      PP=ro;
       PN=noisy_ray_dir(p,X,Y,Z);
+      PP=ro+PN*zi;
       IPN=1./PN;
       A=1.;
       ++n;
@@ -248,22 +244,17 @@ vec4 doPass0() {
 
     F=1.+dot(PN,NZ);
     F*=F;
-    if(!(z==xi&&(SIN)>0.)) {
-      F*=F;
-      F*=F;
-      F*=F;
-    }
-
+    F=mix(reflection.x,reflection.y,F);
     R=reflect(PN,NZ);
     L=uniform_lambert(NX,NY,NZ);
 
 #ifdef WATER
-    if(random()<F||(bi==z&&W<.0)) {
+    if(isr||(bi==z&&W<.0)) {
 #else
-    if(random()<F) {
+    if(isr) {
 #endif
       PN=R;
-      H0=.75;
+      H0=F;
     } else {
       PN=L;
       H0=d2<0.
