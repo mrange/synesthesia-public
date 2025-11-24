@@ -5,6 +5,10 @@ const float
   neon_towers=.2
 , motion_blur=.5
 ;
+
+const vec2
+  reflection=vec2(.0625,.75)
+  ;
 #endif
 
 const float
@@ -18,7 +22,7 @@ float freq(float x) {
 #ifdef KODELIFE
   return exp(-2.*fract(TIME+x));
 #else
-  return height_mul*(texture(syn_Spectrum, x).y);
+  return height_mul*(texture(syn_Spectrum, x).y-fft_distinct)/(1.0-fft_distinct);
 #endif
 }
 
@@ -104,9 +108,6 @@ vec4 doPass0() {
   , FT=fract(FB)
   , SPD=.5*TIME
   , H0
-  , H1
-  , H2
-  , H3
   , H
   , bi
   , si
@@ -116,7 +117,6 @@ vec4 doPass0() {
   , MX
   , A
   , xi
-  , SIN
   , W
   ;
   FT=FD>0.?FT:1.-FT;
@@ -156,9 +156,11 @@ vec4 doPass0() {
   , XX
   , XY
   , XZ
+  , NEON
   ;
   vec4
     M
+  , HH
   ;
 
   FL=FO*mix(vec3(.1,.1,1)*.5,vec3(1,.1,.5),step(hash(floor(TIME*19.)),.5));
@@ -175,11 +177,9 @@ vec4 doPass0() {
     si=(IPN.x>0.?(.8-PP.x):(.2-PP.x))*IPN.x;
     bi=(-PP.y)*IPN.y;
     H0=hash(NN);
-    H1=fract(6977.*H0);
-    H2=fract(7577.*H0);
-    H3=fract(8677.*H0);
+    HH=fract(vec4(5711,6977,7577,8677)*H0);
     H=.5+.5*H0;
-    xi=iray_box(PP-vec3(NN.x,H-.02,NN.y),IPN,vec3(.1+.1*H1,H,.2+.1*H),XZ);
+    xi=iray_box(PP-vec3(NN.x,H-.02,NN.y),IPN,vec3(.1+.1*HH.x,H,.2+.1*HH.y),XZ);
     z=1e3;
     if(ti>0.)           { z=ti; NZ=vec3(0,-1,0);}
     if(bi>0.&&bi<z)     { z=bi; NZ=vec3(0, 1,0);}
@@ -201,7 +201,7 @@ vec4 doPass0() {
 
 
     P=PP+PN*z;
-    SIN=sin((20.*TAU)*P.y);
+    NEON=sin((20.*TAU)*P);
 #ifdef WATER
     W=fbm(P.xz*2.);
 #endif
@@ -226,12 +226,12 @@ vec4 doPass0() {
 
     d2=min(abs(d1),max(abs(G.x),G.z))-.01;
 
-    isr=z==xi&&(SIN)>.0;
+    isr=z==xi&&(HH.z>0.5?NEON.x*NEON.z>0.0:NEON.y>0.);
     x0=z==ti||A<1e-1||length(P-ro)>20.;
-    x1=H1<neon_towers&&isr&&(P.y<H*2.*freq(H3));
+    x1=HH.w<neon_towers&&isr&&(P.y<H*2.*freq(HH.x+HH.y));
     if(x0||x1) {
       if(x1) {
-        col+=(A*(1.-dot(NZ,PN)))*(1.+sin(P.z+P.y+TAU*H2+vec3(2,0,3)));
+        col+=(A*(1.-dot(NZ,PN)))*(1.+sin(P.z+P.y+TAU*(HH.z+HH.w)+vec3(2,0,3)));
       }
       // Reset current pos and ray
       PN=noisy_ray_dir(p,X,Y,Z);

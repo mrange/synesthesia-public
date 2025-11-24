@@ -53,6 +53,16 @@
 			"UI_GROUP" : "Visual"
 		},
 		{
+			"DEFAULT" : 0,
+			"DESCRIPTION" : "",
+			"MAX" : 0.9,
+			"MIN" : 0,
+			"NAME" : "fft_distinct",
+			"PARAMS" : 0.23701,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Visual"
+		},
+		{
 			"DEFAULT" : 0.7,
 			"DESCRIPTION" : "Media opacity – fade visuals in or out",
 			"MAX" : 1,
