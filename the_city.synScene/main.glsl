@@ -87,6 +87,15 @@ float fbm(vec2 p) {
   return h;
 }
 
+// License: Unknown, author: Claude Brezinski, found: https://mathr.co.uk/blog/2017-09-06_approximating_hyperbolic_tangent.html
+vec3 tanh_approx(vec3 x) {
+  //  Found this somewhere on the interwebs
+  //  return tanh(x);
+  vec3 x2 = x*x;
+  return clamp(x*(27.0 + x2)/(27.0+9.0*x2), -1.0, 1.0);
+}
+
+
 vec4 doPass0() {
   bool
     isr
@@ -273,7 +282,7 @@ vec4 doPass0() {
 
   col/=n;
   col*=.5;
-  col=tanh(col);
+  col=tanh_approx(col);
   col=max(col,0.);
   col=mix(col,pcol*pcol,motion_blur);
   col=sqrt(col);
