@@ -1,5 +1,5 @@
 {
-	"CONTROLS" :
+	"CONTROLS" : 
 	[
 		{
 			"DEFAULT" : 0.2,
@@ -31,18 +31,18 @@
 			"UI_GROUP" : "Visual"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.0625,
 				0.75
 			],
 			"DESCRIPTION" : "",
-			"MAX" :
+			"MAX" : 
 			[
 				1,
 				1
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0
@@ -63,18 +63,18 @@
 			"UI_GROUP" : "Visual"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				2,
 				3
 			],
 			"DESCRIPTION" : "",
-			"MAX" :
+			"MAX" : 
 			[
 				7,
 				7
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0
@@ -103,6 +103,15 @@
 			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Media"
+		},
+		{
+			"DEFAULT" : 1,
+			"DESCRIPTION" : "",
+			"MAX" : 5,
+			"MIN" : -5,
+			"NAME" : "speed",
+			"TYPE" : "slider speed",
+			"UI_GROUP" : "Movement"
 		}
 	],
 	"CREDIT" : "mrange",
@@ -110,14 +119,14 @@
 	"GPU" : 1,
 	"HEIGHT" : 1080,
 	"IMAGE_PATH" : "scene.png",
-	"MEDIA" :
+	"MEDIA" : 
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"TAGS" :
+	"TAGS" : 
 	[
 		"mrange",
 		"city"

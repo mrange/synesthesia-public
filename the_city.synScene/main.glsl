@@ -3,12 +3,13 @@
 #ifdef KODELIFE
 const float
   neon_towers=.2
-, motion_blur=.5
+, motion_blur=.4
 ;
 
 const vec2
   reflection=vec2(.0625,.75)
-  ;
+, neon_color=vec2(2,3)
+;
 #endif
 
 const float
@@ -54,7 +55,7 @@ vec3 uniform_lambert(vec3 X, vec3 Y, vec3 Z){
 }
 
 vec3 noisy_ray_dir(vec2 p, vec3 X, vec3 Y, vec3 Z) {
-  p += sqrt(2.)/RENDERSIZE.y*(-1.+2.*vec2(random(),random()));
+  p += 1.41/RENDERSIZE.y*(-1.+2.*vec2(random(),random()));
   return normalize(-p.x*X+p.y*Y+2.*Z);
 }
 
@@ -95,7 +96,6 @@ vec3 tanh_approx(vec3 x) {
   return clamp(x*(27.0 + x2)/(27.0+9.0*x2), -1.0, 1.0);
 }
 
-
 vec4 doPass0() {
   bool
     isr
@@ -115,11 +115,12 @@ vec4 doPass0() {
   , FO
   , FD=FH1>.5?1.:-1.
   , FT=fract(FB)
-  , SPD=.5*TIME
+#ifdef KODELIFE
+  , speed=.5*TIME
+#endif  
   , H0
   , H
   , bi
-  , si
   , ti
   , zi=0.
   , z
@@ -141,11 +142,9 @@ vec4 doPass0() {
 
   g_seed=fract(hash(p)+float(FRAMECOUNT)/1337.0);
   vec3
-    ro=vec3(.5,2,SPD-2.)
-  , la=vec3(.5,1.,SPD)
-  ;
-  vec3
-    Z =normalize(la-ro)
+    ro=vec3(.5,2,speed-2.)
+  , la=vec3(.5,1.,speed)
+  , Z =normalize(la-ro)
   , X =normalize(cross(Z,vec3(0,1,0)))
   , Y =cross(X,Z)
   , col=vec3(0)
@@ -167,6 +166,7 @@ vec4 doPass0() {
   , XZ
   , NEON
   ;
+
   vec4
     M
   , HH
@@ -181,9 +181,8 @@ vec4 doPass0() {
     NN=floor(PP.xz+.5);
     CC=PP.xz-NN;
     S=(sign(PN.xz)*.5-CC)*IPN.xz;
-    MX=min(S.x,S.y)+1e-3;
+    MX=min(S.x,S.y)+1e-2;
     ti=(3.-PP.y)*IPN.y;
-    si=(IPN.x>0.?(.8-PP.x):(.2-PP.x))*IPN.x;
     bi=(-PP.y)*IPN.y;
     H0=hash(NN);
     HH=fract(vec4(5711,6977,7577,8677)*H0);
@@ -192,20 +191,19 @@ vec4 doPass0() {
     z=1e3;
     if(ti>0.)           { z=ti; NZ=vec3(0,-1,0);}
     if(bi>0.&&bi<z)     { z=bi; NZ=vec3(0, 1,0);}
-    x0=ro!=PP||si>0.&&si<z;
-    if(x0&&xi>0.&&xi<z) { z=xi; NZ=XZ;  }
+    if(xi>0.&&xi<z)     { z=xi; NZ=XZ;  }
 
     NX = NZ.yzx;
     NY = NZ.zxy;
 
-    if(x0&&MX<z) {
+    if(MX<z) {
       // Step to next cell
       PP=PP+PN*MX;
       continue;
     }
 
     if(zi==0.) {
-      zi=(PP-ro).x*IPN.x;
+      zi=(PP-ro).x*IPN.x-5e-2;
     }
 
 
@@ -281,7 +279,7 @@ vec4 doPass0() {
   }
 
   col/=n;
-  col*=.5;
+  col*=0.5;
   col=tanh_approx(col);
   col=max(col,0.);
   col=mix(col,pcol*pcol,motion_blur);
