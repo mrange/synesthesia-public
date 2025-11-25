@@ -1,29 +1,40 @@
-//#define WATER
-
 #ifdef KODELIFE
 const float
-  neon_towers=.2
-, motion_blur=.4
+  neon_towers =.2
+, motion_blur =.4
+, height      =2.
 ;
 
 const vec2
-  reflection=vec2(.0625,.75)
-, neon_color=vec2(2,3)
+  reflection    =vec2(.0625,.75)
+, neon_color    =vec2(2,3)
+, path_control  =vec2(1,.33);
 ;
 #endif
 
 const float
-  TAU=2.*PI
-, MISS=-1000.
-, SKY_LIMIT=50.
+  TAU         =2.*PI
+, MISS        =-1000.
+, SKY_LIMIT   =50.
 ;
 
+vec3 path(float speed) {
+  return vec3(.5+path_control.x*sin(path_control.y*speed),height,speed);
+}
+
+vec3 dpath(float speed) {
+  return vec3(path_control.x*path_control.y*cos(path_control.y*speed),0,1);
+}
+
+vec3 ddpath(float speed) {
+  return vec3(-path_control.x*path_control.y*path_control.y*sin(path_control.y*speed),0,0);
+}
 
 float freq(float x) {
 #ifdef KODELIFE
   return exp(-2.*fract(TIME+x));
 #else
-  return height_mul*(texture(syn_Spectrum, x).y-fft_distinct)/(1.0-fft_distinct);
+  return height_mul*(textureLod(syn_Spectrum, x, 0.0).y-fft_distinct)/(1.0-fft_distinct);
 #endif
 }
 
@@ -59,7 +70,7 @@ vec3 noisy_ray_dir(vec2 p, vec3 X, vec3 Y, vec3 Z) {
   return normalize(-p.x*X+p.y*Y+2.*Z);
 }
 
-float iray_box(vec3 ro, vec3 ird, vec3 boxSize, out vec3 NZ)  {
+float iray_box_(vec3 ro, vec3 ird, vec3 boxSize, out vec3 NZ)  {
   vec3
     n = ird*ro
   , k = abs(ird)*boxSize
@@ -75,17 +86,23 @@ float iray_box(vec3 ro, vec3 ird, vec3 boxSize, out vec3 NZ)  {
   return tN;
 }
 
-
-float fbm(vec2 p) {
-  const mat2
-    PP = mat2(1.2, 1.6, -1.6, 1.2)
+float iray_box(vec3 ro, vec3 ird, vec3 boxSize, out vec3 NZ) {
+  // Branchless
+  vec3
+    n = ro * ird
+  , k = abs(ird) * boxSize
+  , t1 = -n - k
+  , t2 = -n + k
   ;
 
-  float h = dot(sin(p), cos(p*1.618).yx);
-  p *= PP;
-  h += 0.5 * dot(sin(p), cos(p*1.618).yx);
+  float
+    tN = max( max( t1.x, t1.y ), t1.z )
+  , tF = min( min( t2.x, t2.y ), t2.z )
+  ;
 
-  return h;
+  float hit = step(tN, tF) * step(0.0, tF);
+  NZ = step(vec3(tN), t1) * -sign(ird);
+  return mix(MISS, tN, hit);
 }
 
 // License: Unknown, author: Claude Brezinski, found: https://mathr.co.uk/blog/2017-09-06_approximating_hyperbolic_tangent.html
@@ -117,7 +134,7 @@ vec4 doPass0() {
   , FT=fract(FB)
 #ifdef KODELIFE
   , speed=.5*TIME
-#endif  
+#endif
   , H0
   , H
   , bi
@@ -142,10 +159,9 @@ vec4 doPass0() {
 
   g_seed=fract(hash(p)+float(FRAMECOUNT)/1337.0);
   vec3
-    ro=vec3(.5,2,speed-2.)
-  , la=vec3(.5,1.,speed)
-  , Z =normalize(la-ro)
-  , X =normalize(cross(Z,vec3(0,1,0)))
+    ro=path(speed)
+  , Z =normalize(dpath(speed)+vec3(0,-.6,0))
+  , X =normalize(cross(Z,vec3(0,1,0)+2.*ddpath(speed)))
   , Y =cross(X,Z)
   , col=vec3(0)
   , P
@@ -160,7 +176,7 @@ vec4 doPass0() {
   , L
   , pcol=texture(syn_FinalPass,q).xyz
   , FL
-  , FP=la+vec3(0,0,mix(-4.,30.,FT))
+  , FP=vec3(.5,1.,speed+mix(-4.,30.,FT))
   , XX
   , XY
   , XZ
@@ -209,10 +225,6 @@ vec4 doPass0() {
 
     P=PP+PN*z;
     NEON=sin((20.*TAU)*P);
-#ifdef WATER
-    W=fbm(P.xz*2.);
-#endif
-
     G=P;
     G.xz-=FP.xz-vec2(-.1*FD,0);
     d0=dot(G,G);
@@ -229,8 +241,9 @@ vec4 doPass0() {
     G=P;
     G.xz-=.5;
     G.z-=floor(G.z+.5);
-    d1=min(abs(G.x)-.2,abs(G.z)-.1);
 
+    G.x=G.x-floor(G.x+.5);
+    d1=min(abs(G.x)-.2,abs(G.z)-.1);
     d2=min(abs(d1),max(abs(G.x),G.z))-.01;
 
     isr=z==xi&&(HH.z>0.5?NEON.x*NEON.z>0.0:NEON.y>0.);
@@ -255,11 +268,7 @@ vec4 doPass0() {
     R=reflect(PN,NZ);
     L=uniform_lambert(NX,NY,NZ);
 
-#ifdef WATER
-    if(isr||(bi==z&&W<.0)) {
-#else
     if(isr) {
-#endif
       PN=R;
       H0=F;
     } else {
