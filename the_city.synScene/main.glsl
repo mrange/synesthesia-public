@@ -231,7 +231,7 @@ vec4 doPass0() {
     x1=HH.w<neon_towers&&isr&&(P.y<H*2.*freq(HH.x+HH.y));
     if(x0||x1) {
       if(x1) {
-        col+=(A*(1.-dot(NZ,PN)))*(1.+sin(P.z+P.y+TAU*(HH.z+HH.w)+vec3(2,0,3)));
+        col+=(A*(1.-dot(NZ,PN)))*(1.+sin(P.z+P.y+TAU*(HH.z+HH.w)+vec3(neon_color.x,0,neon_color.y)));
       }
       // Reset current pos and ray
       PN=noisy_ray_dir(p,X,Y,Z);

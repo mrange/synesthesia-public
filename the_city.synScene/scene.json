@@ -1,5 +1,5 @@
 {
-	"CONTROLS" : 
+	"CONTROLS" :
 	[
 		{
 			"DEFAULT" : 0.2,
@@ -7,7 +7,7 @@
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "neon_towers",
-			"PARAMS" : 0.21001,
+			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Visual"
 		},
@@ -26,29 +26,29 @@
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "height_mul",
-			"PARAMS" : 0.19801,
+			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Visual"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.0625,
 				0.75
 			],
 			"DESCRIPTION" : "",
-			"MAX" : 
+			"MAX" :
 			[
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
 			],
 			"NAME" : "reflection",
-			"PARAMS" : 0.20701,
+			"PARAMS" : 0.2,
 			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Visual"
 		},
@@ -58,8 +58,30 @@
 			"MAX" : 0.9,
 			"MIN" : 0,
 			"NAME" : "fft_distinct",
-			"PARAMS" : 0.23701,
+			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" :
+			[
+				2,
+				3
+			],
+			"DESCRIPTION" : "",
+			"MAX" :
+			[
+				7,
+				7
+			],
+			"MIN" :
+			[
+				0,
+				0
+			],
+			"NAME" : "neon_color",
+			"PARAMS" : 0.2,
+			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Visual"
 		},
 		{
@@ -88,14 +110,14 @@
 	"GPU" : 1,
 	"HEIGHT" : 1080,
 	"IMAGE_PATH" : "scene.png",
-	"MEDIA" : 
+	"MEDIA" :
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"TAGS" : 
+	"TAGS" :
 	[
 		"mrange",
 		"city"
