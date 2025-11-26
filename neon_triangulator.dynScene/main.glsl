@@ -70,7 +70,7 @@ float beat() {
 #ifdef KODELIFE
   return pow(1.-fract(TIME),2.);
 #else
-  return dot(pow(vec2(syn_BassLevel,syn_BassHits), bass_pow), bass_mix);
+  return dot(pow(vec2(syn_BassLevel,syn_BassHits), vec2(bass_pow)), bass_mix);
 #endif
 }
 
@@ -342,7 +342,7 @@ vec3 effect(vec2 p, float noise) {
   , rdd
   ;
   vec2
-    ww=mix(warp_world, warp_world_beat,b)
+    ww=mix(warp_world*5.0+vec2(2.0,0.0), warp_world*5.0+warp_world_beat*abs(warp_world_beat)*5.0+vec2(2.0,0.0),vec2(warp_beat_script1))
 ;
   rdd = ww.x-ww.y*length(p);
   const vec3
