@@ -63,7 +63,37 @@
 				-1
 			],
 			"NAME" : "speed_control",
-			"PARAMS" : 0.1,
+			"TYPE" : "xy",
+			"UI_GROUP" : "Speed"
+		},
+		{
+			"DEFAULT" : 0.5,
+			"DESCRIPTION" : "Translation speed through the 4D fractal space",
+			"MAX" : 2,
+			"MIN" : -2,
+			"NAME" : "translation_speed",
+			"TYPE" : "knob",
+			"UI_GROUP" : "Speed"
+		},
+		{
+			"DEFAULT" : 
+			[
+				1,
+				1
+			],
+			"DESCRIPTION" : "Rotation speeds around different 4D planes (X and Y axes)",
+			"MAX" : 
+			[
+				9,
+				9
+			],
+			"MIN" : 
+			[
+				-9,
+				-9
+			],
+			"NAME" : "rotation_speed",
+			"PARAMS" : 0.2,
 			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Speed"
 		},
@@ -196,38 +226,6 @@
 			"NAME" : "wcut",
 			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
-			"UI_GROUP" : "Visual"
-		},
-		{
-			"DEFAULT" : 0.5,
-			"DESCRIPTION" : "Translation speed through the 4D fractal space",
-			"MAX" : 2,
-			"MIN" : -2,
-			"NAME" : "translation_speed",
-			"PARAMS" : 0.2,
-			"TYPE" : "slider smooth",
-			"UI_GROUP" : "Visual"
-		},
-		{
-			"DEFAULT" : 
-			[
-				1,
-				1
-			],
-			"DESCRIPTION" : "Rotation speeds around different 4D planes (X and Y axes)",
-			"MAX" : 
-			[
-				9,
-				9
-			],
-			"MIN" : 
-			[
-				-9,
-				-9
-			],
-			"NAME" : "rotation_speed",
-			"PARAMS" : 0.2,
-			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Visual"
 		},
 		{

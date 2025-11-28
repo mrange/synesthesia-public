@@ -104,7 +104,7 @@ vec4 renderMain() {
 
     P=p-=translation_speed*t;
 
-    p=abs(p-round(p));
+    p=abs(p-floor(p+.5));
 
     d=abs(
      min(
