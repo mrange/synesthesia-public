@@ -56,7 +56,7 @@ float fbm(vec2 p) {
 #endif
   ;
 
-  return (texture(t_fbm,2e-3*(p-.5*vec2(-1,1)*TIME)+.5).x-off)*bar_height.x;
+  return (texture(t_fbm,2e-3*(p-vec2(-1,1)*dot(speed_control,vec2(TIME,syn_Time)))+.5).x-off)*bar_height.x;
 }
 
 float fbm2(vec2 p) {
@@ -371,7 +371,7 @@ vec4 fpass0() {
 #ifdef KODELIFE
     ro=vec3(0,height,TIME)
 #else
-    ro=vec3(0,height,dot(speed_control, vec2(speed,syn_Time)))
+    ro=vec3(0,height,speed)
 #endif
   , rd =normalize(-p.x*X+p.y*Y+2.*Z)
   , col
