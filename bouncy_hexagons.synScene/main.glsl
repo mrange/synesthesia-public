@@ -83,6 +83,7 @@ float freq(float x, vec2 o) {
   return smoothstep(.0,.9,sin(TAU*x*TIME));
 #else
   float f=texture(syn_Spectrum,o.x+o.y*x).z;
+  f+=bar_level;
   f*=f;
   f*=f;
   f*=bar_height.y;
@@ -229,7 +230,7 @@ float df_1(vec3 p) {
 
   h=fbm(n);
   F=fbm2(0.231*n);
-  f=smoothstep(bouncy_islands.x,bouncy_islands.y,abs(F));
+  f=smoothstep(min(bouncy_islands.x,bouncy_islands.y),max(bouncy_islands.x, bouncy_islands.y),abs(F));
   h=mix(h,freq(h1,F>0.?red_freq:black_freq),f);
   col=mix(col,F>0.?red_col:black_col,f);
 
@@ -370,7 +371,7 @@ vec4 fpass0() {
 #ifdef KODELIFE
     ro=vec3(0,height,TIME)
 #else
-    ro=vec3(0,height,speed)
+    ro=vec3(0,height,dot(speed_control, vec2(speed,syn_Time)))
 #endif
   , rd =normalize(-p.x*X+p.y*Y+2.*Z)
   , col
