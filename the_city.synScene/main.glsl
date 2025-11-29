@@ -60,7 +60,7 @@ vec3 uniform_lambert(vec3 X, vec3 Y, vec3 Z){
   float
     p=TAU*random()
   , cost=sqrt(random())
-  , sint=sqrt(1.12-cost*cost)
+  , sint=sqrt(1.-cost*cost)
   ;
   return cos(p)*sint*X+sin(p)*sint*Y+cost*Z;
 }
@@ -142,7 +142,7 @@ vec4 doPass0() {
   , zi=0.
   , z
   , MX
-  , A
+  , A=1.
   , xi
   , W
   ;

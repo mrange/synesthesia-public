@@ -1,0 +1,558 @@
+// CC0: My 2nd path tracer.
+//  Note: Wait ~10s for music. This is multi-pass shader so might fail on phones.
+//  A learning project. I've been staring at the code for too long to tell
+//  if the result is actually good, so I leave that to you.
+
+// Common stuff
+
+#define RESOLUTION iResolution
+#define TIME iTime
+
+
+// Gaussian blur
+vec3 gb(sampler2D pp, vec2 d, vec2 C, vec3 r) {
+  const float
+    blurriness      =300.
+  ;
+
+  vec2
+    dir=d/r.xy
+  , q=C/r.xy
+  ;
+  vec3
+    col=texture(pp,q).xyz
+  ;
+
+  float
+  , s2=blurriness
+  , w
+  , ws=1.
+  ;
+
+  for(float i=1.;i<25.;++i) {
+    w=exp(-(i*i)/s2);
+    vec2 off=dir*i;
+
+    col+=w*(textureLod(pp,q-off,0.).xyz+textureLod(pp,q+off,0.).xyz);
+    ws+=2.*w;
+  }
+  col/=ws;
+  return col;
+}
+
+// CC0: My 2nd path tracer.
+//  Note: Wait ~10s for music. This is multi-pass shader so might fail on phones.
+//  A learning project. I've been staring at the code for too long to tell
+//  if the result is actually good, so I leave that to you.
+
+// The path tracer
+
+const int
+  // Increase this is if you got a FAT GPU.
+  //  Decrease if the FPS is poor
+  //  More iterations reduces the noisyness
+  max_iter=110
+;
+
+const float
+  fft_distinct=.333
+, fft_mul     =1.75
+  // More motion blur reduces noise
+, motion_blur =.4
+, path_height =2.
+  // Frequency of bouncing neon towers
+, neon_towers =.25
+;
+
+const vec2
+  reflection  =vec2(.0625,.75)
+, neon_color  =vec2(2,3)
+, path_control=vec2(1,.23)
+;
+
+const float
+  PI  =3.141592654
+, TAU =2.*PI
+, MISS=-1000.
+;
+
+vec3 path(float speed) {
+  return vec3(.5+path_control.x*sin(path_control.y*speed),path_height,speed);
+}
+
+vec3 dpath(float speed) {
+  return vec3(path_control.x*path_control.y*cos(path_control.y*speed),0,1);
+}
+
+vec3 ddpath(float speed) {
+  return vec3(-path_control.x*path_control.y*path_control.y*sin(path_control.y*speed),0,0);
+}
+
+float freq(float x) {
+  return fft_mul/(1.-fft_distinct)*(textureLod(iChannel1, vec2(x,.25), .0).x-fft_distinct);
+}
+
+// License: Unknown, author: Unknown, found: don't remember
+float hash(float co) {
+  return fract(sin(co*12.9898) * 13758.5453);
+}
+
+float g_seed;
+
+// License: Unknown, author: 0b5vr, found: https://www.shadertoy.com/view/ss3SD8
+float random(){
+  float
+    i=++g_seed
+  ;
+  return fract(sin((i)*114.514)*1919.810);
+}
+
+// License: Unknown, author: Unknown, found: don't remember
+float hash(vec2 co) {
+  return fract(sin(dot(co.xy ,vec2(12.9898,58.233))) * 13758.5453);
+}
+
+// License: Unknown, author: 0b5vr, found: https://www.shadertoy.com/view/ss3SD8
+vec3 uniform_lambert(vec3 X, vec3 Y, vec3 Z){
+  // Some tweaks by me
+  float
+    p=TAU*random()
+  , cost=sqrt(random())
+  , sint=sqrt(1.-cost*cost)
+  ;
+  return cos(p)*sint*X+sin(p)*sint*Y+cost*Z;
+}
+
+vec3 noisy_ray_dir(vec2 p, vec3 X, vec3 Y, vec3 Z) {
+  p += 1.41/RESOLUTION.y*(-1.+2.*vec2(random(),random()));
+  return normalize(-p.x*X+p.y*Y+2.*Z);
+}
+
+// License: MIT, author: Inigo Quilez, found: https://iquilezles.org/articles/intersectors/
+float iray_box(vec3 ro, vec3 ird, vec3 boxSize, out vec3 NZ) {
+  // Some tweaks by me.
+  vec3
+    n =ro*ird
+  , k =abs(ird)*boxSize
+  , t1=-n-k
+  , t2=-n+k
+  ;
+
+  float
+    tN =max(max(t1.x, t1.y), t1.z)
+  , tF =min(min(t2.x, t2.y), t2.z)
+  , hit=step(tN, tF)*step(0.0, tF)
+  ;
+
+  NZ=step(vec3(tN), t1)*-sign(ird);
+  return mix(MISS, tN, hit);
+}
+
+vec3 doPass0(vec2 p, vec2 q) {
+  bool
+    isr
+  , x0
+  , x1
+  ;
+  float
+    n  =1.
+  , d0
+  , d1
+  , d2
+  , F
+  , FB =.1*TIME
+  , FH0=hash(floor(FB)+123.4)
+  , FH1=fract(8667.*FH0)
+  , FO
+  , FD =FH1>.5?1.:-1.
+  , FT =fract(FB)
+  , H0
+  , H
+  , bi
+  , ti
+  , zi =0.
+  , z
+  , MX
+  , A  =1.
+  , xi
+  , speed=TIME
+  ;
+  FT=FD>0.?FT:1.-FT;
+  FO=smoothstep(.6,.4,FT);
+
+  vec2
+    NN
+  , CC
+  , S
+  ;
+
+  g_seed=fract(hash(p)+TIME);
+  vec3
+    ro  =path(speed)
+  , Z   =normalize(dpath(speed)+vec3(0,-.6,0))
+  , X   =normalize(cross(Z,vec3(0,1,0)+2.*ddpath(speed)))
+  , Y   =cross(X,Z)
+  , col =vec3(0)
+  , P
+  , G
+  , PP
+  , PN
+  , IPN
+  , NX
+  , NY
+  , NZ
+  , R
+  , L
+  , pcol =texture(iChannel0,q).xyz
+  , FL
+  , FP   =vec3(.5,1.,speed+mix(-4.,30.,FT))
+  , XZ
+  , NEON
+  ;
+
+  vec4
+    HH
+  ;
+
+  FL=FO*mix(vec3(.1,.1,1)*.5,vec3(1,.1,.5),step(hash(floor(TIME*19.)),.5));
+
+  PP=ro;
+  PN=noisy_ray_dir(p,X,Y,Z);
+  IPN=1./PN;
+  for(int j=0;j<max_iter;++j) {
+    NN=floor(PP.xz+.5);
+    CC=PP.xz-NN;
+    S=(sign(PN.xz)*.5-CC)*IPN.xz;
+    MX=min(S.x,S.y)+1e-2;
+    ti=(3.-PP.y)*IPN.y;
+    bi=(-PP.y)*IPN.y;
+    H0=hash(NN);
+    HH=fract(vec4(5711,6977,7577,8677)*H0);
+    H=.5+.5*H0;
+    xi=iray_box(PP-vec3(NN.x,H-.02,NN.y),IPN,vec3(.1+.1*HH.x,H,.2+.1*HH.y),XZ);
+    z=1e3;
+    if(ti>0.)           { z=ti; NZ=vec3(0,-1,0);}
+    if(bi>0.&&bi<z)     { z=bi; NZ=vec3(0, 1,0);}
+    if(xi>0.&&xi<z)     { z=xi; NZ=XZ;  }
+
+    NX = NZ.yzx;
+    NY = NZ.zxy;
+
+    if(MX<z) {
+      PP=PP+PN*MX;
+      continue;
+    }
+
+    if(zi==0.) {
+      zi=(PP-ro).x*IPN.x-5e-2;
+    }
+
+
+    P=PP+PN*z;
+    NEON=sin((20.*TAU)*P);
+    G=P;
+    G.xz-=FP.xz-vec2(-.1*FD,0);
+    d0=dot(G,G);
+    col+=(A*5e-3/max(d0,5e-4))*FL;
+
+    G=P;
+    G.xz-=vec2(.5+.1*FD,.5);
+    d1=smoothstep(2.,0.,FD*(FP.z-P.z));
+    col+=
+       (A*1.5e-2*FO*(FD*P.z<FD*FP.z?1.:0.)*d1/max(length(G.xy),1e-3))
+      *(.3*smoothstep(2.,0.,FP.z-P.z)+vec3(1,0.1,.25))
+      ;
+
+    G=P;
+    G.xz-=.5;
+    G.z-=floor(G.z+.5);
+
+    G.x=G.x-floor(G.x+.5);
+    d1=min(abs(G.x)-.2,abs(G.z)-.1);
+    d2=min(abs(d1),max(abs(G.x),G.z))-.01;
+
+    isr=z==xi&&(HH.z>0.5?NEON.x*NEON.z>0.0:NEON.y>0.);
+    x0=z==ti||A<1e-1||length(P-ro)>20.;
+    x1=HH.w<neon_towers&&isr&&(P.y<H*2.*freq(HH.x+HH.y));
+    if(x0||x1) {
+      if(x1) {
+        col+=(A*(1.-dot(NZ,PN)))*(1.+sin(P.z+P.y+TAU*(HH.z+HH.w)+vec3(neon_color.x,0,neon_color.y)));
+      }
+      PN=noisy_ray_dir(p,X,Y,Z);
+      PP=ro+PN*zi;
+      IPN=1./PN;
+      A=1.;
+      ++n;
+      continue;
+    }
+
+    F=1.+dot(PN,NZ);
+    F*=F;
+    F=mix(reflection.x,reflection.y,F);
+    R=reflect(PN,NZ);
+    L=uniform_lambert(NX,NY,NZ);
+
+    if(isr) {
+      PN=R;
+      H0=F;
+    } else {
+      PN=L;
+      H0=d2<0.
+        ? .9
+        : d1<0.
+          ? .05
+          : .3
+      ;
+    }
+
+    A*=H0;
+    IPN=1./PN;
+    PP=P+1e-2*NZ;
+  }
+
+  col/=n;
+  col=mix(col,pcol,motion_blur);
+  return col;
+}
+
+
+
+void mainImage(out vec4 O, vec2 C) {
+  vec2
+    p=(-RESOLUTION.xy+2.*C)/RESOLUTION.y
+  , q=vec2(C/RESOLUTION.xy)
+  ;
+
+  O=vec4(doPass0(p,q),1);
+
+}
+
+// CC0: My 2nd path tracer.
+//  Note: Wait ~10s for music. This is multi-pass shader so might fail on phones.
+//  A learning project. I've been staring at the code for too long to tell
+//  if the result is actually good, so I leave that to you.
+
+// Gaussian blur in x dir
+
+void mainImage( out vec4 O, vec2 C) {
+  O=vec4(gb(iChannel0,vec2(1,0),C,RESOLUTION),1);
+}
+
+// CC0: My 2nd path tracer.
+//  Note: Wait ~10s for music. This is multi-pass shader so might fail on phones.
+//  A learning project. I've been staring at the code for too long to tell
+//  if the result is actually good, so I leave that to you.
+
+// Gaussian blur in y dir
+
+void mainImage( out vec4 O, vec2 C) {
+  O=vec4(gb(iChannel0,vec2(0,1),C,RESOLUTION),1);
+}
+
+// CC0: My 2nd path tracer.
+//  Note: Wait ~10s for music to kick in.
+//  A learning project. I've been staring at the code for too long to tell
+//  if the result is actually good, so I leave that to you.
+
+// Atari logo and puttin it all together
+const float
+  PI=3.141592654
+;
+
+// License: MIT, author: Inigo Quilez, found: https://www.iquilezles.org/www/articles/smin/smin.htm
+float pmin(float a, float b, float k) {
+  float h = clamp(0.5+0.5*(b-a)/k, 0.0, 1.0);
+  return mix(b, a, h) - k*h*(1.0-h);
+}
+
+float pmax(float a, float b, float k) {
+  return -pmin(-a, -b, k);
+}
+
+// License: MIT, author: Inigo Quilez, found: https://iquilezles.org/www/articles/distfunctions2d/distfunctions2d.htm
+float box(vec2 p, vec2 b) {
+  vec2 d = abs(p)-b;
+  return length(max(d,0.0)) + min(max(d.x,d.y),0.0);
+}
+
+float circle(vec2 p, float r) {
+  return length(p) - r;
+}
+
+// License: MIT, author: Inigo Quilez, found: https://iquilezles.org/www/articles/distfunctions2d/distfunctions2d.htm
+float isosceles(vec2 p, vec2 q) {
+  p.x = abs(p.x);
+  vec2 a = p - q*clamp( dot(p,q)/dot(q,q), 0.0, 1.0 );
+  vec2 b = p - q*vec2( clamp( p.x/q.x, 0.0, 1.0 ), 1.0 );
+  float s = -sign( q.y );
+  vec2 d = min( vec2( dot(a,a), s*(p.x*q.y-p.y*q.x) ),
+                vec2( dot(b,b), s*(p.y-q.y)  ));
+  return -sqrt(d.x)*sign(d.y);
+}
+
+// License: MIT, author: Inigo Quilez, found: https://iquilezles.org/www/articles/distfunctions2d/distfunctions2d.htm
+float horseshoe(vec2 p, vec2 c, float r, vec2 w) {
+  p.x = abs(p.x);
+  float l = length(p);
+  p = mat2(-c.x, c.y,
+            c.y, c.x)*p;
+  p = vec2((p.y>0.0)?p.x:l*sign(-c.x),
+           (p.x>0.0)?p.y:l );
+  p = vec2(p.x,abs(p.y-r))-w;
+  return length(max(p,0.0)) + min(0.0,max(p.x,p.y));
+}
+
+// License: MIT, author: Inigo Quilez, found: https://iquilezles.org/www/articles/distfunctions2d/distfunctions2d.htm
+float segment(vec2 p, vec2 a, vec2 b) {
+  vec2 pa = p-a, ba = b-a;
+  float h = clamp( dot(pa,ba)/dot(ba,ba), 0.0, 1.0 );
+  return length( pa - ba*h );
+}
+
+float atari_a(inout vec2 p, vec2 off) {
+  p -= vec2(0.275, 0.0);
+
+  float
+    d0 = isosceles(p*vec2(1.0, -1.0)-vec2(0.0, -0.225), vec2(0.20, 0.65))-0.1
+  , d1 = isosceles(p*vec2(1.0, -1.0)-vec2(0.0, -0.18), vec2(0.13, 0.55))-0.005
+  , d2 = box(p-vec2(0.0, -0.135), vec2(0.15, 0.06))
+  , d3 = p.y+0.325
+  , d  = d0
+  ;
+
+  d = max(d, -d1);
+  d = pmin(d, d2, 0.0125);
+  d = pmax(d, -d3, 0.0125);
+
+  p -= vec2(0.275, 0.0) + off;
+
+  return d;
+}
+
+float atari_i(inout vec2 p, vec2 off) {
+  p -= vec2(0.07, 0.0);
+
+  float
+    d0 = box(p, vec2(0.07, 0.325)-0.0125)-0.0125
+  , d = d0
+  ;
+
+  p -= vec2(0.07, 0.0) + off;
+  return d;
+}
+
+float atari_r(inout vec2 p, vec2 off) {
+  const float
+    a = PI/2.0
+  ;
+  const
+    vec2 c = vec2(cos(a), sin(a))
+  ;
+
+  p -= vec2(0.22, 0.0);
+  vec2 hp = p;
+  hp -= vec2(0.0, 0.14);
+  hp.xy = -hp.yx;
+
+  float
+    d0 = p.y+0.325
+  , d1 = circle(p - vec2(-0.12, 0.225), 0.1)
+  , d2 = horseshoe(hp, c, 0.125, 0.2175*vec2(0.12,0.275))
+  , d3 = segment(p-vec2(-0.015, 0.005), vec2(0.0), vec2(0.22, -0.4))-0.07
+  , d5 = p.y - 0.205
+  , d6 = box(p - vec2(-0.155, -0.075), vec2(0.065, 0.30))
+  , d7 = box(p - vec2(-0.055, 0.225), vec2(0.06, 0.1))
+  , d = d1
+  ;
+
+  d = min(d, d7);
+  d = max(d, -d5);
+  d = min(d, d2);
+  d = min(d, d6);
+  d = min(d, d3);
+  d = pmax(d, -d0, 0.0125);
+  p -= vec2(0.25, 0.0)+off;
+
+  return d;
+}
+
+float atari_t(inout vec2 p, vec2 off) {
+  p -= vec2(0.195, 0.0);
+
+  float
+    d0 = box(p - vec2(0.0, 0.265), vec2(0.195, 0.06)-0.0125)-0.0125
+  , d1 = box(p - vec2(0.0, -0.03), vec2(0.07, 0.295)-0.0125)-0.0125
+  , d = d0
+  ;
+
+  d = pmin(d, d1, 0.0125);
+  p -= vec2(0.195, 0.0) + off;
+
+  return d;
+}
+
+float atari_text(vec2 p) {
+  p -= vec2(-0.42, 0.0);
+  float
+    d = 1E6
+  ;
+  vec2
+    rp = p
+  ;
+  p.x -= 0.72;
+
+  rp.x = abs(rp.x);
+  rp.x -= -0.195;
+  d = min(d, atari_t(rp, vec2(-0.055, 0.0)));
+  d = min(d, atari_a(rp, vec2(-0.055, 0.0)));
+  d = min(d, atari_r(p, vec2(0.02, 0.0)));
+  d = min(d, atari_i(p, vec2(0.0, 0.0)));
+
+  return d;
+}
+
+// License: Unknown, author: Claude Brezinski, found: https://mathr.co.uk/blog/2017-09-06_approximating_hyperbolic_tangent.html
+vec3 tanh_approx(vec3 x) {
+  //  Found this somewhere on the interwebs
+  //  return tanh(x);
+  vec3 x2 = x*x;
+  return clamp(x*(27.0 + x2)/(27.0+9.0*x2), -1.0, 1.0);
+}
+
+void mainImage(out vec4 O, vec2 C) {
+  const float
+    Z=1.
+  , w=.003
+  ;
+
+  float
+    d
+  , od
+  , aa=sqrt(2.)/RESOLUTION.y
+  , fi=smoothstep(2.,12., TIME)
+  ;
+  vec2
+    p=(-RESOLUTION.xy+2.*C)/RESOLUTION.y
+  , q=vec2(C/RESOLUTION.xy)
+  ;
+
+  d=atari_text(p/Z)*Z;
+  od=abs(d)-w;
+  vec3
+    col
+  , bcol
+  , dcol
+  ;
+  col=texture(iChannel0,q).xyz;
+  bcol=texture(iChannel1,q).xyz;
+  col+=bcol*.5;
+  dcol=bcol*.3;
+  dcol=mix(dcol,vec3(1), smoothstep(aa,-aa,od));
+  col=mix(col,mix(col,dcol,fi),smoothstep(aa,-aa,d-w));
+  col=max(col,0.);
+  // I learnt that tanh on MacBooks often glitches on larger values
+  //  tanh_approx handles it better
+  col=tanh_approx(col);
+  col=sqrt(col);
+  O=vec4(col,1);
+}
