@@ -3,7 +3,7 @@
 	[
 		{
 			"DEFAULT" : 0.2,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Tower density – more neon buildings fill the cityscape",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "neon_towers",
@@ -13,7 +13,7 @@
 		},
 		{
 			"DEFAULT" : 0.5,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Motion blur – smooth camera movement trails",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "motion_blur",
@@ -22,7 +22,7 @@
 		},
 		{
 			"DEFAULT" : 1,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Audio reactivity – building heights respond to spectrum",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "height_mul",
@@ -36,7 +36,7 @@
 				0.0625,
 				0.75
 			],
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Surface reflection – Fresnel min/max for building glass",
 			"MAX" : 
 			[
 				1,
@@ -54,7 +54,7 @@
 		},
 		{
 			"DEFAULT" : 0,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Spectrum threshold – filter out low frequency audio",
 			"MAX" : 0.9,
 			"MIN" : 0,
 			"NAME" : "fft_distinct",
@@ -68,7 +68,7 @@
 				5,
 				2
 			],
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Neon hue – color phase shifts for cyan/magenta tones",
 			"MAX" : 
 			[
 				7,
@@ -86,7 +86,7 @@
 		},
 		{
 			"DEFAULT" : 0.8,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Glow persistence – retain bloom across frames",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "retain_glow",
@@ -96,7 +96,7 @@
 		},
 		{
 			"DEFAULT" : 0.5,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Glow intensity – brighten neon light bloom",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "neon_glow",
@@ -106,7 +106,7 @@
 		},
 		{
 			"DEFAULT" : 0.5,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Glass refraction – media layer distortion strength",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "glass_effect",
@@ -140,7 +140,7 @@
 				0.25,
 				0.5
 			],
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Media masking – luminance threshold for glass blend",
 			"MAX" : 
 			[
 				1,
@@ -158,7 +158,7 @@
 		},
 		{
 			"DEFAULT" : 0.5,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Travel speed – camera movement through the city",
 			"MAX" : 5,
 			"MIN" : -5,
 			"NAME" : "speed",
@@ -171,7 +171,7 @@
 				1,
 				0.33
 			],
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Camera path – sine wave amplitude and frequency",
 			"MAX" : 
 			[
 				2,
@@ -188,7 +188,7 @@
 		},
 		{
 			"DEFAULT" : 2,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Camera height – elevation above city streets",
 			"MAX" : 2.9,
 			"MIN" : 2.1,
 			"NAME" : "height",
@@ -198,7 +198,7 @@
 		}
 	],
 	"CREDIT" : "mrange",
-	"DESCRIPTION" : "The City",
+	"DESCRIPTION" : "Neon City by Night",
 	"GPU" : 1,
 	"HEIGHT" : 1080,
 	"IMAGE_PATH" : "scene.png",
@@ -241,6 +241,6 @@
 		"mrange",
 		"city"
 	],
-	"TITLE" : "The City",
+	"TITLE" : "Neon City by Night",
 	"WIDTH" : 1920
 }
