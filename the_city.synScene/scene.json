@@ -106,7 +106,7 @@
 		},
 		{
 			"DEFAULT" : 0.5,
-			"DESCRIPTION" : "Glass refraction – media glass layer strength",
+			"DESCRIPTION" : "Glass refraction – media layer distortion strength",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "glass_effect",
@@ -188,7 +188,7 @@
 		},
 		{
 			"DEFAULT" : 2,
-		  "DESCRIPTION" : "Camera height – elevation above city streets",
+			"DESCRIPTION" : "Camera height – elevation above city streets",
 			"MAX" : 2.9,
 			"MIN" : 2.1,
 			"NAME" : "height",
