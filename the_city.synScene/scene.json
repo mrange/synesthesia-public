@@ -1,5 +1,5 @@
 {
-	"CONTROLS" : 
+	"CONTROLS" :
 	[
 		{
 			"DEFAULT" : 0.2,
@@ -31,18 +31,18 @@
 			"UI_GROUP" : "Visual"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.0625,
 				0.75
 			],
 			"DESCRIPTION" : "",
-			"MAX" : 
+			"MAX" :
 			[
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
@@ -63,18 +63,18 @@
 			"UI_GROUP" : "Visual"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				2,
 				3
 			],
 			"DESCRIPTION" : "",
-			"MAX" : 
+			"MAX" :
 			[
 				7,
 				7
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
@@ -85,7 +85,37 @@
 			"UI_GROUP" : "Visual"
 		},
 		{
-			"DEFAULT" : 0.7,
+			"DEFAULT" : 0.8,
+			"DESCRIPTION" : "",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "retain_glow",
+			"PARAMS" : 0.2,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 0.5,
+			"DESCRIPTION" : "",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "neon_glow",
+			"PARAMS" : 0.2,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 0.5,
+			"DESCRIPTION" : "",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "glass_effect",
+			"PARAMS" : 0.2,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 1,
 			"DESCRIPTION" : "Media opacity – fade visuals in or out",
 			"MAX" : 1,
 			"MIN" : 0,
@@ -105,6 +135,28 @@
 			"UI_GROUP" : "Media"
 		},
 		{
+			"DEFAULT" :
+			[
+				0.25,
+				0.5
+			],
+			"DESCRIPTION" : "",
+			"MAX" :
+			[
+				1,
+				1
+			],
+			"MIN" :
+			[
+				0,
+				0
+			],
+			"NAME" : "media_glass",
+			"PARAMS" : 0.2,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Media"
+		},
+		{
 			"DEFAULT" : 0.5,
 			"DESCRIPTION" : "",
 			"MAX" : 5,
@@ -114,18 +166,18 @@
 			"UI_GROUP" : "Movement"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				1,
 				0.33
 			],
 			"DESCRIPTION" : "",
-			"MAX" : 
+			"MAX" :
 			[
 				2,
 				0.5
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
@@ -138,9 +190,10 @@
 			"DEFAULT" : 2,
 			"DESCRIPTION" : "",
 			"MAX" : 2.9,
-			"MIN" : 2,
+			"MIN" : 2.1,
 			"NAME" : "height",
-			"TYPE" : "slider",
+			"PARAMS" : 0.2,
+			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Movement"
 		}
 	],
@@ -149,14 +202,41 @@
 	"GPU" : 1,
 	"HEIGHT" : 1080,
 	"IMAGE_PATH" : "scene.png",
-	"MEDIA" : 
+	"MEDIA" :
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"TAGS" : 
+	"PASSES" :
+	[
+		{
+			"FILTER" : "nearest",
+			"FLOAT" : true,
+			"HEIGHT" : 1080,
+			"TARGET" : "pass0",
+			"WIDTH" : 1920,
+			"WRAP" : "clamp"
+		},
+		{
+			"FILTER" : "nearest",
+			"FLOAT" : true,
+			"HEIGHT" : 1080,
+			"TARGET" : "pass1",
+			"WIDTH" : 1920,
+			"WRAP" : "clamp"
+		},
+		{
+			"FILTER" : "nearest",
+			"FLOAT" : true,
+			"HEIGHT" : 1080,
+			"TARGET" : "pass2",
+			"WIDTH" : 1920,
+			"WRAP" : "clamp"
+		}
+	],
+	"TAGS" :
 	[
 		"mrange",
 		"city"

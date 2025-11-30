@@ -13,10 +13,67 @@ const vec2
 #endif
 
 const float
-  TAU         =2.*PI
-, MISS        =-1000.
-, SKY_LIMIT   =50.
+  TAU=2.*PI
+, MISS=-1000.
 ;
+
+
+float g_seed;
+
+// License: Unknown, author: Claude Brezinski, found: https://mathr.co.uk/blog/2017-09-06_approximating_hyperbolic_tangent.html
+vec3 tanh_approx(vec3 x) {
+  //  Found this somewhere on the interwebs
+  //  return tanh(x);
+  vec3 x2 = x*x;
+  return clamp(x*(27.0 + x2)/(27.0+9.0*x2), -1.0, 1.0);
+}
+
+#ifdef KODELIFE
+vec4 _loadMedia() {
+  vec2
+    p=2.*_uvc
+  , sz=vec2(textureSize(syn_Media,0))
+  ;
+  p*=1.5;
+  p.x*=sz.y/sz.x;
+  p+=.5;
+  p.y=1.-p.y;
+  vec4 mcol=texture(syn_Media,p);
+  return mcol;
+}
+#endif
+
+// Gaussian blur
+vec3 gb(sampler2D pp, ivec2 dir, ivec2 xy) {
+  const float
+    blurriness      =300.
+  ;
+
+  ivec2
+    off
+  ;
+  vec3
+    col=texelFetch(pp,xy,0).xyz
+  ;
+
+  float
+    w
+  , ws=1.
+  , I
+  ;
+
+  for(int i=1;i<25;++i) {
+    I=float(i);
+    w=exp(-(I*I)/blurriness);
+    off=dir*i;
+
+    col+=w*(texelFetch(pp,xy-off,0).xyz+texelFetch(pp,xy+off,0).xyz);
+    ws+=2.*w;
+  }
+  col/=ws;
+  return col;
+}
+
 
 vec3 path(float speed) {
   return vec3(.5+path_control.x*sin(path_control.y*speed),height,speed);
@@ -42,8 +99,6 @@ float freq(float x) {
 float hash(float co) {
   return fract(sin(co*12.9898) * 13758.5453);
 }
-
-float g_seed;
 
 // License: Unknown, author: 0b5vr, found: https://www.shadertoy.com/view/ss3SD8
 float random(){
@@ -105,15 +160,7 @@ float iray_box(vec3 ro, vec3 ird, vec3 boxSize, out vec3 NZ) {
   return mix(MISS, tN, hit);
 }
 
-// License: Unknown, author: Claude Brezinski, found: https://mathr.co.uk/blog/2017-09-06_approximating_hyperbolic_tangent.html
-vec3 tanh_approx(vec3 x) {
-  //  Found this somewhere on the interwebs
-  //  return tanh(x);
-  vec3 x2 = x*x;
-  return clamp(x*(27.0 + x2)/(27.0+9.0*x2), -1.0, 1.0);
-}
-
-vec4 doPass0() {
+vec4 dpass0() {
   bool
     isr
   , x0
@@ -121,17 +168,17 @@ vec4 doPass0() {
   ;
   float
     j
-  , n =1.
+  , n    =1.
   , d0
   , d1
   , d2
   , F
-  , FB=.1*TIME
-  , FH0=hash(floor(FB)+123.4)
-  , FH1=fract(8667.*FH0)
+  , FB   =.1*TIME
+  , FH0  =hash(floor(FB)+123.4)
+  , FH1  =fract(8667.*FH0)
   , FO
-  , FD=FH1>.5?1.:-1.
-  , FT=fract(FB)
+  , FD   =FH1>.5?1.:-1.
+  , FT   =fract(FB)
 #ifdef KODELIFE
   , speed=.5*TIME
 #endif
@@ -139,12 +186,11 @@ vec4 doPass0() {
   , H
   , bi
   , ti
-  , zi=0.
+  , zi   =0.
   , z
   , MX
-  , A=1.
+  , A
   , xi
-  , W
   ;
   FT=FD>0.?FT:1.-FT;
   FO=smoothstep(.6,.4,FT);
@@ -159,11 +205,11 @@ vec4 doPass0() {
 
   g_seed=fract(hash(p)+float(FRAMECOUNT)/1337.0);
   vec3
-    ro=path(speed)
-  , Z =normalize(dpath(speed)+vec3(0,-.6,0))
-  , X =normalize(cross(Z,vec3(0,1,0)+2.*ddpath(speed)))
-  , Y =cross(X,Z)
-  , col=vec3(0)
+    ro  =path(speed)
+  , Z   =normalize(dpath(speed)+vec3(0,-.6,0))
+  , X   =normalize(cross(Z,vec3(0,1,0)+2.*ddpath(speed)))
+  , Y   =cross(X,Z)
+  , col =vec3(0)
   , P
   , G
   , PP
@@ -174,11 +220,9 @@ vec4 doPass0() {
   , NZ
   , R
   , L
-  , pcol=texture(syn_FinalPass,q).xyz
+  , pcol =texelFetch(pass0,ivec2(_xy),0).xyz
   , FL
-  , FP=vec3(.5,1.,speed+mix(-4.,30.,FT))
-  , XX
-  , XY
+  , FP   =vec3(.5,1.,speed+mix(-4.,30.,FT))
   , XZ
   , NEON
   ;
@@ -219,7 +263,7 @@ vec4 doPass0() {
     }
 
     if(zi==0.) {
-      zi=(PP-ro).x*IPN.x-5e-2;
+      zi=z;
     }
 
 
@@ -288,18 +332,71 @@ vec4 doPass0() {
   }
 
   col/=n;
-  col*=0.5;
-  col=tanh_approx(col);
-  col=max(col,0.);
-  col=mix(col,pcol*pcol,motion_blur);
-  col=sqrt(col);
-#ifndef KODELIFE
-  M=_loadMedia();
-  col=mix(col,M.xyz,M.w*media_transparency*media_multiplier);
-#endif
+  col=mix(col,pcol,motion_blur);
   return vec4(col,1);
 }
 
+
+vec4 dpass1() {
+  return vec4(gb(pass0,ivec2(1,0),ivec2(_xy)),1);
+}
+
+vec4 dpass2() {
+  ivec2
+    xy=ivec2(_xy)
+  ;
+  vec3
+    col=gb(pass1,ivec2(0,1),xy)
+  , pcol=texelFetch(pass2,xy,0).xyz
+  ;
+  return vec4(mix(col,pcol,retain_glow),1);
+}
+
+
+vec4 dpass3() {
+  const vec3
+    lum_weights_srgb   = vec3(0.299, 0.587, 0.114)
+  ;
+
+  vec3
+    col
+  , bcol
+  , dcol
+  ;
+
+  vec4
+    mcol
+  ;
+
+  float
+    t
+  ;
+
+  mcol=_loadMedia();
+  t=smoothstep(media_glass.y,media_glass.x,dot(lum_weights_srgb,mcol.xyz));
+  col=texelFetch(pass0,ivec2(_xy),0).xyz;
+  bcol=texelFetch(pass2,ivec2(_xy),0).xyz;
+  col-=.01;
+  col+=neon_glow*bcol;
+  dcol=glass_effect*sqrt(bcol)+.01;
+  col=mix(col,dcol,mcol.w);
+  col=max(col,0.);
+  col=tanh_approx(col);
+  col=sqrt(col);
+  col=mix(col,mcol.xyz,media_multiplier*media_transparency*mcol.w*(1.-t));
+  return vec4(col,1);
+
+}
+
 vec4 renderMain() {
-  return doPass0();
+  switch(PASSINDEX) {
+  case 0:
+    return dpass0();
+  case 1:
+    return dpass1();
+  case 2:
+    return dpass2();
+  default:
+    return dpass3();
+  }
 }
