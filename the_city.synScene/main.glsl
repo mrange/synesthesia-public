@@ -378,7 +378,7 @@ vec4 dpass3() {
   bcol=texelFetch(pass2,ivec2(_xy),0).xyz;
   col-=.01;
   col+=neon_glow*bcol;
-  dcol=glass_effect*sqrt(bcol)+.01;
+  dcol=glass_effect*sqrt(bcol)+.005;
   col=mix(col,dcol,mcol.w);
   col=max(col,0.);
   col=tanh_approx(col);
