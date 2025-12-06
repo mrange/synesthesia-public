@@ -113,15 +113,21 @@ float hash(vec2 co) {
 
 vec3 uniform_lambert(vec3 X, vec3 Y, vec3 Z){
   float
-    p=TAU*random()
-  , cost=sqrt(random())
+    h0=random()
+  , h1=fract(8887.*h0)
+  , p=TAU*h0
+  , cost=sqrt(h1)
   , sint=sqrt(1.-cost*cost)
   ;
   return cos(p)*sint*X+sin(p)*sint*Y+cost*Z;
 }
 
 vec3 noisy_ray_dir(vec2 p, vec3 X, vec3 Y, vec3 Z) {
-  p += 1.41/RENDERSIZE.y*(-1.+2.*vec2(random(),random()));
+  float
+    h0=random()
+  , h1=fract(8887.*h0)
+  ;
+  p += 1.41/RENDERSIZE.y*(-1.+2.*vec2(h0,h1));
   return normalize(-p.x*X+p.y*Y+2.*Z);
 }
 
