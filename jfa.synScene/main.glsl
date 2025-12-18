@@ -1,6 +1,6 @@
 
 const float 
-  lum_cutoff = .1
+  lum_cutoff = .5
  ;
 
 float dot2(vec2 p) {
@@ -11,20 +11,26 @@ float texelLum(sampler2D tex, ivec2 ixy) {
   return dot(vec3(.299, .587, .114),texelFetch(tex,ixy,0).xyz);
 }
 
-vec4 init(sampler2D tex, vec2 xy, ivec2 ixy) {
+vec4 image(sampler2D tex, vec2 xy, ivec2 ixy) {
    ivec2
     sz=textureSize(tex, 0)
   ;
+  ixy += sz/2-ivec2(.5*RENDERSIZE);
+  return texelFetch(tex,ixy,0);
+}
+
+vec4 init(vec2 xy, ivec2 ixy) {
   vec2
     seed0=vec2(0)
   , seed1=vec2(ixy)
   ;
   
-
-  ixy += sz/2-ivec2(.5*RENDERSIZE);
+  vec4
+    t=image(syn_Media, xy, ixy)
+  ;
 
   float
-    l=texelLum(tex, ixy)
+    l=dot(vec3(.299, .587, .114),t.xyz*t.w)
   ;
   
   if(l>lum_cutoff) {
@@ -45,12 +51,14 @@ vec4 jfa(sampler2D tex, int stp, vec2 xy, ivec2 ixy) {
   , seed0
   , seed1
   ;
+  
   float
     dist0
   , dist1
   , ndist0
   , ndist1
   ;
+  
   int
     x
   , y
@@ -97,6 +105,7 @@ vec4 jfa(sampler2D tex, int stp, vec2 xy, ivec2 ixy) {
 vec4 dist(sampler2D tex, vec2 xy, ivec2 ixy) {
   vec4
     t=texelFetch(tex, ixy, 0)
+  , i=image(syn_Media, xy, ixy)
   ;
   vec2 
     seed0=t.xy
@@ -111,8 +120,13 @@ vec4 dist(sampler2D tex, vec2 xy, ivec2 ixy) {
   ;
 
   vec3 
-    col=vec3(smoothstep(aa,-aa,abs(dist)-.01))
+    col=vec3(smoothstep(aa,-aa,dist-.05))
   ;
+  
+  if (dist < 0.) {
+    col = i.xyz*i.w;
+  }
+  
 //  col=vec3(sin(dist*80.));
   return vec4(col, 1);
 }
@@ -123,7 +137,7 @@ vec4 renderMain() {
   ;
   switch(PASSINDEX) {
   case 0:
-    return init(syn_Media, _xy, ixy);
+    return init(_xy, ixy);
   case 1:
     return jfa(pass0, 4, _xy, ixy);
   case 2:
