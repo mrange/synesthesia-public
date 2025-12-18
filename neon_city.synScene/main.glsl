@@ -1,12 +1,18 @@
 #ifdef KODELIFE
 const float
-  neon_towers =.2
-, motion_blur =.4
-, height      =2.
+  glass_effect      =.5
+, height            =2.
+, media_multiplier  =1.
+, media_transparency=.7
+, motion_blur       =.4
+, neon_glow         =.5
+, neon_towers       =.2
+, retain_glow       =.8
 ;
 
 const vec2
   reflection    =vec2(.0625,.75)
+, media_glass   =vec2(.25,.5)
 , neon_color    =vec2(2,3)
 , path_control  =vec2(1,.33);
 ;
@@ -17,8 +23,6 @@ const float
 , MISS=-1000.
 ;
 
-
-float g_seed;
 
 // License: Unknown, author: Claude Brezinski, found: https://mathr.co.uk/blog/2017-09-06_approximating_hyperbolic_tangent.html
 vec3 tanh_approx(vec3 x) {
@@ -100,20 +104,13 @@ float hash(float co) {
   return fract(sin(co*12.9898) * 13758.5453);
 }
 
-// License: Unknown, author: 0b5vr, found: https://www.shadertoy.com/view/ss3SD8
-float random(){
-  float i = ++g_seed;
-  return fract(sin((i)*114.514)*1919.810);
-}
-
 // License: Unknown, author: Unknown, found: don't remember
 float hash(vec2 co) {
   return fract(sin(dot(co.xy ,vec2(12.9898,58.233))) * 13758.5453);
 }
 
-vec3 uniform_lambert(vec3 X, vec3 Y, vec3 Z){
+vec3 uniform_lambert(float h0, vec3 X, vec3 Y, vec3 Z){
   float
-    h0=random()
   , h1=fract(8887.*h0)
   , p=TAU*h0
   , cost=sqrt(h1)
@@ -122,10 +119,9 @@ vec3 uniform_lambert(vec3 X, vec3 Y, vec3 Z){
   return cos(p)*sint*X+sin(p)*sint*Y+cost*Z;
 }
 
-vec3 noisy_ray_dir(vec2 p, vec3 X, vec3 Y, vec3 Z) {
+vec3 noisy_ray_dir(float h0,vec2 p, vec3 X, vec3 Y, vec3 Z) {
   float
-    h0=random()
-  , h1=fract(8887.*h0)
+    h1=fract(8887.*h0)
   ;
   p += 1.41/RENDERSIZE.y*(-1.+2.*vec2(h0,h1));
   return normalize(-p.x*X+p.y*Y+2.*Z);
@@ -190,6 +186,7 @@ vec4 dpass0() {
 #endif
   , H0
   , H
+  , R0   =0.
   , bi
   , ti
   , zi   =0.
@@ -197,6 +194,7 @@ vec4 dpass0() {
   , MX
   , A
   , xi
+  , seed
   ;
   FT=FD>0.?FT:1.-FT;
   FO=smoothstep(.6,.4,FT);
@@ -209,7 +207,7 @@ vec4 dpass0() {
   , S
   ;
 
-  g_seed=fract(hash(p)+float(FRAMECOUNT)/1337.0);
+  seed=fract(hash(p)+float(FRAMECOUNT)/1337.0);
   vec3
     ro  =path(speed)
   , Z   =normalize(dpath(speed)+vec3(0,-.6,0))
@@ -241,9 +239,11 @@ vec4 dpass0() {
   FL=FO*mix(vec3(.1,.1,1)*.5,vec3(1,.1,.5),step(hash(floor(TIME*19.)),.5));
 
   PP=ro;
-  PN=noisy_ray_dir(p,X,Y,Z);
+  PN=noisy_ray_dir(R0,p,X,Y,Z);
   IPN=1./PN;
   for(j=0.;j<110.;++j) {
+    ++seed;
+    R0=hash(seed);
     NN=floor(PP.xz+.5);
     CC=PP.xz-NN;
     S=(sign(PN.xz)*.5-CC)*IPN.xz;
@@ -304,7 +304,7 @@ vec4 dpass0() {
         col+=(A*(1.-dot(NZ,PN)))*(1.+sin(P.z+P.y+TAU*(HH.z+HH.w)+vec3(neon_color.x,0,neon_color.y)));
       }
       // Reset current pos and ray
-      PN=noisy_ray_dir(p,X,Y,Z);
+      PN=noisy_ray_dir(R0,p,X,Y,Z);
       PP=ro+PN*zi;
       IPN=1./PN;
       A=1.;
@@ -316,7 +316,7 @@ vec4 dpass0() {
     F*=F;
     F=mix(reflection.x,reflection.y,F);
     R=reflect(PN,NZ);
-    L=uniform_lambert(NX,NY,NZ);
+    L=uniform_lambert(R0,NX,NY,NZ);
 
     if(isr) {
       PN=R;

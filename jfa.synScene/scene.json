@@ -1,0 +1,27 @@
+{
+	"CREDIT" : "mrange",
+	"DESCRIPTION" : "JFA scene",
+	"GPU" : 1,
+	"IMAGE_PATH" : "scene.png",
+	"IMAGES" :
+	[
+	],
+	"MEDIA" :
+	[
+		{
+			"FILTER" : "linear",
+			"WRAP" : "mirror"
+		}
+	],
+	"PASSES" :
+	[
+	],
+	"TAGS" :
+	[
+		"mrange",
+		"jfa"
+	],
+	"TITLE" : "jfa scene",
+	"HEIGHT" : 1080,
+	"WIDTH" : 1920
+}
