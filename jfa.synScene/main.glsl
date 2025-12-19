@@ -1,7 +1,8 @@
-
+#ifdef KODELIFEX
 const float 
   lum_cutoff = .5
- ;
+;
+#endif
 
 float dot2(vec2 p) {
   return dot(p,p);
@@ -120,10 +121,10 @@ vec4 dist(sampler2D tex, vec2 xy, ivec2 ixy) {
   ;
 
   vec3 
-    col=vec3(smoothstep(aa,-aa,dist-.05))
+    col=vec3(smoothstep(aa,-aa,dist-.0125))
   ;
   
-  if (dist < 0.) {
+  if (dist < 0.0) {
     col = i.xyz*i.w;
   }
   
@@ -139,12 +140,16 @@ vec4 renderMain() {
   case 0:
     return init(_xy, ixy);
   case 1:
-    return jfa(pass0, 4, _xy, ixy);
+    return jfa(pass0, 16, _xy, ixy);
   case 2:
-    return jfa(pass1, 2, _xy, ixy);
+    return jfa(pass1, 8, _xy, ixy);
   case 3:
-    return jfa(pass1, 1, _xy, ixy);
+    return jfa(pass2, 4, _xy, ixy);
+  case 4:
+    return jfa(pass3, 2, _xy, ixy);
+  case 5:
+    return jfa(pass4, 1, _xy, ixy);
   default:
-    return dist(pass2, _xy, ixy);
+    return dist(pass5, _xy, ixy);
   }
 }

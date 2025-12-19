@@ -1,4 +1,17 @@
 {
+	"CONTROLS" : 
+	[
+		{
+			"DEFAULT" : 0.5,
+			"DESCRIPTION" : "",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "lum_cutoff",
+			"PARAMS" : 0.19101,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Media"
+		}
+	],
 	"CREDIT" : "mrange",
 	"DESCRIPTION" : "JFA scene",
 	"GPU" : 1,
@@ -42,6 +55,22 @@
 			"FLOAT" : true,
 			"HEIGHT" : 1080,
 			"TARGET" : "pass3",
+			"WIDTH" : 1920,
+			"WRAP" : "repeat"
+		},
+		{
+			"FILTER" : "linear",
+			"FLOAT" : true,
+			"HEIGHT" : 1080,
+			"TARGET" : "pass4",
+			"WIDTH" : 1920,
+			"WRAP" : "repeat"
+		},
+		{
+			"FILTER" : "linear",
+			"FLOAT" : true,
+			"HEIGHT" : 1080,
+			"TARGET" : "pass5",
 			"WIDTH" : 1920,
 			"WRAP" : "repeat"
 		}
