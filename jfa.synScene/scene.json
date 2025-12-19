@@ -14,10 +14,20 @@
 		{
 			"DEFAULT" : 0.01,
 			"DESCRIPTION" : "",
-			"MAX" : 0.05,
+			"MAX" : 0.1,
 			"MIN" : 0,
 			"NAME" : "line_width",
 			"PARAMS" : 0.24901,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Media"
+		},
+		{
+			"DEFAULT" : 1,
+			"DESCRIPTION" : "",
+			"MAX" : 5,
+			"MIN" : 0,
+			"NAME" : "media_zoom",
+			"PARAMS" : 0.21601,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Media"
 		}
@@ -81,6 +91,30 @@
 			"FLOAT" : true,
 			"HEIGHT" : 1080,
 			"TARGET" : "pass5",
+			"WIDTH" : 1920,
+			"WRAP" : "repeat"
+		},
+		{
+			"FILTER" : "linear",
+			"FLOAT" : true,
+			"HEIGHT" : 1080,
+			"TARGET" : "pass6",
+			"WIDTH" : 1920,
+			"WRAP" : "repeat"
+		},
+		{
+			"FILTER" : "linear",
+			"FLOAT" : true,
+			"HEIGHT" : 1080,
+			"TARGET" : "pass7",
+			"WIDTH" : 1920,
+			"WRAP" : "repeat"
+		},
+		{
+			"FILTER" : "linear",
+			"FLOAT" : true,
+			"HEIGHT" : 1080,
+			"TARGET" : "pass8",
 			"WIDTH" : 1920,
 			"WRAP" : "repeat"
 		}
