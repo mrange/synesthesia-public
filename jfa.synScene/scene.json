@@ -10,6 +10,16 @@
 			"PARAMS" : 0.19101,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Media"
+		},
+		{
+			"DEFAULT" : 0.01,
+			"DESCRIPTION" : "",
+			"MAX" : 0.05,
+			"MIN" : 0,
+			"NAME" : "line_width",
+			"PARAMS" : 0.24901,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Media"
 		}
 	],
 	"CREDIT" : "mrange",

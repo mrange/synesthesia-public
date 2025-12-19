@@ -121,10 +121,10 @@ vec4 dist(sampler2D tex, vec2 xy, ivec2 ixy) {
   ;
 
   vec3 
-    col=vec3(smoothstep(aa,-aa,dist-.0125))
+    col=vec3(smoothstep(aa,-aa,dist-line_width))
   ;
   
-  if (dist < 0.0) {
+  if (dist < -line_width) {
     col = i.xyz*i.w;
   }
   
