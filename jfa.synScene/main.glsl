@@ -146,22 +146,26 @@ vec4 renderMain() {
   case 0:
     return init(_xy, ixy);
   case 1:
-    return jfa(pass0, 128, _xy, ixy);
+    return jfa(pass0, 512, _xy, ixy);
   case 2:
-    return jfa(pass1, 64, _xy, ixy);
+    return jfa(pass1, 256, _xy, ixy);
   case 3:
-    return jfa(pass2, 32, _xy, ixy);
+    return jfa(pass2, 128, _xy, ixy);
   case 4:
-    return jfa(pass3, 16, _xy, ixy);
+    return jfa(pass3, 64, _xy, ixy);
   case 5:
-    return jfa(pass4, 8, _xy, ixy);
+    return jfa(pass4, 32, _xy, ixy);
   case 6:
-    return jfa(pass5, 4, _xy, ixy);
+    return jfa(pass5, 16, _xy, ixy);
   case 7:
-    return jfa(pass6, 2, _xy, ixy);
+    return jfa(pass6, 8, _xy, ixy);
   case 8:
-    return jfa(pass7, 1, _xy, ixy);
+    return jfa(pass7, 4, _xy, ixy);
+  case 9:
+    return jfa(pass8, 2, _xy, ixy);
+  case 10:
+    return jfa(pass9, 1, _xy, ixy);
   default:
-    return dist(pass8, _xy, ixy);
+    return dist(pass10, _xy, ixy);
   }
 }

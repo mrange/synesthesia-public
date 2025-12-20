@@ -117,6 +117,22 @@
 			"TARGET" : "pass8",
 			"WIDTH" : 1920,
 			"WRAP" : "repeat"
+		},
+		{
+			"FILTER" : "linear",
+			"FLOAT" : true,
+			"HEIGHT" : 1080,
+			"TARGET" : "pass9",
+			"WIDTH" : 1920,
+			"WRAP" : "repeat"
+		},
+		{
+			"FILTER" : "linear",
+			"FLOAT" : true,
+			"HEIGHT" : 1080,
+			"TARGET" : "pass10",
+			"WIDTH" : 1920,
+			"WRAP" : "repeat"
 		}
 	],
 	"TAGS" : 
