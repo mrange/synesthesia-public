@@ -1,8 +1,7 @@
-#ifdef KODELIFEX
-const float 
-  lum_cutoff = .5
-;
-#endif
+float beat() {
+  return dot(pow(vec2(syn_BassLevel,syn_BassHits), bass_pow), bass_mix);
+}
+
 
 float dot2(vec2 p) {
   return dot(p,p);
@@ -12,12 +11,25 @@ float texelLum(sampler2D tex, ivec2 ixy) {
   return dot(vec3(.299, .587, .114),texelFetch(tex,ixy,0).xyz);
 }
 
+void rot(inout vec2 p, float a) {
+  float
+    c=cos(a)
+  , s=sin(a)
+  ;
+  p=vec2(c*p.x+s*p.y,c*p.y-s*p.x);
+}
 vec4 image(sampler2D tex, vec2 xy, ivec2 ixy) {
   vec2
     p=(2.*xy-RENDERSIZE)/RENDERSIZE.y
   , sz=vec2(textureSize(tex,0))
   ;
-  p/=media_zoom;
+  float
+    b=beat()
+  , l=length(p)
+  ;
+  
+  rot(p, mix(rot_mod.x,rot_mod.y,b*l));
+  p/=media_zoom*mix(zoom_mod.x,zoom_mod.y,b*l);
   p.x*=sz.y/sz.x;
   p+=.5;
   
@@ -107,6 +119,14 @@ vec4 jfa(sampler2D tex, int stp, vec2 xy, ivec2 ixy) {
   return vec4(seed0,seed1);
 }
 
+// License: Unknown, author: Claude Brezinski, found: https://mathr.co.uk/blog/2017-09-06_approximating_hyperbolic_tangent.html
+vec3 tanh_approx(vec3 x) {
+  //  Found this somewhere on the interwebs
+  //  return tanh(x);
+  vec3 x2 = x*x;
+  return clamp(x*(27.0 + x2)/(27.0+9.0*x2), -1.0, 1.0);
+}
+
 vec4 dist(sampler2D tex, vec2 xy, ivec2 ixy) {
   vec4
     t=texelFetch(tex, ixy, 0)
@@ -123,7 +143,9 @@ vec4 dist(sampler2D tex, vec2 xy, ivec2 ixy) {
   , dist1=distance(xy,seed1)
   , dist =(dist0>dist1?dist0:-dist1)*2./RENDERSIZE.y
   , aa   = sqrt(2.)/RENDERSIZE. y
-  , freq = mix(beat_mod.x,beat_mod.y,syn_BassLevel)
+  , b    = beat()
+  , f    = smoothstep(flash_mod.x,flash_mod.y,b)
+  , freq = mix(beat_mod.x,beat_mod.y,b)
   ;
   
   //dist=min(dist,abs(dist-.3));
@@ -134,15 +156,21 @@ vec4 dist(sampler2D tex, vec2 xy, ivec2 ixy) {
   
   col=
      smoothstep(-aa,aa,(line_mod+cos(freq*dist))/freq*.5)
-    /(1.+8.*dist*dist)
+    /(1.+fade_mod*dist*dist)
     *(1.+sin(vec3(color_base,0)-TIME+dist*3.+(p.y)))
     ;
 
-  col=tanh(col);
-  col=sqrt(col);
   if (dist < 0.) {
-    col = mix(col,i.xyz,i.w);
+    col= mix(col,i.xyz,i.w);
+    col*=2.*col;
   }
+
+  //dist-=mix(.1,.2,b);
+  col+=f*glow_mod*1e-3/max(dist*dist,1e-4);
+  col=tanh_approx(col);
+  col=max(col,0.);
+  col=sqrt(col);
+
   
   return vec4(col, 1);
 }
