@@ -115,6 +115,7 @@ vec4 dist(sampler2D tex, vec2 xy, ivec2 ixy) {
   vec2 
     seed0=t.xy
   , seed1=t.zw
+  , p=(2.*xy-RENDERSIZE)/RENDERSIZE.y
   ;
 
   float 
@@ -122,19 +123,27 @@ vec4 dist(sampler2D tex, vec2 xy, ivec2 ixy) {
   , dist1=distance(xy,seed1)
   , dist =(dist0>dist1?dist0:-dist1)*2./RENDERSIZE.y
   , aa   = sqrt(2.)/RENDERSIZE. y
+  , freq = mix(beat_mod.x,beat_mod.y,syn_BassLevel)
   ;
-
+  
+  //dist=min(dist,abs(dist-.3));
   vec3 
     col
   ;
   
-  col=vec3(smoothstep(aa,-aa,dist-line_width));
-  col=vec3(.5+.5*sin(100.*dist))/(1.+8.*dist*dist);
-  if (dist < -line_width) {
+  
+  col=
+     smoothstep(-aa,aa,(line_mod+cos(freq*dist))/freq*.5)
+    /(1.+8.*dist*dist)
+    *(1.+sin(vec3(color_base,0)-TIME+dist*3.+(p.y)))
+    ;
+
+  col=tanh(col);
+  col=sqrt(col);
+  if (dist < 0.) {
     col = mix(col,i.xyz,i.w);
   }
   
-//  col=vec3(sin(dist*80.));
   return vec4(col, 1);
 }
 

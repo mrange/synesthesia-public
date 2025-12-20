@@ -7,17 +7,17 @@
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "lum_cutoff",
-			"PARAMS" : 0.19101,
+			"PARAMS" : 0.10401,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Media"
 		},
 		{
-			"DEFAULT" : 0.01,
+			"DEFAULT" : -0.707,
 			"DESCRIPTION" : "",
-			"MAX" : 0.1,
-			"MIN" : 0,
-			"NAME" : "line_width",
-			"PARAMS" : 0.24901,
+			"MAX" : 1,
+			"MIN" : -1,
+			"NAME" : "line_mod",
+			"PARAMS" : 0.09901,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Media"
 		},
@@ -27,8 +27,51 @@
 			"MAX" : 5,
 			"MIN" : 0,
 			"NAME" : "media_zoom",
-			"PARAMS" : 0.21601,
+			"PARAMS" : 0.10601,
 			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Media"
+		},
+		{
+			"DEFAULT" : 
+			[
+				2,
+				1
+			],
+			"DESCRIPTION" : "",
+			"MAX" : 
+			[
+				7,
+				7
+			],
+			"MIN" : 
+			[
+				0,
+				0
+			],
+			"NAME" : "color_base",
+			"PARAMS" : 0.10001,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Media"
+		},
+		{
+			"DEFAULT" : 
+			[
+				200,
+				40
+			],
+			"DESCRIPTION" : "",
+			"MAX" : 
+			[
+				400,
+				400
+			],
+			"MIN" : 
+			[
+				20,
+				20
+			],
+			"NAME" : "beat_mod",
+			"TYPE" : "xy",
 			"UI_GROUP" : "Media"
 		}
 	],
