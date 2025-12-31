@@ -1,0 +1,26 @@
+{
+	"CREDIT" : "mrange",
+	"DESCRIPTION" : "Mountains of madness",
+	"GPU" : 1,
+	"IMAGE_PATH" : "scene.png",
+	"IMAGES" :
+	[
+	],
+	"MEDIA" :
+	[
+		{
+			"FILTER" : "linear",
+			"WRAP" : "mirror"
+		}
+	],
+	"PASSES" :
+	[
+	],
+	"TAGS" :
+	[
+		"mrange"
+	],
+	"TITLE" : "Mountains of madness",
+	"HEIGHT" : 1080,
+	"WIDTH" : 1920
+}
