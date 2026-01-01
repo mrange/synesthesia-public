@@ -23,6 +23,18 @@ vec3 tanh_approx(vec3 x) {
 }
 
 
+// License: MIT, author: Inigo Quilez, found: https://www.iquilezles.org/www/articles/spherefunctions/spherefunctions.htm
+float ray_sphere(vec3 ro, vec3 rd, vec4 sph) {
+  vec3 oc = ro - sph.xyz;
+  float 
+    b = dot(oc, rd)
+  , c = dot(oc, oc)- sph.w*sph.w
+  , h = b*b-c
+  ;
+  h = sqrt(h);
+  return -b-h;
+}
+
 float doctahedron(vec3 p, float s) {
   p = abs(p);
   return (p.x+p.y+p.z-s)*0.57735027;
@@ -55,7 +67,7 @@ float dfm(vec3 p) {
 }
 
 vec3 path(float z) {
-  return vec3(2.*vec2(3.1,.7)*cos(z*.5*vec2(.11,.07)),z)+vec3(15,3,0);
+  return vec3(2.*vec2(3.1,.7)*cos(z*.5*vec2(.11,.07)),z)+vec3(25,3,0);
 }
 
 vec3 dpath(float z) {
@@ -113,7 +125,7 @@ float df(vec3 p, out vec4 oo) {
 
 const float
   TAU=2.*PI
-, OFF=0.7
+, OFF=.7
 ;
 
 const vec3
@@ -122,6 +134,23 @@ const vec3
   , BS=HSV2RGB(vec3(.55+OFF,.3,2.))
   , BO=HSV2RGB(vec3(.82+OFF,.6,2.))
   ;
+
+float surface(float x) {
+  x/=100.;
+  float 
+    a=1.
+  , h=0.
+  ;
+  
+  for(int i=0;i<5;++i) {
+    h+=a*sin(x);
+    x*=2.03;
+    x+=123.4;
+    a*=.55;
+  }
+  
+  return abs(h);
+}
 
 vec4 renderMain() {
   float
@@ -136,8 +165,8 @@ vec4 renderMain() {
       O=vec3(0)
     , p
     , P=path(T)
-    , ZZ=normalize(dpath(T)+vec3(0,-0.33,0))
-    , XX=normalize(cross(ZZ,vec3(0,1,0)))
+    , ZZ=normalize(dpath(T)+vec3(0,-0.1,0))
+    , XX=normalize(cross(ZZ,vec3(0,1,0)+ddpath(T)))
     , YY=cross(XX,ZZ)
     , R=normalize(-p2.x*XX+p2.y*YY+2.*ZZ)
     , Y=(1.+R.x)*BY
@@ -157,19 +186,49 @@ vec4 renderMain() {
       oo.x*=1e2;
     }
 
-    O+=(0.5+2.*smoothstep(0.7,1.,oo.w))*smoothstep(oo.z*.75,oo.z*.8,abs(p.y))*1e-0/max(oo.x+oo.x*oo.x*oo.x*oo.x*9.,1e-2)*BO;
+    O+=(0.5+2.*smoothstep(0.7,1.,oo.w))*smoothstep(oo.z*.78,oo.z*.8,abs(p.y))*1e-0/max(oo.x+oo.x*oo.x*oo.x*oo.x*9.,1e-2)*BO;
 
     z+=d*.7;
   }
 
   O*=9E-3;
   O=tanh_approx(O);
-  if(R.y>0.){
-    //O*=tanh_approx(hsv2rgb(vec3(OFF-.4*R.y,.5+2.*R.y,3./(1.+400.*R.y*R.y*R.y))));
-  }
-  vec4 M=_loadMedia();
   
+  if(R.y>0.0) {
+    vec3
+      N
+    , H
+    ;
+    vec4
+      S=vec4(P+vec3(-700,300,1000),400.)
+    ;
+    float 
+      si=ray_sphere(P,R,S)
+    ;
+    
+    H=tanh_approx(hsv2rgb(vec3(OFF-.4*R.y,.5+1.*R.y,3./(1.+800.*R.y*R.y*R.y))));
+    if(si>0.) {
+      p=P+R*si;
+      N=normalize(p-S.xyz);
+      H+=
+          max(dot(N,normalize(vec3(1,-0.5,4))),0.)
+        * smoothstep(0.0,0.2,R.y)
+        * smoothstep(1.0,.89,1.+dot(R,N))
+        * surface(p.y)
+        ;
+    }
+    O*=H;
+  }
+
+  O-=.04*vec3(1,2,0)*(length(-1.+2.*_uv)+.2);
+  O=max(O,0.);
+
+#ifdef KODELIFE 
+  O=sqrt(O);
+#else
+  vec4 M=_loadMedia();
   O=sqrt(O);
   O=mix(O,M.xyz,(p2.y+.5)*M.w);
+#endif  
   return vec4(O,1);
 }
