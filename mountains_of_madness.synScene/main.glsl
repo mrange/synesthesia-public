@@ -54,6 +54,20 @@ float dfm(vec3 p) {
   return d;
 }
 
+vec3 path(float z) {
+  return vec3(2.*vec2(3.1,.7)*cos(z*.5*vec2(.11,.07)),z)+vec3(15,3,0);
+}
+
+vec3 dpath(float z) {
+  float dt=.05;
+  return (path(z+dt)-path(z-dt))/(2.*dt);
+}
+
+vec3 ddpath(float z) {
+  float dt=.05;
+  return (dpath(z+dt)-dpath(z-dt))/(2.*dt);
+}
+
 float dfo(vec3 p, out vec4 oo) {
   const float
     ZZ=10.;
@@ -67,15 +81,19 @@ float dfo(vec3 p, out vec4 oo) {
     h0=hash(n)
   , h1=fract(8677.*h0)
   , h2=fract(9677.*h0)
-  , s=smoothstep(.7,1.,textureLod(syn_Spectrum,.9*h1+.05,0).z)
-  , h=.2*ZZ*h0
+#ifdef KODELIFE
+  , s=sqrt(h1)
+#else
+//  , s=smoothstep(.7,1.,textureLod(syn_Spectrum,.9*h1+.05,0).z)
+  , s=syn_BassLevel
+#endif
+  , h=.3*ZZ*h0*h0+0.1
   , d0=doctahedron(p,h)
-  , d1=length(p.xz)-.05*s+.04
-  , d=ZZ*.25
+  , d
   ;
-  if(h2<.2) return d;
+  oo=vec4(1e3,0,0,0);
+  if(h2<.66) return 1e3;
   d=d0;
-//  d=min(d,d1);
   oo=vec4(d,h0,h,s);
   return d;
 }
@@ -95,51 +113,63 @@ float df(vec3 p, out vec4 oo) {
 
 const float
   TAU=2.*PI
+, OFF=0.7
 ;
+
+const vec3
+    BY=HSV2RGB(vec3(.05+OFF,.7,.8))
+  , BM=HSV2RGB(vec3(.95+OFF,.6,.3))
+  , BS=HSV2RGB(vec3(.55+OFF,.3,2.))
+  , BO=HSV2RGB(vec3(.82+OFF,.6,2.))
+  ;
 
 vec4 renderMain() {
   float
       d=1.
     , z=0.
+    , T=TIME*4.
     ;
-
-  const float OFF=0.75;
-  const vec3
-      BY=HSV2RGB(vec3(.05+OFF,.7,.8))
-    , BM=HSV2RGB(vec3(.95+OFF,.6,.3))
-    , BS=HSV2RGB(vec3(.55+OFF,.3,2.))
-    , BO=HSV2RGB(vec3(.82+OFF,.6,2))
-    , BB=HSV2RGB(vec3(.22+OFF,.5,1))
-    ;
+  vec2
+      p2=_uvc*2.
+  ;
   vec3
       O=vec3(0)
     , p
-    , R=normalize(vec3(_uvc-vec2(0,.5),1))
-    , P=vec3(25.,4,TIME)
+    , P=path(T)
+    , ZZ=normalize(dpath(T)+vec3(0,-0.33,0))
+    , XX=normalize(cross(ZZ,vec3(0,1,0)))
+    , YY=cross(XX,ZZ)
+    , R=normalize(-p2.x*XX+p2.y*YY+2.*ZZ)
     , Y=(1.+R.x)*BY
     , S=(1.-R.y*R.y)*BS*Y
     ;
-  vec4 
+  vec4
       oo
     ;
 
-  for(int i=0;i<50&&d>1e-5&&z<9e3;++i) {
+  for(int i=0;i<50&&d>1e-5&&z<2e2;++i) {
     p=z*R+P;
     d=df(p,oo);
     if(p.y>0.) {
       O+=BM+d*Y;
     } else {
       O+=S;
-      oo.x*=1e3;
+      oo.x*=1e2;
     }
-    O+=step(oo.z*.8,abs(p.y))*1e-1/max(oo.x,1e-2)*BO;
-    O+=step(abs(p.y),oo.w*oo.z*.8)*1e-1/max(oo.x,1e-2)*BB;
+
+    O+=(0.5+2.*smoothstep(0.7,1.,oo.w))*smoothstep(oo.z*.75,oo.z*.8,abs(p.y))*1e-0/max(oo.x+oo.x*oo.x*oo.x*oo.x*9.,1e-2)*BO;
 
     z+=d*.7;
   }
 
   O*=9E-3;
   O=tanh_approx(O);
+  if(R.y>0.){
+    //O*=tanh_approx(hsv2rgb(vec3(OFF-.4*R.y,.5+2.*R.y,3./(1.+400.*R.y*R.y*R.y))));
+  }
+  vec4 M=_loadMedia();
+  
   O=sqrt(O);
+  O=mix(O,M.xyz,(p2.y+.5)*M.w);
   return vec4(O,1);
 }
