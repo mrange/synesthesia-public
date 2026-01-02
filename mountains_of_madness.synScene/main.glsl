@@ -13,7 +13,7 @@ vec3 hsv2rgb(vec3 c) {
 
 const float
   TAU=2.*PI
-, PR =.66
+//, PR =.66
 , ZZ =11.
 ;
 
@@ -32,8 +32,8 @@ const vec2
 */
 const vec3
   FC=.04*vec3(1,2,0)
-, LD=normalize(vec3(1,-0.5,3))
-, RN=normalize(vec3(-0.1,1,0.1))
+, LD=normalize(vec3(1,-0.5,1))
+//, RN=normalize(vec3(-0.1,1,0.1))
 ;
 const vec4
   GG=vec4(vec3(-700,300,1000),400.)
@@ -142,7 +142,7 @@ float dpyramid(vec3 p, out vec3 oo) {
   ;
 
   oo=vec3(1e3,0,0);
-  if(h1<PR) return 1e3;
+  if(h1>tomb_probability) return 1e3;
   oo=vec3(d,h0,h);
   return d;
 }
@@ -251,6 +251,7 @@ vec4 renderMain() {
       d=distance(S,p);
       Y+=
           abs(dot(LD,RN))
+        * smoothstep(0.0,0.2,R.y)
         * step(GG.w*1.41,d)
         * step(d,GG.w*2.)
         * fbm(.035*d)

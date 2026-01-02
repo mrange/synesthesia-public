@@ -27,6 +27,16 @@ function setHSVColor(uniformName,hue,sat,val) {
   );
 }
 
+function setNormalizedVec3(uniformName,x,y,z) {
+  const il=1/Math.sqrt(x*x+y*y+z*z);
+  setUniform(
+    uniformName
+  , x*il
+  , y*il
+  , z*il
+  );
+}
+
 function update(dt) {
   const OFF=base_hue;
   setUniform("OFF",OFF);
@@ -34,4 +44,5 @@ function update(dt) {
   setHSVColor("BG",0.95+OFF,0.6,0.3)
   setHSVColor("BW",0.55+OFF,0.2,2.0)
   setHSVColor("BF",0.82+OFF,0.6,2.0)
+  setNormalizedVec3("RN",ring_direction.x,1,ring_direction.y);
 }

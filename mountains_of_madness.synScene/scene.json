@@ -117,6 +117,59 @@
 			"PARAMS" : 0.18301,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 0.33,
+			"DESCRIPTION" : "",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "tomb_probability",
+			"PARAMS" : 0.20801,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 
+			[
+				0.1,
+				-0.5
+			],
+			"DESCRIPTION" : "",
+			"MAX" : 
+			[
+				2,
+				2
+			],
+			"MIN" : 
+			[
+				-2,
+				-2
+			],
+			"NAME" : "ring_direction",
+			"PARAMS" : 0.19001,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 
+			[
+				-0.5,
+				-1
+			],
+			"DESCRIPTION" : "",
+			"MAX" : 
+			[
+				2,
+				2
+			],
+			"MIN" : 
+			[
+				-2,
+				-2
+			],
+			"NAME" : "light_direction",
+			"TYPE" : "xy",
+			"UI_GROUP" : "default"
 		}
 	],
 	"CREDIT" : "mrange",
