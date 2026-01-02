@@ -30,11 +30,13 @@ const vec2
 , BW=HSV2RGB(vec3(.55+OFF,.3,2.))
 , BF=HSV2RGB(vec3(.82+OFF,.6,2.))
 */
+/*
 const vec3
   FC=.04*vec3(1,2,0)
-// , LD=normalize(vec3(1,-0.5,1))
-//, RN=normalize(vec3(-0.1,1,0.1))
+ , LD=normalize(vec3(1,-0.5,1))
+, RN=normalize(vec3(-0.1,1,0.1))
 ;
+*/
 const vec4
   GG=vec4(vec3(-700,300,1000),400.)
   ;
@@ -241,7 +243,7 @@ vec4 renderMain() {
           max(dot(LD,ZZ),0.)
         * smoothstep(0.0,0.2,R.y)
         * smoothstep(1.0,.89,1.+dot(R,ZZ))
-        * fbm(2e-2*dot(p,RN))
+        * fbm(2e-2*dot(p-S,RN))
         ;
     }
     M=vec4(RN,-dot(RN,S));
@@ -253,8 +255,7 @@ vec4 renderMain() {
           abs(dot(LD,RN))
         * smoothstep(0.0,0.2,R.y)
         * step(GG.w*1.41,d)
-        * step(d,GG.w*2)
-        //* textureLod(syn_Spectrum,2.*d/GG.w,0).y
+        * step(d,GG.w*2)        //* textureLod(syn_Spectrum,2.*d/GG.w,0).y
         * ( 
             smoothstep(fft_limit,1.,textureLod(syn_Spectrum,1.5*abs(d-GG.w*1.48)/GG.w,0).y)*hsv2rgb(vec3(OFF-.7+d/GG.w,.9,20.))
         +   fbm(.035*d)
