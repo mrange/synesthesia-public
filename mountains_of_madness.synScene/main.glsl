@@ -13,7 +13,6 @@ vec3 hsv2rgb(vec3 c) {
 
 const float
   TAU=2.*PI
-, OFF=.7
 , PR =.66
 , ZZ =11.
 ;
@@ -21,19 +20,21 @@ const float
 const vec2
   PA=vec2(6,1.41)
 , PB=vec2(.056,.035)
-, PO=vec2(25,3.3)
+//, PO=vec2(25,3.3)
 ;
 
-const vec3
+/*
+, OFF=.7
   BY=HSV2RGB(vec3(.05+OFF,.7,.8))
 , BG=HSV2RGB(vec3(.95+OFF,.6,.3))
 , BW=HSV2RGB(vec3(.55+OFF,.3,2.))
 , BF=HSV2RGB(vec3(.82+OFF,.6,2.))
-, FC=.04*vec3(1,2,0)
+*/
+const vec3
+  FC=.04*vec3(1,2,0)
 , LD=normalize(vec3(1,-0.5,3))
 , RN=normalize(vec3(-0.1,1,0.1))
 ;
-
 const vec4
   GG=vec4(vec3(-700,300,1000),400.)
   ;
@@ -41,7 +42,6 @@ const vec4
 const mat2
   R=mat2(1.2,1.6,-1.6,1.2)
 ;
-
 
 // License: Unknown, author: Unknown, found: don't remember
 float hash(vec2 co) {
@@ -90,7 +90,7 @@ float beat() {
 }
 
 vec3 path(float z) {
-  return vec3(PO+PA*cos(PB*z),z);
+  return vec3(camera_pos+PA*cos(PB*z),z);
 }
 
 vec3 dpath(float z) {
@@ -193,7 +193,7 @@ vec4 renderMain() {
     , O=vec3(0)
     , p
     , P=path(T)
-    , ZZ=normalize(dpath(T)+vec3(0,-0.1,0))
+    , ZZ=normalize(dpath(T)+vec3(camera_direction,0))
     , XX=normalize(cross(ZZ,vec3(0,1,0)+ddpath(T)))
     , YY=cross(XX,ZZ)
     , R=normalize(-p2.x*XX+p2.y*YY+2.*ZZ)
