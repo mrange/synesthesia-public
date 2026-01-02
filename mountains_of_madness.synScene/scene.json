@@ -153,8 +153,8 @@
 		{
 			"DEFAULT" : 
 			[
-				-0.5,
-				-1
+				1,
+				-0.5
 			],
 			"DESCRIPTION" : "",
 			"MAX" : 
@@ -168,8 +168,9 @@
 				-2
 			],
 			"NAME" : "light_direction",
-			"TYPE" : "xy",
-			"UI_GROUP" : "default"
+			"PARAMS" : 0.22001,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Visual"
 		}
 	],
 	"CREDIT" : "mrange",

@@ -32,7 +32,7 @@ const vec2
 */
 const vec3
   FC=.04*vec3(1,2,0)
-, LD=normalize(vec3(1,-0.5,1))
+// , LD=normalize(vec3(1,-0.5,1))
 //, RN=normalize(vec3(-0.1,1,0.1))
 ;
 const vec4

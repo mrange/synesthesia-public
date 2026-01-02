@@ -45,4 +45,5 @@ function update(dt) {
   setHSVColor("BW",0.55+OFF,0.2,2.0)
   setHSVColor("BF",0.82+OFF,0.6,2.0)
   setNormalizedVec3("RN",ring_direction.x,1,ring_direction.y);
+  setNormalizedVec3("LD",1,light_direction.y,light_direction.x);
 }
