@@ -253,8 +253,12 @@ vec4 renderMain() {
           abs(dot(LD,RN))
         * smoothstep(0.0,0.2,R.y)
         * step(GG.w*1.41,d)
-        * step(d,GG.w*2.)
-        * fbm(.035*d)
+        * step(d,GG.w*2)
+        //* textureLod(syn_Spectrum,2.*d/GG.w,0).y
+        * ( 
+            smoothstep(.1,1.,textureLod(syn_Spectrum,1.5*abs(d-GG.w*1.48)/GG.w,0).y)*hsv2rgb(vec3(.0+d/GG.w,.9,20.))
+        +   fbm(.035*d)
+        )
         ;
     }
     O*=Y;
