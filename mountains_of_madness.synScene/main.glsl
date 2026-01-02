@@ -256,7 +256,7 @@ vec4 renderMain() {
         * step(d,GG.w*2)
         //* textureLod(syn_Spectrum,2.*d/GG.w,0).y
         * ( 
-            smoothstep(.1,1.,textureLod(syn_Spectrum,1.5*abs(d-GG.w*1.48)/GG.w,0).y)*hsv2rgb(vec3(.0+d/GG.w,.9,20.))
+            smoothstep(fft_limit,1.,textureLod(syn_Spectrum,1.5*abs(d-GG.w*1.48)/GG.w,0).y)*hsv2rgb(vec3(OFF-.7+d/GG.w,.9,20.))
         +   fbm(.035*d)
         )
         ;

@@ -171,6 +171,16 @@
 			"PARAMS" : 0.22001,
 			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 0.1,
+			"DESCRIPTION" : "",
+			"MAX" : 1,
+			"MIN" : -0.1,
+			"NAME" : "fft_limit",
+			"PARAMS" : 0.20101,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Visual"
 		}
 	],
 	"CREDIT" : "mrange",
