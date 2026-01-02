@@ -1,26 +1,86 @@
 {
-	"CREDIT" : "mrange",
-	"DESCRIPTION" : "Mountains of madness",
-	"GPU" : 1,
-	"IMAGE_PATH" : "scene.png",
-	"IMAGES" :
+	"CONTROLS" : 
 	[
+		{
+			"DEFAULT" : 
+			[
+				0.5,
+				0.5
+			],
+			"DESCRIPTION" : "Audio response strength (X: bass level, Y: bass hits)",
+			"MAX" : 
+			[
+				1,
+				1
+			],
+			"MIN" : 
+			[
+				0,
+				0
+			],
+			"NAME" : "bass_mix",
+			"PARAMS" : 0.1,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Audio"
+		},
+		{
+			"DEFAULT" : 
+			[
+				4,
+				1
+			],
+			"DESCRIPTION" : "Audio response curve (higher = more intense reaction)",
+			"MAX" : 
+			[
+				6,
+				6
+			],
+			"MIN" : 
+			[
+				0,
+				0
+			],
+			"NAME" : "bass_pow",
+			"PARAMS" : 0.1,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Audio"
+		},
+		{
+			"DEFAULT" : 0.7,
+			"DESCRIPTION" : "Media opacity – fade visuals in or out",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "media_opacity",
+			"PARAMS" : 0.2,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Media"
+		},
+		{
+			"DEFAULT" : 4,
+			"DESCRIPTION" : "",
+			"MAX" : 9,
+			"MIN" : -9,
+			"NAME" : "speed",
+			"TYPE" : "slider speed",
+			"UI_GROUP" : "Movement"
+		}
 	],
-	"MEDIA" :
+	"CREDIT" : "mrange",
+	"DESCRIPTION" : "At the mountains of madness",
+	"GPU" : 1,
+	"HEIGHT" : 1080,
+	"IMAGE_PATH" : "scene.png",
+	"MEDIA" : 
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"PASSES" :
-	[
-	],
-	"TAGS" :
+	"TAGS" : 
 	[
 		"mrange"
 	],
-	"TITLE" : "Mountains of madness",
-	"HEIGHT" : 1080,
+	"TITLE" : "At the mountains of madness",
 	"WIDTH" : 1920
 }

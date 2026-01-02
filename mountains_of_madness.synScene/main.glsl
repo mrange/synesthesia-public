@@ -11,6 +11,38 @@ vec3 hsv2rgb(vec3 c) {
   return c.z * mix(hsv2rgb_K.xxx, clamp(p - hsv2rgb_K.xxx, 0.0, 1.0), c.y);
 }
 
+const float
+  TAU=2.*PI
+, OFF=.7
+, PR =.66
+, ZZ =11.
+;
+
+const vec2
+  PA=vec2(6,1.41)
+, PB=vec2(.056,.035)
+, PO=vec2(25,3.3)
+;
+
+const vec3
+  BY=HSV2RGB(vec3(.05+OFF,.7,.8))
+, BG=HSV2RGB(vec3(.95+OFF,.6,.3))
+, BW=HSV2RGB(vec3(.55+OFF,.3,2.))
+, BF=HSV2RGB(vec3(.82+OFF,.6,2.))
+, FC=.04*vec3(1,2,0)
+, LD=normalize(vec3(1,-0.5,3))
+, RN=normalize(vec3(-0.1,1,0.1))
+;
+
+const vec4
+  GG=vec4(vec3(-700,300,1000),400.)
+  ;
+
+const mat2
+  R=mat2(1.2,1.6,-1.6,1.2)
+;
+
+
 // License: Unknown, author: Unknown, found: don't remember
 float hash(vec2 co) {
   return fract(sin(dot(co.xy ,vec2(12.9898,58.233))) * 13758.5453);
@@ -18,37 +50,66 @@ float hash(vec2 co) {
 
 // License: Unknown, author: Claude Brezinski, found: https://mathr.co.uk/blog/2017-09-06_approximating_hyperbolic_tangent.html
 vec3 tanh_approx(vec3 x) {
-  vec3 x2 = x*x;
+  vec3
+    x2 = x*x
+  ;
   return clamp(x*(27.0 + x2)/(27.0+9.0*x2), -1.0, 1.0);
 }
 
-
 // License: MIT, author: Inigo Quilez, found: https://www.iquilezles.org/www/articles/spherefunctions/spherefunctions.htm
 float ray_sphere(vec3 ro, vec3 rd, vec4 sph) {
-  vec3 oc = ro - sph.xyz;
-  float 
-    b = dot(oc, rd)
-  , c = dot(oc, oc)- sph.w*sph.w
-  , h = b*b-c
+  vec3
+    oc=ro - sph.xyz
+    ;
+  float
+    b=dot(oc, rd)
+  , c=dot(oc, oc)- sph.w*sph.w
+  , h=b*b-c
   ;
-  h = sqrt(h);
+  h=sqrt(h);
   return -b-h;
 }
 
+// License: MIT, author: Inigo Quilez, found: https://iquilezles.org/articles/intersectors/
+float ray_plane(vec3 ro, vec3 rd, vec4 p) {
+  return -(dot(ro,p.xyz)+p.w)/dot(rd,p.xyz);
+}
+
+// License: MIT, author: Inigo Quilez, found: https://iquilezles.org/articles/distfunctions/
 float doctahedron(vec3 p, float s) {
   p = abs(p);
   return (p.x+p.y+p.z-s)*0.57735027;
 }
 
-float dfm(vec3 p) {
-   float
+float beat() {
+#ifdef KODELIFE
+  return pow(1.-fract(TIME),2.);
+#else
+  return dot(pow(vec2(syn_BassLevel,syn_BassHits), bass_pow), bass_mix);
+#endif
+}
+
+vec3 path(float z) {
+  return vec3(PO+PA*cos(PB*z),z);
+}
+
+vec3 dpath(float z) {
+  return vec3(-PA*PB*sin(PB*z),1);
+}
+
+vec3 ddpath(float z) {
+  return vec3(-PA*PB*PB*cos(PB*z),0);
+}
+
+float dfbm(vec3 p) {
+  float
     d=p.y+.6
   , a=1.
   ;
 
   vec2
     D=vec2(0)
-  , P=p.xz*.23
+  , P=.23*p.xz
   ;
 
   vec4
@@ -60,30 +121,14 @@ float dfm(vec3 p) {
     p=o.yxx*o.zwz;
     D+=p.xy;
     d-=a*(1.+p.z)/(1.+3.*dot(D,D));
-    P*=mat2(1.2,1.6,-1.6,1.2);
+    P*=R;
     a*=.55;
   }
+
   return d;
 }
 
-vec3 path(float z) {
-  return vec3(2.*vec2(3.1,.7)*cos(z*.5*vec2(.11,.07)),z)+vec3(25,3,0);
-}
-
-vec3 dpath(float z) {
-  float dt=.05;
-  return (path(z+dt)-path(z-dt))/(2.*dt);
-}
-
-vec3 ddpath(float z) {
-  float dt=.05;
-  return (dpath(z+dt)-dpath(z-dt))/(2.*dt);
-}
-
-float dfo(vec3 p, out vec4 oo) {
-  const float
-    ZZ=10.;
-
+float dpyramid(vec3 p, out vec3 oo) {
   vec2
     n=floor(p.xz/ZZ+.5)
   ;
@@ -91,31 +136,23 @@ float dfo(vec3 p, out vec4 oo) {
 
   float
     h0=hash(n)
-  , h1=fract(8677.*h0)
-  , h2=fract(9677.*h0)
-#ifdef KODELIFE
-  , s=sqrt(h1)
-#else
-//  , s=smoothstep(.7,1.,textureLod(syn_Spectrum,.9*h1+.05,0).z)
-  , s=syn_BassLevel
-#endif
-  , h=.3*ZZ*h0*h0+0.1
-  , d0=doctahedron(p,h)
-  , d
+  , h1=fract(9677.*h0)
+  , h =.3*ZZ*h0*h0+0.1
+  , d =doctahedron(p,h)
   ;
-  oo=vec4(1e3,0,0,0);
-  if(h2<.66) return 1e3;
-  d=d0;
-  oo=vec4(d,h0,h,s);
+
+  oo=vec3(1e3,0,0);
+  if(h1<PR) return 1e3;
+  oo=vec3(d,h0,h);
   return d;
 }
 
-float df(vec3 p, out vec4 oo) {
+float df(vec3 p, out vec3 oo) {
   p.y=abs(p.y);
 
   float
-    d0=dfm(p)
-  , d1=dfo(p,oo)
+    d0=dfbm(p)
+  , d1=dpyramid(p,oo)
   , d
   ;
   d=d0;
@@ -123,32 +160,19 @@ float df(vec3 p, out vec4 oo) {
   return d;
 }
 
-const float
-  TAU=2.*PI
-, OFF=.7
-;
-
-const vec3
-    BY=HSV2RGB(vec3(.05+OFF,.7,.8))
-  , BM=HSV2RGB(vec3(.95+OFF,.6,.3))
-  , BS=HSV2RGB(vec3(.55+OFF,.3,2.))
-  , BO=HSV2RGB(vec3(.82+OFF,.6,2.))
-  ;
-
-float surface(float x) {
-  x/=100.;
-  float 
+float fbm(float x) {
+  float
     a=1.
   , h=0.
   ;
-  
+
   for(int i=0;i<5;++i) {
     h+=a*sin(x);
     x*=2.03;
     x+=123.4;
     a*=.55;
   }
-  
+
   return abs(h);
 }
 
@@ -156,13 +180,17 @@ vec4 renderMain() {
   float
       d=1.
     , z=0.
-    , T=TIME*4.
+    , T=speed
+    , B=beat()
     ;
+
   vec2
       p2=_uvc*2.
-  ;
+    ;
+
   vec3
-      O=vec3(0)
+      oo
+    , O=vec3(0)
     , p
     , P=path(T)
     , ZZ=normalize(dpath(T)+vec3(0,-0.1,0))
@@ -170,65 +198,77 @@ vec4 renderMain() {
     , YY=cross(XX,ZZ)
     , R=normalize(-p2.x*XX+p2.y*YY+2.*ZZ)
     , Y=(1.+R.x)*BY
-    , S=(1.-R.y*R.y)*BS*Y
+    , S=(1.+R.y)*BW*Y
     ;
+
   vec4
-      oo
+      M
     ;
 
   for(int i=0;i<50&&d>1e-5&&z<2e2;++i) {
     p=z*R+P;
     d=df(p,oo);
     if(p.y>0.) {
-      O+=BM+d*Y;
+      O+=BG+min(d,9.)*Y;
     } else {
       O+=S;
-      oo.x*=1e2;
+      oo.x*=9.;
     }
 
-    O+=(0.5+2.*smoothstep(0.7,1.,oo.w))*smoothstep(oo.z*.78,oo.z*.8,abs(p.y))*1e-0/max(oo.x+oo.x*oo.x*oo.x*oo.x*9.,1e-2)*BO;
+    O+=
+        B
+      * smoothstep(oo.z*.78,oo.z*.8,abs(p.y))
+      / max(oo.x+oo.x*oo.x*oo.x*oo.x*9.,1e-2)
+      * BF
+      ;
 
     z+=d*.7;
   }
 
   O*=9E-3;
-  O=tanh_approx(O);
-  
+
   if(R.y>0.0) {
-    vec3
-      N
-    , H
-    ;
-    vec4
-      S=vec4(P+vec3(-700,300,1000),400.)
-    ;
-    float 
-      si=ray_sphere(P,R,S)
-    ;
-    
-    H=tanh_approx(hsv2rgb(vec3(OFF-.4*R.y,.5+1.*R.y,3./(1.+800.*R.y*R.y*R.y))));
-    if(si>0.) {
-      p=P+R*si;
-      N=normalize(p-S.xyz);
-      H+=
-          max(dot(N,normalize(vec3(1,-0.5,4))),0.)
+    M=GG;
+    S=M.xyz+P;
+    M.xyz=S;
+    z=d=ray_sphere(P,R,M);
+
+    Y=clamp((hsv2rgb(vec3(OFF-.4*R.y,.5+1.*R.y,3./(1.+800.*R.y*R.y*R.y)))),0.,1.);
+    if(z>0.) {
+      p=P+R*z;
+      ZZ=normalize(p-M.xyz);
+      Y+=
+          max(dot(LD,ZZ),0.)
         * smoothstep(0.0,0.2,R.y)
-        * smoothstep(1.0,.89,1.+dot(R,N))
-        * surface(p.y)
+        * smoothstep(1.0,.89,1.+dot(R,ZZ))
+        * fbm(2e-2*dot(p,RN))
         ;
     }
-    O*=H;
+    M=vec4(RN,-dot(RN,S));
+    z=ray_plane(P,R,M);
+    if(z>0.&&(d>0.&&z<d||isnan(d))) {
+      p=P+R*z;
+      d=distance(S,p);
+      Y+=
+          abs(dot(LD,RN))
+        * step(GG.w*1.41,d)
+        * step(d,GG.w*2.)
+        * fbm(.035*d)
+        ;
+    }
+    O*=Y;
   }
 
-  O-=.04*vec3(1,2,0)*(length(-1.+2.*_uv)+.2);
+  O-=(length(-1.+2.*_uv)+.2)*FC;
+  O=tanh_approx(O);
   O=max(O,0.);
-
-#ifdef KODELIFE 
+#ifdef KODELIFE
   O=sqrt(O);
 #else
-  vec4 M=_loadMedia();
+  M=_loadMedia();
   O=sqrt(O);
-  O=mix(O,M.xyz,(p2.y+.5)*M.w);
-#endif  
+  O=mix(O,M.xyz,(p2.y+.5)*M.w*media_opacity);
+#endif
+
   return vec4(O,1);
 }
