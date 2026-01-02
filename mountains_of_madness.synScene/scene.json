@@ -211,6 +211,28 @@
 			"PARAMS" : 0.20901,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 
+			[
+				-700,
+				300
+			],
+			"DESCRIPTION" : "",
+			"MAX" : 
+			[
+				300,
+				500
+			],
+			"MIN" : 
+			[
+				-900,
+				-300
+			],
+			"NAME" : "gas_giant_position",
+			"PARAMS" : 0.22301,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Visual"
 		}
 	],
 	"CREDIT" : "mrange",

@@ -47,4 +47,5 @@ function update(dt) {
   setHSVColor("FC",1.0-color_burn_hue,color_burn_saturation,color_burn_intensity)
   setNormalizedVec3("RN",ring_direction.x,1,ring_direction.y);
   setNormalizedVec3("LD",1,light_direction.y,light_direction.x);
+  setUniform("GG",gas_giant_position.x, gas_giant_position.y, 1000, 400);
 }

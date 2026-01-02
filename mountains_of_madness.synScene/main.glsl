@@ -37,10 +37,11 @@ const vec3
 , RN=normalize(vec3(-0.1,1,0.1))
 ;
 */
+/*
 const vec4
   GG=vec4(vec3(-700,300,1000),400.)
   ;
-
+*/
 const mat2
   R=mat2(1.2,1.6,-1.6,1.2)
 ;
