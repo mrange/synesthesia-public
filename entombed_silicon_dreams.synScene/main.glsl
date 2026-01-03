@@ -19,6 +19,8 @@ vec3 hsv2rgb(vec3 c) {
 #ifdef KODELIFE
 const float
   fft_limit=0.5
+, fov=2.
+, motion_blur=.3
 , tomb_probability=.3
 , OFF=.7
 ;
@@ -45,6 +47,7 @@ const vec4
 
 const float
   TAU=2.*PI
+, PI_2=.5*PI
 , ZZ =11.
 ;
 
@@ -69,6 +72,61 @@ vec3 tanh_approx(vec3 x) {
   ;
   return clamp(x*(27.0 + x2)/(27.0+9.0*x2), -1.0, 1.0);
 }
+
+// License: MIT, author: Pascal Gilcher, found: https://www.shadertoy.com/view/flSXRV
+float atan_approx(float y, float x) {
+  float cosatan2 = x / (abs(x) + abs(y));
+  float t = PI_2 - cosatan2 * PI_2;
+  return y < 0.0 ? -t : t;
+}
+
+float acos_approx(float x) {
+  return atan_approx(sqrt(max(.0, 1. - x*x)), x);
+}
+
+vec3 to_spherical(vec3 p) {
+  float
+    r = length(p)
+  ;
+  return vec3(r, acos_approx(p.z/r), atan_approx(p.y, p.x));
+}
+
+vec3 stars(vec3 R) {
+  float
+    Z=TAU/200.
+  ;
+
+  vec3
+    col=vec3(0)
+  ;
+
+  float
+    a=1.
+  ;
+  for(int i=0;i<3;++i) {
+    R=R.zxy;
+    vec2
+      s=to_spherical(R).yz
+    , n=floor(s/Z+.5)
+    , c=s-Z*n
+    ;
+
+    float
+      h=sin(s.x)
+    , h0=hash(n+123.4*float(i+1))
+    , h1=fract(8667.*h0)
+    , h2=fract(9677.*h0)
+    , h3=fract(9977.*h0)
+    ;
+    c.y*=h;
+
+    col += a*hsv2rgb(vec3(-.4*h1,sqrt(h3),step(h0,.1*h)*h1*vec3(7e-6)/dot(c,c)));
+    Z*=.5;
+    a*=.5;
+  }
+  return col;
+}
+
 
 // License: MIT, author: Inigo Quilez, found: https://www.iquilezles.org/www/articles/spherefunctions/spherefunctions.htm
 float ray_sphere(vec3 ro, vec3 rd, vec4 sph) {
@@ -209,6 +267,8 @@ vec4 renderMain() {
     , T=speed
 #endif
     , B=beat()
+    , F
+    , L
     ;
 
   vec2
@@ -260,13 +320,15 @@ vec4 renderMain() {
     M.xyz=S;
     z=d=ray_sphere(P,R,M);
 
+    F=smoothstep(0.0,0.2,R.y);
     Y=clamp((hsv2rgb(vec3(OFF-.4*R.y,.5+1.*R.y,3./(1.+800.*R.y*R.y*R.y)))),0.,1.);
+    L=dot(vec3(0.2126, 0.7152, 0.0722),Y);
     if(z>0.) {
       p=P+R*z;
       ZZ=normalize(p-M.xyz);
       Y+=
           max(dot(LD,ZZ),0.)
-        * smoothstep(0.0,0.2,R.y)
+        * F
         * smoothstep(1.0,.89,1.+dot(R,ZZ))
         * fbm(2e-2*dot(p-S,RN))
         ;
@@ -275,22 +337,27 @@ vec4 renderMain() {
     z=ray_plane(P,R,M);
     if(z>0.&&(d>0.&&z<d||isnan(d))) {
       p=P+R*z;
-      d=distance(S,p);
+      z=distance(S,p);
       Y+=
-          
-          smoothstep(0.0,0.2,R.y)
-        * step(GG.w*1.41,d)
-        * step(d,GG.w*2.)
+          F
+        * smoothstep(GG.w*1.41,GG.w*1.46,z)
+        * smoothstep(GG.w*2.,GG.w*1.95,z)
         * (
             smoothstep(
                fft_limit
             ,  1.01
-            ,  freq(1.5*abs(d-GG.w*1.48)/GG.w,smoothstep(1.,1.1,1.-abs(dot(R,RN))+.2)))
-            *  hsv2rgb(vec3(OFF-.7+d/GG.w,.9,9.))
-        +   abs(dot(LD,RN))*fbm(.035*d)
+            ,  freq(1.5*abs(z-GG.w*1.48)/GG.w,smoothstep(1.,1.1,1.-abs(dot(R,RN))+.2)))
+            *  hsv2rgb(vec3(OFF-.7+z/GG.w,.9,9.))
+        +   abs(dot(LD,RN))*fbm(.035*z)
         )
         ;
+
     }
+
+    if(isnan(d)) {
+      Y+=pow(1.-L,4.)*stars(R);
+    }
+
     O*=Y;
   }
 
@@ -305,7 +372,7 @@ vec4 renderMain() {
   O=mix(O,M.xyz,(p2.y+.5)*M.w*media_opacity);
 #endif
 
-  M=textureLod(syn_FinalPass, _uv, 0);
+  M=textureLod(syn_FinalPass, _uv, 0.);
   O=mix(O,M.xyz,motion_blur);
 
   return vec4(O,1);
