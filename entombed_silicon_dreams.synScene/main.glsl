@@ -65,6 +65,24 @@ float hash(vec2 co) {
   return fract(sin(dot(co.xy ,vec2(12.9898,58.233))) * 13758.5453);
 }
 
+float beat() {
+#ifdef KODELIFE
+  return pow(1.-fract(TIME),2.);
+#else
+  return dot(pow(vec2(syn_BassLevel,syn_BassHits), bass_pow), bass_mix);
+#endif
+}
+
+float freq(float x, float m) {
+#ifdef KODELIFE
+  return 0.;
+#else
+  vec2 t=textureLod(syn_Spectrum,x,0).yz;
+  return mix(t.x,t.y*.3,m);
+#endif
+}
+
+
 // License: Unknown, author: Claude Brezinski, found: https://mathr.co.uk/blog/2017-09-06_approximating_hyperbolic_tangent.html
 vec3 tanh_approx(vec3 x) {
   vec3
@@ -114,9 +132,9 @@ vec3 stars(vec3 R) {
     float
       h=sin(s.x)
     , h0=hash(n+123.4*float(i+1))
-    , h1=fract(8667.*h0)
-    , h2=fract(9677.*h0)
-    , h3=fract(9977.*h0)
+    , h1=fract(8887.*h0)
+    , h2=fract(9187.*h0)
+    , h3=fract(9677.*h0)
     ;
     c.y*=h;
 
@@ -151,23 +169,6 @@ float ray_plane(vec3 ro, vec3 rd, vec4 p) {
 float doctahedron(vec3 p, float s) {
   p = abs(p);
   return (p.x+p.y+p.z-s)*0.57735027;
-}
-
-float beat() {
-#ifdef KODELIFE
-  return pow(1.-fract(TIME),2.);
-#else
-  return dot(pow(vec2(syn_BassLevel,syn_BassHits), bass_pow), bass_mix);
-#endif
-}
-
-float freq(float x, float m) {
-#ifdef KODELIFE
-  return 0.;
-#else
-  vec2 t=textureLod(syn_Spectrum,x,0).yz;
-  return mix(t.x,t.y*.3,m);
-#endif
 }
 
 vec3 path(float z) {
