@@ -157,8 +157,8 @@ vec4 dist(sampler2D tex, vec2 xy, ivec2 ixy) {
   
   
   col=
-     smoothstep(-aa,aa,(line_mod+cos(freq*dist))/freq*.5)
-    /(1.+fade_mod*dist*dist)
+     smoothstep(-aa,aa,(line_thickness+cos(freq*dist))/freq*.5)
+    /(1.+exp2(line_fade)*dist*dist)
     *(1.+sin(vec3(color_base,0)-TIME+dist*3.+(p.y)))
     ;
 

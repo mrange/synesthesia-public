@@ -92,7 +92,7 @@
 			"DESCRIPTION" : "",
 			"MAX" : 1,
 			"MIN" : -1,
-			"NAME" : "line_mod",
+			"NAME" : "line_thickness",
 			"PARAMS" : 0.1,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Visual"
@@ -120,11 +120,11 @@
 			"UI_GROUP" : "Visual"
 		},
 		{
-			"DEFAULT" : 32,
+			"DEFAULT" : 5,
 			"DESCRIPTION" : "",
-			"MAX" : 200,
-			"MIN" : 1,
-			"NAME" : "fade_mod",
+			"MAX" : 16,
+			"MIN" : 0,
+			"NAME" : "line_fade",
 			"PARAMS" : 0.1,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Visual"
