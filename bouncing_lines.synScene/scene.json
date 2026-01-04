@@ -7,7 +7,7 @@
 				0.5,
 				0.5
 			],
-			"DESCRIPTION" : "Audio response strength (X: bass level, Y: bass hits)",
+			"DESCRIPTION" : "Blends bass level and bass hits into the beat calculation (X: bass level weight, Y: bass hits weight)",
 			"MAX" : 
 			[
 				1,
@@ -29,7 +29,7 @@
 				4,
 				1
 			],
-			"DESCRIPTION" : "Audio response curve (higher = more intense reaction)",
+			"DESCRIPTION" : "Exponent applied to audio values before mixing (X: bass level curve, Y: bass hits curve; higher = more extreme response)",
 			"MAX" : 
 			[
 				6,
@@ -47,7 +47,7 @@
 		},
 		{
 			"DEFAULT" : 0.5,
-			"DESCRIPTION" : "Controls cut off based on media lightness",
+			"DESCRIPTION" : "Luminance threshold that determines which parts of the media create the distance field (higher = only bright areas)",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "media_cutoff",
@@ -57,7 +57,7 @@
 		},
 		{
 			"DEFAULT" : 1,
-			"DESCRIPTION" : "Controls how much media input is zoom",
+			"DESCRIPTION" : "Scales the media input sampling (higher = zoomed in closer)",
 			"MAX" : 5,
 			"MIN" : 0,
 			"NAME" : "media_zoom",
@@ -71,7 +71,7 @@
 				0,
 				0
 			],
-			"DESCRIPTION" : "Controls media position",
+			"DESCRIPTION" : "Shifts the media sampling position (X: horizontal offset, Y: vertical offset)",
 			"MAX" : 
 			[
 				2,
@@ -89,7 +89,7 @@
 		},
 		{
 			"DEFAULT" : -0.707,
-			"DESCRIPTION" : "Controls the thickness of the lines",
+			"DESCRIPTION" : "Base thickness of the concentric line pattern (higher = thicker lines)",
 			"MAX" : 1,
 			"MIN" : -1,
 			"NAME" : "line_thickness",
@@ -103,7 +103,7 @@
 				2,
 				1
 			],
-			"DESCRIPTION" : "Controls base color generation values",
+			"DESCRIPTION" : "Phase offset for animated color cycling (X and Y shift different color channels)",
 			"MAX" : 
 			[
 				7,
@@ -121,7 +121,7 @@
 		},
 		{
 			"DEFAULT" : 5,
-			"DESCRIPTION" : "Controls how fast lines fade out",
+			"DESCRIPTION" : "Exponential falloff rate for line brightness with distance (higher = faster fade)",
 			"MAX" : 16,
 			"MIN" : 0,
 			"NAME" : "line_fade",
@@ -135,7 +135,7 @@
 				100,
 				20
 			],
-			"DESCRIPTION" : "Controls the distance between lines on beat and off beat (X: off beat, Y: on beat)",
+			"DESCRIPTION" : "Frequency of concentric line pattern (X: off-beat frequency, Y: on-beat frequency; lower = wider spacing)",
 			"MAX" : 
 			[
 				300,
@@ -157,7 +157,7 @@
 				0.43,
 				0.21
 			],
-			"DESCRIPTION" : "The flashing light color",
+			"DESCRIPTION" : "RGB color of the beat-responsive flash effect",
 			"MAX" : 
 			[
 				1,
@@ -181,7 +181,7 @@
 				0.6,
 				1
 			],
-			"DESCRIPTION" : "Controls intervals the flash color is visible depending on the beat (X: Lower limit, Y: Upper limit)",
+			"DESCRIPTION" : "Beat range during which the flash is visible (X: fade-in start, Y: full brightness; creates smooth transition)",
 			"MAX" : 
 			[
 				1,
@@ -203,7 +203,7 @@
 				1,
 				1
 			],
-			"DESCRIPTION" : "Controls zoom on beat and off beat (X: Zoom off bat, Y: Zoom on beat)",
+			"DESCRIPTION" : "Beat-reactive zoom multiplier applied from the distortion center (X: off-beat zoom, Y: on-beat zoom)",
 			"MAX" : 
 			[
 				2,
@@ -225,7 +225,7 @@
 				0,
 				0
 			],
-			"DESCRIPTION" : "Controls rotation on beat and off beat (X: Rotation off bat, Y: Rotation on beat)",
+			"DESCRIPTION" : "Beat-reactive rotation applied around the distortion center (X: off-beat rotation, Y: on-beat rotation)",
 			"MAX" : 
 			[
 				2,
@@ -247,7 +247,7 @@
 				0,
 				0
 			],
-			"DESCRIPTION" : "The center of the distortion effects (such as zoom and rotation)",
+			"DESCRIPTION" : "Center point for distance-based zoom and rotation effects (X: horizontal center, Y: vertical center)",
 			"MAX" : 
 			[
 				2,
@@ -265,7 +265,7 @@
 		}
 	],
 	"CREDIT" : "mrange",
-	"DESCRIPTION" : "Bouncing lines created by constructing a distance field around the media input",
+	"DESCRIPTION" : "Animated concentric line pattern generated using Jump Flood Algorithm distance fields from media input",
 	"GPU" : 1,
 	"HEIGHT" : 1080,
 	"IMAGE_PATH" : "scene.png",
