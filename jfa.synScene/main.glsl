@@ -25,8 +25,10 @@ vec4 image(sampler2D tex, vec2 xy, ivec2 ixy) {
   ;
   float
     b=beat()
-  , l=length(p)
+  , l=length(p-dist_offset)
   ;
+  
+  p-=media_offset;
   
   rot(p, mix(rot_mod.x,rot_mod.y,b*l));
   p/=media_zoom*mix(zoom_mod.x,zoom_mod.y,b*l);

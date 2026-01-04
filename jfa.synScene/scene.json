@@ -110,6 +110,28 @@
 		{
 			"DEFAULT" : 
 			[
+				0,
+				0
+			],
+			"DESCRIPTION" : "",
+			"MAX" : 
+			[
+				2,
+				2
+			],
+			"MIN" : 
+			[
+				-2,
+				-2
+			],
+			"NAME" : "media_offset",
+			"PARAMS" : 0.20001,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Media"
+		},
+		{
+			"DEFAULT" : 
+			[
 				100,
 				20
 			],
@@ -216,6 +238,28 @@
 			],
 			"NAME" : "flash_mod",
 			"PARAMS" : 0.09901,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Distortion"
+		},
+		{
+			"DEFAULT" : 
+			[
+				0,
+				0
+			],
+			"DESCRIPTION" : "",
+			"MAX" : 
+			[
+				2,
+				2
+			],
+			"MIN" : 
+			[
+				-2,
+				-2
+			],
+			"NAME" : "dist_offset",
+			"PARAMS" : 0.21101,
 			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Distortion"
 		}

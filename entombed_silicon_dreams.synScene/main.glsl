@@ -73,12 +73,13 @@ float beat() {
 #endif
 }
 
-float freq(float x, float m) {
+float freq(float x) {
 #ifdef KODELIFE
   return 0.;
 #else
   vec2 t=textureLod(syn_Spectrum,x,0).yz;
-  return mix(t.x,t.y*.3,m);
+  //return smoothstep(0.,0.0125,fwidth(x));
+  return mix(t.x,t.y,smoothstep(0.,0.015,fwidth(x)));
 #endif
 }
 
@@ -347,7 +348,7 @@ vec4 renderMain() {
             smoothstep(
                fft_limit
             ,  1.01
-            ,  freq(1.5*abs(z-GG.w*1.48)/GG.w,smoothstep(1.,1.1,1.-abs(dot(R,RN))+.2)))
+            ,  freq(1.5*abs(z-GG.w*1.48)/GG.w))
             *  hsv2rgb(vec3(OFF-.7+z/GG.w,.9,9.))
         +   abs(dot(LD,RN))*fbm(.035*z)
         )
