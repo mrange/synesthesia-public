@@ -146,7 +146,7 @@
 				10,
 				10
 			],
-			"NAME" : "beat_mod",
+			"NAME" : "line_distance",
 			"TYPE" : "xy",
 			"UI_GROUP" : "Visual"
 		},
@@ -170,7 +170,7 @@
 				0,
 				0
 			],
-			"NAME" : "glow_mod",
+			"NAME" : "flash_col",
 			"PARAMS" : 0.11001,
 			"TYPE" : "color smooth",
 			"UI_GROUP" : "Visual"
@@ -192,7 +192,7 @@
 				0,
 				0
 			],
-			"NAME" : "flash_mod",
+			"NAME" : "flash_beat",
 			"PARAMS" : 0.09901,
 			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Visual"

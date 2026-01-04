@@ -146,8 +146,8 @@ vec4 dist(sampler2D tex, vec2 xy, ivec2 ixy) {
   , dist =(dist0>dist1?dist0:-dist1)*2./RENDERSIZE.y
   , aa   = sqrt(2.)/RENDERSIZE. y
   , b    = beat()
-  , f    = smoothstep(flash_mod.x,flash_mod.y,b)
-  , freq = mix(beat_mod.x,beat_mod.y,b)
+  , f    = smoothstep(flash_beat.x,flash_beat.y,b)
+  , freq = mix(line_distance.x,line_distance.y,b)
   ;
   
   //dist=min(dist,abs(dist-.3));
@@ -168,7 +168,7 @@ vec4 dist(sampler2D tex, vec2 xy, ivec2 ixy) {
   }
 
   //dist-=mix(.1,.2,b);
-  col+=f*glow_mod*1e-3/max(dist*dist,1e-4);
+  col+=f*flash_col*1e-3/max(dist*dist,1e-4);
   col=tanh_approx(col);
   col=max(col,0.);
   col=sqrt(col);
