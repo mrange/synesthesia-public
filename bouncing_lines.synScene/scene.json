@@ -1,19 +1,19 @@
 {
-	"CONTROLS" : 
+	"CONTROLS" :
 	[
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.5,
 				0.5
 			],
 			"DESCRIPTION" : "Blends bass level and bass hits into the beat calculation (X: bass level weight, Y: bass hits weight)",
-			"MAX" : 
+			"MAX" :
 			[
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
@@ -24,18 +24,18 @@
 			"UI_GROUP" : "Audio"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				4,
 				1
 			],
 			"DESCRIPTION" : "Exponent applied to audio values before mixing (X: bass level curve, Y: bass hits curve; higher = more extreme response)",
-			"MAX" : 
+			"MAX" :
 			[
 				6,
 				6
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
@@ -66,18 +66,18 @@
 			"UI_GROUP" : "Media"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0,
 				0
 			],
 			"DESCRIPTION" : "Shifts the media sampling position (X: horizontal offset, Y: vertical offset)",
-			"MAX" : 
+			"MAX" :
 			[
 				2,
 				2
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				-2,
 				-2
@@ -98,18 +98,18 @@
 			"UI_GROUP" : "Visual"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				2,
 				1
 			],
 			"DESCRIPTION" : "Phase offset for animated color cycling (X and Y shift different color channels)",
-			"MAX" : 
+			"MAX" :
 			[
 				7,
 				7
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
@@ -130,18 +130,18 @@
 			"UI_GROUP" : "Visual"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				100,
 				20
 			],
 			"DESCRIPTION" : "Frequency of concentric line pattern (X: off-beat frequency, Y: on-beat frequency; lower = wider spacing)",
-			"MAX" : 
+			"MAX" :
 			[
 				300,
 				300
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				10,
 				10
@@ -151,20 +151,20 @@
 			"UI_GROUP" : "Visual"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.64,
 				0.43,
 				0.21
 			],
 			"DESCRIPTION" : "RGB color of the beat-responsive flash effect",
-			"MAX" : 
+			"MAX" :
 			[
 				1,
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0,
@@ -176,18 +176,18 @@
 			"UI_GROUP" : "Visual"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.6,
 				1
 			],
 			"DESCRIPTION" : "Beat range during which the flash is visible (X: fade-in start, Y: full brightness; creates smooth transition)",
-			"MAX" : 
+			"MAX" :
 			[
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
@@ -198,18 +198,18 @@
 			"UI_GROUP" : "Visual"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				1,
 				1
 			],
 			"DESCRIPTION" : "Beat-reactive zoom multiplier applied from the distortion center (X: off-beat zoom, Y: on-beat zoom)",
-			"MAX" : 
+			"MAX" :
 			[
 				2,
 				2
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0.5,
 				0.5
@@ -220,18 +220,18 @@
 			"UI_GROUP" : "Distortion"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0,
 				0
 			],
 			"DESCRIPTION" : "Beat-reactive rotation applied around the distortion center (X: off-beat rotation, Y: on-beat rotation)",
-			"MAX" : 
+			"MAX" :
 			[
 				2,
 				2
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				-2,
 				-2
@@ -242,18 +242,18 @@
 			"UI_GROUP" : "Distortion"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0,
 				0
 			],
 			"DESCRIPTION" : "Center point for distance-based zoom and rotation effects (X: horizontal center, Y: vertical center)",
-			"MAX" : 
+			"MAX" :
 			[
 				2,
 				2
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				-2,
 				-2
@@ -265,18 +265,18 @@
 		}
 	],
 	"CREDIT" : "mrange",
-	"DESCRIPTION" : "Animated concentric line pattern generated using Jump Flood Algorithm distance fields from media input",
+	"DESCRIPTION" : "Hypnotic topographic line patterns flow and pulse around your media, creating contour-map-like visualizations that respond dynamically to audio. Concentric rings ripple outward from bright regions, with beat-reactive spacing and mesmerizing color cycling.",
 	"GPU" : 1,
 	"HEIGHT" : 1080,
 	"IMAGE_PATH" : "scene.png",
-	"MEDIA" : 
+	"MEDIA" :
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"PASSES" : 
+	"PASSES" :
 	[
 		{
 			"FILTER" : "linear",
@@ -367,10 +367,21 @@
 			"WRAP" : "repeat"
 		}
 	],
-	"TAGS" : 
+	"TAGS" :
 	[
 		"mrange",
-		"jfa"
+		"jfa",
+		"distance-field",
+		"topographic",
+		"contours",
+		"concentric",
+		"lines",
+		"audio-reactive",
+		"beat-sync",
+		"media-reactive",
+		"geometric",
+		"hypnotic",
+		"procedural"
 	],
 	"TITLE" : "Bouncing lines",
 	"WIDTH" : 1920
