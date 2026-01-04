@@ -147,7 +147,7 @@ vec4 dist(sampler2D tex, vec2 xy, ivec2 ixy) {
   , aa   = sqrt(2.)/RENDERSIZE. y
   , b    = beat()
   , f    = smoothstep(flash_beat.x,flash_beat.y,b)
-  , freq = mix(line_distance.x,line_distance.y,b)
+  , freq = mix(line_beat.x,line_beat.y,b)
   ;
   
   //dist=min(dist,abs(dist-.3));

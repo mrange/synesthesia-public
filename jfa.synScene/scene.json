@@ -92,7 +92,7 @@
 			"DESCRIPTION" : "",
 			"MAX" : 1,
 			"MIN" : -1,
-			"NAME" : "line_thickness",
+			"NAME" : "line_beat",
 			"PARAMS" : 0.1,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Visual"
