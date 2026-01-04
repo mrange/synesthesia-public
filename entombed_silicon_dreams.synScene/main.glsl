@@ -157,8 +157,8 @@ float ray_sphere(vec3 ro, vec3 rd, vec4 sph) {
   , c=dot(oc, oc)- sph.w*sph.w
   , h=b*b-c
   ;
-  h=sqrt(h);
-  return -b-h;
+  if (h<0.) return -1.;
+  return -b-sqrt(h);
 }
 
 // License: MIT, author: Inigo Quilez, found: https://iquilezles.org/articles/intersectors/
@@ -337,7 +337,7 @@ vec4 renderMain() {
     }
     M=vec4(RN,-dot(RN,S));
     z=ray_plane(P,R,M);
-    if(z>0.&&(d>0.&&z<d||isnan(d))) {
+    if(z>0.&&(d>0.&&z<d||d==-1.)) {
       p=P+R*z;
       z=distance(S,p);
       Y+=
@@ -356,8 +356,8 @@ vec4 renderMain() {
 
     }
 
-    if(isnan(d)) {
-      Y+=pow(1.-L,4.)*stars(R);
+    if(d==-1.) {
+      Y+=pow(max(0.,1.-L),4.)*stars(R);
     }
 
     O*=Y;
