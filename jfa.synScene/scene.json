@@ -56,53 +56,11 @@
 			"UI_GROUP" : "Media"
 		},
 		{
-			"DEFAULT" : -0.707,
-			"DESCRIPTION" : "",
-			"MAX" : 1,
-			"MIN" : -1,
-			"NAME" : "line_mod",
-			"PARAMS" : 0.1,
-			"TYPE" : "slider smooth",
-			"UI_GROUP" : "Media"
-		},
-		{
 			"DEFAULT" : 1,
 			"DESCRIPTION" : "",
 			"MAX" : 5,
 			"MIN" : 0,
 			"NAME" : "media_zoom",
-			"PARAMS" : 0.1,
-			"TYPE" : "slider smooth",
-			"UI_GROUP" : "Media"
-		},
-		{
-			"DEFAULT" : 
-			[
-				2,
-				1
-			],
-			"DESCRIPTION" : "",
-			"MAX" : 
-			[
-				7,
-				7
-			],
-			"MIN" : 
-			[
-				0,
-				0
-			],
-			"NAME" : "color_base",
-			"PARAMS" : 0.1,
-			"TYPE" : "xy smooth",
-			"UI_GROUP" : "Media"
-		},
-		{
-			"DEFAULT" : 32,
-			"DESCRIPTION" : "",
-			"MAX" : 200,
-			"MIN" : 1,
-			"NAME" : "fade_mod",
 			"PARAMS" : 0.1,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Media"
@@ -130,6 +88,48 @@
 			"UI_GROUP" : "Media"
 		},
 		{
+			"DEFAULT" : -0.707,
+			"DESCRIPTION" : "",
+			"MAX" : 1,
+			"MIN" : -1,
+			"NAME" : "line_mod",
+			"PARAMS" : 0.1,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 
+			[
+				2,
+				1
+			],
+			"DESCRIPTION" : "",
+			"MAX" : 
+			[
+				7,
+				7
+			],
+			"MIN" : 
+			[
+				0,
+				0
+			],
+			"NAME" : "color_base",
+			"PARAMS" : 0.1,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 32,
+			"DESCRIPTION" : "",
+			"MAX" : 200,
+			"MIN" : 1,
+			"NAME" : "fade_mod",
+			"PARAMS" : 0.1,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Visual"
+		},
+		{
 			"DEFAULT" : 
 			[
 				100,
@@ -148,7 +148,54 @@
 			],
 			"NAME" : "beat_mod",
 			"TYPE" : "xy",
-			"UI_GROUP" : "Distortion"
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 
+			[
+				0.64,
+				0.43,
+				0.21
+			],
+			"DESCRIPTION" : "",
+			"MAX" : 
+			[
+				1,
+				1,
+				1
+			],
+			"MIN" : 
+			[
+				0,
+				0,
+				0
+			],
+			"NAME" : "glow_mod",
+			"PARAMS" : 0.11001,
+			"TYPE" : "color smooth",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 
+			[
+				0.6,
+				1
+			],
+			"DESCRIPTION" : "",
+			"MAX" : 
+			[
+				1,
+				1
+			],
+			"MIN" : 
+			[
+				0,
+				0
+			],
+			"NAME" : "flash_mod",
+			"PARAMS" : 0.09901,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Visual"
 		},
 		{
 			"DEFAULT" : 
@@ -191,53 +238,6 @@
 			],
 			"NAME" : "rot_mod",
 			"PARAMS" : 0.1,
-			"TYPE" : "xy smooth",
-			"UI_GROUP" : "Distortion"
-		},
-		{
-			"DEFAULT" : 
-			[
-				0.64,
-				0.43,
-				0.21
-			],
-			"DESCRIPTION" : "",
-			"MAX" : 
-			[
-				1,
-				1,
-				1
-			],
-			"MIN" : 
-			[
-				0,
-				0,
-				0
-			],
-			"NAME" : "glow_mod",
-			"PARAMS" : 0.11001,
-			"TYPE" : "color smooth",
-			"UI_GROUP" : "Distortion"
-		},
-		{
-			"DEFAULT" : 
-			[
-				0.6,
-				1
-			],
-			"DESCRIPTION" : "",
-			"MAX" : 
-			[
-				1,
-				1
-			],
-			"MIN" : 
-			[
-				0,
-				0
-			],
-			"NAME" : "flash_mod",
-			"PARAMS" : 0.09901,
 			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Distortion"
 		},
