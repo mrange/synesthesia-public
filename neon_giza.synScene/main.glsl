@@ -712,7 +712,7 @@ vec4 fpass1() {
   vec4
     mcol=_loadMedia()
   ;
-  col=mix(col,mcol.xyz,mcol.w*media_opacity*media_multiplier);
+  col=mix(col,mcol.xyz,smoothstep(media_opacity_off.x, media_opacity_off.y, _uv.y)*mcol.w*media_opacity*media_multiplier);
 #endif
   col=mix(col,clamp(pcol.xyz,0.,1.),motion_blur);
   return vec4(col, 1);
