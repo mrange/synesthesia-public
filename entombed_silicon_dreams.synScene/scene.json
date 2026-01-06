@@ -1,19 +1,19 @@
 {
-	"CONTROLS" : 
+	"CONTROLS" :
 	[
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0.5,
 				0.5
 			],
-			"DESCRIPTION" : "Audio response strength (X: bass level, Y: bass hits)",
-			"MAX" : 
+			"DESCRIPTION" : "Beat calculation weights (X: bass level, Y: bass hits)",
+			"MAX" :
 			[
 				1,
 				1
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
@@ -24,18 +24,18 @@
 			"UI_GROUP" : "Audio"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				4,
 				1
 			],
-			"DESCRIPTION" : "Audio response curve (higher = more intense reaction)",
-			"MAX" : 
+			"DESCRIPTION" : "Beat response curve (X: bass level power, Y: bass hits power; higher = stronger)",
+			"MAX" :
 			[
 				6,
 				6
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				0,
 				0
@@ -57,7 +57,7 @@
 		},
 		{
 			"DEFAULT" : 4,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Camera movement speed",
 			"MAX" : 9,
 			"MIN" : -9,
 			"NAME" : "speed",
@@ -65,18 +65,18 @@
 			"UI_GROUP" : "Movement"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				-0.5,
 				0.1
 			],
-			"DESCRIPTION" : "",
-			"MAX" : 
+			"DESCRIPTION" : "Camera look direction offset (X: horizontal, Y: vertical)",
+			"MAX" :
 			[
 				2,
 				2
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				-2,
 				-2
@@ -87,18 +87,18 @@
 			"UI_GROUP" : "Movement"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				25,
 				3.3
 			],
-			"DESCRIPTION" : "",
-			"MAX" : 
+			"DESCRIPTION" : "Base camera position offsets (X and Y: position)",
+			"MAX" :
 			[
 				35,
 				9
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				15,
 				1
@@ -110,7 +110,7 @@
 		},
 		{
 			"DEFAULT" : 0.7,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Base hue offset for all scene colors",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "base_hue",
@@ -120,7 +120,7 @@
 		},
 		{
 			"DEFAULT" : 0.33,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Tomb visibility threshold – higher values show fewer tombs",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "tomb_probability",
@@ -129,18 +129,18 @@
 			"UI_GROUP" : "Visual"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				-0.2,
 				-1.1
 			],
-			"DESCRIPTION" : "",
-			"MAX" : 
+			"DESCRIPTION" : "Ring texture pattern direction (X and Y form normalized vector)",
+			"MAX" :
 			[
 				2,
 				2
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				-2,
 				-2
@@ -151,18 +151,18 @@
 			"UI_GROUP" : "Visual"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				1,
 				-0.5
 			],
-			"DESCRIPTION" : "",
-			"MAX" : 
+			"DESCRIPTION" : "Light source direction for shading (X and Y angles)",
+			"MAX" :
 			[
 				2,
 				2
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				-2,
 				-2
@@ -174,7 +174,7 @@
 		},
 		{
 			"DEFAULT" : 0.5,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Audio threshold for ring visualization – filters quiet frequencies",
 			"MAX" : 1.01,
 			"MIN" : -0.125,
 			"NAME" : "fft_limit",
@@ -184,7 +184,7 @@
 		},
 		{
 			"DEFAULT" : 0.7,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Hue for vignette color burn effect",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "color_burn_hue",
@@ -194,7 +194,7 @@
 		},
 		{
 			"DEFAULT" : 0.7,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Saturation for vignette color burn effect",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "color_burn_saturation",
@@ -204,7 +204,7 @@
 		},
 		{
 			"DEFAULT" : 0.2,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Intensity for vignette color burn effect",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "color_burn_intensity",
@@ -213,18 +213,18 @@
 			"UI_GROUP" : "Visual"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				-700,
 				300
 			],
-			"DESCRIPTION" : "",
-			"MAX" : 
+			"DESCRIPTION" : "Gas giant planet position (X: horizontal, Y: vertical)",
+			"MAX" :
 			[
 				300,
 				500
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				-900,
 				-300
@@ -236,7 +236,7 @@
 		},
 		{
 			"DEFAULT" : 0,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Frame blending amount – higher creates motion blur trail",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "motion_blur",
@@ -246,7 +246,7 @@
 		},
 		{
 			"DEFAULT" : 2,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Camera field of view – higher is wider angle",
 			"MAX" : 4,
 			"MIN" : 1,
 			"NAME" : "fov",
@@ -260,14 +260,14 @@
 	"GPU" : 1,
 	"HEIGHT" : 1080,
 	"IMAGE_PATH" : "scene.png",
-	"MEDIA" : 
+	"MEDIA" :
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"TAGS" : 
+	"TAGS" :
 	[
 		"mrange"
 	],
