@@ -1,20 +1,20 @@
 #ifdef KODELIFE
 const float
-  glass_effect      =.5
-, height            =2.
-, media_multiplier  =1.
-, media_transparency=.7
+  glass_blend       =.5
+, camera_height     =2.
+, media_intensity   =1.
+, media_opacity     =.7
 , motion_blur       =.4
 , neon_glow         =.5
-, neon_towers       =.2
+, tower_threshold   =.2
 , retain_glow       =.8
 ;
 
 const vec2
   reflection    =vec2(.0625,.75)
-, media_glass   =vec2(.25,.5)
+, media_mask    =vec2(.25,.5)
 , neon_color    =vec2(2,3)
-, path_control  =vec2(1,.33);
+, path_wave     =vec2(1,.33);
 ;
 #endif
 
@@ -80,22 +80,22 @@ vec3 gb(sampler2D pp, ivec2 dir, ivec2 xy) {
 
 
 vec3 path(float speed) {
-  return vec3(.5+path_control.x*sin(path_control.y*speed),height,speed);
+  return vec3(.5+path_wave.x*sin(path_wave.y*speed),camera_height,speed);
 }
 
 vec3 dpath(float speed) {
-  return vec3(path_control.x*path_control.y*cos(path_control.y*speed),0,1);
+  return vec3(path_wave.x*path_wave.y*cos(path_wave.y*speed),0,1);
 }
 
 vec3 ddpath(float speed) {
-  return vec3(-path_control.x*path_control.y*path_control.y*sin(path_control.y*speed),0,0);
+  return vec3(-path_wave.x*path_wave.y*path_wave.y*sin(path_wave.y*speed),0,0);
 }
 
 float freq(float x) {
 #ifdef KODELIFE
   return exp(-2.*fract(TIME+x));
 #else
-  return height_mul*(textureLod(syn_Spectrum, x, 0.0).y-fft_distinct)/(1.0-fft_distinct);
+  return audio_reactivity*(textureLod(syn_Spectrum, x, 0.0).y-audio_threshold)/(1.0-audio_threshold);
 #endif
 }
 
@@ -298,7 +298,7 @@ vec4 dpass0() {
 
     isr=z==xi&&(HH.z>0.5?NEON.x*NEON.z>0.0:NEON.y>0.);
     x0=z==ti||A<1e-1||length(P-ro)>20.;
-    x1=HH.w<neon_towers&&isr&&(P.y<H*2.*freq(HH.x+HH.y));
+    x1=HH.w<tower_threshold&&isr&&(P.y<H*2.*freq(HH.x+HH.y));
     if(x0||x1) {
       if(x1) {
         col+=(A*(1.-dot(NZ,PN)))*(1.+sin(P.z+P.y+TAU*(HH.z+HH.w)+vec3(neon_color.x,0,neon_color.y)));
@@ -379,17 +379,17 @@ vec4 dpass3() {
   ;
 
   mcol=_loadMedia();
-  t=smoothstep(media_glass.y,media_glass.x,dot(lum_weights_srgb,mcol.xyz));
+  t=smoothstep(media_mask.y,media_mask.x,dot(lum_weights_srgb,mcol.xyz));
   col=texelFetch(pass0,ivec2(_xy),0).xyz;
   bcol=texelFetch(pass2,ivec2(_xy),0).xyz;
   col-=.01;
   col+=neon_glow*bcol;
-  dcol=glass_effect*sqrt(bcol)+.005;
+  dcol=glass_blend*sqrt(bcol)+.005;
   col=mix(col,dcol,mcol.w);
   col=max(col,0.);
   col=tanh_approx(col);
   col=sqrt(col);
-  col=mix(col,mcol.xyz,media_multiplier*media_transparency*mcol.w*(1.-t));
+  col=mix(col,mcol.xyz,media_intensity*media_opacity*mcol.w*(1.-t));
   return vec4(col,1);
 
 }

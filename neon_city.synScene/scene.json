@@ -6,7 +6,7 @@
 			"DESCRIPTION" : "Tower threshold – higher values reveal more neon buildings",
 			"MAX" : 1,
 			"MIN" : 0,
-			"NAME" : "neon_towers",
+			"NAME" : "tower_threshold",
 			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Visual"
@@ -25,7 +25,7 @@
 			"DESCRIPTION" : "Audio reactivity – building heights respond to spectrum",
 			"MAX" : 1,
 			"MIN" : 0,
-			"NAME" : "height_mul",
+			"NAME" : "audio_reactivity",
 			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Visual"
@@ -54,10 +54,10 @@
 		},
 		{
 			"DEFAULT" : 0,
-			"DESCRIPTION" : "Spectrum threshold – filter out quiet audio values",
+			"DESCRIPTION" : "Audio threshold – filter out quiet audio values",
 			"MAX" : 0.9,
 			"MIN" : 0,
-			"NAME" : "fft_distinct",
+			"NAME" : "audio_threshold",
 			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Visual"
@@ -109,7 +109,7 @@
 			"DESCRIPTION" : "Glass blend – media layer viewed through glow tint",
 			"MAX" : 1,
 			"MIN" : 0,
-			"NAME" : "glass_effect",
+			"NAME" : "glass_blend",
 			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Visual"
@@ -119,17 +119,17 @@
 			"DESCRIPTION" : "Media opacity – fade visuals in or out",
 			"MAX" : 1,
 			"MIN" : 0,
-			"NAME" : "media_transparency",
+			"NAME" : "media_opacity",
 			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Media"
 		},
 		{
 			"DEFAULT" : 1,
-			"DESCRIPTION" : "Media multiplier – amplify blend (negative inverts)",
+			"DESCRIPTION" : "Media intensity – amplify blend (negative inverts)",
 			"MAX" : 5,
 			"MIN" : -5,
-			"NAME" : "media_multiplier",
+			"NAME" : "media_intensity",
 			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Media"
@@ -140,7 +140,7 @@
 				0.25,
 				0.5
 			],
-			"DESCRIPTION" : "Media masking – luminance threshold for glass blend",
+			"DESCRIPTION" : "Media mask – luminance threshold for glass blend",
 			"MAX" :
 			[
 				1,
@@ -151,7 +151,7 @@
 				0,
 				0
 			],
-			"NAME" : "media_glass",
+			"NAME" : "media_mask",
 			"PARAMS" : 0.2,
 			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Media"
@@ -182,7 +182,7 @@
 				0,
 				0
 			],
-			"NAME" : "path_control",
+			"NAME" : "path_wave",
 			"TYPE" : "xy",
 			"UI_GROUP" : "Movement"
 		},
@@ -191,7 +191,7 @@
 		  "DESCRIPTION" : "Camera height – elevation above city streets",
 			"MAX" : 2.9,
 			"MIN" : 2.1,
-			"NAME" : "height",
+			"NAME" : "camera_height",
 			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Movement"
