@@ -3,7 +3,7 @@
 	[
 		{
 			"DEFAULT" : 0.2,
-			"DESCRIPTION" : "Tower density – more neon buildings fill the cityscape",
+			"DESCRIPTION" : "Tower threshold – higher values reveal more neon buildings",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "neon_towers",
@@ -54,7 +54,7 @@
 		},
 		{
 			"DEFAULT" : 0,
-			"DESCRIPTION" : "Spectrum threshold – filter out low frequency audio",
+			"DESCRIPTION" : "Spectrum threshold – filter out quiet audio values",
 			"MAX" : 0.9,
 			"MIN" : 0,
 			"NAME" : "fft_distinct",
@@ -106,7 +106,7 @@
 		},
 		{
 			"DEFAULT" : 0.5,
-			"DESCRIPTION" : "Glass refraction – media glass layer strength",
+			"DESCRIPTION" : "Glass blend – media layer viewed through glow tint",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "glass_effect",
@@ -126,7 +126,7 @@
 		},
 		{
 			"DEFAULT" : 1,
-			"DESCRIPTION" : "Media multiplier – boost opacity for bold color effects",
+			"DESCRIPTION" : "Media multiplier – amplify blend (negative inverts)",
 			"MAX" : 5,
 			"MIN" : -5,
 			"NAME" : "media_multiplier",
