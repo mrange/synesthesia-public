@@ -80,7 +80,8 @@ vec3 glowmarch(vec3 col, vec3 ro, vec3 rd, float tinit) {
 
   for (int i = 0; i < 60; ++i) {
     d = df(ro + rd*t, 6E-5+t*t*2E-3, off);
-    col += 1E-9/max(d*d, 1E-8)*(palette(log(off))+5E-2);
+    off=log(off);
+    col += 1E-9/max(d*d, 1E-8)*(palette(off)+5E-2);
     t += .5*max(d, 1E-4);
     if (t > .5) break;
   }
@@ -115,12 +116,15 @@ vec3 effect(vec2 p, vec2 pp, vec2 q) {
   , col
   ;
 
-  col = .1/max(.5-rd.y+.1*rd.x*rd.x, .1)*palette(5.+.1*rd.y);
+  col = .1/max(.5-rd.y+.1*rd.x*rd.x, .1)*palette(5.+.1*rd.y+.25*syn_BassLevel);
   col = render(col, ro, rd);
   col *= smoothstep(1.707, .707, length(pp));
   col -= 3E-2*(.3+dot(pp,pp))*vec3(2,3,1);
   col = aces_approx(col);
   col = sqrt(col);
+
+  vec4 m=_loadMedia();
+  col=mix(col,m.xyz,(.5+p.y)*m.w);
 
   return col;
 }
