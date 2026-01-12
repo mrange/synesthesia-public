@@ -1,0 +1,46 @@
+function v3(x,y,z) {
+  const v=new Float32Array(3);
+  v[0]=x;
+  v[1]=y;
+  v[2]=z;
+  return v;
+}
+
+function v3_add(a, b) {
+  return v3(a[0]+b[0], a[1]+b[1],a[2]+b[2]);
+}
+
+function v3_sub(a, b) {
+  return v3(a[0]-b[0],a[1]-b[1],a[2]-b[2]);
+}
+
+function v3_scale(a, s) {
+  return v3(a[0]*s,a[1]*s,a[2]*s);
+}
+
+
+function v3_dot(a, b) {
+  return a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
+}
+
+function v3_cross(a, b) {
+  return v3(a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]);
+}
+
+function v3_length(a) {
+  return Math.hypot(a[0], a[1], a[2]);
+}
+
+function v3_normalize(a) {
+  const len=v3_length(a);
+  return v3_scale(a, 1 / len);
+}
+
+const center=v3(0,0,0);
+var pos=v3(0.2,0.0,0.0);
+var dpos=v3(0.0,0.0,0.05);
+
+function update(dt) {
+    setUniform('pos',pos[0],pos[1],pos[2]);
+    setUniform('dpos',dpos[0],dpos[1],dpos[2]);
+}
