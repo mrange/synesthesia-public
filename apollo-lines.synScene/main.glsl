@@ -22,21 +22,6 @@ vec3 aces_approx(vec3 v) {
   return clamp((v*(a*v+b))/(v*(c*v+d)+e), .0, 1.);
 }
 
-vec3 offset(float t) {
-  t*= .25;
-  return .2*vec3(sin(TAU*t), sin(0.5*t*TAU), cos(TAU*t));
-}
-
-vec3 doffset(float t) {
-  const float dt = 0.01;
-  return (offset(t+dt)-offset(t-dt))/(2.*dt);
-}
-
-vec3 ddoffset(float t) {
-  const float dt = 0.01;
-  return (doffset(t+dt)-doffset(t-dt))/(2.*dt);
-}
-
 float pmin(float a, float b, float k) {
   float h = clamp(0.5+0.5*(b-a)/k, 0.0, 1.0);
   return mix(b, a, h) - k*h*(1.0-h);
@@ -111,12 +96,11 @@ vec3 render(vec3 col, vec3 ro, vec3 rd) {
 
 vec3 effect(vec2 p, vec2 pp, vec2 q) {
   float
-    tm  = mod(TIME+50.,1600.)
+    tm  = TIME
   ;
 
   g_scale = mix(1.85, 1.5, .5-.5*cos(TAU*tm/1600.));
   g_rot = ROT(tm*TAU/800.);
-  tm *= .025;
 
   vec2
     s=sin(9.*p+TIME)*length(p)
@@ -125,7 +109,7 @@ vec3 effect(vec2 p, vec2 pp, vec2 q) {
   vec3
     ro = pos
   , ZZ = normalize(dpos)
-  , XX = normalize(cross(vec3(0,1,0)-0.2*ddoffset(tm), ZZ))
+  , XX = normalize(cross(vec3(0,1,0), ZZ))
   , YY = cross(ZZ, XX)
   , rd = normalize(-p.x*XX + p.y*YY + mix(2.,2.05,.5-.5*s.x*s.y)*ZZ)
   , col

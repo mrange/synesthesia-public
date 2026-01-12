@@ -28,19 +28,23 @@ function v3_cross(a, b) {
 }
 
 function v3_length(a) {
-  return Math.hypot(a[0], a[1], a[2]);
+  return Math.sqrt(v3_dot(a,a));
 }
 
 function v3_normalize(a) {
   const len=v3_length(a);
-  return v3_scale(a, 1 / len);
+  return v3_scale(a,1.0/len);
 }
 
 const center=v3(0,0,0);
-var pos=v3(0.2,0.0,0.0);
-var dpos=v3(0.0,0.0,0.05);
+var pos=v3(0.3,0.2,0.0);
+var dpos=v3(0.0,0.0,0.01);
 
 function update(dt) {
+    const gd=(v3_sub(center,pos));
+    const g=v3_scale(v3_normalize(gd),5e-5/v3_dot(gd,gd));
+    dpos=v3_add(dpos,v3_scale(g,dt));
+    pos=v3_add(pos,v3_scale(dpos,dt));
     setUniform('pos',pos[0],pos[1],pos[2]);
     setUniform('dpos',dpos[0],dpos[1],dpos[2]);
 }
