@@ -1,26 +1,33 @@
 {
+	"CONTROLS" : 
+	[
+		{
+			"DEFAULT" : 0.5,
+			"DESCRIPTION" : "",
+			"MAX" : 10,
+			"MIN" : -10,
+			"NAME" : "gravity",
+			"PARAMS" : 0.22001,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Movement"
+		}
+	],
 	"CREDIT" : "mrange",
 	"DESCRIPTION" : "Apollo lines scene",
 	"GPU" : 1,
+	"HEIGHT" : 1080,
 	"IMAGE_PATH" : "scene.png",
-	"IMAGES" :
-	[
-	],
-	"MEDIA" :
+	"MEDIA" : 
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"PASSES" :
-	[
-	],
-	"TAGS" :
+	"TAGS" : 
 	[
 		"mrange"
 	],
 	"TITLE" : "Apollo lines scene",
-	"HEIGHT" : 1080,
 	"WIDTH" : 1920
 }

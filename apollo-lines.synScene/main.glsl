@@ -116,7 +116,7 @@ vec3 effect(vec2 p, vec2 pp, vec2 q) {
   , col
   ;
 
-  col = .1/max(.5-rd.y+.1*rd.x*rd.x, .1)*palette(5.+.1*rd.y+.25*syn_BassLevel);
+  col = .1/max(.5-rd.y+.1*rd.x*rd.x, .1)*palette(5.+.1*rd.y);
   col = render(col, ro, rd);
   col *= smoothstep(1.707, .707, length(pp));
   col -= 3E-2*(.3+dot(pp,pp))*vec3(2,3,1);
