@@ -10,6 +10,25 @@
 			"PARAMS" : 0.22001,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Movement"
+		},
+		{
+			"DEFAULT" : 0.25,
+			"DESCRIPTION" : "",
+			"MAX" : 10,
+			"MIN" : -10,
+			"NAME" : "sgravity",
+			"PARAMS" : 0.20301,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Movement"
+		},
+		{
+			"DEFAULT" : 1,
+			"DESCRIPTION" : "",
+			"MAX" : 1.01,
+			"MIN" : 0.99,
+			"NAME" : "friction",
+			"TYPE" : "slider",
+			"UI_GROUP" : "Movement"
 		}
 	],
 	"CREDIT" : "mrange",

@@ -71,29 +71,62 @@ float df(vec3 p, float w, out float off) {
   return apollonian(p4, g_scale, w, off);
 }
 
-vec3 glowmarch(vec3 col, vec3 ro, vec3 rd, float tinit) {
-  float
+vec3 glowmarch(vec3 ro, vec3 rd, float tinit, out float tlast) {
+
+  vec3 
+    col=vec3(0)
+  ;
+  float 
     t = tinit
   , off
   , d
   ;
-
+  
   for (int i = 0; i < 60; ++i) {
     d = df(ro + rd*t, 6E-5+t*t*2E-3, off);
-    off=log(off);
-    col += 1E-9/max(d*d, 1E-8)*(palette(off)+5E-2);
+    col += 1E-9/max(d*d, 1E-8)*(palette(log(off))+5E-2);
     t += .5*max(d, 1E-4);
     if (t > .5) break;
   }
-
+  
+  tlast = t;
   return col;
 }
 
-vec3 render(vec3 col, vec3 ro, vec3 rd) {
-  col = glowmarch(col, ro, rd, 1E-2);
-  return col;
+// License: MIT, author: Inigo Quilez, found: https://www.iquilezles.org/www/articles/spherefunctions/spherefunctions.htm
+float ray_sphere_density(vec3 ro, vec3 rd, vec4 sph, float dbuffer) {
+  float ndbuffer = dbuffer/sph.w;
+  vec3  rc = (ro - sph.xyz)/sph.w;
+  float b = dot(rd,rc);
+  float c = dot(rc,rc) - 1.0;
+  float h = b*b - c;
+  if(h<0.0) return 0.0;
+  h = sqrt(h);
+  float t1 = -b - h;
+  float t2 = -b + h;
+  if(t2<0.0 || t1>ndbuffer) return 0.0;
+  t1 = max(t1, 0.0);
+  t2 = min(t2, ndbuffer);
+  float i1 = -(c*t1 + b*t1*t1 + t1*t1*t1/3.0);
+  float i2 = -(c*t2 + b*t2*t2 + t2*t2*t2/3.0);
+  return (i2-i1)*(3.0/4.0);
 }
 
+vec3 render(vec3 ro, vec3 rd) {
+  float 
+    tlast
+  , den
+  ;
+  vec3 
+    col=.1/max(.5-rd.y+.1*rd.x*rd.x, .1)*palette(5.+.1*rd.y)
+  ;
+  col+=glowmarch(ro, rd, 1E-2, tlast);
+  den=ray_sphere_density(ro,rd,vec4(vec3(0,0,0),.2),tlast);
+  col+=den*den*2.*syn_BassLevel*palette(-.5);
+  den=ray_sphere_density(ro,rd,vec4(spos,.05),tlast);
+  col+=den*den*2.*syn_BassLevel*palette(-.5);
+  return col;
+}
 
 vec3 effect(vec2 p, vec2 pp, vec2 q) {
   float
@@ -116,8 +149,7 @@ vec3 effect(vec2 p, vec2 pp, vec2 q) {
   , col
   ;
 
-  col = .1/max(.5-rd.y+.1*rd.x*rd.x, .1)*palette(5.+.1*rd.y);
-  col = render(col, ro, rd);
+  col = render(ro, rd);
   col *= smoothstep(1.707, .707, length(pp));
   col -= 3E-2*(.3+dot(pp,pp))*vec3(2,3,1);
   col = aces_approx(col);
