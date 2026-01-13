@@ -62,7 +62,7 @@ float apollonian(vec4 p, float s, float w, out float off) {
 
 float df(vec3 p, float w, out float off) {
   vec4
-    p4 = vec4(p, 0.1)
+    p4 = vec4(p, woffset)
   ;
 
   p4.yw = p4.yw*g_rot;
@@ -75,18 +75,20 @@ vec3 glowmarch(vec3 ro, vec3 rd, float tinit, out float tlast) {
 
   vec3 
     col=vec3(0)
+  , p
   ;
   float 
-    t = tinit
+    t=tinit
   , off
   , d
   ;
   
-  for (int i = 0; i < 60; ++i) {
-    d = df(ro + rd*t, 6E-5+t*t*2E-3, off);
-    col += 1E-9/max(d*d, 1E-8)*(palette(log(off))+5E-2);
-    t += .5*max(d, 1E-4);
-    if (t > .5) break;
+  for (int i=0; i<60; ++i) {
+    p=ro+rd*t;
+    d=df(p, 6E-5+t*t*2E-3, off);
+    col+=1E-9/max(d*d, 1E-8)*(palette(log(off))+5E-2);
+    t+=.5*max(d, 1E-4);
+    if (t>2.) break;
   }
   
   tlast = t;
@@ -121,9 +123,7 @@ vec3 render(vec3 ro, vec3 rd) {
     col=.1/max(.5-rd.y+.1*rd.x*rd.x, .1)*palette(5.+.1*rd.y)
   ;
   col+=glowmarch(ro, rd, 1E-2, tlast);
-  den=ray_sphere_density(ro,rd,vec4(vec3(0,0,0),.2),tlast);
-  col+=den*den*2.*syn_BassLevel*palette(-.5);
-  den=ray_sphere_density(ro,rd,vec4(spos,.05),tlast);
+  den=ray_sphere_density(ro,rd,vec4(vec3(0,0,0),glow_radii),tlast);
   col+=den*den*2.*syn_BassLevel*palette(-.5);
   return col;
 }

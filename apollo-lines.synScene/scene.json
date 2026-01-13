@@ -12,22 +12,23 @@
 			"UI_GROUP" : "Movement"
 		},
 		{
-			"DEFAULT" : 0.25,
+			"DEFAULT" : 0.1,
 			"DESCRIPTION" : "",
-			"MAX" : 10,
-			"MIN" : -10,
-			"NAME" : "sgravity",
-			"PARAMS" : 0.20301,
+			"MAX" : 0.25,
+			"MIN" : -0.25,
+			"NAME" : "woffset",
+			"PARAMS" : 0.00901,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Movement"
 		},
 		{
-			"DEFAULT" : 1,
+			"DEFAULT" : 0.5,
 			"DESCRIPTION" : "",
-			"MAX" : 1.01,
-			"MIN" : 0.99,
-			"NAME" : "friction",
-			"TYPE" : "slider",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "glow_radii",
+			"PARAMS" : 0.16701,
+			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Movement"
 		}
 	],
