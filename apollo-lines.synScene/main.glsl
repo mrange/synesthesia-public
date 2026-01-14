@@ -192,8 +192,6 @@ vec4 fpass0(vec2 p, vec2 pp, ivec2 xy) {
   col*=smoothstep(1.707, .707, length(pp));
   col-=3E-2*(.3+dot(pp,pp))*vec3(2,3,1);
 
-//  col=mix(col,m.xyz,(.5+p.y)*m.w*media_opacity);
-
   return vec4(col, r.w);
 }
 
@@ -205,11 +203,18 @@ vec4 fpass1(vec2 p, vec2 pp, ivec2 xy) {
 }
 
 vec4 fpass2(vec2 p, vec2 pp, ivec2 xy) {
-  return vec4(gb(pass1,ivec2(1,0),xy),1);
+  vec3
+    b1=gb(pass1,ivec2(1,0),xy)
+  ;
+  return vec4(b1,1);
 }
 
 vec4 fpass3(vec2 p, vec2 pp, ivec2 xy) {
-  return vec4(gb(pass2,ivec2(0,1),xy),1);
+  vec3
+    b2=gb(pass2,ivec2(0,1),xy)
+  , c3=texelFetch(pass3,xy,0).xyz
+  ;
+  return vec4(mix(b2,c3,after_glow),1);
 }
 
 vec4 flast(vec2 p, vec2 pp, ivec2 xy) {
@@ -219,11 +224,17 @@ vec4 flast(vec2 p, vec2 pp, ivec2 xy) {
   , col
   ;
   
+  vec4
+    m=_loadMedia()
+  ;
+  
   col=c0;
   col+=c3;
   col=aces_approx(col);
   col=sqrt(col);
   
+  col=mix(col,m.xyz,(.5+p.y)*m.w*media_opacity);
+
   return vec4(col,1);
 }
 
