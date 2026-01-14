@@ -22,16 +22,6 @@
 			"UI_GROUP" : "Glow"
 		},
 		{
-			"DEFAULT" : 0.25,
-			"DESCRIPTION" : "",
-			"MAX" : 1,
-			"MIN" : 0,
-			"NAME" : "after_glow",
-			"PARAMS" : 0.23201,
-			"TYPE" : "slider smooth",
-			"UI_GROUP" : "Glow"
-		},
-		{
 			"DEFAULT" : 0.1,
 			"DESCRIPTION" : "",
 			"MAX" : 0.25,

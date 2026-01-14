@@ -188,8 +188,6 @@ vec4 fpass0(vec2 p, vec2 pp, ivec2 xy) {
   ;
   r= render(ro, rd);
   col=r.xyz;
-  col*=smoothstep(1.707, .707, length(pp));
-  col-=3E-2*(.3+dot(pp,pp))*vec3(2,3,1);
 
   return vec4(col, r.w);
 }
@@ -236,9 +234,8 @@ vec4 fpass2(vec2 p, vec2 pp, ivec2 xy) {
 vec4 fpass3(vec2 p, vec2 pp, ivec2 xy) {
   vec3
     b2=gb(pass2,ivec2(0,1),xy)
-  , c3=texelFetch(pass3,xy,0).xyz
   ;
-  return vec4(mix(b2,c3,after_glow),1);
+  return vec4(b2,1);
 }
 
 vec4 flast(vec2 p, vec2 pp, ivec2 xy) { 
@@ -259,8 +256,11 @@ vec4 flast(vec2 p, vec2 pp, ivec2 xy) {
   ;
 
   col=c0;
-  col+=c3.x*gc*bl;
-  col+=c3.y*bc*bl*bl;
+  col+=c3.x*bl*gc;
+  col+=c3.y*bl*bl*bc;
+
+  col*=smoothstep(1.707, .707, length(pp));
+  col-=3E-2*(.3+dot(pp,pp))*vec3(2,3,1);
 
   col=aces_approx(col);
   col=sqrt(col);
@@ -279,6 +279,7 @@ vec4 renderMain() {
   ivec2
     xy=ivec2(_xy)
   ;
+  
   switch(PASSINDEX) {
     case 0:
       return fpass0(p,pp,xy);
