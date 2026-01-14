@@ -131,7 +131,6 @@ vec4 render(vec3 ro, vec3 rd) {
   ;
   col+=glowmarch(ro, rd, 1E-2, tlast);
   den=ray_sphere_density(ro,rd,vec4(vec3(0,0,0),glow_radii),tlast);
-  den*=den*2.*syn_BassLevel;
 //  col+=den*palette(-.5);
   return vec4(col,den);
 }
@@ -139,7 +138,7 @@ vec4 render(vec3 ro, vec3 rd) {
 
 vec3 gb(sampler2D pp, ivec2 dir, ivec2 xy) {
   const float
-    blurriness      =100.
+    blurriness      =120.
   ;
 
   ivec2
@@ -195,11 +194,36 @@ vec4 fpass0(vec2 p, vec2 pp, ivec2 xy) {
   return vec4(col, r.w);
 }
 
+float sobel(sampler2D tex, ivec2 xy) {
+  float 
+    tl=texelFetch(tex, xy+ivec2(-1,  1), 0).w
+  , tm=texelFetch(tex, xy+ivec2( 0,  1), 0).w
+  , tr=texelFetch(tex, xy+ivec2( 1,  1), 0).w
+  , ml=texelFetch(tex, xy+ivec2(-1,  0), 0).w
+  , mr=texelFetch(tex, xy+ivec2( 1,  0), 0).w
+  , bl=texelFetch(tex, xy+ivec2(-1, -1), 0).w
+  , bm=texelFetch(tex, xy+ivec2( 0, -1), 0).w
+  , br=texelFetch(tex, xy+ivec2( 1, -1), 0).w
+  , gx=-tl-2.*ml-bl+tr+2.*mr+br
+  , gy=-tl-2.*tm-tr+bl+2.*bm+br
+  ;
+    
+  return length(vec2(gx, gy));
+}
+
 vec4 fpass1(vec2 p, vec2 pp, ivec2 xy) {
   vec4
     p0=texelFetch(pass0, xy, 0)
   ;
-  return vec4(palette(-.5)*p0.w,1);
+
+  float
+    den=p0.w
+  , x=den*den*2.
+  , y=sobel(pass0,xy)
+  ;
+
+  
+  return vec4(vec3(x,y,0),1);
 }
 
 vec4 fpass2(vec2 p, vec2 pp, ivec2 xy) {
@@ -217,9 +241,11 @@ vec4 fpass3(vec2 p, vec2 pp, ivec2 xy) {
   return vec4(mix(b2,c3,after_glow),1);
 }
 
-vec4 flast(vec2 p, vec2 pp, ivec2 xy) {
+vec4 flast(vec2 p, vec2 pp, ivec2 xy) { 
   vec3
-    c0=texelFetch(pass0,xy,0).xyz
+    gc=palette(-.5)
+  , bc=palette(.5)
+  , c0=texelFetch(pass0,xy,0).xyz
   , c3=texelFetch(pass3,xy,0).xyz
   , col
   ;
@@ -228,8 +254,14 @@ vec4 flast(vec2 p, vec2 pp, ivec2 xy) {
     m=_loadMedia()
   ;
   
+  float
+    bl=syn_BassLevel
+  ;
+
   col=c0;
-  col+=c3;
+  col+=c3.x*gc*bl;
+  col+=c3.y*bc*bl*bl;
+
   col=aces_approx(col);
   col=sqrt(col);
   
