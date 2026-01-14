@@ -53,4 +53,5 @@ function update(dt) {
     pos=v3_add(pos,v3_scale(dpos,dt));
     setUniform('pos',pos[0],pos[1],pos[2]);
     setUniform('dpos',dpos[0],dpos[1],dpos[2]);
+    setUniform('ddpos',g[0],g[1],g[2]);
 }

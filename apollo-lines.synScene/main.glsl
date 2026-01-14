@@ -137,15 +137,15 @@ vec3 effect(vec2 p, vec2 pp, vec2 q) {
   g_rot = ROT(tm*TAU/800.);
 
   vec2
-    s=sin(9.*p+TIME)*length(p)
+    s=sin(9.*p+TIME)*length(pp)
   ;
 
   vec3
     ro = pos
   , ZZ = normalize(dpos)
-  , XX = normalize(cross(vec3(0,1,0), ZZ))
+  , XX = normalize(cross(vec3(0,1,0)-ddpos, ZZ))
   , YY = cross(ZZ, XX)
-  , rd = normalize(-p.x*XX + p.y*YY + mix(2.,2.05,.5-.5*s.x*s.y)*ZZ)
+  , rd = normalize(-p.x*XX + p.y*YY + mix(2.,2.1,.5-.5*s.x*s.y)*ZZ)
   , col
   ;
 
