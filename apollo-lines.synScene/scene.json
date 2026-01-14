@@ -30,6 +30,16 @@
 			"PARAMS" : 0.16701,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Movement"
+		},
+		{
+			"DEFAULT" : 1,
+			"DESCRIPTION" : "",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "media_opacity",
+			"PARAMS" : 0.20701,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Movement"
 		}
 	],
 	"CREDIT" : "mrange",

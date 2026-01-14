@@ -156,7 +156,7 @@ vec3 effect(vec2 p, vec2 pp, vec2 q) {
   col = sqrt(col);
 
   vec4 m=_loadMedia();
-  col=mix(col,m.xyz,(.5+p.y)*m.w);
+  col=mix(col,m.xyz,(.5+p.y)*m.w*media_opacity);
 
   return col;
 }
