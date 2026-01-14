@@ -1,3 +1,8 @@
+// This file is released under CC0 1.0 Universal (Public Domain Dedication).
+// To the extent possible under law, Mårten Rånge has waived all copyright
+// and related or neighboring rights to this work.
+// See <https://creativecommons.org/publicdomain/zero/1.0/> for details.
+
 function v3(x,y,z) {
   const v=new Float32Array(3);
   v[0]=x;

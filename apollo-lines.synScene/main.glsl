@@ -1,3 +1,8 @@
+// This file is released under CC0 1.0 Universal (Public Domain Dedication).
+// To the extent possible under law, Mårten Rånge has waived all copyright
+// and related or neighboring rights to this work.
+// See <https://creativecommons.org/publicdomain/zero/1.0/> for details.
+
 #define ROT(a)      mat2(cos(a), sin(a), -sin(a), cos(a))
 
 const float
@@ -22,6 +27,7 @@ vec3 aces_approx(vec3 v) {
   return clamp((v*(a*v+b))/(v*(c*v+d)+e), .0, 1.);
 }
 
+// License: MIT, author: Inigo Quilez, found: https://www.iquilezles.org/www/articles/smin/smin.htm
 float pmin(float a, float b, float k) {
   float h = clamp(0.5+0.5*(b-a)/k, 0.0, 1.0);
   return mix(b, a, h) - k*h*(1.0-h);
@@ -57,6 +63,7 @@ float apollonian(vec4 p, float s, float w, out float off) {
   d=pmax(ap.w, ap.y, w*11.);
   d=min(d, pmax(ap.x, ap.z, w*11.));
   off=length(sp);
+  
   return d;
 }
 
