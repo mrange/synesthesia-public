@@ -135,13 +135,9 @@ vec3 render(vec3 ro, vec3 rd) {
   return col;
 }
 
-vec3 effect(vec2 p, vec2 pp, vec2 q) {
-  float
-    tm  = TIME
-  ;
-
-  g_scale = mix(1.85, 1.5, .5-.5*cos(TAU*tm/1600.));
-  g_rot = ROT(tm*TAU/800.);
+vec3 effect(vec2 p, vec2 pp) {
+  g_scale= mix(1.85, 1.5, .5-.5*cos(TAU*TIME/1600.));
+  g_rot  = ROT(TIME*TAU/800.);
 
   vec2
     s=sin(9.*p+TIME)*length(pp)
@@ -153,23 +149,24 @@ vec3 effect(vec2 p, vec2 pp, vec2 q) {
   , XX = normalize(cross(vec3(0,1,0)-ddpos, ZZ))
   , YY = cross(ZZ, XX)
   , rd = normalize(-p.x*XX + p.y*YY + mix(2.,2.1,.5-.5*s.x*s.y)*ZZ)
-  , col
+  , col= render(ro, rd)
   ;
 
-  col = render(ro, rd);
-  col *= smoothstep(1.707, .707, length(pp));
-  col -= 3E-2*(.3+dot(pp,pp))*vec3(2,3,1);
-  col = aces_approx(col);
-  col = sqrt(col);
+  col*=smoothstep(1.707, .707, length(pp));
+  col-=3E-2*(.3+dot(pp,pp))*vec3(2,3,1);
+  col= aces_approx(col);
+  col= sqrt(col);
 
-  vec4 m=_loadMedia();
+  vec4 
+    m=_loadMedia()
+  ;
   col=mix(col,m.xyz,(.5+p.y)*m.w*media_opacity);
 
   return col;
 }
 
 vec4 renderMain() {
-  vec3 col = effect(2.*_uvc, -1.+2.*_uv, _uv);
+  vec3 col = effect(2.*_uvc, -1.+2.*_uv);
   return vec4(col,1.0);
 }
 
