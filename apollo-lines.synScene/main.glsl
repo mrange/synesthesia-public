@@ -37,6 +37,25 @@ float pmax(float a, float b, float k) {
   return -pmin(-a, -b, k);
 }
 
+// License: MIT, author: Inigo Quilez, found: https://www.iquilezles.org/www/articles/spherefunctions/spherefunctions.htm
+float ray_sphere_density(vec3 ro, vec3 rd, vec4 sph, float dbuffer) {
+  float ndbuffer = dbuffer/sph.w;
+  vec3  rc = (ro - sph.xyz)/sph.w;
+  float b = dot(rd,rc);
+  float c = dot(rc,rc) - 1.0;
+  float h = b*b - c;
+  if(h<0.0) return 0.0;
+  h = sqrt(h);
+  float t1 = -b - h;
+  float t2 = -b + h;
+  if(t2<0.0 || t1>ndbuffer) return 0.0;
+  t1 = max(t1, 0.0);
+  t2 = min(t2, ndbuffer);
+  float i1 = -(c*t1 + b*t1*t1 + t1*t1*t1/3.0);
+  float i2 = -(c*t2 + b*t2*t2 + t2*t2*t2/3.0);
+  return (i2-i1)*(3.0/4.0);
+}
+
 vec3 palette(float a) {
   return 1.+sin(vec3(0,7,2)+a);
 }
@@ -102,26 +121,7 @@ vec3 glowmarch(vec3 ro, vec3 rd, float tinit, out float tlast) {
   return col;
 }
 
-// License: MIT, author: Inigo Quilez, found: https://www.iquilezles.org/www/articles/spherefunctions/spherefunctions.htm
-float ray_sphere_density(vec3 ro, vec3 rd, vec4 sph, float dbuffer) {
-  float ndbuffer = dbuffer/sph.w;
-  vec3  rc = (ro - sph.xyz)/sph.w;
-  float b = dot(rd,rc);
-  float c = dot(rc,rc) - 1.0;
-  float h = b*b - c;
-  if(h<0.0) return 0.0;
-  h = sqrt(h);
-  float t1 = -b - h;
-  float t2 = -b + h;
-  if(t2<0.0 || t1>ndbuffer) return 0.0;
-  t1 = max(t1, 0.0);
-  t2 = min(t2, ndbuffer);
-  float i1 = -(c*t1 + b*t1*t1 + t1*t1*t1/3.0);
-  float i2 = -(c*t2 + b*t2*t2 + t2*t2*t2/3.0);
-  return (i2-i1)*(3.0/4.0);
-}
-
-vec3 render(vec3 ro, vec3 rd) {
+vec4 render(vec3 ro, vec3 rd) {
   float 
     tlast
   , den
@@ -131,16 +131,22 @@ vec3 render(vec3 ro, vec3 rd) {
   ;
   col+=glowmarch(ro, rd, 1E-2, tlast);
   den=ray_sphere_density(ro,rd,vec4(vec3(0,0,0),glow_radii),tlast);
-  col+=den*den*2.*syn_BassLevel*palette(-.5);
-  return col;
+  den*=den*2.*syn_BassLevel;
+  col+=den*palette(-.5);
+  return vec4(col,den);
 }
 
-vec3 effect(vec2 p, vec2 pp) {
+vec4 effect(vec2 p, vec2 pp) {
   g_scale= mix(1.85, 1.5, .5-.5*cos(TAU*TIME/1600.));
   g_rot  = ROT(TIME*TAU/800.);
 
   vec2
     s=sin(9.*p+TIME)*length(pp)
+  ;
+
+  vec4
+    r
+  , m=_loadMedia()
   ;
 
   vec3
@@ -149,24 +155,24 @@ vec3 effect(vec2 p, vec2 pp) {
   , XX = normalize(cross(vec3(0,1,0)-ddpos, ZZ))
   , YY = cross(ZZ, XX)
   , rd = normalize(-p.x*XX + p.y*YY + mix(2.,2.1,.5-.5*s.x*s.y)*ZZ)
-  , col= render(ro, rd)
+  , col
   ;
-
+  r= render(ro, rd);
+  col=r.xyz;
   col*=smoothstep(1.707, .707, length(pp));
   col-=3E-2*(.3+dot(pp,pp))*vec3(2,3,1);
   col= aces_approx(col);
   col= sqrt(col);
 
-  vec4 
-    m=_loadMedia()
-  ;
   col=mix(col,m.xyz,(.5+p.y)*m.w*media_opacity);
 
-  return col;
+  return vec4(col, r.w);
 }
 
 vec4 renderMain() {
-  vec3 col = effect(2.*_uvc, -1.+2.*_uv);
-  return vec4(col,1.0);
+  vec4 
+    e=effect(2.*_uvc, -1.+2.*_uv)
+  ;
+  return vec4(e.xyz,1.0);
 }
 

@@ -12,16 +12,6 @@
 			"UI_GROUP" : "Movement"
 		},
 		{
-			"DEFAULT" : 0.1,
-			"DESCRIPTION" : "",
-			"MAX" : 0.25,
-			"MIN" : -0.25,
-			"NAME" : "woffset",
-			"PARAMS" : 0.00901,
-			"TYPE" : "slider smooth",
-			"UI_GROUP" : "Movement"
-		},
-		{
 			"DEFAULT" : 0.5,
 			"DESCRIPTION" : "",
 			"MAX" : 1,
@@ -29,7 +19,17 @@
 			"NAME" : "glow_radii",
 			"PARAMS" : 0.16701,
 			"TYPE" : "slider smooth",
-			"UI_GROUP" : "Movement"
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 0.1,
+			"DESCRIPTION" : "",
+			"MAX" : 0.25,
+			"MIN" : -0.25,
+			"NAME" : "woffset",
+			"PARAMS" : 0.00901,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Visual"
 		},
 		{
 			"DEFAULT" : 1,
@@ -39,7 +39,7 @@
 			"NAME" : "media_opacity",
 			"PARAMS" : 0.20701,
 			"TYPE" : "slider smooth",
-			"UI_GROUP" : "Movement"
+			"UI_GROUP" : "Media"
 		}
 	],
 	"CREDIT" : "mrange",
