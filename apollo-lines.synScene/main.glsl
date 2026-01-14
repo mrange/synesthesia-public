@@ -132,11 +132,42 @@ vec4 render(vec3 ro, vec3 rd) {
   col+=glowmarch(ro, rd, 1E-2, tlast);
   den=ray_sphere_density(ro,rd,vec4(vec3(0,0,0),glow_radii),tlast);
   den*=den*2.*syn_BassLevel;
-  col+=den*palette(-.5);
+//  col+=den*palette(-.5);
   return vec4(col,den);
 }
 
-vec4 effect(vec2 p, vec2 pp) {
+
+vec3 gb(sampler2D pp, ivec2 dir, ivec2 xy) {
+  const float
+    blurriness      =100.
+  ;
+
+  ivec2
+    off
+  ;
+  vec3
+    col=texelFetch(pp,xy,0).xyz
+  ;
+
+  float
+    w
+  , ws=1.
+  , I
+  ;
+
+  for(int i=1;i<19;++i) {
+    I=float(i);
+    w=exp(-(I*I)/blurriness);
+    off=dir*i;
+
+    col+=w*(texelFetch(pp,xy-off,0).xyz+texelFetch(pp,xy+off,0).xyz);
+    ws+=2.*w;
+  }
+  col/=ws;
+  return col;
+}
+
+vec4 fpass0(vec2 p, vec2 pp, ivec2 xy) {
   g_scale= mix(1.85, 1.5, .5-.5*cos(TAU*TIME/1600.));
   g_rot  = ROT(TIME*TAU/800.);
 
@@ -146,7 +177,6 @@ vec4 effect(vec2 p, vec2 pp) {
 
   vec4
     r
-  , m=_loadMedia()
   ;
 
   vec3
@@ -161,18 +191,62 @@ vec4 effect(vec2 p, vec2 pp) {
   col=r.xyz;
   col*=smoothstep(1.707, .707, length(pp));
   col-=3E-2*(.3+dot(pp,pp))*vec3(2,3,1);
-  col= aces_approx(col);
-  col= sqrt(col);
 
-  col=mix(col,m.xyz,(.5+p.y)*m.w*media_opacity);
+//  col=mix(col,m.xyz,(.5+p.y)*m.w*media_opacity);
 
   return vec4(col, r.w);
 }
 
-vec4 renderMain() {
-  vec4 
-    e=effect(2.*_uvc, -1.+2.*_uv)
+vec4 fpass1(vec2 p, vec2 pp, ivec2 xy) {
+  vec4
+    p0=texelFetch(pass0, xy, 0)
   ;
-  return vec4(e.xyz,1.0);
+  return vec4(palette(-.5)*p0.w,1);
+}
+
+vec4 fpass2(vec2 p, vec2 pp, ivec2 xy) {
+  return vec4(gb(pass1,ivec2(1,0),xy),1);
+}
+
+vec4 fpass3(vec2 p, vec2 pp, ivec2 xy) {
+  return vec4(gb(pass2,ivec2(0,1),xy),1);
+}
+
+vec4 flast(vec2 p, vec2 pp, ivec2 xy) {
+  vec3
+    c0=texelFetch(pass0,xy,0).xyz
+  , c3=texelFetch(pass3,xy,0).xyz
+  , col
+  ;
+  
+  col=c0;
+  col+=c3;
+  col=aces_approx(col);
+  col=sqrt(col);
+  
+  return vec4(col,1);
+}
+
+vec4 renderMain() {
+  vec2
+    p=2.*_uvc
+  , pp=-1.+2.*_uv
+  ;
+  
+  ivec2
+    xy=ivec2(_xy)
+  ;
+  switch(PASSINDEX) {
+    case 0:
+      return fpass0(p,pp,xy);
+    case 1:
+      return fpass1(p,pp,xy);
+    case 2:
+      return fpass2(p,pp,xy);
+    case 3:
+      return fpass3(p,pp,xy);
+    default:
+      return flast(p,pp,xy);
+  }
 }
 
