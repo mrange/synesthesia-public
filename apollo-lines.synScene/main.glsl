@@ -238,6 +238,53 @@ vec4 fpass3(vec2 p, vec2 pp, ivec2 xy) {
   return vec4(b2,1);
 }
 
+float length4(vec2 p) {
+  return sqrt(length(p*p));
+}
+
+float bar(vec2 p) {
+  float 
+    d0=length4(p)
+  , d1=abs(p.x)
+  ;
+  return p.y>0.?d0:d1;
+}
+
+const float 
+  SpectrumN=12.
+;
+
+float spectrum(float x) {
+  float 
+    y=texture(syn_Spectrum,abs(x/SpectrumN*.4)+0.1).y
+  ;
+  y-=.3;
+  y=max(y,0);
+  y*=y;
+  return y*.5;
+}
+
+vec3 bars(vec3 col, vec2 p) {
+  const float
+    ZZ=.125
+  ;
+  
+  p.y+=.0;
+  p.y=abs(p.y);
+  
+  float 
+    aa=sqrt(2.)/RENDERSIZE.y
+  , n=clamp(floor(p.x/ZZ+.5),-SpectrumN,SpectrumN)
+  , c=p.x-ZZ*n
+  , d=bar(vec2(c,p.y-spectrum(abs(n))))-ZZ*.5*.9
+  , t=clamp(1.-p.y*2.,0.1,1.)*.5
+  ;
+  
+  col=mix(col, mix(col,palette(n*.1-.5),t), smoothstep(aa, -aa, d));
+  
+  return col;
+}
+
 vec4 flast(vec2 p, vec2 pp, ivec2 xy) { 
   vec3
     gc=palette(-.5)
@@ -261,7 +308,8 @@ vec4 flast(vec2 p, vec2 pp, ivec2 xy) {
 
   col*=smoothstep(1.707, .707, length(pp));
   col-=3E-2*(.3+dot(pp,pp))*vec3(2,3,1);
-
+  
+//  col=bars(col,p);
   col=aces_approx(col);
   col=sqrt(col);
   
