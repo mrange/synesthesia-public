@@ -57,7 +57,7 @@ float ray_sphere_density(vec3 ro, vec3 rd, vec4 sph, float dbuffer) {
 }
 
 vec3 palette(float a) {
-  return 1.+sin(vec3(0,7,2)+a);
+  return 1.+sin(vec3(0,color_base)+a);
 }
 
 float apollonian(vec4 p, float s, float w, out float off) {
@@ -88,7 +88,7 @@ float apollonian(vec4 p, float s, float w, out float off) {
 
 float df(vec3 p, float w, out float off) {
   vec4
-    p4 = vec4(p, woffset)
+    p4 = vec4(p, fractal_offset)
   ;
 
   p4.yw = p4.yw*g_rot;
@@ -130,7 +130,7 @@ vec4 render(vec3 ro, vec3 rd) {
     col=.1/max(.5-rd.y+.1*rd.x*rd.x, .1)*palette(5.+.1*rd.y)
   ;
   col+=glowmarch(ro, rd, 1E-2, tlast);
-  den=ray_sphere_density(ro,rd,vec4(vec3(0,0,0),glow_radii),tlast);
+  den=ray_sphere_density(ro,rd,vec4(vec3(0,0,0),glow_radius),tlast);
 //  col+=den*palette(-.5);
   return vec4(col,den);
 }
@@ -245,42 +245,43 @@ float length4(vec2 p) {
 float bar(vec2 p) {
   float 
     d0=length4(p)
-  , d1=abs(p.x)
+  , d1=abs(p.y)
   ;
-  return p.y>0.?d0:d1;
+  return p.x>0.?d0:d1;
 }
 
 const float 
-  SpectrumN=12.
+  SpectrumN=19.
 ;
 
 float spectrum(float x) {
   float 
-    y=texture(syn_Spectrum,abs(x/SpectrumN*.4)+0.1).y
+    y=texture(syn_Spectrum,abs(x*.8/SpectrumN)+1./SpectrumN).y
   ;
   y-=.3;
-  y=max(y,0);
+  y=max(y,0.);
   y*=y;
-  return y*.5;
+  return y;
 }
 
 vec3 bars(vec3 col, vec2 p) {
   const float
-    ZZ=.125
+    ZZ=.05
   ;
+  p.x=-abs(p.x);
+  p.x+=RENDERSIZE.x/RENDERSIZE.y;
   
-  p.y-=.7;
-  p.y=abs(p.y);
   
   float 
     aa=sqrt(2.)/RENDERSIZE.y
-  , n=clamp(floor(p.x/ZZ+.5),-SpectrumN,SpectrumN)
-  , c=p.x-ZZ*n
-  , d=bar(vec2(c,p.y-spectrum(abs(n))))-ZZ*.5*.9
-  , t=clamp(1.-p.y*2.,0.1,1.)*bars_opacity
+  , n=clamp(floor(p.y/ZZ+.5),-SpectrumN,SpectrumN)
+  , c=p.y-ZZ*n
+  , s=spectrum(abs(n))
+  , d=bar(vec2(p.x-.25*s+ZZ*.25,c))-ZZ*.45
+  , o=bars_opacity*(s*.33+.1)
   ;
   
-  col=mix(col, mix(col,palette(n*.1-.5),t), smoothstep(aa, -aa, d));
+  col=mix(col, mix(col,palette(1.-abs(p.y)),o), smoothstep(aa, -aa, d));
   
   return col;
 }

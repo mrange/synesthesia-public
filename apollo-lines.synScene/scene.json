@@ -1,9 +1,9 @@
 {
-	"CONTROLS" : 
+	"CONTROLS" :
 	[
 		{
 			"DEFAULT" : 0.5,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Camera gravity – stronger values pull view toward center",
 			"MAX" : 10,
 			"MIN" : -10,
 			"NAME" : "gravity",
@@ -13,27 +13,49 @@
 		},
 		{
 			"DEFAULT" : 0.5,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Glow sphere radius – larger values expand central atmosphere",
 			"MAX" : 1,
 			"MIN" : 0,
-			"NAME" : "glow_radii",
+			"NAME" : "glow_radius",
 			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Glow"
 		},
 		{
 			"DEFAULT" : 0.1,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Fractal offset – shifts 4D structure of apollonian pattern",
 			"MAX" : 0.25,
-			"MIN" : -0.25,
-			"NAME" : "woffset",
+			"MIN" : 0,
+			"NAME" : "fractal_offset",
 			"PARAMS" : 0.01,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Visual"
 		},
 		{
+			"DEFAULT" :
+			[
+				7,
+				2
+			],
+			"DESCRIPTION" : "Color palette shift – adjusts base hue and tint",
+			"MAX" :
+			[
+				7,
+				7
+			],
+			"MIN" :
+			[
+				0,
+				0
+			],
+			"NAME" : "color_base",
+			"PARAMS" : 0.19001,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Visual"
+		},
+		{
 			"DEFAULT" : 1,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Media overlay opacity – blend loaded media into scene",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "media_opacity",
@@ -42,8 +64,8 @@
 			"UI_GROUP" : "Media"
 		},
 		{
-			"DEFAULT" : 0.25,
-			"DESCRIPTION" : "",
+			"DEFAULT" : 1,
+			"DESCRIPTION" : "Spectrum bars opacity – visibility of audio visualization",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "bars_opacity",
@@ -53,18 +75,18 @@
 		}
 	],
 	"CREDIT" : "mrange",
-	"DESCRIPTION" : "Apollo lines scene",
+	"DESCRIPTION" : "Drift through an abyssal fractal ecosystem where bioluminescent organisms pulse and flow in 4D space. Apollonian structures bloom into delicate tendrils, their spectral glow shifting through color palettes as your camera orbits through gravity wells in this mesmerizing deep-sea dreamscape.",
 	"GPU" : 1,
 	"HEIGHT" : 1080,
 	"IMAGE_PATH" : "scene.png",
-	"MEDIA" : 
+	"MEDIA" :
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"PASSES" : 
+	"PASSES" :
 	[
 		{
 			"FILTER" : "linear",
@@ -99,10 +121,18 @@
 			"WRAP" : "repeat"
 		}
 	],
-	"TAGS" : 
+	"TAGS" :
 	[
-		"mrange"
+		"mrange",
+		"bioluminescent",
+		"underwater",
+		"fractal",
+		"apollonian",
+		"organic",
+		"ethereal",
+		"4D",
+		"glow"
 	],
-	"TITLE" : "Apollo lines scene",
+	"TITLE" : "Submerged Spectral Shimmering Siphonophores",
 	"WIDTH" : 1920
 }
