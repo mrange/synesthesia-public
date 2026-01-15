@@ -40,6 +40,16 @@
 			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Media"
+		},
+		{
+			"DEFAULT" : 0.25,
+			"DESCRIPTION" : "",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "bars_opacity",
+			"PARAMS" : 0.19601,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Media"
 		}
 	],
 	"CREDIT" : "mrange",

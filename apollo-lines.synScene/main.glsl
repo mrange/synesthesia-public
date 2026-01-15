@@ -269,7 +269,7 @@ vec3 bars(vec3 col, vec2 p) {
     ZZ=.125
   ;
   
-  p.y+=.0;
+  p.y-=.7;
   p.y=abs(p.y);
   
   float 
@@ -277,7 +277,7 @@ vec3 bars(vec3 col, vec2 p) {
   , n=clamp(floor(p.x/ZZ+.5),-SpectrumN,SpectrumN)
   , c=p.x-ZZ*n
   , d=bar(vec2(c,p.y-spectrum(abs(n))))-ZZ*.5*.9
-  , t=clamp(1.-p.y*2.,0.1,1.)*.5
+  , t=clamp(1.-p.y*2.,0.1,1.)*bars_opacity
   ;
   
   col=mix(col, mix(col,palette(n*.1-.5),t), smoothstep(aa, -aa, d));
@@ -309,7 +309,7 @@ vec4 flast(vec2 p, vec2 pp, ivec2 xy) {
   col*=smoothstep(1.707, .707, length(pp));
   col-=3E-2*(.3+dot(pp,pp))*vec3(2,3,1);
   
-//  col=bars(col,p);
+  col=bars(col,p);
   col=aces_approx(col);
   col=sqrt(col);
   
