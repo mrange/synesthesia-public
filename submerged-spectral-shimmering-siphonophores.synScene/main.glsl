@@ -5,6 +5,43 @@
 
 #define ROT(a)      mat2(cos(a), sin(a), -sin(a), cos(a))
 
+#ifdef KODELIFE
+const float
+  bars_opacity=1.
+, fractal_offset=.1
+, glow_radius=.5
+;
+
+const vec2
+  color_base=vec2(7,2)
+;
+  vec3 fpos(float z) {
+    return vec3(.3,.2,.01*z);
+  }
+  vec3 fdpos(float z) {
+    const float
+      dt=.01
+    ;
+    return (fpos(z+dt)-fpos(z-dt))/(2.*dt);
+  }
+  vec3 fddpos(float z) {
+    const float
+      dt=.01
+    ;
+    return (fdpos(z+dt)-fdpos(z-dt))/(2.*dt);
+  }
+#else
+  vec3 fpos(float z) {
+    return pos;
+  }
+  vec3 fdpos(float z) {
+    return dpos;
+  }
+  vec3 fddpos(float z) {
+    return ddpos;
+  }
+#endif
+
 const float
   TAU       = 2.*PI
 ;
@@ -82,7 +119,7 @@ float apollonian(vec4 p, float s, float w, out float off) {
   d=pmax(ap.w, ap.y, w*11.);
   d=min(d, pmax(ap.x, ap.z, w*11.));
   off=length(sp);
-  
+
   return d;
 }
 
@@ -99,16 +136,16 @@ float df(vec3 p, float w, out float off) {
 
 vec3 glowmarch(vec3 ro, vec3 rd, float tinit, out float tlast) {
 
-  vec3 
+  vec3
     col=vec3(0)
   , p
   ;
-  float 
+  float
     t=tinit
   , off
   , d
   ;
-  
+
   for (int i=0; i<60; ++i) {
     p=ro+rd*t;
     d=df(p, 6E-5+t*t*2E-3, off);
@@ -116,17 +153,17 @@ vec3 glowmarch(vec3 ro, vec3 rd, float tinit, out float tlast) {
     t+=.5*max(d, 1E-4);
     if (t>2.) break;
   }
-  
+
   tlast = t;
   return col;
 }
 
 vec4 render(vec3 ro, vec3 rd) {
-  float 
+  float
     tlast
   , den
   ;
-  vec3 
+  vec3
     col=.1/max(.5-rd.y+.1*rd.x*rd.x, .1)*palette(5.+.1*rd.y)
   ;
   col+=glowmarch(ro, rd, 1E-2, tlast);
@@ -179,9 +216,9 @@ vec4 fpass0(vec2 p, vec2 pp, ivec2 xy) {
   ;
 
   vec3
-    ro = pos
-  , ZZ = normalize(dpos)
-  , XX = normalize(cross(vec3(0,1,0)-ddpos, ZZ))
+    ro = fpos(TIME)
+  , ZZ = normalize(fdpos(TIME))
+  , XX = normalize(cross(vec3(0,1,0)-fddpos(TIME), ZZ))
   , YY = cross(ZZ, XX)
   , rd = normalize(-p.x*XX + p.y*YY + mix(2.,2.1,.5-.5*s.x*s.y)*ZZ)
   , col
@@ -193,7 +230,7 @@ vec4 fpass0(vec2 p, vec2 pp, ivec2 xy) {
 }
 
 float sobel(sampler2D tex, ivec2 xy) {
-  float 
+  float
     tl=texelFetch(tex, xy+ivec2(-1,  1), 0).w
   , tm=texelFetch(tex, xy+ivec2( 0,  1), 0).w
   , tr=texelFetch(tex, xy+ivec2( 1,  1), 0).w
@@ -205,7 +242,7 @@ float sobel(sampler2D tex, ivec2 xy) {
   , gx=-tl-2.*ml-bl+tr+2.*mr+br
   , gy=-tl-2.*tm-tr+bl+2.*bm+br
   ;
-    
+
   return length(vec2(gx, gy));
 }
 
@@ -220,7 +257,7 @@ vec4 fpass1(vec2 p, vec2 pp, ivec2 xy) {
   , y=sobel(pass0,xy)
   ;
 
-  
+
   return vec4(vec3(x,y,0),1);
 }
 
@@ -243,21 +280,32 @@ float length4(vec2 p) {
 }
 
 float bar(vec2 p) {
-  float 
+  float
     d0=length4(p)
   , d1=abs(p.y)
   ;
   return p.x>0.?d0:d1;
 }
 
-const float 
+const float
   SpectrumN=19.
 ;
 
+float flash() {
+#ifdef KODELIFE
+  return 1.;
+#else
+  return syn_BassLevel;
+#endif
+}
+
 float spectrum(float x) {
-  float 
-    y=texture(syn_Spectrum,abs(x*.8/SpectrumN)+1./SpectrumN).y
+  float
+    y=0.3
   ;
+#ifndef KODELIFE
+  y=texture(syn_Spectrum,abs(x*.8/SpectrumN)+1./SpectrumN).y;
+#endif
   y-=.3;
   y=max(y,0.);
   y*=y;
@@ -270,9 +318,9 @@ vec3 bars(vec3 col, vec2 p) {
   ;
   p.x=-abs(p.x);
   p.x+=RENDERSIZE.x/RENDERSIZE.y;
-  
-  
-  float 
+
+
+  float
     aa=sqrt(2.)/RENDERSIZE.y
   , n=clamp(floor(p.y/ZZ+.5),-SpectrumN,SpectrumN)
   , c=p.y-ZZ*n
@@ -280,13 +328,13 @@ vec3 bars(vec3 col, vec2 p) {
   , d=bar(vec2(p.x-.25*s+ZZ*.25,c))-ZZ*.45
   , o=bars_opacity*(s*.33+.1)
   ;
-  
+
   col=mix(col, mix(col,palette(1.-abs(p.y)),o), smoothstep(aa, -aa, d));
-  
+
   return col;
 }
 
-vec4 flast(vec2 p, vec2 pp, ivec2 xy) { 
+vec4 flast(vec2 p, vec2 pp, ivec2 xy) {
   vec3
     gc=palette(-.5)
   , bc=palette(.5)
@@ -294,13 +342,15 @@ vec4 flast(vec2 p, vec2 pp, ivec2 xy) {
   , c3=texelFetch(pass3,xy,0).xyz
   , col
   ;
-  
+
+#ifndef KODELIFE
   vec4
     m=_loadMedia()
   ;
-  
+#endif
+
   float
-    bl=syn_BassLevel
+    bl=flash()
   ;
 
   col=c0;
@@ -309,12 +359,14 @@ vec4 flast(vec2 p, vec2 pp, ivec2 xy) {
 
   col*=smoothstep(1.707, .707, length(pp));
   col-=3E-2*(.3+dot(pp,pp))*vec3(2,3,1);
-  
+
   col=bars(col,p);
   col=aces_approx(col);
   col=sqrt(col);
-  
+
+#ifndef KODELIFE
   col=mix(col,m.xyz,(.5+p.y)*m.w*media_opacity);
+#endif
 
   return vec4(col,1);
 }
@@ -324,11 +376,10 @@ vec4 renderMain() {
     p=2.*_uvc
   , pp=-1.+2.*_uv
   ;
-  
+
   ivec2
     xy=ivec2(_xy)
   ;
-  
   switch(PASSINDEX) {
     case 0:
       return fpass0(p,pp,xy);
