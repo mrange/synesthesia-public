@@ -163,7 +163,7 @@
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "peter_clarke",
-			"PARAMS" : 0.20301,
+			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Effect"
 		},
