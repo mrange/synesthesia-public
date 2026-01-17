@@ -511,9 +511,21 @@ vec3 logo(vec3 col, vec2 p, float aa) {
   , smoothstep(aa,-aa,db)
   );
 
-  col=mix(col,pcol.xyz,volume_control*pcol.w);
+  col=mix(col,pcol.xyz,peter_clarke*pcol.w);
 
   return col;
+}
+
+vec4 mediaTexture(sampler2D s, vec2 p) {
+  vec2
+    tp=clamp(p,0.,1.)
+  ;
+
+  vec4
+    tc=texture(s, tp)
+  ;
+  tc.w*=p==tp?1.:0.;
+  return tc;
 }
 
 vec3 media(vec3 col, vec2 p) {
@@ -545,8 +557,8 @@ vec3 media(vec3 col, vec2 p) {
 #endif
 
   vec4
-      mcol0=texture(syn_Media,clamp(sp0,0.,1.))
-    , mcol1=texture(syn_Media,clamp(sp1,0.,1.))
+      mcol0=mediaTexture(syn_Media,sp0)
+    , mcol1=mediaTexture(syn_Media,sp1)
   ;
 
   col=mix(col,mcol0.xyz,mcol0.w);
@@ -693,7 +705,7 @@ vec4 pass0() {
   ;
   vec3
     ro=vec3(nstripe*TIME*.3,-12)
-  , rd=normalize(p.x*X+p.y*Y+2.*Z)
+  , rd=normalize(p.x*X+p.y*Y+1.9*Z)
   , box_1
   , box_2
   , bkg_1=amiga_bkg*(1.-.1*dot(nstripe,p))
