@@ -12,14 +12,18 @@ vec2 angle() {
 #endif
 }
 
+// License: Unknown, author: Unknown, found: don't remember
+float hash(float co) {
+  return fract(sin(co*12.9898) * 13758.5453);
+}
 
 vec3 sphere_pos() {
 #ifdef KODELIFE
   float
-    B=fract(TIME)-.5
+    B=fract(TIME*.5)-.5
   ;
   B*=B;
-  B=(1.-4.*B)*2.;
+  B=(1.-4.*B)*4.;
   return vec3(0,B,0);
 #else
   return u_sphere_pos;
@@ -72,12 +76,27 @@ vec3 amiga(mat2 R0, mat2 R1, vec3 p) {
   return textureLod(passAmiga, pp,0.).xyz;
 }
 
+float L4(vec3 p) {
+  return sqrt(length(p*p));
+}
+float L4(vec2 p) {
+  return sqrt(length(p*p));
+}
+
+float segment(vec2 p) {
+  float
+    d0=L4(p)
+  , d1=abs(p.x)
+  ;
+  return p.y > 0.?d0:d1;
+}
+
 vec4 pass_main() {
   const float off=4.;
 
   const vec3
-    ro        = vec3(-5,3,0.)
-  , la        = vec3(0,2,0.)
+    ro        = vec3(-6,4,0.)
+  , la        = vec3(0,3,0.)
   , cam_fwd   = normalize(la - ro)
   , cam_right = normalize(cross(cam_fwd, vec3(0,1,0)))
   , cam_up    = cross(cam_right, cam_fwd)
@@ -100,13 +119,19 @@ vec4 pass_main() {
   , t_wall_1
   , t_floor_0
   , t_floor_1
+  , t_roof
   , t_sphere
   , seed
+  , fd
+  , fn
+  , fh
+  , iz
   ;
 
   vec2
     r
   , a=angle()
+  , wpos
   ;
 
   mat2 R0=ROT(a.x);
@@ -114,13 +139,13 @@ vec4 pass_main() {
 
   seed = fract(hash(p) + TIME/1337.);
 
-
   vec3
     sphere_center = sphere_pos()
   , col           = vec3(0)
   , pos
   , prev_pos
   , prev_normal
+  , iprev_normal
   , normal
   , reflect_dir
   , diffuse_dir
@@ -131,6 +156,7 @@ vec4 pass_main() {
   bool
     missed
   , hit_amiga
+  , hit_fft
   ;
 
   prev_pos    = ro;
@@ -140,34 +166,48 @@ vec4 pass_main() {
   for(int i=0; i<100; ++i) {
     ++seed;
     r=hash2(seed);
+    iprev_normal=1./prev_normal;
 
     t_floor_0 = ray_plane(prev_pos, prev_normal, floor_0);
     t_floor_1 = ray_plane(prev_pos, prev_normal, floor_1);
-    t_wall_0  = ( off - prev_pos.z) / prev_normal.z;
-    t_wall_1  = (-off - prev_pos.z) / prev_normal.z;
+    t_wall_0  = ( off - prev_pos.z)*iprev_normal.z;
+    t_wall_1  = (-off - prev_pos.z)*iprev_normal.z;
+    t_roof    = (6. - prev_pos.y)*iprev_normal.y;
     t_sphere  = ray_unitsphere(prev_pos - sphere_center, prev_normal);
 
     t = 1e3;
-    if(t_floor_0>0.&& t_floor_0<t){ t=t_floor_0;  normal=floor_0.xyz; }
-    if(t_floor_1>0.&& t_floor_1<t){ t=t_floor_1;  normal=floor_1.xyz; }
-    if(t_wall_0>0. && t_wall_0<t) { t=t_wall_0; normal=vec3(0,0,-1); }
-    if(t_wall_1>0. && t_wall_1<t) { t=t_wall_1; normal=vec3(0,0,1); }
-    if(t_sphere>0. && t_sphere<t) { t=t_sphere; normal=normalize(prev_pos+prev_normal*t_sphere-sphere_center);}
+    if(t_floor_0>0.&& t_floor_0<t){ t=t_floor_0 ; normal=floor_0.xyz; }
+    if(t_floor_1>0.&& t_floor_1<t){ t=t_floor_1 ; normal=floor_1.xyz; }
+    if(t_wall_0>0. && t_wall_0<t) { t=t_wall_0  ; normal=vec3(0,0,-1); }
+    if(t_wall_1>0. && t_wall_1<t) { t=t_wall_1  ; normal=vec3(0,0,1); }
+    if(t_roof>0.&& t_roof<t)      { t=t_roof    ; normal=vec3(0,-1,0); }
+    if(t_sphere>0. && t_sphere<t) { t=t_sphere  ; normal=normalize(prev_pos+prev_normal*t_sphere-sphere_center);}
 
     pos = prev_pos + prev_normal*t;
 
+    wpos = pos.xy+vec2(TIME,0);
+    fn=floor(wpos.x+.5);
+    fh=.5+.5*sin(fn*.2);
+    wpos.x -= fn;
+    
+    fd=segment(wpos-vec2(0,2.3+2.*textureLod(syn_Spectrum,.05+.85*fh,0).y))-.4;
+
     missed      = t==1e3 || throughput<1e-1;
     hit_amiga   = t==t_sphere ? (acol=amiga(R0, R1, pos-sphere_center), true) : false;
-    //hit_amiga   = hit_amiga && acol.z<0.1 && r.x>.5;
+    hit_fft     = (t==t_wall_0||t==t_wall_1)&&fd<0.;
+    hit_amiga   = hit_amiga && acol.z<0.1 && r.x>.33;
 
     if(i==0 && missed) {
       break;
     }
 
-    if(missed || hit_amiga) {
+    if(missed || hit_amiga || hit_fft) {
       throughput/=(1.+fade_out*t*t);
       if (hit_amiga) {
         col += throughput*acol*sqrt(max(0.,-dot(prev_normal,normal)));
+      }
+      if (hit_fft) {
+        col += throughput*(fd+1.+sin(2.+3.*fh+vec3(2,1,0)));
       }
 
       prev_pos    = ro;
@@ -180,16 +220,20 @@ vec4 pass_main() {
     fresnel = 1. + dot(prev_normal, normal);
     fresnel *= fresnel;
     fresnel *= fresnel;
+    fresnel *= fresnel;
 
     reflect_dir = reflect(prev_normal, normal);
-    diffuse_dir = uniform_lambert(r, normal);
-
+    diffuse_dir = uniform_lambert(r, reflect_dir);
+    diffuse_dir = normalize(mix(diffuse_dir, reflect_dir, (t==t_floor_0||t==t_floor_1)&&abs(sin(.5*pos.x+TIME)-pos.y+.5)<.5?.8:.0));
     if(
         r.x < fresnel
       || t==t_sphere
+      || t==t_wall_0
+      || t==t_wall_1
+    //  || (t==t_floor_0||t==t_floor_1)&&abs(sin(.5*pos.x+TIME)-pos.y+.5)<.5
       ) {
       prev_normal = reflect_dir;
-      throughput *= .8;
+      throughput *= .7;
     } else {
       prev_normal = diffuse_dir;
       throughput *= .5;
@@ -271,7 +315,7 @@ vec4 pass_denoise() {
     col=denoise(xy)
   , pcol=texelFetch(passDenoise, xy,0).xyz
   ;
-  col=mix(col,pcol,0.2);
+  col=mix(col,pcol,.3);
   return vec4(col,1);
 }
 
