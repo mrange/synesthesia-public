@@ -61,9 +61,8 @@ function collidePlane(normal, w) {
       vel[1] += kick[1];
       vel[2] += kick[2];
 
-      // Random spin kick on bounce, sign randomized independently
-      spin0 += (Math.random()-0.5)*2 * 4.0;
-      spin1 += (Math.random()-0.5)*2 * 3.0;
+      spin0 += 4*kick[1];
+      spin1 += 4*kick[2];
     }
   }
 }
@@ -88,6 +87,5 @@ function update(dt) {
   angle1 = (angle1 + spin1 * dt) % (2 * Math.PI);
 
   setUniform('u_sphere_pos', pos[0], pos[1], pos[2]);
-  setUniform('angle0', angle0);
-  setUniform('angle1', angle1);
+  setUniform('u_angle', angle0, angle1);
 }

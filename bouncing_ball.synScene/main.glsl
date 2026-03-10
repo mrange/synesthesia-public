@@ -4,8 +4,26 @@ const float
   TAU=2.*PI
 ;
 
+vec2 angle() {
+#ifdef KODELIFE
+  return vec2(TIME,0.324*TIME);
+#else
+  return u_angle;
+#endif
+}
+
+
 vec3 sphere_pos() {
+#ifdef KODELIFE
+  float
+    B=fract(TIME)-.5
+  ;
+  B*=B;
+  B=(1.-4.*B)*2.;
+  return vec3(0,B,0);
+#else
   return u_sphere_pos;
+#endif
 }
 
 // License: MIT, author: Inigo Quilez, found: https://iquilezles.org/articles/intersectors/
@@ -54,7 +72,7 @@ vec3 amiga(mat2 R0, mat2 R1, vec3 p) {
   return textureLod(passAmiga, pp,0.).xyz;
 }
 
-vec4 pMain() {
+vec4 pass_main() {
   const float off=4.;
 
   const vec3
@@ -88,10 +106,11 @@ vec4 pMain() {
 
   vec2
     r
+  , a=angle()
   ;
 
-  mat2 R0=ROT(angle0);
-  mat2 R1=ROT(angle1);
+  mat2 R0=ROT(a.x);
+  mat2 R1=ROT(a.y);
 
   seed = fract(hash(p) + TIME/1337.);
 
@@ -185,7 +204,7 @@ vec4 pMain() {
   return vec4(col, 1.);
 }
 
-vec4 pAmiga() {
+vec4 pass_amiga() {
   if(FRAMECOUNT==1) {
     vec2
       q=_uv
@@ -244,7 +263,7 @@ vec3 denoise(ivec2 xy) {
 }
 
 
-vec4 pDenoise() {
+vec4 pass_denoise() {
   ivec2
     xy=ivec2(_xy)
   ;
@@ -256,7 +275,7 @@ vec4 pDenoise() {
   return vec4(col,1);
 }
 
-vec4 pPost() {
+vec4 pass_post() {
   ivec2
     xy=ivec2(_xy)
   ;
@@ -273,12 +292,12 @@ vec4 pPost() {
 vec4 renderMain() {
   switch(PASSINDEX) {
   case 0:
-    return pAmiga();
+    return pass_amiga();
   case 1:
-    return pMain();
+    return pass_main();
   case 2:
-    return pDenoise();
+    return pass_denoise();
   default:
-    return pPost();
+    return pass_post();
   }
 }
