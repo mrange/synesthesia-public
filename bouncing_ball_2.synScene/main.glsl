@@ -12,11 +12,25 @@ float fft(float x) {
 #endif
 }
 
-vec2 angle() {
+
+mat3 rotationFromAxisAngle(vec3 axis, float angle) {
+    float c = cos(angle);
+    float s = sin(angle);
+    float t = 1.0 - c;
+    vec3 a = normalize(axis);
+    return mat3(
+        t*a.x*a.x + c,      t*a.x*a.y - s*a.z,  t*a.x*a.z + s*a.y,
+        t*a.x*a.y + s*a.z,  t*a.y*a.y + c,      t*a.y*a.z - s*a.x,
+        t*a.x*a.z - s*a.y,  t*a.y*a.z + s*a.x,  t*a.z*a.z + c
+    );
+}
+
+
+mat3 angle() {
 #ifdef KODELIFE
   return vec2(TIME,0.324*TIME);
 #else
-  return u_angle;
+  return rotationFromAxisAngle(u_angle.xyz, u_angle.w);
 #endif
 }
 
@@ -65,9 +79,8 @@ vec2 hash2(float co) {
   return fract(sin(co*vec2(12.9898,78.233))*43758.5453);
 }
 
-vec4 amiga(mat2 R0, mat2 R1, vec3 p) {
-  p.xy*=R1;
-  p.zx*=R0;
+vec4 amiga(mat3 R, vec3 p) {
+  p*=R;
   vec2 pp=.5+.5*vec2(p.z,.25*p.y/p.x);
   vec4 tcol=textureLod(passAmiga, pp, 0.);
   return tcol;
@@ -106,9 +119,12 @@ vec4 ray_isphere(vec3 ro, vec3 rd, float ra) {
 vec4 pass_main() {
   const float off=4.;
 
-  const vec3
+  vec3
     ro        = vec3(3,1,3.)
-  , la        = vec3(0,-2,0.)
+  ;
+  ro.xz*=ROT(TIME*.25);
+  vec3
+    la        = vec3(0,-2,0.)
   , cam_fwd   = normalize(la - ro)
   , cam_right = normalize(cross(cam_fwd, vec3(0,1,0)))
   , cam_up    = cross(cam_right, cam_fwd)
@@ -132,11 +148,9 @@ vec4 pass_main() {
 
   vec2
     r
-  , a=angle()
   ;
 
-  mat2 R0=ROT(a.x);
-  mat2 R1=ROT(a.y);
+  mat3 R=angle();
 
   seed = fract(hash(p) + TIME/1337.);
 
@@ -189,7 +203,7 @@ vec4 pass_main() {
     ;
     h0=hash(n+.123);
     missed      = t==1e3 || throughput<1e-1;
-    hit_amiga   = t==t_sphere ? (acol=amiga(R0, R1, pos-sphere_center), true) : false;
+    hit_amiga   = t==t_sphere ? (acol=amiga(R, pos-sphere_center), true) : false;
     hit_amiga   = hit_amiga && acol.w>r.x;
     hit_grid    = t==t_isphere.x && (c.x<.01||c.y<.01||c.z<.01) && r.x>.5;
     hit_fft     = t==t_isphere.x && abs(length(c)-.5*fft(h0))<.0125;
@@ -319,7 +333,7 @@ vec4 pass_denoise() {
     col=denoise(xy)
   , pcol=texelFetch(passDenoise, xy,0).xyz
   ;
-  col=mix(col,pcol,.3);
+  col=mix(col,pcol,.1);
   return vec4(col,1);
 }
 
