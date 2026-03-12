@@ -1,17 +1,24 @@
 const N0 = [0, 1/Math.SQRT2,  1/Math.SQRT2];
 const N1 = [0, 1/Math.SQRT2, -1/Math.SQRT2];
+const N2 = [0, 0, -1];
+const N3 = [0, 0, 1];
 const GRAVITY = [0, -9.8, 0];
-const RESTITUTION = .98;
+const RESTITUTION = 1;
 const RADIUS = 1.0;
-const RANDOM_STRENGTH = 1.2;
+const RANDOM_STRENGTH = 1.;
 const SPIN_DECAY = .5; // higher = faster decay; half-life ~= ln(2)/SPIN_DECAY
 
-var pos = [0, 5, 0];
+var pos = [0, 6, 0];
 var vel = [0, 0, 3];
 var angle0 = 0;
 var angle1 = 0;
 var spin0 = 0; // angular velocity for angle0
 var spin1 = 0; // angular velocity for angle1
+var time = 0;
+
+function srand() {
+  return (Math.random()-0.5)*2;    
+}
 
 function dot(a, b) {
   return a[0]*b[0] + a[1]*b[1] + a[2]*b[2];
@@ -33,10 +40,10 @@ function randomTangentKick(normal) {
     normal[2]*T0[0] - normal[0]*T0[2],
     normal[0]*T0[1] - normal[1]*T0[0],
   ];
-  const r0 = (Math.random()-0.5)*2;
-  const r1 = (Math.random()-0.5)*2;
-  const r2 = (Math.random()-0.5)*2;
-  const r3 = (Math.random()-0.5)*2;
+  const r0 = srand();
+  const r1 = srand();
+  const r2 = srand();
+  const r3 = srand();
   return [
     0,
     RANDOM_STRENGTH * (r0*T0[1] + r1*T1[1]),
@@ -68,6 +75,12 @@ function collidePlane(normal, w) {
 }
 
 function update(dt) {
+  time+=dt;
+  if(time > 20) {
+    pos = [0, 6, 0];
+    vel = [0, 0, 5*srand()];
+    time= 0;
+  }
   vel[0] += GRAVITY[0] * dt;
   vel[1] += GRAVITY[1] * dt;
   vel[2] += GRAVITY[2] * dt;
@@ -76,6 +89,8 @@ function update(dt) {
   pos[2] += vel[2] * dt;
   collidePlane(N0, 1);
   collidePlane(N1, 1);
+  collidePlane(N2, 4);
+  collidePlane(N3, 4);
 
   // Exponential decay of spin
   const decay = Math.exp(-SPIN_DECAY * dt);
