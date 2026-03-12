@@ -12,13 +12,27 @@ float fft(float x) {
 #endif
 }
 
-vec2 angle() {
+mat3 rotationFromAxisAngle(vec3 axis, float angle) {
+    float c = cos(angle);
+    float s = sin(angle);
+    float t = 1.0 - c;
+    vec3 a = normalize(axis);
+    return mat3(
+        t*a.x*a.x + c,      t*a.x*a.y - s*a.z,  t*a.x*a.z + s*a.y,
+        t*a.x*a.y + s*a.z,  t*a.y*a.y + c,      t*a.y*a.z - s*a.x,
+        t*a.x*a.z - s*a.y,  t*a.y*a.z + s*a.x,  t*a.z*a.z + c
+    );
+}
+
+
+mat3 angle() {
 #ifdef KODELIFE
   return vec2(TIME,0.324*TIME);
 #else
-  return u_angle;
+  return rotationFromAxisAngle(u_angle.xyz, u_angle.w);
 #endif
 }
+
 
 // License: Unknown, author: Unknown, found: don't remember
 float hash(float co) {
@@ -76,9 +90,8 @@ vec2 hash2(float co) {
   return fract(sin(co*vec2(12.9898,78.233))*43758.5453);
 }
 
-vec4 amiga(mat2 R0, mat2 R1, vec3 p) {
-  p.xy*=R1;
-  p.zx*=R0;
+vec4 amiga(mat3 R, vec3 p) {
+  p=R*p;
   vec2 pp=.5+.5*vec2(p.z,.25*p.y/p.x);
   vec4 tcol=textureLod(passAmiga, pp, 0.);
   return tcol;
@@ -138,12 +151,10 @@ vec4 pass_main() {
 
   vec2
     r
-  , a=angle()
   , wpos
   ;
 
-  mat2 R0=ROT(a.x);
-  mat2 R1=ROT(a.y);
+  mat3 R=angle();
 
   seed = fract(hash(p) + TIME/1337.);
 
@@ -205,7 +216,7 @@ vec4 pass_main() {
     fresnel = 1. + dot(prev_normal, normal);
 
     missed      = t==1e3 || throughput<1e-1;
-    hit_amiga   = t==t_sphere ? (acol=amiga(R0, R1, pos-sphere_center), true) : false;
+    hit_amiga   = t==t_sphere ? (acol=amiga(R, pos-sphere_center), true) : false;
     hit_fft     = (t==t_wall_0||t==t_wall_1)&&fd<0.;
     hit_amiga   = hit_amiga&&r.y*r.y>fresnel;
     if(i==0 && missed) {
