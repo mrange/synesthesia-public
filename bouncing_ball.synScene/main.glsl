@@ -202,10 +202,12 @@ vec4 pass_main() {
 
     fd=segment(wpos-vec2(0,2.3+2.*fft(fn)))-.4;
 
+    fresnel = 1. + dot(prev_normal, normal);
+
     missed      = t==1e3 || throughput<1e-1;
     hit_amiga   = t==t_sphere ? (acol=amiga(R0, R1, pos-sphere_center), true) : false;
     hit_fft     = (t==t_wall_0||t==t_wall_1)&&fd<0.;
-    hit_amiga   = hit_amiga&&acol.w>r.x;
+    hit_amiga   = hit_amiga&&r.y*r.y>fresnel;
     if(i==0 && missed) {
       break;
     }
@@ -227,7 +229,6 @@ vec4 pass_main() {
       continue;
     }
 
-    fresnel = 1. + dot(prev_normal, normal);
     fresnel *= fresnel;
     fresnel *= fresnel;
     fresnel *= fresnel;

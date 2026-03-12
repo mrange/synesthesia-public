@@ -202,15 +202,18 @@ vec4 pass_main() {
     , c = abs(pos-n)
     ;
     h0=hash(n+.123);
+
+    fresnel = 1. + dot(prev_normal, normal);
+
     missed      = t==1e3 || throughput<1e-1;
     hit_amiga   = t==t_sphere ? (acol=amiga(R, pos-sphere_center), true) : false;
-    hit_amiga   = hit_amiga && acol.w>r.x;
+    //hit_amiga   = hit_amiga && acol.w>r.x;
+    hit_amiga = hit_amiga && r.y*r.y>fresnel;
     hit_grid    = t==t_isphere.x && (c.x<.01||c.y<.01||c.z<.01) && r.x>.5;
     hit_fft     = t==t_isphere.x && abs(length(c)-.5*fft(h0))<.0125;
     if(i==0 && missed) {
       break;
     }
-
 
     if(missed || hit_amiga || hit_grid ||hit_fft) {
       throughput/=(1.+fade_out*t*t);
@@ -237,7 +240,6 @@ vec4 pass_main() {
       continue;
     }
 
-    fresnel = 1. + dot(prev_normal, normal);
     fresnel *= fresnel;
     fresnel *= fresnel;
     fresnel *= fresnel;
