@@ -12,23 +12,26 @@ float fft(float x) {
 #endif
 }
 
-
 mat3 rotationFromAxisAngle(vec3 axis, float angle) {
-    float c = cos(angle);
-    float s = sin(angle);
-    float t = 1.0 - c;
-    vec3 a = normalize(axis);
-    return mat3(
-        t*a.x*a.x + c,      t*a.x*a.y - s*a.z,  t*a.x*a.z + s*a.y,
-        t*a.x*a.y + s*a.z,  t*a.y*a.y + c,      t*a.y*a.z - s*a.x,
-        t*a.x*a.z - s*a.y,  t*a.y*a.z + s*a.x,  t*a.z*a.z + c
-    );
+  float 
+    c = cos(angle)
+  , s = sin(angle)
+  , t = 1. - c
+  ;
+  vec3 
+    a = normalize(axis)
+  ;
+  return mat3(
+    t*a.x*a.x + c,      t*a.x*a.y - s*a.z,  t*a.x*a.z + s*a.y,
+    t*a.x*a.y + s*a.z,  t*a.y*a.y + c,      t*a.y*a.z - s*a.x,
+    t*a.x*a.z - s*a.y,  t*a.y*a.z + s*a.x,  t*a.z*a.z + c
+  );
 }
 
 
 mat3 angle() {
 #ifdef KODELIFE
-  return vec2(TIME,0.324*TIME);
+  return rotationFromAxisAngle(vec3(1,0,0),TIME);
 #else
   return rotationFromAxisAngle(u_angle.xyz, u_angle.w);
 #endif
@@ -189,7 +192,7 @@ vec4 pass_main() {
     iprev_normal=1./prev_normal;
 
     t_sphere  = ray_unitsphere(prev_pos - sphere_center, prev_normal);
-    t_isphere = ray_isphere(prev_pos, prev_normal, 4);
+    t_isphere = ray_isphere(prev_pos, prev_normal, 4.);
 
     t = 1e3;
     if(t_sphere>0. && t_sphere<t)         { t=t_sphere      ; normal=(prev_pos+prev_normal*t_sphere-sphere_center);}
@@ -207,7 +210,6 @@ vec4 pass_main() {
 
     missed      = t==1e3 || throughput<1e-1;
     hit_amiga   = t==t_sphere ? (acol=amiga(R, pos-sphere_center), true) : false;
-    //hit_amiga   = hit_amiga && acol.w>r.x;
     hit_amiga = hit_amiga && r.y*r.y>fresnel;
     hit_grid    = t==t_isphere.x && (c.x<.01||c.y<.01||c.z<.01) && r.x>.5;
     hit_fft     = t==t_isphere.x && abs(length(c)-.5*fft(h0))<.0125;
