@@ -13,25 +13,30 @@ float fft(float x) {
 }
 
 mat3 rotationFromAxisAngle(vec3 axis, float angle) {
-    float c = cos(angle);
-    float s = sin(angle);
-    float t = 1.0 - c;
-    vec3 a = normalize(axis);
-    return mat3(
-        t*a.x*a.x + c,      t*a.x*a.y - s*a.z,  t*a.x*a.z + s*a.y,
-        t*a.x*a.y + s*a.z,  t*a.y*a.y + c,      t*a.y*a.z - s*a.x,
-        t*a.x*a.z - s*a.y,  t*a.y*a.z + s*a.x,  t*a.z*a.z + c
-    );
+  float
+    c = cos(angle)
+  , s = sin(angle)
+  , t = 1. - c
+  ;
+  vec3
+    a = normalize(axis)
+  ;
+  return mat3(
+    t*a.x*a.x + c,      t*a.x*a.y - s*a.z,  t*a.x*a.z + s*a.y,
+    t*a.x*a.y + s*a.z,  t*a.y*a.y + c,      t*a.y*a.z - s*a.x,
+    t*a.x*a.z - s*a.y,  t*a.y*a.z + s*a.x,  t*a.z*a.z + c
+  );
 }
 
 
 mat3 angle() {
 #ifdef KODELIFE
-  return vec2(TIME,0.324*TIME);
+  return rotationFromAxisAngle(vec3(1,0,0),TIME);
 #else
   return rotationFromAxisAngle(u_angle.xyz, u_angle.w);
 #endif
 }
+
 
 
 // License: Unknown, author: Unknown, found: don't remember
@@ -357,8 +362,10 @@ vec4 pass_post() {
   col *= 1.5;
   col=tanh(col);
   col=sqrt(col)-.05;
+#ifndef KODELIFE
   vec4 mcol=_loadMedia();
   col=mix(col,mcol.xyz,mix(dot(mcol.xyz,vec3(0.299, 0.587, 0.114)), mcol.w, 0.3));
+#endif
   return vec4(col,1);
 }
 
