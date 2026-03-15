@@ -12,6 +12,7 @@ float fft(float x) {
 #endif
 }
 
+#ifdef KODELIFE
 mat3 rotationFromAxisAngle(vec3 axis, float angle) {
   float
     c = cos(angle)
@@ -27,13 +28,14 @@ mat3 rotationFromAxisAngle(vec3 axis, float angle) {
     t*a.x*a.z - s*a.y,  t*a.y*a.z + s*a.x,  t*a.z*a.z + c
   );
 }
+#endif
 
 
 mat3 angle() {
 #ifdef KODELIFE
   return rotationFromAxisAngle(vec3(1,0,0),TIME);
 #else
-  return rotationFromAxisAngle(u_angle.xyz, u_angle.w);
+  return mat3(u_rot_x, u_rot_y, u_rot_z);
 #endif
 }
 

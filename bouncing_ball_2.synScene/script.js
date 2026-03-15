@@ -55,6 +55,20 @@ function composeRotations(ax1, an1, ax2, an2) {
   };
 }
 
+function rotationFromAxisAngle(axis, angle) {
+  var c = Math.cos(angle);
+  var s = Math.sin(angle);
+  var t = 1 - c;
+  var l = len(axis);
+  var ax = axis[0]/l, ay = axis[1]/l, az = axis[2]/l;
+
+  return [
+    [t*ax*ax + c,      t*ax*ay - s*az,  t*ax*az + s*ay],
+    [t*ax*ay + s*az,  t*ay*ay + c,      t*ay*az - s*ax],
+    [t*ax*az - s*ay,  t*ay*az + s*ax,  t*az*az + c    ]
+  ];
+}
+
 function update(dt) {
   // Gravity
   vel[1] -= GRAVITY * dt;
@@ -111,6 +125,10 @@ function update(dt) {
   angVel[1] *= ANG_DAMPING;
   angVel[2] *= ANG_DAMPING;
 
+  var m = rotationFromAxisAngle(rotAxis, rotAngle);
+
   setUniform('u_sphere_pos', pos[0], pos[1], pos[2]);
-  setUniform('u_angle', rotAxis[0], rotAxis[1], rotAxis[2], rotAngle);
+  setUniform('u_rot_x', m[0][0], m[0][1], m[0][2]);
+  setUniform('u_rot_y', m[1][0], m[1][1], m[1][2]);
+  setUniform('u_rot_z', m[2][0], m[2][1], m[2][2]);
 }

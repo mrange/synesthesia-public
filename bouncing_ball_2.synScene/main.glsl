@@ -8,17 +8,18 @@ float fft(float x) {
 #ifdef KODELIFE
   return .5+.5*sin(x*.2);
 #else
-  return textureLod(syn_Spectrum,.05+.85*(.5+.5*sin(x*.2)),0).y;
+  return textureLod(syn_Spectrum,.05+.85*(.5+.5*sin(x*.2)),0).z;
 #endif
 }
 
+#ifdef KODELIFE
 mat3 rotationFromAxisAngle(vec3 axis, float angle) {
-  float 
+  float
     c = cos(angle)
   , s = sin(angle)
   , t = 1. - c
   ;
-  vec3 
+  vec3
     a = normalize(axis)
   ;
   return mat3(
@@ -27,13 +28,14 @@ mat3 rotationFromAxisAngle(vec3 axis, float angle) {
     t*a.x*a.z - s*a.y,  t*a.y*a.z + s*a.x,  t*a.z*a.z + c
   );
 }
+#endif
 
 
 mat3 angle() {
 #ifdef KODELIFE
   return rotationFromAxisAngle(vec3(1,0,0),TIME);
 #else
-  return rotationFromAxisAngle(u_angle.xyz, u_angle.w);
+  return mat3(u_rot_x, u_rot_y, u_rot_z);
 #endif
 }
 
