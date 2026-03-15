@@ -8,7 +8,7 @@ float fft(float x) {
 #ifdef KODELIFE
   return .5+.5*sin(x*.2);
 #else
-  return textureLod(syn_Spectrum,.05+.85*(.5+.5*sin(x*.2)),0).z;
+  return textureLod(syn_Spectrum,.05+.85*(.5+.5*sin(x*.2)),0).y;
 #endif
 }
 
@@ -121,13 +121,18 @@ vec4 ray_isphere(vec3 ro, vec3 rd, float ra) {
   return vec4(-b+h,-p/ra);
 }
 
+float L4(vec3 p) {
+  return sqrt(length(p*p));
+}
+
 vec4 pass_main() {
   const float off=4.;
 
   vec3
     ro        = vec3(3,1,3.)
   ;
-  ro.xz*=ROT(TIME*.25);
+  ro.xz*=ROT(.25*TIME);
+  ro.xy*=ROT(.123*TIME);
   vec3
     la        = vec3(0,-2,0.)
   , cam_fwd   = normalize(la - ro)
@@ -149,6 +154,9 @@ vec4 pass_main() {
   , fn
   , iz
   , h0
+  , h1
+  , d
+  , f
   ;
 
   vec2
@@ -188,7 +196,7 @@ vec4 pass_main() {
   prev_normal = noisy_ray_dir(r, p, cam_right, cam_up, cam_fwd);
   throughput  = 1.;
 
-  for(int i=0; i<100; ++i) {
+  for(int i=0; i<50; ++i) {
     ++seed;
     r=hash2(seed);
     iprev_normal=1./prev_normal;
@@ -207,14 +215,22 @@ vec4 pass_main() {
     , c = abs(pos-n)
     ;
     h0=hash(n+.123);
+    h1=fract(8667.*h0);
 
     fresnel = 1. + dot(prev_normal, normal);
+    f=fft(h0)*main_bass_gain*mix(min_bass_gain,max_bass_gain,syn_BassHits);
+    f*=f;
+    f+=.2;
+    f=clamp(f,0.,1.);
+    d=(L4(c)-.4*f);
 
     missed      = t==1e3 || throughput<1e-1;
     hit_amiga   = t==t_sphere ? (acol=amiga(R, pos-sphere_center), true) : false;
+    f=smoothstep(low_bass_edge,high_bass_edge,f);
+    
     hit_amiga = hit_amiga && r.y*r.y>fresnel;
     hit_grid    = t==t_isphere.x && (c.x<.01||c.y<.01||c.z<.01) && r.x>.5;
-    hit_fft     = t==t_isphere.x && abs(length(c)-.5*fft(h0))<.0125;
+    hit_fft     = t==t_isphere.x && (abs(d)<.01 || f*5e-4/max(d*mix(d,abs(d),step(.8,f)),1e-4)>r.x) ;
     if(i==0 && missed) {
       break;
     }
@@ -228,7 +244,7 @@ vec4 pass_main() {
       }
 
       if (hit_fft) {
-        tc += .5*(1.+sin(TAU*h0+.5*vec3(0,1,2)));
+        tc += (1.+f+sin(pos.y+TIME+0.*h0+vec3(0,1,2)))-d;
       }
 
       if (hit_amiga) {
@@ -343,21 +359,41 @@ vec4 pass_denoise() {
   return vec4(col,1);
 }
 
+// License: Unknown, author: Matt Taylor (https://github.com/64), found: https://64.github.io/tonemapping/
+vec3 aces_approx(vec3 v) {
+  const float
+    a = 2.51
+  , b = 0.03
+  , c = 2.43
+  , d = 0.59
+  , e = 0.14
+  ;
+  v = max(v, 0.);
+  v *= .6;
+  return clamp((v*(a*v+b))/(v*(c*v+d)+e), 0., 1.);
+}
 vec4 pass_post() {
   ivec2
     xy=ivec2(_xy)
   ;
+  
   vec3
     col=texelFetch(passDenoise, xy,0).xyz
   ;
+  col -=1e-2*vec3(2,3,1);
   col=max(col,0.);
   col *= 1.5;
-  col=tanh(col);
+  col=aces_approx(col);
   col=sqrt(col)-.05;
+
+  col*=mix(1.,1.+sin(_xy.y*TAU/6.), crt_effect);
+
 #ifndef KODELIFE
   vec4 mcol=_loadMedia();
-  col=mix(col,mcol.xyz,mix(dot(mcol.xyz,vec3(0.299, 0.587, 0.114)), mcol.w, 0.3));
+  col=mix(col,mcol.xyz,media_opaque*mix(dot(mcol.xyz,vec3(0.299, 0.587, 0.114)), mcol.w, mix_mode));
 #endif
+
+
   return vec4(col,1);
 }
 

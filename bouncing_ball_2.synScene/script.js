@@ -12,6 +12,10 @@ const DAMPING = 1.0;
 const ANG_DAMPING = 0.995;
 const ROUGHNESS = 0.15;
 
+function srand() {
+  return -1+2*Math.random();
+}
+
 function len(v) {
   return Math.sqrt(v[0]*v[0] + v[1]*v[1] + v[2]*v[2]);
 }
@@ -70,6 +74,10 @@ function rotationFromAxisAngle(axis, angle) {
 }
 
 function update(dt) {
+  if(drop_ball>.5) {
+    pos = [0, 2, 0];
+    vel = [2*srand(), 2*srand(), 2*srand()];
+  }
   // Gravity
   vel[1] -= GRAVITY * dt;
 
