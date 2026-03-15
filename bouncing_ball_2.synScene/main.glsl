@@ -352,6 +352,10 @@ vec4 pass_post() {
   col *= 1.5;
   col=tanh(col);
   col=sqrt(col)-.05;
+#ifndef KODELIFE
+  vec4 mcol=_loadMedia();
+  col=mix(col,mcol.xyz,mix(dot(mcol.xyz,vec3(0.299, 0.587, 0.114)), mcol.w, 0.3));
+#endif
   return vec4(col,1);
 }
 

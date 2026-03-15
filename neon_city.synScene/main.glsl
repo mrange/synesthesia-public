@@ -224,7 +224,6 @@ vec4 dpass0() {
   , NZ
   , R
   , L
-  , pcol =texelFetch(pass0,ivec2(_xy),0).xyz
   , FL
   , FP   =vec3(.5,1.,speed+mix(-4.,30.,FT))
   , XZ
@@ -338,28 +337,71 @@ vec4 dpass0() {
   }
 
   col/=n;
-  col=mix(col,pcol,motion_blur);
   return vec4(col,1);
 }
 
-
-vec4 dpass1() {
-  return vec4(gb(pass0,ivec2(1,0),ivec2(_xy)),1);
+float dot2(vec3 p) {
+  return dot(p,p);
 }
 
-vec4 dpass2() {
+vec3 denoise(sampler2D pass, ivec2 xy) {
+  const int
+    MAX=3
+  ;
+  const float
+    DIV=1./float(MAX*MAX)
+  ;
+  vec3
+    center  = texelFetch(pass, xy, 0).xyz
+  , s
+  , sum     = center
+  ;
+  float
+    rangeW
+  , spatialW
+  , w
+  , weight = 1.0
+  ;
+  for(int dy = -MAX; dy <= MAX; ++dy)
+  for(int dx = -MAX; dx <= MAX; ++dx) {
+    if(dx == 0 && dy == 0) continue;
+
+    s = texelFetch(pass, xy + ivec2(dx, dy), 0).xyz;
+    w=exp(-float(dx*dx + dy*dy) * DIV-dot2(s - center) *1E1);
+    sum += s * w;
+    weight += w;
+  }
+    return sum / weight;
+}
+
+vec4 dpass1() {
   ivec2
     xy=ivec2(_xy)
   ;
   vec3
-    col=gb(pass1,ivec2(0,1),xy)
-  , pcol=texelFetch(pass2,xy,0).xyz
+    col=denoise(pass0, ivec2(_xy))
+  , pcol=texelFetch(pass1,xy,0).xyz
+  ;
+  return vec4(mix(col, pcol, motion_blur),1);
+}
+
+vec4 dpass2() {
+  return vec4(gb(pass1,ivec2(1,0),ivec2(_xy)),1);
+}
+
+vec4 dpass3() {
+  ivec2
+    xy=ivec2(_xy)
+  ;
+  vec3
+    col=gb(pass2,ivec2(0,1),xy)
+  , pcol=texelFetch(pass3,xy,0).xyz
   ;
   return vec4(mix(col,pcol,retain_glow),1);
 }
 
 
-vec4 dpass3() {
+vec4 dpass4() {
   const vec3
     lum_weights_srgb   = vec3(0.299, 0.587, 0.114)
   ;
@@ -380,8 +422,8 @@ vec4 dpass3() {
 
   mcol=_loadMedia();
   t=smoothstep(media_mask.y,media_mask.x,dot(lum_weights_srgb,mcol.xyz));
-  col=texelFetch(pass0,ivec2(_xy),0).xyz;
-  bcol=texelFetch(pass2,ivec2(_xy),0).xyz;
+  col=texelFetch(pass1,ivec2(_xy),0).xyz;
+  bcol=texelFetch(pass3,ivec2(_xy),0).xyz;
   col-=.01;
   col+=neon_glow*bcol;
   dcol=glass_blend*sqrt(bcol)+.005;
@@ -402,7 +444,9 @@ vec4 renderMain() {
     return dpass1();
   case 2:
     return dpass2();
-  default:
+  case 3:
     return dpass3();
+  default:
+    return dpass4();
   }
 }

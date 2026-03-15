@@ -1,5 +1,5 @@
 {
-	"CONTROLS" :
+	"CONTROLS" : 
 	[
 		{
 			"DEFAULT" : 0.2,
@@ -31,18 +31,18 @@
 			"UI_GROUP" : "Visual"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.0625,
 				0.75
 			],
 			"DESCRIPTION" : "Surface reflection – Fresnel min/max for building glass",
-			"MAX" :
+			"MAX" : 
 			[
 				1,
 				1
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0
@@ -63,18 +63,18 @@
 			"UI_GROUP" : "Visual"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				5,
 				2
 			],
 			"DESCRIPTION" : "Neon hue – color phase shifts for cyan/magenta tones",
-			"MAX" :
+			"MAX" : 
 			[
 				7,
 				7
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0
@@ -135,18 +135,18 @@
 			"UI_GROUP" : "Media"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				0.25,
 				0.5
 			],
 			"DESCRIPTION" : "Media mask – luminance threshold for glass blend",
-			"MAX" :
+			"MAX" : 
 			[
 				1,
 				1
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0
@@ -166,18 +166,18 @@
 			"UI_GROUP" : "Movement"
 		},
 		{
-			"DEFAULT" :
+			"DEFAULT" : 
 			[
 				1,
 				0.33
 			],
 			"DESCRIPTION" : "Camera path – sine wave amplitude and frequency",
-			"MAX" :
+			"MAX" : 
 			[
 				2,
 				0.5
 			],
-			"MIN" :
+			"MIN" : 
 			[
 				0,
 				0
@@ -188,7 +188,7 @@
 		},
 		{
 			"DEFAULT" : 2,
-		  "DESCRIPTION" : "Camera height – elevation above city streets",
+			"DESCRIPTION" : "Camera height – elevation above city streets",
 			"MAX" : 2.9,
 			"MIN" : 2.1,
 			"NAME" : "camera_height",
@@ -202,14 +202,14 @@
 	"GPU" : 1,
 	"HEIGHT" : 1080,
 	"IMAGE_PATH" : "scene.png",
-	"MEDIA" :
+	"MEDIA" : 
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"PASSES" :
+	"PASSES" : 
 	[
 		{
 			"FILTER" : "nearest",
@@ -234,9 +234,17 @@
 			"TARGET" : "pass2",
 			"WIDTH" : 1920,
 			"WRAP" : "clamp"
+		},
+		{
+			"FILTER" : "linear",
+			"FLOAT" : true,
+			"HEIGHT" : 1080,
+			"TARGET" : "pass3",
+			"WIDTH" : 1920,
+			"WRAP" : "repeat"
 		}
 	],
-	"TAGS" :
+	"TAGS" : 
 	[
 		"mrange",
 		"city",
