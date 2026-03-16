@@ -102,23 +102,16 @@ float ray_unitsphere(vec3 ro, vec3 rd) {
   return -b-sqrt(h);
 }
 
-vec4 ray_isphere(vec3 ro, vec3 rd, float ra) {
-  vec3
-    oc = ro
-  , p
-  ;
+float ray_isphere4(vec3 ro, vec3 rd) {
   float
-    b = dot(oc, rd)
-  , c = dot(oc, oc)-ra*ra
+    b = dot(ro, rd)
+  , c = dot(ro, ro)-16.
   , h = b*b-c
   , t
   ;
-  if (h<0.) return vec4(-1.0,1,0,0);
+  if (h<0.) return -1.;
 
-  h = sqrt(h);
-  t = -b+h;
-  p = t*rd+ro;
-  return vec4(-b+h,-p/ra);
+  return -b+sqrt(h);
 }
 
 float L4(vec3 p) {
@@ -126,13 +119,11 @@ float L4(vec3 p) {
 }
 
 vec4 pass_main() {
-  const float off=4.;
-
   vec3
     ro        = vec3(3,1,3.)
   ;
-  ro.xz*=ROT(.25*TIME);
-  ro.xy*=ROT(.123*TIME);
+  ro.xz*=ROT(rotation_speed_0);
+  ro.xy*=ROT(rotation_speed_1);
   vec3
     la        = vec3(0,-2,0.)
   , cam_fwd   = normalize(la - ro)
@@ -149,10 +140,8 @@ vec4 pass_main() {
   , t
   , throughput
   , t_sphere
+  , t_isphere
   , seed
-  , fd
-  , fn
-  , iz
   , h0
   , h1
   , d
@@ -181,7 +170,6 @@ vec4 pass_main() {
 
   vec4
     acol
-  , t_isphere
   ;
 
 
@@ -202,11 +190,11 @@ vec4 pass_main() {
     iprev_normal=1./prev_normal;
 
     t_sphere  = ray_unitsphere(prev_pos - sphere_center, prev_normal);
-    t_isphere = ray_isphere(prev_pos, prev_normal, 4.);
+    t_isphere = ray_isphere4(prev_pos, prev_normal);
 
     t = 1e3;
-    if(t_sphere>0. && t_sphere<t)         { t=t_sphere      ; normal=(prev_pos+prev_normal*t_sphere-sphere_center);}
-    if(t_isphere.x>0. && t_isphere.x<t)   { t=t_isphere.x   ; normal=t_isphere.yzw;}
+    if(t_sphere>0. && t_sphere<t)   { t=t_sphere      ; normal = (prev_pos - sphere_center + prev_normal*t); }
+    if(t_isphere>0. && t_isphere<t) { t=t_isphere     ; normal = -.25*(prev_pos + prev_normal*t_isphere); }
 
     pos = prev_pos + prev_normal*t;
 
@@ -229,8 +217,8 @@ vec4 pass_main() {
     f=smoothstep(low_bass_edge,high_bass_edge,f);
     
     hit_amiga = hit_amiga && r.y*r.y>fresnel;
-    hit_grid    = t==t_isphere.x && (c.x<.01||c.y<.01||c.z<.01) && r.x>.5;
-    hit_fft     = t==t_isphere.x && (abs(d)<.01 || f*5e-4/max(d*mix(d,abs(d),step(.8,f)),1e-4)>r.x) ;
+    hit_grid    = t==t_isphere && (c.x<.01||c.y<.01||c.z<.01) && r.x>.5;
+    hit_fft     = t==t_isphere && (abs(d)<.01 || f*5e-4/max(d*mix(d,abs(d),step(.8,f)),1e-4)>r.x) ;
     if(i==0 && missed) {
       break;
     }
@@ -372,21 +360,48 @@ vec3 aces_approx(vec3 v) {
   v *= .6;
   return clamp((v*(a*v+b))/(v*(c*v+d)+e), 0., 1.);
 }
+
+// From: https://www.shadertoy.com/view/XtlSD7
+vec2 crt_distort(vec2 q) {
+  q = _uv*2. - 1;
+  vec2 
+    o = crt_effect*q.yx/vec2(6,4)
+  ;
+  q = q + q*o*o;
+  return q*.5 + .5;
+}
+
+// From: https://www.shadertoy.com/view/XtlSD7
+float vig(vec2 q) {    
+  float 
+    v = q.x*q.y*(1.0 - q.x)*(1.0 - q.y)
+  ;
+  v = clamp(pow(16.*v, .3), 0., 1.);
+  return v;
+}
+
+
 vec4 pass_post() {
   ivec2
     xy=ivec2(_xy)
   ;
   
-  vec3
-    col=texelFetch(passDenoise, xy,0).xyz
+  vec2
+    q=crt_distort(_uv)
+  , s=step(abs(q-.5),vec2(.5))
   ;
+  
+  vec3
+    col=textureLod(passDenoise, q, 0.).xyz
+  ;
+  col *= mix(1.,vig(q),crt_effect);
   col -=1e-2*vec3(2,3,1);
   col=max(col,0.);
   col *= 1.5;
   col=aces_approx(col);
   col=sqrt(col)-.05;
 
-  col*=mix(1.,1.+sin(_xy.y*TAU/6.), crt_effect);
+  col*=mix(1.,1.5+.5*sin(_xy.y*TAU/6.), crt_effect);
 
 #ifndef KODELIFE
   vec4 mcol=_loadMedia();

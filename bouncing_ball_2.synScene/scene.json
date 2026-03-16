@@ -89,6 +89,24 @@
 			"PARAMS" : 0.19701,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 0.25,
+			"DESCRIPTION" : "",
+			"MAX" : 2,
+			"MIN" : -2,
+			"NAME" : "rotation_speed_0",
+			"TYPE" : "slider speed",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 0.1234,
+			"DESCRIPTION" : "",
+			"MAX" : 1,
+			"MIN" : -1,
+			"NAME" : "rotation_speed_1",
+			"TYPE" : "slider speed",
+			"UI_GROUP" : "Visual"
 		}
 	],
 	"CREDIT" : "mrange",
