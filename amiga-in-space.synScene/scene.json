@@ -193,7 +193,14 @@
 		"mrange",
 		"bouncy",
 		"amiga",
-		"path_tracer"
+		"path_tracer",
+		"audio-reactive",
+		"retro",
+		"crt",
+		"neon",
+		"space",
+		"grid",
+		"sphere"
 	],
 	"TITLE" : "Amiga in Space!",
 	"WIDTH" : 1920
