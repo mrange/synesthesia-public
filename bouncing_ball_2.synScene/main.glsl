@@ -1,7 +1,20 @@
+// License: WTFPL, author: sam hocevar, found: https://stackoverflow.com/a/17897228/418488
+const vec4 hsv2rgb_K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
+
+// License: WTFPL, author: sam hocevar, found: https://stackoverflow.com/a/17897228/418488
+//  Macro version of above to enable compile-time constants
+#define HSV2RGB(c)  (c.z * mix(hsv2rgb_K.xxx, clamp(abs(fract(c.xxx + hsv2rgb_K.xyz) * 6.0 - hsv2rgb_K.www) - hsv2rgb_K.xxx, 0.0, 1.0), c.y))
+
+// License: WTFPL, author: sam hocevar, found: https://stackoverflow.com/a/17897228/418488
+vec3 hsv2rgb(vec3 c) {
+  vec3 p = abs(fract(c.xxx + hsv2rgb_K.xyz) * 6.0 - hsv2rgb_K.www);
+  return c.z * mix(hsv2rgb_K.xxx, clamp(p - hsv2rgb_K.xxx, 0.0, 1.0), c.y);
+}
 #define ROT(a)      mat2(cos(a), sin(a), -sin(a), cos(a))
 
 const float
   TAU=2.*PI
+, PI_2=.5*PI
 ;
 
 #ifdef KODELIFE
@@ -11,9 +24,10 @@ const float
   crt_effect    =1.
 , low_bass_edge =.5
 , high_bass_edge=1.
-, main_bass_gain=1.
+, main_bass_gain=0.5
 , min_bass_gain =1.
 , max_bass_gain =1.5
+, reflection_mode=.9
 ;
 #endif
 
@@ -154,6 +168,76 @@ float L4(vec3 p) {
   return sqrt(length(p*p));
 }
 
+
+// License: MIT, author: Pascal Gilcher, found: https://www.shadertoy.com/view/flSXRV
+float atan_approx(float y, float x) {
+  float cosatan2 = x/(abs(x)+abs(y));
+  float t = PI_2-cosatan2*PI_2;
+  return y<0.?-t:t;
+}
+
+float acos_approx(float x) {
+  float 
+    ax = abs(x)
+  , r  = ax*(-.0187293*ax+.0742610)-.2121144
+  ;
+  r = (r*ax+PI_2)*sqrt(1.-ax);
+  return x<0.?PI-r:r;
+}
+
+vec3 to_spherical_approx(vec3 p) {
+  float
+    r = length(p)
+  ;
+  return vec3(r, acos_approx(p.z/r), atan_approx(p.y, p.x));
+}
+
+vec3 sun(vec3 R, float bh) {
+  const vec3
+    sun_dir=normalize(vec3(1,.5,0))
+  , sun_col=HSV2RGB(vec3(.78,.9,1e-2))
+  ;
+  return (sun_mode/(1.001+dot(R, sun_dir)))*(bh*5e-3+sun_col);
+}
+
+vec3 stars(vec3 R, float bh) {
+  float
+    Z=TAU/200.
+  ;
+
+  vec3
+    col=sun(R, bh);
+  ;
+
+  float
+    a=1.
+  , o=1.-dot(vec3(0.2126, 0.7152, 0.0722),col)
+  ;
+  for(int i=0;i<3;++i) {
+    R=R.zxy;
+    vec2
+      s=to_spherical_approx(R).yz
+    , n=floor(s/Z+.5)
+    , c=s-Z*n
+    ;
+
+    float
+      h=sin(s.x)
+    , h0=hash(n+123.4*float(i+1))
+    , h1=fract(8887.*h0)
+    , h2=fract(9187.*h0)
+    , h3=fract(9677.*h0)
+    ;
+    c.y*=h;
+
+    col += a*hsv2rgb(vec3(-.4*h1,(h3)+.2,o*step(h0,.1*h)*h1*vec3(1e-6)/(7e-8+dot(c,c))));
+    Z*=.5;
+    a*=.5;
+  }
+  return col;
+}
+
+
 vec4 pass_main() {
   vec3
     ro        = vec3(3,1,3.)
@@ -188,6 +272,8 @@ vec4 pass_main() {
   , h1
   , d
   , f
+  , ha=0.
+  , bh=main_bass_gain*mix(min_bass_gain,max_bass_gain,syn_BassHits)
   ;
 
   vec2
@@ -207,6 +293,8 @@ vec4 pass_main() {
   , normal
   , reflect_dir
   , diffuse_dir
+  , y=vec3(0)
+  , s=vec3(0)
   ;
 
   vec4
@@ -224,7 +312,14 @@ vec4 pass_main() {
   prev_normal = noisy_ray_dir(r, p, cam_right, cam_up, cam_fwd);
   throughput  = 1.;
 
-  for(int i=0; i<90; ++i) {
+  pos = prev_pos - sphere_center; 
+  t_sphere=ray_sphere_1(pos, prev_normal);
+  normal = reflect(prev_normal, pos+prev_normal*t_sphere);
+  
+  y=sky_mode*stars(prev_normal,syn_BassHits);
+  s=sun(normal,syn_BassHits);
+
+  for(int i=0; i<80; ++i) {
     ++seed;
     r=hash2(seed);
 
@@ -242,20 +337,24 @@ vec4 pass_main() {
       n = floor(pos+.5)
     , c = abs(pos-n)
     ;
+    
     h0=hash(n+.123);
     h1=fract(8667.*h0);
 
     fresnel = 1. + dot(prev_normal, normal);
-    f=fft(h0)*main_bass_gain*mix(min_bass_gain,max_bass_gain,syn_BassHits);
+    f=fft(h0)*bh;
     f*=f;
     f+=.2;
     f=clamp(f,0.,1.);
     d=(L4(c)-.4*f);
 
+    if (t==t_sphere&&throughput==1.) ++ha;
+
     missed      = t==1e3 || throughput<1e-1;
     hit_amiga   = t==t_sphere ? (acol=amiga(R, pos-sphere_center), true) : false;
+
     f=smoothstep(low_bass_edge,high_bass_edge,f);
-    
+
     hit_amiga = hit_amiga && r.y*r.y>fresnel;
     hit_grid    = t==t_isphere && (c.x<.01||c.y<.01||c.z<.01) && r.x>.5;
     hit_fft     = t==t_isphere && (abs(d)<.01 || f*5e-4/max(d*mix(d,abs(d),step(.8,f)),1e-4)>r.x) ;
@@ -284,6 +383,7 @@ vec4 pass_main() {
       prev_pos    = ro;
       prev_normal = noisy_ray_dir(r, p, cam_right, cam_up, cam_fwd);
       throughput  = 1.;
+      
       ++samples;
       continue;
     }
@@ -306,6 +406,7 @@ vec4 pass_main() {
   }
 
   col /= max(samples, 1.);
+  col+=mix(y, s, ha/samples);
   return vec4(col, 1.);
 }
 
@@ -376,7 +477,10 @@ vec4 pass_denoise() {
     col=denoise(xy)
   , pcol=texelFetch(passDenoise, xy,0).xyz
   ;
-  col=mix(col,pcol,.1);
+  
+  pcol=mix(pcol,vec3(0),isnan(pcol));
+  
+  col=mix(col,pcol,motion_blur);
   return vec4(col,1);
 }
 

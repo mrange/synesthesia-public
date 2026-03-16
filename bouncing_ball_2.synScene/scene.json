@@ -117,6 +117,36 @@
 			"PARAMS" : 0.20401,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 0.125,
+			"DESCRIPTION" : "",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "motion_blur",
+			"PARAMS" : 0.19501,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 1,
+			"DESCRIPTION" : "",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "sky_mode",
+			"PARAMS" : 0.21401,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 1,
+			"DESCRIPTION" : "",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "sun_mode",
+			"PARAMS" : 0.20301,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Visual"
 		}
 	],
 	"CREDIT" : "mrange",
