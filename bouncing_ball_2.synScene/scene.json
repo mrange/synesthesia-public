@@ -107,6 +107,16 @@
 			"NAME" : "rotation_speed_1",
 			"TYPE" : "slider speed",
 			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 0.9,
+			"DESCRIPTION" : "",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "reflection_mode",
+			"PARAMS" : 0.20401,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Visual"
 		}
 	],
 	"CREDIT" : "mrange",

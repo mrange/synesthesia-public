@@ -4,16 +4,29 @@ const float
   TAU=2.*PI
 ;
 
+#ifdef KODELIFE
+#define syn_BassHits (.5+.5*sin(TAU*TIME))
+
+const float
+  crt_effect    =1.
+, low_bass_edge =.5
+, high_bass_edge=1.
+, main_bass_gain=1.
+, min_bass_gain =1.
+, max_bass_gain =1.5
+;
+#endif
+
 float fft(float x) {
 #ifdef KODELIFE
-  return .5+.5*sin(x*.2);
+  return .5+.5*sin(.2*x*+10.*TIME);
 #else
   return textureLod(syn_Spectrum,.05+.85*(.5+.5*sin(x*.2)),0).y;
 #endif
 }
 
 #ifdef KODELIFE
-mat3 rotationFromAxisAngle(vec3 axis, float angle) {
+mat3 rot_axis(vec3 axis, float angle) {
   float
     c = cos(angle)
   , s = sin(angle)
@@ -33,7 +46,7 @@ mat3 rotationFromAxisAngle(vec3 axis, float angle) {
 
 mat3 angle() {
 #ifdef KODELIFE
-  return rotationFromAxisAngle(vec3(1,0,0),TIME);
+  return rot_axis(vec3(1,0,0),TIME);
 #else
   return mat3(u_rot_x, u_rot_y, u_rot_z);
 #endif
@@ -48,6 +61,26 @@ float hash(float co) {
 float hash(vec3 r)  {
   return fract(sin(dot(r.xy,vec2(1.38984*sin(r.z),1.13233*cos(r.z))))*653758.5453);
 }
+
+// License: Unknown, author: knarkowicz, found: https://www.shadertoy.com/view/XtlSD7
+vec2 crt_distort(vec2 q) {
+  q = _uv*2. - 1.;
+  vec2 
+    o = crt_effect*q.yx/vec2(6,4)
+  ;
+  q = q + q*o*o;
+  return q*.5 + .5;
+}
+
+// License: Unknown, author: knarkowicz, found: https://www.shadertoy.com/view/XtlSD7
+float vig(vec2 q) {    
+  float 
+    v = q.x*q.y*(1.0 - q.x)*(1.0 - q.y)
+  ;
+  v = clamp(pow(16.*v, .3), 0., 1.);
+  return v;
+}
+
 vec3 sphere_pos() {
 #ifdef KODELIFE
   float
@@ -61,15 +94,18 @@ vec3 sphere_pos() {
 #endif
 }
 
+// License: Unknown, author: Unknown, found: don't remember
 float hash(vec2 co) {
   return fract(sin(dot(co.xy ,vec2(12.9898,58.233))) * 13758.5453);
 }
 
+// License: Unknown, author: catnip, found: FieldFX discord
 vec3 point_on_sphere(vec2 r) {
   r=vec2(PI*2.*r.x, 2.*r.y-1.);
   return vec3(sqrt(1. - r.y * r.y) * vec2(cos(r.x), sin(r.x)), r.y);
 }
 
+// License: Unknown, author: catnip, found: FieldFX discord
 vec3 uniform_lambert(vec2 r, vec3 n) {
   return normalize(n*(1.001) + point_on_sphere(r)); // 1.001 required to avoid NaN
 }
@@ -92,7 +128,7 @@ vec4 amiga(mat3 R, vec3 p) {
 }
 
 // License: MIT, author: Inigo Quilez, found: https://iquilezles.org/articles/intersectors/
-float ray_unitsphere(vec3 ro, vec3 rd) {
+float ray_sphere_1(vec3 ro, vec3 rd) {
   float
     b=dot(ro, rd)
   , c=dot(ro, ro)-1.
@@ -102,7 +138,8 @@ float ray_unitsphere(vec3 ro, vec3 rd) {
   return -b-sqrt(h);
 }
 
-float ray_isphere4(vec3 ro, vec3 rd) {
+// License: MIT, author: Inigo Quilez, found: https://iquilezles.org/articles/intersectors/
+float ray_isphere_4(vec3 ro, vec3 rd) {
   float
     b = dot(ro, rd)
   , c = dot(ro, ro)-16.
@@ -110,7 +147,6 @@ float ray_isphere4(vec3 ro, vec3 rd) {
   , t
   ;
   if (h<0.) return -1.;
-
   return -b+sqrt(h);
 }
 
@@ -122,8 +158,14 @@ vec4 pass_main() {
   vec3
     ro        = vec3(3,1,3.)
   ;
+
+#ifdef KODELIFE
+  ro.xz*=ROT(.25*TIME);
+  ro.xy*=ROT(.1234*TIME);
+#else
   ro.xz*=ROT(rotation_speed_0);
   ro.xy*=ROT(rotation_speed_1);
+#endif
   vec3
     la        = vec3(0,-2,0.)
   , cam_fwd   = normalize(la - ro)
@@ -154,7 +196,7 @@ vec4 pass_main() {
 
   mat3 R=angle();
 
-  seed = fract(hash(p) + TIME/1337.);
+  seed = fract(hash(p) + float(FRAMECOUNT)/1337.);
 
   vec3
     sphere_center = sphere_pos()
@@ -162,7 +204,6 @@ vec4 pass_main() {
   , pos
   , prev_pos
   , prev_normal
-  , iprev_normal
   , normal
   , reflect_dir
   , diffuse_dir
@@ -171,7 +212,6 @@ vec4 pass_main() {
   vec4
     acol
   ;
-
 
   bool
     missed
@@ -184,16 +224,16 @@ vec4 pass_main() {
   prev_normal = noisy_ray_dir(r, p, cam_right, cam_up, cam_fwd);
   throughput  = 1.;
 
-  for(int i=0; i<50; ++i) {
+  for(int i=0; i<90; ++i) {
     ++seed;
     r=hash2(seed);
-    iprev_normal=1./prev_normal;
 
-    t_sphere  = ray_unitsphere(prev_pos - sphere_center, prev_normal);
-    t_isphere = ray_isphere4(prev_pos, prev_normal);
+    pos = prev_pos - sphere_center; 
+    t_sphere  = ray_sphere_1(pos, prev_normal);
+    t_isphere = ray_isphere_4(prev_pos, prev_normal);
 
     t = 1e3;
-    if(t_sphere>0. && t_sphere<t)   { t=t_sphere      ; normal = (prev_pos - sphere_center + prev_normal*t); }
+    if(t_sphere>0. && t_sphere<t)   { t=t_sphere      ; normal = (pos + prev_normal*t); }
     if(t_isphere>0. && t_isphere<t) { t=t_isphere     ; normal = -.25*(prev_pos + prev_normal*t_isphere); }
 
     pos = prev_pos + prev_normal*t;
@@ -228,11 +268,11 @@ vec4 pass_main() {
 
       vec3 tc=vec3(0);
       if (hit_grid) {
-        tc += .5*(1.+sin(3.+.5*pos.y+vec3(2,1,0)));
+        tc += .5+.5*sin(3.+.5*pos.y+vec3(2,1,0));
       }
 
       if (hit_fft) {
-        tc += (1.+f+sin(pos.y+TIME+0.*h0+vec3(0,1,2)))-d;
+        tc += (1.+f-d) + sin(pos.y+TIME+.3*h0+vec3(0,1,2));
       }
 
       if (hit_amiga) {
@@ -248,18 +288,11 @@ vec4 pass_main() {
       continue;
     }
 
-    fresnel *= fresnel;
-    fresnel *= fresnel;
-    fresnel *= fresnel;
-
     reflect_dir = reflect(prev_normal, normal);
     diffuse_dir = uniform_lambert(r, reflect_dir);
-    diffuse_dir = normalize(mix(diffuse_dir, reflect_dir, .9));
+    diffuse_dir = normalize(mix(diffuse_dir, reflect_dir, reflection_mode));
 
-    if(
-         r.x < fresnel
-      || t==t_sphere
-      ) {
+    if(t==t_sphere) {
       prev_normal = reflect_dir;
       throughput *= .9;
     } else {
@@ -360,26 +393,6 @@ vec3 aces_approx(vec3 v) {
   v *= .6;
   return clamp((v*(a*v+b))/(v*(c*v+d)+e), 0., 1.);
 }
-
-// From: https://www.shadertoy.com/view/XtlSD7
-vec2 crt_distort(vec2 q) {
-  q = _uv*2. - 1;
-  vec2 
-    o = crt_effect*q.yx/vec2(6,4)
-  ;
-  q = q + q*o*o;
-  return q*.5 + .5;
-}
-
-// From: https://www.shadertoy.com/view/XtlSD7
-float vig(vec2 q) {    
-  float 
-    v = q.x*q.y*(1.0 - q.x)*(1.0 - q.y)
-  ;
-  v = clamp(pow(16.*v, .3), 0., 1.);
-  return v;
-}
-
 
 vec4 pass_post() {
   ivec2
