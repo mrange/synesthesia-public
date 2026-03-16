@@ -150,7 +150,7 @@
 		}
 	],
 	"CREDIT" : "mrange",
-	"DESCRIPTION" : "Amiga in Space!",
+	"DESCRIPTION" : "A neon-soaked homage to computing history. The iconic red and white checkered Amiga sphere bounces within a glowing wireframe cosmos,    rendered in cutting-edge path tracing. Audio-reactive controls let you feel the music's pulse through bass-driven visualization and neon effects. Adjust camera rotations, reflections, and celestial elements to explore this reimagined Amiga universe. Retro computing heritage meets modern rendering.",
 	"GPU" : 1,
 	"HEIGHT" : 1080,
 	"IMAGE_PATH" : "scene.png",
@@ -202,6 +202,6 @@
 		"grid",
 		"sphere"
 	],
-	"TITLE" : "Amiga in Space!",
+	"TITLE" : "Constrained Bouncing Amiga Ball",
 	"WIDTH" : 1920
 }
