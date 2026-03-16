@@ -79,7 +79,7 @@ float hash(vec3 r)  {
 // License: Unknown, author: knarkowicz, found: https://www.shadertoy.com/view/XtlSD7
 vec2 crt_distort(vec2 q) {
   q = _uv*2. - 1.;
-  vec2 
+  vec2
     o = crt_effect*q.yx/vec2(6,4)
   ;
   q = q + q*o*o;
@@ -87,8 +87,8 @@ vec2 crt_distort(vec2 q) {
 }
 
 // License: Unknown, author: knarkowicz, found: https://www.shadertoy.com/view/XtlSD7
-float vig(vec2 q) {    
-  float 
+float vig(vec2 q) {
+  float
     v = q.x*q.y*(1.0 - q.x)*(1.0 - q.y)
   ;
   v = clamp(pow(16.*v, .3), 0., 1.);
@@ -177,7 +177,7 @@ float atan_approx(float y, float x) {
 }
 
 float acos_approx(float x) {
-  float 
+  float
     ax = abs(x)
   , r  = ax*(-.0187293*ax+.0742610)-.2121144
   ;
@@ -225,7 +225,6 @@ vec3 stars(vec3 R, float bh) {
       h=sin(s.x)
     , h0=hash(n+123.4*float(i+1))
     , h1=fract(8887.*h0)
-    , h2=fract(9187.*h0)
     , h3=fract(9677.*h0)
     ;
     c.y*=h;
@@ -257,7 +256,9 @@ vec4 pass_main() {
   , cam_up    = cross(cam_right, cam_fwd)
   ;
 
-  vec2 p=2.*_uvc,xy=_xy;
+  vec2
+    p=2.*_uvc
+  ;
 
   float
     samples = 0.
@@ -277,7 +278,7 @@ vec4 pass_main() {
   ;
 
   vec2
-    r
+    r=vec2(0)
   ;
 
   mat3 R=angle();
@@ -312,10 +313,10 @@ vec4 pass_main() {
   prev_normal = noisy_ray_dir(r, p, cam_right, cam_up, cam_fwd);
   throughput  = 1.;
 
-  pos = prev_pos - sphere_center; 
+  pos = prev_pos - sphere_center;
   t_sphere=ray_sphere_1(pos, prev_normal);
   normal = reflect(prev_normal, pos+prev_normal*t_sphere);
-  
+
   y=sky_mode*stars(prev_normal,syn_BassHits);
   s=sun(normal,syn_BassHits);
 
@@ -323,7 +324,7 @@ vec4 pass_main() {
     ++seed;
     r=hash2(seed);
 
-    pos = prev_pos - sphere_center; 
+    pos = prev_pos - sphere_center;
     t_sphere  = ray_sphere_1(pos, prev_normal);
     t_isphere = ray_isphere_4(prev_pos, prev_normal);
 
@@ -337,7 +338,7 @@ vec4 pass_main() {
       n = floor(pos+.5)
     , c = abs(pos-n)
     ;
-    
+
     h0=hash(n+.123);
     h1=fract(8667.*h0);
 
@@ -383,7 +384,7 @@ vec4 pass_main() {
       prev_pos    = ro;
       prev_normal = noisy_ray_dir(r, p, cam_right, cam_up, cam_fwd);
       throughput  = 1.;
-      
+
       ++samples;
       continue;
     }
@@ -450,9 +451,7 @@ vec3 denoise(ivec2 xy) {
   , sum     = center
   ;
   float
-    rangeW
-  , spatialW
-  , w
+    w
   , weight = 1.0
   ;
   for(int dy = -MAX; dy <= MAX; ++dy)
@@ -477,9 +476,9 @@ vec4 pass_denoise() {
     col=denoise(xy)
   , pcol=texelFetch(passDenoise, xy,0).xyz
   ;
-  
+
   pcol=mix(pcol,vec3(0),isnan(pcol));
-  
+
   col=mix(col,pcol,motion_blur);
   return vec4(col,1);
 }
@@ -502,12 +501,11 @@ vec4 pass_post() {
   ivec2
     xy=ivec2(_xy)
   ;
-  
+
   vec2
     q=crt_distort(_uv)
-  , s=step(abs(q-.5),vec2(.5))
   ;
-  
+
   vec3
     col=textureLod(passDenoise, q, 0.).xyz
   ;
