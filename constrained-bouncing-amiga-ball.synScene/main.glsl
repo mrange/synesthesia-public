@@ -136,8 +136,8 @@ vec2 hash2(float co) {
 
 vec4 amiga(mat3 R, vec3 p) {
   p*=R;
-  vec2 pp=.5+.5*vec2(p.z,.25*p.y/p.x);
-  vec4 tcol=textureLod(passAmiga, pp, 0.);
+  vec2 pp=clamp(.5+.5*vec2(p.z,.25*p.y/p.x),1./512.,511./512.);
+  vec4 tcol=textureLod(tex_amiga, pp, 0.);
   return tcol;
 }
 
@@ -260,6 +260,10 @@ vec4 pass_main() {
     p=2.*_uvc
   ;
 
+  int
+    max_iter=int(denoise_level)
+  ;
+
   float
     samples = 0.
   , fresnel
@@ -320,7 +324,8 @@ vec4 pass_main() {
   y=sky_mode*stars(prev_normal,syn_BassHits);
   s=sun(normal,syn_BassHits);
 
-  for(int i=0; i<80; ++i) {
+  for(int j=0; j<max_iter; ++j)
+  for(int i=0; i<10; ++i) {
     ++seed;
     r=hash2(seed);
 
@@ -359,9 +364,6 @@ vec4 pass_main() {
     hit_amiga = hit_amiga && r.y*r.y>fresnel;
     hit_grid    = t==t_isphere && (c.x<.01||c.y<.01||c.z<.01) && r.x>.5;
     hit_fft     = t==t_isphere && (abs(d)<.01 || f*5e-4/max(d*mix(d,abs(d),step(.8,f)),1e-4)>r.x) ;
-    if(i==0 && missed) {
-      break;
-    }
 
     if(missed || hit_amiga || hit_grid ||hit_fft) {
       throughput/=(1.+fade_out*t*t);
@@ -410,29 +412,6 @@ vec4 pass_main() {
   col+=mix(y, s, ha/samples);
   return vec4(col, 1.);
 }
-
-vec4 pass_amiga() {
-  if(FRAMECOUNT==1) {
-    vec2
-      q=_uv
-    , p=-1.+2.*q
-    , S=vec2(acos(p.x),atan(p.y*4.))
-    ;
-
-    float
-      f=sin(8.*S.y)*sin(8.*S.x)
-    ;
-
-    vec3
-      amiga=mix(vec3(1.), vec3(1,.01,.01), step(f,0.))
-    ;
-
-    return vec4(amiga,step(f,.0));
-  } else {
-    return texelFetch(passAmiga, ivec2(_xy), 0);
-  }
-}
-
 
 float dot2(vec3 p) {
   return dot(p,p);
@@ -530,10 +509,8 @@ vec4 pass_post() {
 vec4 renderMain() {
   switch(PASSINDEX) {
   case 0:
-    return pass_amiga();
-  case 1:
     return pass_main();
-  case 2:
+  case 1:
     return pass_denoise();
   default:
     return pass_post();

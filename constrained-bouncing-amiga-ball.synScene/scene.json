@@ -1,5 +1,5 @@
 {
-	"CONTROLS" :
+	"CONTROLS" : 
 	[
 		{
 			"DEFAULT" : 1,
@@ -147,30 +147,38 @@
 			"PARAMS" : 0.20301,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 7,
+			"DESCRIPTION" : "",
+			"MAX" : 9,
+			"MIN" : 1,
+			"NAME" : "denoise_level",
+			"TYPE" : "slider",
+			"UI_GROUP" : "Visual"
 		}
 	],
 	"CREDIT" : "mrange",
 	"DESCRIPTION" : "A neon-soaked homage to computing history. The iconic red and white checkered Amiga sphere bounces within a glowing wireframe cosmos,    rendered in cutting-edge path tracing. Audio-reactive controls let you feel the music's pulse through bass-driven visualization and neon effects. Adjust camera rotations, reflections, and celestial elements to explore this reimagined Amiga universe. Retro computing heritage meets modern rendering.",
 	"GPU" : 1,
 	"HEIGHT" : 1080,
+	"IMAGES" : 
+	[
+		{
+			"NAME" : "tex_amiga",
+			"PATH" : "assets/amiga-texture.png"
+		}
+	],
 	"IMAGE_PATH" : "scene.png",
-	"MEDIA" :
+	"MEDIA" : 
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"PASSES" :
+	"PASSES" : 
 	[
-		{
-			"FILTER" : "linear",
-			"FLOAT" : true,
-			"HEIGHT" : 512,
-			"TARGET" : "passAmiga",
-			"WIDTH" : 512,
-			"WRAP" : "clamp"
-		},
 		{
 			"FILTER" : "linear",
 			"FLOAT" : true,
@@ -188,7 +196,7 @@
 			"WRAP" : "repeat"
 		}
 	],
-	"TAGS" :
+	"TAGS" : 
 	[
 		"mrange",
 		"bouncy",
