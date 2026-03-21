@@ -61,7 +61,7 @@
 			"UI_GROUP" : "Visual"
 		},
 		{
-			"DEFAULT" : 0,
+			"DEFAULT" : 1,
 			"DESCRIPTION" : "CRT effect – screen distortion and scanline intensity",
 			"MAX" : 1,
 			"MIN" : 0,
@@ -165,8 +165,10 @@
 	"IMAGES" : 
 	[
 		{
+			"FILTER" : "mipmap",
 			"NAME" : "tex_amiga",
-			"PATH" : "assets/amiga-texture.png"
+			"PATH" : "assets/amiga-texture.png",
+			"WRAP" : "repeat"
 		}
 	],
 	"IMAGE_PATH" : "scene.png",
@@ -180,6 +182,7 @@
 	"PASSES" : 
 	[
 		{
+			"DOUBLE_BUFFER" : false,
 			"FILTER" : "linear",
 			"FLOAT" : true,
 			"HEIGHT" : 1080,
@@ -188,6 +191,7 @@
 			"WRAP" : "repeat"
 		},
 		{
+			"DOUBLE_BUFFER" : false,
 			"FILTER" : "linear",
 			"FLOAT" : true,
 			"HEIGHT" : 1080,

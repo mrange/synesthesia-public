@@ -21,13 +21,17 @@ const float
 #define syn_BassHits (.5+.5*sin(TAU*TIME))
 
 const float
-  crt_effect    =1.
-, low_bass_edge =.5
-, high_bass_edge=1.
-, main_bass_gain=0.5
-, min_bass_gain =1.
-, max_bass_gain =1.5
-, reflection_mode=.9
+  crt_effect      =1.
+, low_bass_edge   =.5
+, high_bass_edge  =1.
+, main_bass_gain  =0.5
+, min_bass_gain   =1.
+, max_bass_gain   =1.5
+, reflection_mode =.9
+, sky_mode        =1.
+, sun_mode        =1.
+, denoise_level   =7.
+, motion_blur     =.2
 ;
 #endif
 
@@ -196,8 +200,16 @@ vec3 sun(vec3 R, float bh) {
   const vec3
     sun_dir=normalize(vec3(1,.5,0))
   , sun_col=HSV2RGB(vec3(.78,.9,1e-2))
+  , fog_col=HSV2RGB(vec3(.58,1.,0.05))
   ;
-  return (sun_mode/(1.001+dot(R, sun_dir)))*(bh*5e-3+sun_col);
+  
+  vec3 
+    col=vec3(0)
+  ;
+  col += (1.-R.y*R.y)*fog_col;
+  col+=(sun_mode/(1.001+dot(R, sun_dir)))*(bh*5e-3+sun_col);
+  
+  return col;
 }
 
 vec3 stars(vec3 R, float bh) {
@@ -208,7 +220,6 @@ vec3 stars(vec3 R, float bh) {
   vec3
     col=sun(R, bh);
   ;
-
   float
     a=1.
   , o=1.-dot(vec3(0.2126, 0.7152, 0.0722),col)
@@ -279,6 +290,7 @@ vec4 pass_main() {
   , f
   , ha=0.
   , bh=main_bass_gain*mix(min_bass_gain,max_bass_gain,syn_BassHits)
+  , as=mix(3.,1.5,crt_effect)
   ;
 
   vec2
@@ -378,7 +390,7 @@ vec4 pass_main() {
       }
 
       if (hit_amiga) {
-        tc += acol.xyz*sqrt(max(0.,-dot(prev_normal,normal)));
+        tc +=as*sqrt(max(0.,-dot(prev_normal,normal)))*acol.xyz;
       }
 
       col += throughput*tc;
