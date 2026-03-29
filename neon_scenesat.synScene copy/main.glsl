@@ -238,22 +238,38 @@ vec3 sunset_sun(vec3 o, vec2 p) {
   
   o+=b*t;
 
-  o+=3e-1/max(length(p),1./3.)*smoothstep(0.03,0.,d0)*b;
+  o+=
+    mix(3e-1,1.,smoothstep(.7,1.,syn_BassLevel))/max(length(p),1./3.)
+    *smoothstep(mix(.03,1.,syn_BassLevel),mix(.0,-1.,syn_BassLevel*syn_BassLevel),d)*b;
 
   o*=step(0.,p.y);
   return o;
 }
 
+const float 
+  sunset_cell_size=.1
+;
+
 float sunset_fft(float x) {
   float
-    fo=1./(1.+.02*x*x);
+    fo=1./(1.+.01*x*x)
+  , h
+  ;
+
+#ifdef KODELIFE    
   x*=.33;
-  return (.5+.5*sin(x)*cos(x*2.34))*.5*fo;
+  h=(.5+.5*sin(x)*cos(x*2.34));
+#else
+  h=textureLod(syn_Spectrum,abs(x*sunset_cell_size*.5)+0.03,0.).y;
+  h-=.03;
+  h=max(h,0.),
+  h=h*h;
+#endif
+  h*=.6*fo;
+  return h;
 }
 
 vec3 sunset_mountains(vec3 o, vec2 p) {
-  const float Z=.1;
-
   float
     n
   , h
@@ -269,9 +285,9 @@ vec3 sunset_mountains(vec3 o, vec2 p) {
     b=sunset_sun_color(p)
   ;
   
-  n=floor(p.x/Z+.5);
+  n=floor(p.x/sunset_cell_size+.5);
   c=p;
-  c.x-=Z*n;
+  c.x-=sunset_cell_size*n;
 
   d=1e3;
   const float N=3.;
@@ -279,10 +295,10 @@ vec3 sunset_mountains(vec3 o, vec2 p) {
   ff=sunset_fft(n);
   if(c.x<0.) {
     f=sunset_fft(n-1.);
-    h=mix(ff,f,-c.x/Z);
+    h=mix(ff,f,-c.x/sunset_cell_size);
   } else {
     f=sunset_fft(n+1.);
-    h=mix(ff,f,c.x/Z);
+    h=mix(ff,f,c.x/sunset_cell_size);
   }
 
   h-=p.y;
@@ -295,7 +311,7 @@ vec3 sunset_mountains(vec3 o, vec2 p) {
   
   for(float i=-N;i<N; ++i) {
     ff=sunset_fft(n+i+1.);
-    d=min(d, segment(c,vec2(Z*i,f),vec2(Z*(i+1.),ff)));
+    d=min(d, segment(c,vec2(sunset_cell_size*i,f),vec2(sunset_cell_size*(i+1.),ff)));
     f=ff;
   }
 
@@ -484,9 +500,10 @@ vec4 scenesat_render(vec3 RO, vec3 RI) {
   , f
   , z
   , A=1.
+#ifdef KODELIFE
   , T=TIME
   , FT=sqrt(fract(T))
-  , BT=floor(T)+FT
+#endif  
   ;
 
   vec2 
@@ -499,7 +516,15 @@ vec4 scenesat_render(vec3 RO, vec3 RI) {
   , n
   , r
   , P=RO
-  , bcol=mix(scenesat_base_col_0,scenesat_base_col_1,FT)
+  , bcol=mix(
+      scenesat_base_col_0
+    , scenesat_base_col_1
+#ifdef KODELIFE
+    , FT
+#else
+    , syn_BassHits
+#endif
+    )
   ;
   
   for(i=0.;i<4.&&A>scenesat_min_a;++i) {
@@ -856,8 +881,10 @@ vec4 f_post() {
   o=texelFetch(pass_reflection, xy, 0).xyz;
 #endif
 
+/*
   p=abs(p);
   o=mix(o,vec3(1),smoothstep(aa,-aa,min(p.x,p.y)));
+  */
   o-=0.01*vec3(2,3,1);
   o=aces_approx(o);
   o=sRGB(o);
