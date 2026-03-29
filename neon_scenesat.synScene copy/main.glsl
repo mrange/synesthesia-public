@@ -606,6 +606,18 @@ float scenesat_dscenesat(vec2 p) {
   return d*(4.*Z);
 }
 
+vec3 scenesat_media(vec2 p) {
+  vec2
+    sz=vec2(textureSize(syn_Media,0))
+  ;
+  p *=.5;
+  p.x*=sz.y/sz.x;
+  p+=.5;
+  vec4
+    t=textureLod(syn_Media,p,0.);
+  return t.xyz*t.xyz*t.w;
+}
+
 vec4 f_scenesat() {
   vec2
     p=(2.*_xy-scenesat_resolution)/scenesat_resolution.y
@@ -638,6 +650,7 @@ vec4 f_scenesat() {
   od=abs(d)-w;
   b=2.*(1.05+sin(4.4+p.x+p.y+vec3(0,1,3)));
   g=2e-4/max(d*d,9e-5);
+  o=scenesat_media(p)*smoothstep(.3,.0,d);
   if (d<.0) {
     o+=b*g;
     t=1.;
