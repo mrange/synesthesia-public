@@ -1,0 +1,61 @@
+{
+	"CREDIT" : "mrange",
+	"DESCRIPTION" : "Neon Scenesat",
+	"GPU" : 1,
+	"HEIGHT" : 1080,
+	"IMAGES" : 
+	[
+		{
+			"FILTER" : "mipmap",
+			"NAME" : "t_scenesat",
+			"PATH" : "assets/t_scenesat.png",
+			"WRAP" : "repeat"
+		}
+	],
+	"IMAGE_PATH" : "scene.png",
+	"MEDIA" : 
+	[
+		{
+			"FILTER" : "linear",
+			"WRAP" : "mirror"
+		}
+	],
+	"PASSES" : 
+	[
+		{
+			"DOUBLE_BUFFER" : false,
+			"FILTER" : "linear",
+			"FLOAT" : true,
+			"HEIGHT" : 540,
+			"TARGET" : "pass_sunset",
+			"WIDTH" : 1920,
+			"WRAP" : "clamp"
+		},
+		{
+			"DOUBLE_BUFFER" : false,
+			"FILTER" : "linear",
+			"FLOAT" : true,
+			"HEIGHT" : 800,
+			"TARGET" : "pass_scenesat",
+			"WIDTH" : 800,
+			"WRAP" : "clamp"
+		},
+		{
+			"DOUBLE_BUFFER" : false,
+			"FILTER" : "linear",
+			"FLOAT" : true,
+			"HEIGHT" : 1080,
+			"TARGET" : "pass_reflection",
+			"WIDTH" : 1920,
+			"WRAP" : "clamp"
+		}
+	],
+	"TAGS" : 
+	[
+		"mrange",
+		"neon",
+		"scenesat"
+	],
+	"TITLE" : "Neon Scenesat",
+	"WIDTH" : 1920
+}
