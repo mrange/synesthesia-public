@@ -2,6 +2,18 @@
 //  https://hanscostudio.com/
 //  Licensed as NON-COMMERCIAL
 
+const float
+  PI_2=.5*PI
+;
+
+// License: WTFPL, author: sam hocevar, found: https://stackoverflow.com/a/17897228/418488
+const vec4 hsv2rgb_K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
+// License: WTFPL, author: sam hocevar, found: https://stackoverflow.com/a/17897228/418488
+//  Macro version of above to enable compile-time constants
+#define HSV2RGB(c)  (c.z * mix(hsv2rgb_K.xxx, clamp(abs(fract(c.xxx + hsv2rgb_K.xyz) * 6.0 - hsv2rgb_K.www) - hsv2rgb_K.xxx, 0.0, 1.0), c.y))
+
+#define ROT(a)      mat2(cos(a), sin(a), -sin(a), cos(a))
+
 float circle(vec2 p, float r) {
   return length(p)-r;
 }
@@ -15,11 +27,6 @@ float segment(vec2 p, vec2 a, vec2 b) {
   ;
   return length(pa-ba*h);
 }
-
-
-#define ROT(a)      mat2(cos(a), sin(a), -sin(a), cos(a))
-
-
 
 // License: Unknown, author: Unknown, found: don't remember
 float hash(vec2 co) {
@@ -47,18 +54,6 @@ vec3 point_on_sphere(vec2 r) {
 vec3 uniform_lambert_approx(vec2 r, vec3 n) {
   return normalize(n*(1.001) + point_on_sphere(r)); // 1.001 required to avoid NaN
 }
-
-const float
-  PI_2=.5*PI
-;
-
-#define ROT(a)      mat2(cos(a), sin(a), -sin(a), cos(a))
-
-// License: WTFPL, author: sam hocevar, found: https://stackoverflow.com/a/17897228/418488
-const vec4 hsv2rgb_K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
-// License: WTFPL, author: sam hocevar, found: https://stackoverflow.com/a/17897228/418488
-//  Macro version of above to enable compile-time constants
-#define HSV2RGB(c)  (c.z * mix(hsv2rgb_K.xxx, clamp(abs(fract(c.xxx + hsv2rgb_K.xyz) * 6.0 - hsv2rgb_K.www) - hsv2rgb_K.xxx, 0.0, 1.0), c.y))
 
 // License: MIT, author: Inigo Quilez, found: https://www.iquilezles.org/www/articles/smin/smin.htm
 float pmin(float a, float b, float k) {
@@ -168,6 +163,7 @@ float tri(vec2 p, float r) {
   return -length(p)*sign(p.y);
 }
 
+#ifdef KODELIFE
 mat3 rotX(float a) {
   float c = cos(a);
   float s = sin(a);
@@ -197,6 +193,7 @@ mat3 rotZ(float a) {
   , 0.0 , 0.0 , 1.0
   );
 }
+#endif
 
 // --
 
@@ -522,7 +519,7 @@ vec4 scenesat_render(vec3 RO, vec3 RI) {
 #ifdef KODELIFE
     , FT
 #else
-    , syn_BassHits
+    , 1.-syn_BassHits
 #endif
     )
   ;
@@ -576,7 +573,11 @@ vec4 scenesat_scenesat() {
   , RI=normalize(p.y*Y+2.*Z-p.x*X)
   ;
   
+#ifdef KODELIFE
   scenesat_R0=rotZ(3.7)*rotY(-.6+.2*sin(.123*TIME))*rotX(.5*TIME);
+#else
+  scenesat_R0=mat3(rot_x, rot_y, rot_z);
+#endif
 
   return scenesat_render(RO,RI)*vec4(11,11,11,1);
 }
@@ -610,17 +611,19 @@ vec3 scenesat_media(vec2 p) {
   vec2
     sz=vec2(textureSize(syn_Media,0))
   ;
-  p *=.5;
+  p *=media_zoom;
   p.x*=sz.y/sz.x;
   p+=.5;
   vec4
-    t=textureLod(syn_Media,p,0.);
+    t=textureLod(syn_Media,p,0.)
+  ;
   return t.xyz*t.xyz*t.w;
 }
 
 vec4 f_scenesat() {
   vec2
     p=(2.*_xy-scenesat_resolution)/scenesat_resolution.y
+  , q=(2.*_xy-scenesat_resolution)/scenesat_resolution.xy
   ;
   
   vec3
@@ -650,7 +653,7 @@ vec4 f_scenesat() {
   od=abs(d)-w;
   b=2.*(1.05+sin(4.4+p.x+p.y+vec3(0,1,3)));
   g=2e-4/max(d*d,9e-5);
-  o=scenesat_media(p)*smoothstep(.3,.0,d);
+  o=scenesat_media(p)*smoothstep(media_leak,-.01,d);
   if (d<.0) {
     o+=b*g;
     t=1.;
@@ -669,7 +672,8 @@ vec4 f_scenesat() {
   o=mix(o,scenesat_logo_col,st);
   
   o=mix(o,s.xyz,s.w);
-  
+  q=abs(q);
+  t*=smoothstep(.99,.89,max(q.x,q.y));
   o=max(o,0.);
   return vec4(o,t);
 }
@@ -824,7 +828,7 @@ vec3 reflection_render(vec2 p, vec3 RO, vec3 X,vec3 Y, vec3 Z) {
   
   o/=hits;
 
-  o = mix(o,P,.3);
+  o = mix(o,P,motion_blur);
 
   return o;
 }
@@ -835,7 +839,7 @@ vec4 f_reflection() {
   ;
   
   vec3
-    RO=vec3(0,1e-3,-1.25)
+    RO=vec3(0,1e-3,-z_dist)
   , LA=vec3(0,0,0)
   , UP=vec3(0,1,0)
   , Z =normalize(LA-RO)       

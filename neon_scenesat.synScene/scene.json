@@ -1,4 +1,47 @@
 {
+	"CONTROLS" : 
+	[
+		{
+			"DEFAULT" : 1.25,
+			"DESCRIPTION" : "",
+			"MAX" : 4,
+			"MIN" : 1,
+			"NAME" : "z_dist",
+			"PARAMS" : 0.19201,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 0.3,
+			"DESCRIPTION" : "",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "motion_blur",
+			"PARAMS" : 0.20401,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 0.3,
+			"DESCRIPTION" : "",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "media_leak",
+			"PARAMS" : 0.21201,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Media"
+		},
+		{
+			"DEFAULT" : 0.5,
+			"DESCRIPTION" : "",
+			"MAX" : 2,
+			"MIN" : 0,
+			"NAME" : "media_zoom",
+			"PARAMS" : 0.20801,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Media"
+		}
+	],
 	"CREDIT" : "mrange",
 	"DESCRIPTION" : "Neon Scenesat",
 	"GPU" : 1,
