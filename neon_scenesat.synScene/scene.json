@@ -2,10 +2,10 @@
 	"CONTROLS" : 
 	[
 		{
-			"DEFAULT" : 1.25,
+			"DEFAULT" : 0.25,
 			"DESCRIPTION" : "",
 			"MAX" : 4,
-			"MIN" : 1,
+			"MIN" : 0,
 			"NAME" : "z_dist",
 			"PARAMS" : 0.19201,
 			"TYPE" : "slider smooth",
@@ -18,6 +18,26 @@
 			"MIN" : 0,
 			"NAME" : "motion_blur",
 			"PARAMS" : 0.20401,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 2,
+			"DESCRIPTION" : "",
+			"MAX" : 5,
+			"MIN" : 0,
+			"NAME" : "tri_transparency",
+			"PARAMS" : 0.20201,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 0,
+			"DESCRIPTION" : "",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "crt_effect",
+			"PARAMS" : 0.19901,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Visual"
 		},

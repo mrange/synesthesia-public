@@ -510,12 +510,12 @@ vec4 scenesat_render(vec3 RO, vec3 RI) {
   , r
   , P=RO
   , bcol=mix(
-      scenesat_base_col_0
-    , scenesat_base_col_1
+      scenesat_base_col_1
+    , scenesat_base_col_0
 #ifdef KODELIFE
-    , FT
+    , 1.-FT
 #else
-    , 1.-syn_BassHits
+    , syn_BassHits
 #endif
     )
   ;
@@ -647,7 +647,7 @@ vec4 f_scenesat() {
   o=scenesat_media(p)*smoothstep(media_leak,-.01,d);
   if (d<.0) {
     o+=b*g;
-    t=1.;
+    t=max(0.,1.-tri_transparency*d*d);
   } else {
     g=sqrt(g);
     o+=b*g;
@@ -718,19 +718,23 @@ vec3 reflection_raycast(vec2 r, vec3 RO, vec3 RD, out bool abort) {
 
   zs=(-.37-RO.y)/RD.y;
   zf=(1e3-RO.z)/RD.z;
-  zn=-RO.z/RD.z;
+  zn=(z_dist-RO.z)/RD.z;
 
-  P=zs*RD+RO;
-  R=reflect(RD,vec3(0,1,0));
-  U=uniform_lambert_approx(r,R);
-  R=mix(R,U,.1);
-  //R.y=abs(R.y);
+
   F=1.+RD.y;
   F*=F;
   F*=F;
+
+  P=zs*RD+RO;
+  R=reflect(RD,vec3(0,1,0));
+  if(r.x>.1*F) {
+    U=uniform_lambert_approx(r,R);
+    R=mix(R,U,.1);
+  }
+  //R.y=abs(R.y);
   
   ZF=(1e3-P.z)/R.z;
-  ZN=-P.z/R.z;
+  ZN=(z_dist-P.z)/R.z;
 
 
   if(zs>0.) {
@@ -827,14 +831,17 @@ vec4 f_reflection() {
     p=2.*_uvc
   ;
   
-  vec3
-    RO=vec3(0,1e-3,-z_dist)
+  const vec3
+    RO=vec3(0,1e-3,-1.)
   , LA=vec3(0,0,0)
   , UP=vec3(0,1,0)
   , Z =normalize(LA-RO)       
   , X =normalize(cross(Z,UP)) 
   , Y =cross(X,Z)
-  , o =reflection_render(p, RO, X, Y, Z)
+  ;
+  
+  vec3
+    o =reflection_render(p, RO, X, Y, Z)
   ;
   
   return vec4(o,1);
@@ -864,9 +871,32 @@ vec3 aces_approx(vec3 v) {
   return clamp((v*(a*v+b))/(v*(c*v+d)+e), 0., 1.);
 }
 
+// License: Unknown, author: knarkowicz, found: https://www.shadertoy.com/view/XtlSD7
+vec2 crt_distort(vec2 q) {
+  q = _uv*2. - 1.;
+  vec2
+    o = crt_effect*q.yx/vec2(6,4)
+  ;
+  q = q + q*o*o;
+  return q*.5 + .5;
+}
+
+// License: Unknown, author: knarkowicz, found: https://www.shadertoy.com/view/XtlSD7
+float vig(vec2 q) {
+  float
+    v = q.x*q.y*(1.0 - q.x)*(1.0 - q.y)
+  ;
+  v = clamp(pow(16.*v, .3), 0., 1.);
+  return v;
+}
+
 vec4 f_post() {
   ivec2
     xy=ivec2(_xy)
+  ;
+
+  vec2
+    q=crt_distort(_uv)
   ;
 
   vec3
@@ -878,12 +908,15 @@ vec4 f_post() {
   vec4 SS=texture(pass_sunset, _xy/vec2(1600,450)+vec2(0.,-1.), 0.);
   o=SS.xyz*SS.w;
 #else
-  o=texelFetch(pass_reflection, xy, 0).xyz;
+  o=textureLod(pass_reflection, q, 0).xyz;
 #endif
 
+  o*=mix(1.,vig(q),crt_effect);
   o-=0.01*vec3(2,3,1);
   o=aces_approx(o);
   o=sRGB(o);
+
+  o*=mix(1.,1.5+.5*sin(_xy.y*TAU/4.), crt_effect);
 
   return vec4(o,1);
 }

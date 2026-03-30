@@ -30,8 +30,8 @@ function rotZ(a) {
 // multiply two mat3 stored as 9-element arrays (column-major)
 function mul(a, b) {
   var r = new Array(9);
-  for (var c = 0; c < 3; c++) {
-    for (var row = 0; row < 3; row++) {
+  for (var c = 0; c < 3; ++c) {
+    for (var row = 0; row < 3; ++row) {
       r[c*3+row] = a[row]*b[c*3] + a[3+row]*b[c*3+1] + a[6+row]*b[c*3+2];
     }
   }
