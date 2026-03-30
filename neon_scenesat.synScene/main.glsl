@@ -4,6 +4,7 @@
 
 const float
   PI_2=.5*PI
+, TAU =2.*PI
 ;
 
 // License: WTFPL, author: sam hocevar, found: https://stackoverflow.com/a/17897228/418488
@@ -59,10 +60,6 @@ vec3 uniform_lambert_approx(vec2 r, vec3 n) {
 float pmin(float a, float b, float k) {
   float h = clamp(0.5+0.5*(b-a)/k, 0.0, 1.0);
   return mix(b, a, h) - k*h*(1.0-h);
-}
-
-float L4(vec3 p) {
-  return sqrt(length(p*p));
 }
 
 float L8(vec2 p) {
@@ -219,7 +216,7 @@ vec3 sunset_sun(vec3 o, vec2 p) {
   , c
   , t
   , g
-  , aa=1./sunset_resolution.y;
+  , aa=1./sunset_resolution.y
   ;
   
   c=p.y/Z-.25;
@@ -259,7 +256,7 @@ float sunset_fft(float x) {
 #else
   h=textureLod(syn_Spectrum,abs(x*sunset_cell_size*.5)+0.03,0.).y;
   h-=.03;
-  h=max(h,0.),
+  h=max(h,0.);
   h=h*h;
 #endif
   h*=.6*fo;
@@ -290,13 +287,8 @@ vec3 sunset_mountains(vec3 o, vec2 p) {
   const float N=3.;
 
   ff=sunset_fft(n);
-  if(c.x<0.) {
-    f=sunset_fft(n-1.);
-    h=mix(ff,f,-c.x/sunset_cell_size);
-  } else {
-    f=sunset_fft(n+1.);
-    h=mix(ff,f,c.x/sunset_cell_size);
-  }
+  f=sunset_fft(n+sign(c.x));
+  h=mix(ff,f,abs(c.x)/sunset_cell_size);
 
   h-=p.y;
   if(h>0.) {
@@ -353,7 +345,7 @@ const vec3
 , scenesat_color_base =4.+vec3(0,2,9)
 , scenesat_logo_col   =HSV2RGB(vec3(.8,.97,3.))
 , scenesat_base_col_0 =HSV2RGB(vec3(.58,.8,1.))
-, scenesat_base_col_1 =HSV2RGB(vec3(.58,.9,0.))
+, scenesat_base_col_1 =vec3(0)
 ;
 
 const mat2 
@@ -379,7 +371,7 @@ vec2 scenesat_dsputnik(vec3 p) {
   p2=p2.yzx;
   p2.xz*=scenesat_sputnik_R2;
   float
-  , d0=length(p0)-.58
+    d0=length(p0)-.58
   , d1=capsule(p1, 2.81, .03)
   , d2=rhombus(p2,.1,.3, .03, .0)-.01
   , d3=torus8(p3,.63*vec2(1.,.1))
@@ -428,7 +420,7 @@ float scenesat_march(vec3 P, vec3 I) {
   float 
     d
   , z=0.
-  , nz
+  , nz=0.
   , nd=1e3
   ;
   
@@ -473,7 +465,11 @@ vec3 scenesat_render_ibox(float A, vec3 RO, vec3 RI) {
     f=1.+dot(n,RI);
     f*=f;
     if (z>0.) {
-      O+=A*pow(max(0.,dot(n,scenesat_light_dir)),9.)*(scenesat_color_offset+sin(f+scenesat_color_base));;
+      O+=
+         A
+        *pow(max(0.,dot(n,scenesat_light_dir)),9.)
+        *(scenesat_color_offset+sin(f+scenesat_color_base))
+        ;
     } else {
       break;
     }
@@ -603,7 +599,7 @@ float scenesat_dscenesat(vec2 p) {
   ;
   
   d=.75-d;
-  d/=1.;
+
   return d*(4.*Z);
 }
 
@@ -631,13 +627,9 @@ vec4 f_scenesat() {
   , b
   ;
   
-  const float
-    w=.00
-  ;
   float
     d
   , ds
-  , od
   , aa=sqrt(2.)/scenesat_resolution.y
   , t
   , g
@@ -650,7 +642,6 @@ vec4 f_scenesat() {
   ;
   d=tri(p,.8);
   ds=scenesat_dscenesat(p);
-  od=abs(d)-w;
   b=2.*(1.05+sin(4.4+p.x+p.y+vec3(0,1,3)));
   g=2e-4/max(d*d,9e-5);
   o=scenesat_media(p)*smoothstep(media_leak,-.01,d);
@@ -695,9 +686,7 @@ vec4 reflection_near(vec2 tp) {
 vec3 reflection_raycast(vec2 r, vec3 RO, vec3 RD, out bool abort) {
   abort=false;
   float
-    a =1.
-  , z =1e6
-  , zs
+    zs
   , zn
   , zf
   , ZN
@@ -711,8 +700,7 @@ vec3 reflection_raycast(vec2 r, vec3 RO, vec3 RD, out bool abort) {
   ;
   
   vec3
-    n
-  , p
+    p
   , P
   , R
   , U
@@ -735,7 +723,8 @@ vec3 reflection_raycast(vec2 r, vec3 RO, vec3 RD, out bool abort) {
   P=zs*RD+RO;
   R=reflect(RD,vec3(0,1,0));
   U=uniform_lambert_approx(r,R);
-  R=normalize(mix(R,U,.1));
+  R=mix(R,U,.1);
+  //R.y=abs(R.y);
   F=1.+RD.y;
   F*=F;
   F*=F;
@@ -880,12 +869,6 @@ vec4 f_post() {
     xy=ivec2(_xy)
   ;
 
-  vec2
-    p=2.*_uvc
-  ;
-  float
-    aa=sqrt(2.)/RENDERSIZE.y
-  ;
   vec3
     o;
 #if defined(SCENESAT)
@@ -898,10 +881,6 @@ vec4 f_post() {
   o=texelFetch(pass_reflection, xy, 0).xyz;
 #endif
 
-/*
-  p=abs(p);
-  o=mix(o,vec3(1),smoothstep(aa,-aa,min(p.x,p.y)));
-  */
   o-=0.01*vec3(2,3,1);
   o=aces_approx(o);
   o=sRGB(o);
