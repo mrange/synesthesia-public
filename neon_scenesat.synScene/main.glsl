@@ -3,8 +3,15 @@
 //  Licensed as NON-COMMERCIAL
 
 const float
-  PI_2=.5*PI
-, TAU =2.*PI
+  PI_2            =.5*PI
+, TAU             =2.*PI
+#ifdef KODELIFE
+, crt_effect      =0.
+, media_leak      =0.3
+, motion_blur     =.3
+, tri_transparency=2.
+, z_dist          =1.25
+#endif
 ;
 
 // License: WTFPL, author: sam hocevar, found: https://stackoverflow.com/a/17897228/418488
@@ -20,10 +27,10 @@ float circle(vec2 p, float r) {
 }
 
 float segment(vec2 p, vec2 a, vec2 b) {
-  vec2  
+  vec2
     pa = p-a
   , ba = b-a;
-  float 
+  float
     h  = clamp(dot(pa,ba)/dot(ba,ba), 0., 1.)
   ;
   return length(pa-ba*h);
@@ -78,13 +85,13 @@ float ndot(vec2 a, vec2 b) { return a.x*b.x - a.y*b.y; }
 // License: MIT, author: Inigo Quilez, found: https://iquilezles.org/articles/distfunctions/
 float rhombus(vec3 p, float la, float lb, float h, float ra) {
   p = abs(p);
-  vec2 
+  vec2
     b = vec2(la,lb)
   ;
-  float 
+  float
     f = clamp((ndot(b,b-2.*p.xz))/dot(b,b), -1., 1.)
   ;
-  vec2 
+  vec2
     q = vec2(length(p.xz-.5*b*vec2(1.-f,1.+f))*sign(p.x*b.y+p.z*b.x-b.x*b.y)-ra, p.y-h)
   ;
   return min(max(q.x,q.y),0.) + length(max(q,0.));
@@ -105,7 +112,7 @@ float atan_approx(float y, float x) {
 }
 
 float ray_issphere4(vec3 ro, vec3 rd, float ra) {
-  float 
+  float
     r2 = ra*ra
   ;
 
@@ -116,7 +123,7 @@ float ray_issphere4(vec3 ro, vec3 rd, float ra) {
   , o3 = o2*ro
   ;
 
-  float 
+  float
     ka = 1./dot(d2,d2)
   , k3 = ka* dot(ro,d3)
   , k2 = ka* dot(o2,d2)
@@ -132,18 +139,18 @@ float ray_issphere4(vec3 ro, vec3 rd, float ra) {
 
   if (h<0.) return -1.;
 
-  float 
+  float
     sh= sqrt(h)
   , s = sign(q+sh)*pow(abs(q+sh),1./3.)
   , t = sign(q-sh)*pow(abs(q-sh),1./3.)
   ;
 
-  vec2  
+  vec2
     w = vec2( s+t,s-t )
   , v = vec2( w.x+c2*4.0, w.y*sqrt(3.0) )*0.5
   ;
 
-  float 
+  float
     r = length(v)
   ;
 
@@ -194,7 +201,7 @@ mat3 rotZ(float a) {
 
 // --
 
-const vec2 
+const vec2
   sunset_resolution=vec2(1920,540)
 ;
 
@@ -208,7 +215,7 @@ vec3 sunset_line_color(vec2 p) {
 
 vec3 sunset_sun(vec3 o, vec2 p) {
   const float Z=.1;
-  
+
   float
     d0=circle(p-vec2(0,-.2),1.)
   , d1
@@ -217,8 +224,13 @@ vec3 sunset_sun(vec3 o, vec2 p) {
   , t
   , g
   , aa=1./sunset_resolution.y
+#ifdef KODELIFE
+  , BL=1.-sqrt(fract(TIME))
+#else
+  , BL=syn_BassLevel
+#endif
   ;
-  
+
   c=p.y/Z-.25;
   c-=floor(c+.5);
   d1=abs(c)-.33-.008*p.y*p.y/(Z*Z);
@@ -229,18 +241,18 @@ vec3 sunset_sun(vec3 o, vec2 p) {
   vec3
     b=sunset_sun_color(p)
   ;
-  
+
   o+=b*t;
 
   o+=
-    mix(3e-1,1.,smoothstep(.7,1.,syn_BassLevel))/max(length(p),1./3.)
-    *smoothstep(mix(.03,1.,syn_BassLevel),mix(.0,-1.,syn_BassLevel*syn_BassLevel),d)*b;
+    mix(3e-1,1.,smoothstep(.7,1.,BL))/max(length(p),1./3.)
+    *smoothstep(mix(.03,1.,BL),mix(.0,-1.,BL*BL),d)*b;
 
   o*=step(0.,p.y);
   return o;
 }
 
-const float 
+const float
   sunset_cell_size=.1
 ;
 
@@ -250,7 +262,7 @@ float sunset_fft(float x) {
   , h
   ;
 
-#ifdef KODELIFE    
+#ifdef KODELIFE
   x*=.33;
   h=(.5+.5*sin(x)*cos(x*2.34));
 #else
@@ -271,14 +283,14 @@ vec3 sunset_mountains(vec3 o, vec2 p) {
   , ff
   , d
   ;
-  
+
   vec2
     c
   ;
   vec3
     b=sunset_sun_color(p)
   ;
-  
+
   n=floor(p.x/sunset_cell_size+.5);
   c=p;
   c.x-=sunset_cell_size*n;
@@ -297,7 +309,7 @@ vec3 sunset_mountains(vec3 o, vec2 p) {
   }
 
   f=sunset_fft(n-N);
-  
+
   for(float i=-N;i<N; ++i) {
     ff=sunset_fft(n+i+1.);
     d=min(d, segment(c,vec2(sunset_cell_size*i,f),vec2(sunset_cell_size*(i+1.),ff)));
@@ -307,7 +319,7 @@ vec3 sunset_mountains(vec3 o, vec2 p) {
 
   o+=6e-3/max(abs(d),1e-3)*sunset_line_color(p);
   o+=2e-3/max(abs(p.y),1e-3)*b;
-  
+
   return o;
 }
 
@@ -321,10 +333,10 @@ vec4 f_sunset() {
   vec3
     o=vec3(0)
   ;
-  
+
   o=sunset_sun(o,p);
   o=sunset_mountains(o,p);
-  
+
   return vec4(o,1.);
 }
 
@@ -334,13 +346,13 @@ const vec2
   scenesat_resolution  =vec2(800)
 ;
 
-const float 
+const float
   scenesat_max_distance=9.
 , scenesat_min_a       =.05
 , scenesat_color_offset=1.5
 ;
 
-const vec3 
+const vec3
   scenesat_light_dir  =normalize(vec3(1,2,-1))
 , scenesat_color_base =4.+vec3(0,2,9)
 , scenesat_logo_col   =HSV2RGB(vec3(.8,.97,3.))
@@ -348,20 +360,25 @@ const vec3
 , scenesat_base_col_1 =vec3(0)
 ;
 
-const mat2 
+const mat2
   scenesat_sputnik_R0=ROT(radians(90.-20.6))
 , scenesat_sputnik_R1=ROT(radians(45.))
 , scenesat_sputnik_R2=ROT(radians(-60.0))
 ;
 
-vec2 scenesat_dsputnik(vec3 p) {
-  vec3 
+vec2 scenesat_antenna_hit;
+
+vec4 scenesat_dsputnik(vec3 p) {
+  const float ZZZ=.1;
+  vec3
     p0=p
   , p1=p
   , p2
   , p3=p.zxy
+  , p4
   , s=sin(39.*p)
   ;
+  scenesat_antenna_hit=sign(p1.yz);
   p1.yz=abs(p1.yz);
   p1.yz*=scenesat_sputnik_R1;
   p1-=vec3(.15,.61,0);
@@ -370,39 +387,41 @@ vec2 scenesat_dsputnik(vec3 p) {
   p2+=vec3(.1,.2,0);
   p2=p2.yzx;
   p2.xz*=scenesat_sputnik_R2;
+  p4=p1;
+  float n4=clamp(floor(p4.y/ZZZ+.5),2.,27.);
+  p4.y-=ZZZ*n4;
   float
     d0=length(p0)-.58
   , d1=capsule(p1, 2.81, .03)
   , d2=rhombus(p2,.1,.3, .03, .0)-.01
   , d3=torus8(p3,.63*vec2(1.,.1))
+  , d4=abs(p4.y)-ZZZ*.4
   , d=d0
   ;
   d+=3e-3*pow(.5+.5*s.x*s.y*s.z,16.);
   d=max(d,-d3);
   d=pmin(d,d2,.1);
   d=min(d,d1);
-  return vec2(d,d0+1e-2);
+  return vec4(d,d0+1e-2,max(d1,d4),n4);
 }
 
 
-vec2 scenesat_dd;
+vec4 scenesat_dd;
 mat3 scenesat_R0;
 float scenesat_df(vec3 p) {
   p*=scenesat_R0;
-  float 
+  float
     d0
   , d1
-  , d
   ;
-  vec2 ds=scenesat_dsputnik(p);
-  d0=ds.x;
-  d1=ds.y;
+  vec4
+    ds=scenesat_dsputnik(p)
+  ;
 
-  d=d0;
-  scenesat_dd=vec2(d,d1);
+  scenesat_dd=ds;
 
-  return d;
-  
+  return ds.x;
+
 }
 
 vec3 scenesat_normal(vec3 p) {
@@ -417,15 +436,15 @@ vec3 scenesat_normal(vec3 p) {
 
 float scenesat_march(vec3 P, vec3 I) {
   const int max_iter= 77;
-  float 
+  float
     d
   , z=0.
   , nz=0.
   , nd=1e3
   ;
-  
+
   int i;
-  
+
   for(i=0;i<max_iter;++i) {
     d=scenesat_df(z*I+P);
     if(d<1e-3||z>scenesat_max_distance) break;
@@ -435,11 +454,11 @@ float scenesat_march(vec3 P, vec3 I) {
     }
     z+=d;
   }
-  
+
   if(i==max_iter) {
     z=nz;
   }
-  
+
   return z;
 }
 
@@ -449,14 +468,14 @@ vec3 scenesat_render_ibox(float A, vec3 RO, vec3 RI) {
   , i
   , z
   ;
-  
+
   vec3
     n
   , p
   , r
   , O=vec3(0)
   ;
-  
+
   for(i=0.;i<3.&&A>scenesat_min_a;++i) {
     z=ray_issphere4(RO,RI,1e2);
     p=z*RI+RO;
@@ -477,7 +496,7 @@ vec3 scenesat_render_ibox(float A, vec3 RO, vec3 RI) {
     RI=r;
     RO=p+1e-3*n;
   }
-  
+
 
   return O;
 }
@@ -494,16 +513,19 @@ vec4 scenesat_render(vec3 RO, vec3 RI) {
   , z
   , A=1.
 #ifdef KODELIFE
-  , T=TIME
-  , FT=sqrt(fract(T))
-#endif  
+  , AH=1.-sqrt(fract(TIME))
+  , BH=1.-sqrt(fract(TIME))
+#else
+  , AH
+  , BH=syn_BassHits
+#endif
   ;
 
-  vec2 
+  vec4
     dd
   ;
 
-  vec3 
+  vec3
     o=vec3(0)
   , p
   , n
@@ -512,14 +534,10 @@ vec4 scenesat_render(vec3 RO, vec3 RI) {
   , bcol=mix(
       scenesat_base_col_1
     , scenesat_base_col_0
-#ifdef KODELIFE
-    , 1.-FT
-#else
-    , syn_BassHits
-#endif
+    , BH
     )
   ;
-  
+
   for(i=0.;i<4.&&A>scenesat_min_a;++i) {
     z=scenesat_march(P,RI);
     dd=scenesat_dd;
@@ -532,6 +550,20 @@ vec4 scenesat_render(vec3 RO, vec3 RI) {
       if (dd.y<1e-3) {
         o+=scenesat_flash(RO, RI, A, n, p, bcol);
         f=-0.3;
+      } else if(dd.z<1e-3&&bouncing_bars>.5) {
+        vec2 hit=scenesat_antenna_hit;
+        if(hit==vec2(1,1))
+          AH=syn_BassHits;
+        else if(hit==vec2(1,-1))
+          AH=syn_MidHits;
+        else if(hit==vec2(-1,1))
+          AH=syn_MidHighHits;
+        else if(hit==vec2(-1,-1))
+          AH=syn_HighHits;
+        else
+          AH=0.;
+        o+=smoothstep(.1,-.4,dd.w/26.-AH*AH)*A*.25*(1.+sin(-.1*dd.w+vec3(2,1,0)));
+        f=-0.3;
       }
     } else {
       break;
@@ -541,10 +573,10 @@ vec4 scenesat_render(vec3 RO, vec3 RI) {
     P=p+.025*(n+RI);
   }
 
-  if(i>0.&&A>scenesat_min_a)  
+  if(i>0.)
     return vec4(o+scenesat_render_ibox(A,P,RI),1.);
 
-  
+
   return vec4(0);
 }
 
@@ -559,7 +591,7 @@ vec4 scenesat_scenesat() {
   , p=(2.*C-R)/R.y-vec2(-.55,.55)
   ;
 
-  vec3 
+  vec3
     o=vec3(0)
   , RO=vec3(0,0,-4)
   , LA=vec3(0,0,0)
@@ -568,7 +600,7 @@ vec4 scenesat_scenesat() {
   , Y=cross(Z,X)
   , RI=normalize(p.y*Y+2.*Z-p.x*X)
   ;
-  
+
 #ifdef KODELIFE
   scenesat_R0=rotZ(3.7)*rotY(-.6+.2*sin(.123*TIME))*rotX(.5*TIME);
 #else
@@ -579,7 +611,7 @@ vec4 scenesat_scenesat() {
 }
 
 float scenesat_dscenesat(vec2 p) {
-  const float 
+  const float
     Z=.5
     ;
   const mat2
@@ -591,19 +623,22 @@ float scenesat_dscenesat(vec2 p) {
   p*=Z;
   p.y*=512./151.;
   p+=.5;
-#ifdef KODELIFE  
+#ifdef KODELIFE
   p.y=1.-p.y;
-#endif  
-  float 
+#endif
+  float
     d=textureLod(t_scenesat,clamp(p,0.,1.),0.).x
   ;
-  
+
   d=.75-d;
 
   return d*(4.*Z);
 }
 
 vec3 scenesat_media(vec2 p) {
+#ifdef KODELIFE
+  return vec3(0);
+#else
   vec2
     sz=vec2(textureSize(syn_Media,0))
   ;
@@ -614,6 +649,7 @@ vec3 scenesat_media(vec2 p) {
     t=textureLod(syn_Media,p,0.)
   ;
   return t.xyz*t.xyz*t.w;
+#endif
 }
 
 vec4 f_scenesat() {
@@ -621,12 +657,12 @@ vec4 f_scenesat() {
     p=(2.*_xy-scenesat_resolution)/scenesat_resolution.y
   , q=(2.*_xy-scenesat_resolution)/scenesat_resolution.xy
   ;
-  
+
   vec3
     o
   , b
   ;
-  
+
   float
     d
   , ds
@@ -636,7 +672,7 @@ vec4 f_scenesat() {
   , st
   , bst
   ;
-  
+
   vec4
     s=scenesat_scenesat()
   ;
@@ -661,7 +697,7 @@ vec4 f_scenesat() {
   t=clamp(t,0.,1.);
   o=mix(o,.2*scenesat_logo_col,bst);
   o=mix(o,scenesat_logo_col,st);
-  
+
   o=mix(o,s.xyz,s.w);
   q=abs(q);
   t*=smoothstep(.99,.89,max(q.x,q.y));
@@ -693,12 +729,12 @@ vec3 reflection_raycast(vec2 r, vec3 RO, vec3 RD, out bool abort) {
   , ZF
   , F
   ;
-  
+
   vec2
     tp
   , S
   ;
-  
+
   vec3
     p
   , P
@@ -707,12 +743,12 @@ vec3 reflection_raycast(vec2 r, vec3 RO, vec3 RD, out bool abort) {
   , o=vec3(0)
   , O=vec3(0)
   ;
-  
+
   vec4
     to
   ;
 
-  bool 
+  bool
     c
   ;
 
@@ -732,7 +768,7 @@ vec3 reflection_raycast(vec2 r, vec3 RO, vec3 RD, out bool abort) {
     R=mix(R,U,.1);
   }
   //R.y=abs(R.y);
-  
+
   ZF=(1e3-P.z)/R.z;
   ZN=(z_dist-P.z)/R.z;
 
@@ -773,7 +809,7 @@ vec3 reflection_raycast(vec2 r, vec3 RO, vec3 RD, out bool abort) {
 
   tp=p.xy;
   to=reflection_near(tp);
-  
+
   if(c) {
     o=mix(o,to.xyz,to.w);
     abort=abort||to.w>=1.;
@@ -796,29 +832,30 @@ vec3 reflection_render(vec2 p, vec3 RO, vec3 X,vec3 Y, vec3 Z) {
     o =vec3(0)
   , P =texelFetch(pass_reflection,xy,0).xyz
   ;
-  
-  const int 
-    samples=50
-  ; 
-  
+
+  const int
+    inner=10
+  ;
+
   bool
     abort
   ;
-  
-  float 
+
+  float
     seed=fract(hash(p)+TIME)
   , hits=0.
   ;
-  vec2 
+  vec2
     r=vec2(0)
   ;
-  
-  for(int i=0;i<samples&&!abort;++i) {
+
+  for(float j=0;j<denoise&&!abort;++j)
+  for(int i=0;i<inner;++i) {
     r=hash2(++seed);
     o+=reflection_raycast(r, RO,noisy_ray_dir(r,p,X,Y,Z),abort);
     ++hits;
   }
-  
+
   o/=hits;
 
   o = mix(o,P,motion_blur);
@@ -830,20 +867,20 @@ vec4 f_reflection() {
   vec2
     p=2.*_uvc
   ;
-  
+
   const vec3
     RO=vec3(0,1e-3,-1.)
   , LA=vec3(0,0,0)
   , UP=vec3(0,1,0)
-  , Z =normalize(LA-RO)       
-  , X =normalize(cross(Z,UP)) 
+  , Z =normalize(LA-RO)
+  , X =normalize(cross(Z,UP))
   , Y =cross(X,Z)
   ;
-  
+
   vec3
     o =reflection_render(p, RO, X, Y, Z)
   ;
-  
+
   return vec4(o,1);
 }
 
@@ -908,7 +945,7 @@ vec4 f_post() {
   vec4 SS=texture(pass_sunset, _xy/vec2(1600,450)+vec2(0.,-1.), 0.);
   o=SS.xyz*SS.w;
 #else
-  o=textureLod(pass_reflection, q, 0).xyz;
+  o=textureLod(pass_reflection, q, 0.).xyz;
 #endif
 
   o*=mix(1.,vig(q),crt_effect);

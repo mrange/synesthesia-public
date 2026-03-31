@@ -1,5 +1,5 @@
 {
-	"CONTROLS" : 
+	"CONTROLS" :
 	[
 		{
 			"DEFAULT" : 0.25,
@@ -7,7 +7,7 @@
 			"MAX" : 4,
 			"MIN" : 0,
 			"NAME" : "z_dist",
-			"PARAMS" : 0.19201,
+			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Visual"
 		},
@@ -17,7 +17,7 @@
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "motion_blur",
-			"PARAMS" : 0.20401,
+			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Visual"
 		},
@@ -27,7 +27,7 @@
 			"MAX" : 5,
 			"MIN" : 0,
 			"NAME" : "tri_transparency",
-			"PARAMS" : 0.20201,
+			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Visual"
 		},
@@ -37,7 +37,26 @@
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "crt_effect",
-			"PARAMS" : 0.19901,
+			"PARAMS" : 0.1,
+			"TYPE" : "toggle smooth",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 0,
+			"DESCRIPTION" : "",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "bouncing_bars",
+			"TYPE" : "toggle",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 5,
+			"DESCRIPTION" : "",
+			"MAX" : 7,
+			"MIN" : 1,
+			"NAME" : "denoise",
+			"PARAMS" : 0.01,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Visual"
 		},
@@ -47,7 +66,7 @@
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "media_leak",
-			"PARAMS" : 0.21201,
+			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Media"
 		},
@@ -57,7 +76,7 @@
 			"MAX" : 2,
 			"MIN" : 0,
 			"NAME" : "media_zoom",
-			"PARAMS" : 0.20801,
+			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Media"
 		}
@@ -66,7 +85,7 @@
 	"DESCRIPTION" : "Neon Scenesat",
 	"GPU" : 1,
 	"HEIGHT" : 1080,
-	"IMAGES" : 
+	"IMAGES" :
 	[
 		{
 			"FILTER" : "mipmap",
@@ -76,14 +95,14 @@
 		}
 	],
 	"IMAGE_PATH" : "scene.png",
-	"MEDIA" : 
+	"MEDIA" :
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"PASSES" : 
+	"PASSES" :
 	[
 		{
 			"DOUBLE_BUFFER" : false,
@@ -113,7 +132,7 @@
 			"WRAP" : "clamp"
 		}
 	],
-	"TAGS" : 
+	"TAGS" :
 	[
 		"mrange",
 		"neon",
