@@ -56,8 +56,27 @@
 			"MAX" : 7,
 			"MIN" : 1,
 			"NAME" : "denoise",
-			"PARAMS" : 0.01,
+			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 5,
+			"DESCRIPTION" : "",
+			"MAX" : 7,
+			"MIN" : 0,
+			"NAME" : "base_col",
+			"PARAMS" : 0.2,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 0.3,
+			"DESCRIPTION" : "",
+			"MAX" : 3,
+			"MIN" : -3,
+			"NAME" : "grid_speed",
+			"TYPE" : "slider speed",
 			"UI_GROUP" : "Visual"
 		},
 		{

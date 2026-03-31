@@ -562,7 +562,8 @@ vec4 scenesat_render(vec3 RO, vec3 RI) {
           AH=syn_HighHits;
         else
           AH=0.;
-        o+=smoothstep(.1,-.4,dd.w/26.-AH*AH)*A*.25*(1.+sin(-.1*dd.w+vec3(2,1,0)));
+        //AH=1.;
+        o+=smoothstep(.1,-.4,dd.w/26.-AH*AH)*A*.5*(1.05+sin(base_col-.05*dd.w+vec3(0,1,2)));
         f=-0.3;
       }
     } else {
@@ -775,7 +776,7 @@ vec3 reflection_raycast(vec2 r, vec3 RO, vec3 RD, out bool abort) {
 
   if(zs>0.) {
     p=zs*RD+RO;
-    tp=p.xz+vec2(0,.3*TIME);
+    tp=p.xz+vec2(0,grid_speed);
     S=sin(.234*tp);
     tp-=floor(tp+.5);
     tp=abs(tp);
