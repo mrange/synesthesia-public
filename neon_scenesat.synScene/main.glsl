@@ -12,7 +12,9 @@ const float
 , denoise         =5.
 , grid_speed      =.3
 , media_leak      =0.3
+, media_zoom      =0.5
 , motion_blur     =.3
+, sun_height      =-0.2
 , tri_transparency=2.
 , z_dist          =0.25
 #endif
