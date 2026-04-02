@@ -1,5 +1,5 @@
 {
-	"CONTROLS" :
+	"CONTROLS" : 
 	[
 		{
 			"DEFAULT" : 0.25,
@@ -111,10 +111,10 @@
 		}
 	],
 	"CREDIT" : "mrange",
-	"DESCRIPTION" : "A retro-futuristic satellite orbits a neon dreamscape, its antenna dancing to the beat. A glowing pink triangle floats above an infinite grid of electric blue, reflecting the cosmic sunset beyond. Media content bleeds through as the satellite rotates, CRT scan lines flicker across the screen, and the entire scene pulses with 80s synthwave energy.",
+	"DESCRIPTION" : "A retro-futuristic satellite orbits a neon dreamscape, its antenna responding to the audio beat. A glowing pink triangle floats above an infinite grid of electric blue, reflecting the cosmic sunset beyond. Media content bleeds through as the satellite rotates, while CRT scan lines flicker across the screen. The entire scene pulses with 80s synthwave energy. Created for SceneSat (https://www.scenesat.com/). Font: Cyber Brush by burhanafif (https://hanscostudio.com/), licensed as Non-Commercial.",
 	"GPU" : 1,
 	"HEIGHT" : 1080,
-	"IMAGES" :
+	"IMAGES" : 
 	[
 		{
 			"FILTER" : "mipmap",
@@ -124,14 +124,14 @@
 		}
 	],
 	"IMAGE_PATH" : "scene.png",
-	"MEDIA" :
+	"MEDIA" : 
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"PASSES" :
+	"PASSES" : 
 	[
 		{
 			"DOUBLE_BUFFER" : false,
@@ -161,7 +161,7 @@
 			"WRAP" : "clamp"
 		}
 	],
-	"TAGS" :
+	"TAGS" : 
 	[
 		"mrange",
 		"neon",
