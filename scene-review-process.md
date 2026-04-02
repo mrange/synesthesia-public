@@ -1,6 +1,6 @@
-# Scene Control Review Process
+# Scene Review Process
 
-This document outlines the process for reviewing and improving control descriptions and names in synesthesia scenes.
+This document outlines the complete process for reviewing and improving synesthesia scenes, including controls, descriptions, tags, and visual presentation.
 
 ## Overview
 
@@ -9,15 +9,19 @@ When reviewing a scene, we want to ensure that:
 2. Control descriptions are succinct and clear
 3. Control names are descriptive and user-friendly
 4. Control names match between scene.json and the shader code
+5. Scene description is engaging and captures the visual/interactive essence
+6. Tags are relevant and improve discoverability
+7. Scene thumbnail accurately represents the scene
 
 ## Step-by-Step Process
 
 ### 1. Read All Scene Files
 
 Read the following files for the scene being reviewed:
-- `scene.json` - Contains control definitions with NAME and DESCRIPTION fields
+- `scene.json` - Contains control definitions, scene description, and tags
 - `main.glsl` (or shader file) - Contains the actual implementation
 - `script.js` - May contain additional logic (if relevant)
+- `scene.png` - Visual thumbnail of the scene
 
 ### 2. Analyze Control Descriptions vs Implementation
 
@@ -36,7 +40,7 @@ For each control in scene.json:
 ### 3. Update Control Descriptions
 
 Edit scene.json to update DESCRIPTION fields where needed:
-- Keep descriptions succinct (typically 5-10 words)
+- Keep descriptions succinct (typically 7-10 words)
 - Use clear, non-technical language when possible
 - Format: "Control purpose – specific behavior details"
 - Examples:
@@ -82,18 +86,60 @@ After updates:
 - Ensure no old variable names remain in the shader
 - Check that descriptions still make sense with new names
 
-### 7. Review Scene Thumbnail (Optional)
+### 7. Review and Update Scene Description
+
+Look at the scene.png thumbnail and understand the visual aesthetic:
+- What is the dominant visual style? (retro, cyberpunk, abstract, etc.)
+- What are the main interactive elements? (audio-reactive, reflective, animated, etc.)
+- What emotional response does it evoke?
+
+Write or update the DESCRIPTION field in scene.json:
+- Keep it engaging and evocative (2-4 sentences)
+- Mention key visual elements visible in the thumbnail
+- Describe the interactive/audio-reactive aspects
+- Convey the overall aesthetic and mood
+- Format: Narrative description, then attributions
+
+**Example:**
+"A retro-futuristic satellite orbits a neon dreamscape, its antenna responding to the audio beat. A glowing pink triangle floats above an infinite grid of electric blue, reflecting the cosmic sunset beyond. The entire scene pulses with 80s synthwave energy. Created for SceneSat."
+
+### 8. Update Scene Tags
+
+Add relevant tags to improve discoverability. Consider:
+- **Aesthetic:** retro, synthwave, cyberpunk, abstract, geometric, organic, etc.
+- **Interactive:** audio-reactive, animated, responsive, interactive, etc.
+- **Visual effects:** crt, neon, reflection, grid, distortion, glow, etc.
+- **Subjects:** satellite, antenna, tunnel, landscape, abstract, etc.
+- **Creator name(s)**
+
+**Guidelines:**
+- Include 8-12 relevant tags
+- Use lowercase with hyphens for multi-word tags (e.g., "audio-reactive")
+- Include creator name as first tag (e.g., "mrange")
+- Avoid redundant tags
+
+**Example tags:** `["mrange", "neon", "satellite", "antenna", "audio-reactive", "crt", "retro", "synthwave", "reflection", "atmospheric"]`
+
+### 9. Verify Scene Thumbnail
 
 Check the scene.png thumbnail:
 - Does it represent the scene described in the DESCRIPTION field?
 - Are key visual features visible?
 - Is the author credit appropriately sized (not obscuring the scene)?
+- Does it accurately show the default control state?
 
 Note: Some scenes may intentionally use a title card style thumbnail, which is acceptable.
 
+### 10. Attribution and Credits
+
+If using external assets (fonts, techniques, etc.), add proper attribution:
+- **Font credits:** Format as "Font: [Name] by [Artist] ([URL]), licensed as [License]"
+- Include links to artist portfolios or licensing information
+- Maintain consistency with existing attributions in the project
+
 ## Example Changes
 
-### Description Improvements
+### Control Description Improvements
 
 **Before:**
 ```json
@@ -105,7 +151,7 @@ Note: Some scenes may intentionally use a title card style thumbnail, which is a
 "DESCRIPTION": "Audio threshold – filter out quiet audio values"
 ```
 
-### Name Improvements
+### Control Name Improvements
 
 **Before (scene.json):**
 ```json
@@ -131,17 +177,34 @@ const float tower_threshold = .2;
 x1 = HH.w < tower_threshold && isr && ...
 ```
 
+### Scene Description Improvement
+
+**Before:**
+```json
+"DESCRIPTION": "Neon Scenesat"
+```
+
+**After:**
+```json
+"DESCRIPTION": "A retro-futuristic satellite orbits a neon dreamscape, its antenna responding to the audio beat. A glowing pink triangle floats above an infinite grid of electric blue, reflecting the cosmic sunset beyond. Media content bleeds through as the satellite rotates, while CRT scan lines flicker across the screen. The entire scene pulses with 80s synthwave energy. Created for SceneSat (https://www.scenesat.com/). Font: Cyber Brush by burhanafif (https://hanscostudio.com/), licensed as Non-Commercial."
+```
+
 ## Checklist
 
-- [ ] Read scene.json, main.glsl, and script.js
+- [ ] Read scene.json, main.glsl, script.js, and scene.png
 - [ ] Verify each control description matches implementation
-- [ ] Update descriptions for accuracy and clarity
+- [ ] Check for missing shader constant declarations
+- [ ] Update control descriptions for accuracy and clarity
 - [ ] Review control names for clarity
 - [ ] Update control names in scene.json
 - [ ] Update variable names in shader to match
 - [ ] Verify all occurrences updated in shader
-- [ ] Test that no compilation errors exist
-- [ ] Review scene.png thumbnail (optional)
+- [ ] Review scene thumbnail and visual elements
+- [ ] Write engaging scene description (2-4 sentences)
+- [ ] Add relevant tags (8-12 tags)
+- [ ] Add/verify proper attribution and credits
+- [ ] Check grammar and language in descriptions
+- [ ] Test that no shader compilation errors exist
 
 ## Notes
 
@@ -150,3 +213,6 @@ x1 = HH.w < tower_threshold && isr && ...
 - Always update both scene.json AND shader code when renaming
 - Use consistent naming conventions across similar controls
 - Document any special cases (e.g., negative values, ranges)
+- Scene descriptions should be evocative and capture the essence of what you see in the thumbnail
+- Tags should improve discoverability—include aesthetic, interactive, and visual effect tags
+- Proper attribution respects artist contributions and follows community best practices
