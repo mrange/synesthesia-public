@@ -6,11 +6,15 @@ const float
   PI_2            =.5*PI
 , TAU             =2.*PI
 #ifdef KODELIFE
+, base_col        =5.
+, bouncing_bars   =0.
 , crt_effect      =0.
+, denoise         =5.
+, grid_speed      =.3
 , media_leak      =0.3
 , motion_blur     =.3
 , tri_transparency=2.
-, z_dist          =1.25
+, z_dist          =0.25
 #endif
 ;
 
@@ -217,7 +221,7 @@ vec3 sunset_sun(vec3 o, vec2 p) {
   const float Z=.1;
 
   float
-    d0=circle(p-vec2(0,-.2),1.)
+    d0=circle(p-vec2(0,sun_height),1.)
   , d1
   , d
   , c
@@ -434,7 +438,7 @@ vec3 scenesat_normal(vec3 p) {
   );
 }
 
-float scenesat_march(vec3 P, vec3 I) {
+vec3 scenesat_march(vec3 P, vec3 I) {
   const int max_iter= 77;
   float
     d
@@ -447,11 +451,11 @@ float scenesat_march(vec3 P, vec3 I) {
 
   for(i=0;i<max_iter;++i) {
     d=scenesat_df(z*I+P);
-    if(d<1e-3||z>scenesat_max_distance) break;
     if(d<nd) {
       nd=d;
       nz=z;
     }
+    if(d<1e-3||z>scenesat_max_distance) break;
     z+=d;
   }
 
@@ -459,7 +463,7 @@ float scenesat_march(vec3 P, vec3 I) {
     z=nz;
   }
 
-  return z;
+  return vec3(z,nz,nd);
 }
 
 vec3 scenesat_render_ibox(float A, vec3 RO, vec3 RI) {
@@ -510,7 +514,6 @@ vec4 scenesat_render(vec3 RO, vec3 RI) {
   float
     i
   , f
-  , z
   , A=1.
 #ifdef KODELIFE
   , AH=1.-sqrt(fract(TIME))
@@ -519,6 +522,7 @@ vec4 scenesat_render(vec3 RO, vec3 RI) {
   , AH
   , BH=syn_BassHits
 #endif
+  , t=1.
   ;
 
   vec4
@@ -536,36 +540,43 @@ vec4 scenesat_render(vec3 RO, vec3 RI) {
     , scenesat_base_col_0
     , BH
     )
+  , z3
   ;
 
   for(i=0.;i<4.&&A>scenesat_min_a;++i) {
-    z=scenesat_march(P,RI);
+    z3=scenesat_march(P,RI);
     dd=scenesat_dd;
-    p=z*RI+P;
+    p=z3.y*RI+P;
     n=scenesat_normal(p);
     r=reflect(RI,n);
     f=1.+dot(n,RI);
     f*=f;
-    if(z<scenesat_max_distance) {
-      if (dd.y<1e-3) {
-        o+=scenesat_flash(RO, RI, A, n, p, bcol);
-        f=-0.3;
-      } else if(dd.z<1e-3&&bouncing_bars>.5) {
-        vec2 hit=scenesat_antenna_hit;
-        if(hit==vec2(1,1))
-          AH=syn_BassHits;
-        else if(hit==vec2(1,-1))
-          AH=syn_MidHits;
-        else if(hit==vec2(-1,1))
-          AH=syn_MidHighHits;
-        else if(hit==vec2(-1,-1))
-          AH=syn_HighHits;
-        else
-          AH=0.;
-        //AH=1.;
-        o+=smoothstep(.1,-.4,dd.w/26.-AH*AH)*A*.5*(1.05+sin(base_col-.05*dd.w+vec3(0,1,2)));
-        f=-0.3;
-      }
+    if (dd.y<1e-3) {
+      o+=scenesat_flash(RO, RI, A, n, p, bcol);
+      f=-0.3;
+    } else if(dd.z<1e-3&&bouncing_bars>.5) {
+      vec2 hit=scenesat_antenna_hit;
+#ifdef KODELIFE
+#else
+      if(hit==vec2(1,1))
+        AH=syn_BassHits;
+      else if(hit==vec2(1,-1))
+        AH=syn_MidHits;
+      else if(hit==vec2(-1,1))
+        AH=syn_MidHighHits;
+      else if(hit==vec2(-1,-1))
+        AH=syn_HighHits;
+      else
+        AH=0.;
+#endif
+      //AH=1.;
+      o+=smoothstep(.1,-.4,dd.w/26.-AH*AH)*A*(1.-f)*(1.05+sin(base_col-.05*dd.w+vec3(0,1,2)));
+      f=-0.3;
+    }
+    if(z3.x<scenesat_max_distance) {
+    } else if(i==0.) {
+      t=smoothstep(.01,.0,z3.z);
+      break;
     } else {
       break;
     }
@@ -574,11 +585,7 @@ vec4 scenesat_render(vec3 RO, vec3 RI) {
     P=p+.025*(n+RI);
   }
 
-  if(i>0.)
-    return vec4(o+scenesat_render_ibox(A,P,RI),1.);
-
-
-  return vec4(0);
+  return vec4(o+scenesat_render_ibox(A,P,RI),t);
 }
 
 vec4 scenesat_scenesat() {
@@ -675,7 +682,7 @@ vec4 f_scenesat() {
   ;
 
   vec4
-    s=scenesat_scenesat()
+    sc=scenesat_scenesat()
   ;
   d=tri(p,.8);
   ds=scenesat_dscenesat(p);
@@ -692,14 +699,14 @@ vec4 f_scenesat() {
   }
   st=smoothstep(aa,-aa,ds);
   bst=smoothstep(aa,-aa,1e-3*ds);
-  t=max(t,s.w);
+  t=max(t,sc.w);
   t=max(t,st);
   t=max(t,bst);
   t=clamp(t,0.,1.);
   o=mix(o,.2*scenesat_logo_col,bst);
   o=mix(o,scenesat_logo_col,st);
 
-  o=mix(o,s.xyz,s.w);
+  o=mix(o,sc.xyz,sc.w);
   q=abs(q);
   t*=smoothstep(.99,.89,max(q.x,q.y));
   o=max(o,0.);
@@ -776,7 +783,11 @@ vec3 reflection_raycast(vec2 r, vec3 RO, vec3 RD, out bool abort) {
 
   if(zs>0.) {
     p=zs*RD+RO;
+#ifdef KODELIFE
+    tp=p.xz+vec2(0,grid_speed*TIME);
+#else
     tp=p.xz+vec2(0,grid_speed);
+#endif
     S=sin(.234*tp);
     tp-=floor(tp+.5);
     tp=abs(tp);
@@ -850,7 +861,7 @@ vec3 reflection_render(vec2 p, vec3 RO, vec3 X,vec3 Y, vec3 Z) {
     r=vec2(0)
   ;
 
-  for(float j=0;j<denoise&&!abort;++j)
+  for(float j=0.;j<denoise&&!abort;++j)
   for(int i=0;i<inner;++i) {
     r=hash2(++seed);
     o+=reflection_raycast(r, RO,noisy_ray_dir(r,p,X,Y,Z),abort);

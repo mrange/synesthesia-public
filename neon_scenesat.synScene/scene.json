@@ -5,7 +5,7 @@
 			"DEFAULT" : 0.25,
 			"DESCRIPTION" : "",
 			"MAX" : 4,
-			"MIN" : 0,
+			"MIN" : -0.25,
 			"NAME" : "z_dist",
 			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
@@ -61,7 +61,7 @@
 			"UI_GROUP" : "Visual"
 		},
 		{
-			"DEFAULT" : 5,
+			"DEFAULT" : 5.6,
 			"DESCRIPTION" : "",
 			"MAX" : 7,
 			"MIN" : 0,
@@ -77,6 +77,16 @@
 			"MIN" : -3,
 			"NAME" : "grid_speed",
 			"TYPE" : "slider speed",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : -0.2,
+			"DESCRIPTION" : "",
+			"MAX" : 2,
+			"MIN" : -1,
+			"NAME" : "sun_height",
+			"PARAMS" : 0.2,
+			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Visual"
 		},
 		{
