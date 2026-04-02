@@ -23,7 +23,7 @@
 		},
 		{
 			"DEFAULT" : 2,
-			"DESCRIPTION" : "Amount of triangle transparency",
+			"DESCRIPTION" : "Triangle fade – center opaque to edge transparency",
 			"MAX" : 5,
 			"MIN" : 0,
 			"NAME" : "tri_transparency",
@@ -33,7 +33,7 @@
 		},
 		{
 			"DEFAULT" : 0,
-			"DESCRIPTION" : "CRT effect – applies a CRT effect",
+			"DESCRIPTION" : "CRT effect – screen distortion, vignette, scanlines",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "crt_effect",
@@ -72,7 +72,7 @@
 		},
 		{
 			"DEFAULT" : 0.3,
-			"DESCRIPTION" : "Grid speed – Neon grid speed",
+			"DESCRIPTION" : "Neon grid animation speed – reflection plane movement",
 			"MAX" : 3,
 			"MIN" : -3,
 			"NAME" : "grid_speed",
@@ -101,7 +101,7 @@
 		},
 		{
 			"DEFAULT" : 0.5,
-			"DESCRIPTION" : "Media scale – Media zoom level",
+			"DESCRIPTION" : "Media texture zoom level – scale media size",
 			"MAX" : 2,
 			"MIN" : 0,
 			"NAME" : "media_zoom",
@@ -111,7 +111,7 @@
 		}
 	],
 	"CREDIT" : "mrange",
-	"DESCRIPTION" : "Neon Scenesat",
+	"DESCRIPTION" : "A retro-futuristic satellite orbits a neon dreamscape, its antenna dancing to the beat. A glowing pink triangle floats above an infinite grid of electric blue, reflecting the cosmic sunset beyond. Media content bleeds through as the satellite rotates, CRT scan lines flicker across the screen, and the entire scene pulses with 80s synthwave energy.",
 	"GPU" : 1,
 	"HEIGHT" : 1080,
 	"IMAGES" :
