@@ -381,8 +381,6 @@ vec3 inner(vec3 RO, vec3 RD) {
   d2=segment4(p1+vec2(0,VH-h2),vec2(h2,1)*VSZ)*VZ;
   mcol=media(p0);
 
-  // The VU Meter effect
-
   if(pz>0.) {
     o=.015/max(dot(p0,p0),2e-2)*bcol;
     o=mix(o,mix(o,bcol,.2), smoothstep(aa,-aa, d1));
@@ -392,7 +390,7 @@ vec3 inner(vec3 RO, vec3 RD) {
   } else {
   }
 
-//  o*=1.+.5*sin(p0.y*1.5e3);
+  o*=1.+.5*sin(p0.y*2e3);
   
   return o;
 }
@@ -475,7 +473,7 @@ vec4 renderMain() {
   , RD=normalize(2.*Z+p2.y*Y-p2.x*X)
   , o =vec3(0)
   ;
-  o=hyperspace(RO,RD,0.);
+  o=outer(RO,RD);
   o-=3e-2*vec3(3,2,1)*length(p2+.25);
   o=max(o,0.);
   o=tanh_approx(o);
