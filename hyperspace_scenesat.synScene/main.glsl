@@ -95,11 +95,6 @@ float rhombus(vec3 p, float la, float lb, float h, float ra) {
   return min(max(q.x,q.y),0.0) + length(max(q,0.0));
 }
 
-float torus( vec3 p, vec2 t ) {
-  vec2 q = vec2(length(p.xz)-t.x,p.y);
-  return length(q)-t.y;
-}
-
 float torus4( vec3 p, vec2 t ) {
   vec2 q = vec2(L4(p.xz)-t.x,p.y);
   return length(q)-t.y;
@@ -121,15 +116,6 @@ float pmax(float a, float b, float k) {
 
 const float
   scenesat_max_distance=9.
-, scenesat_min_a       =.05
-, scenesat_color_offset=1.5
-;
-
-const vec3
-  scenesat_light_dir  =normalize(vec3(1,2,-1))
-, scenesat_color_base =4.+vec3(0,2,9)
-, scenesat_base_col_0 =vec3(.25,0,1)
-, scenesat_base_col_1 =vec3(0)
 ;
 
 const mat2
@@ -137,7 +123,6 @@ const mat2
 , scenesat_sputnik_R1=ROT(radians(45.))
 , scenesat_sputnik_R2=ROT(radians(-60.0))
 ;
-
 
 vec4 scenesat_d;
 
@@ -228,7 +213,6 @@ vec3 scenesat_march(vec3 P, vec3 I) {
 
   return vec3(z,nz,nd);
 }
-
 
 vec3 hyperspace(vec3 RO, vec3 RD, float FO) {
   float
