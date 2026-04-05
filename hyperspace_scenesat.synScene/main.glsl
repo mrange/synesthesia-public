@@ -254,7 +254,7 @@ vec3 hyperspace(vec3 RO, vec3 RD, float FO) {
     O
   ;
 
-  o=mix(0e-4,3e-4, syn_BassHits*syn_BassLevel)*(vec3(1,4,16))/(1.+1e-3-(RD.z)+RD.x*RD.x);
+  o=mix(0e-4,3e-4, bass_thump)*(vec3(1,4,16))/(1.+1e-3-(RD.z)+RD.x*RD.x);
 
   for (float j=2.;j<9.;++j) {
     REP=j*j+3.;
@@ -422,7 +422,7 @@ vec3 inner_scenesat(vec3 RO, vec3 RD) {
   ;
 
   float 
-    ZZ=mix(0.25,.3, syn_BassLevel*syn_BassHits);
+    ZZ=mix(0.25,.3, bass_thump);
   ;
   d0=heart((p0)/ZZ-vec2(0,-0.6))*ZZ-.02*ZZ;
   aa=length(fwidth(p0));
@@ -502,13 +502,13 @@ vec3 outer(vec3 RO, vec3 RD) {
     if(d.x==d.y) {
       f*=f;
       f*=f;
-      eo=syn_BassHits*pow(dot(R,RD),16.)*vec3(1,0,.25);
+      eo=bass_thump*step(length(p),.57)*pow(dot(R,RD),32.)*2.*vec3(1,0,.25);
     } else if(d.x==d.z) {
       f*=.3;
     } else if(d.x==d.w) {
       f*=f;
       f*=f;
-      eo=pow(dot(R,RD),256.)*(use_media>.5?inner_media(p,R):inner_scenesat(p,R));
+      eo=screen_brightness*pow(dot(R,RD),256.)*(use_media>.5?inner_media(p,R):inner_scenesat(p,R));
     } else {
       f*=f;
     }

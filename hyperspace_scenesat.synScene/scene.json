@@ -35,7 +35,7 @@
 			"MAX" : 2,
 			"MIN" : -0.5,
 			"NAME" : "screen_distance",
-			"PARAMS" : 0.19001,
+			"PARAMS" : 0.07001,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Visual"
 		},
@@ -45,17 +45,17 @@
 			"MAX" : 9,
 			"MIN" : 1,
 			"NAME" : "satellite_distance",
-			"PARAMS" : 0.17901,
+			"PARAMS" : 0.06601,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Visual"
 		},
 		{
 			"DEFAULT" : 0.3,
 			"DESCRIPTION" : "",
-			"MAX" : 0.75,
+			"MAX" : 1.5,
 			"MIN" : 0,
 			"NAME" : "sway_factor",
-			"PARAMS" : 0.17301,
+			"PARAMS" : 0.08201,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Visual"
 		},
@@ -66,6 +66,16 @@
 			"MIN" : 0,
 			"NAME" : "show_satellite",
 			"TYPE" : "toggle",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 1,
+			"DESCRIPTION" : "",
+			"MAX" : 2,
+			"MIN" : 0,
+			"NAME" : "screen_brightness",
+			"PARAMS" : 0.20601,
+			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Visual"
 		},
 		{
