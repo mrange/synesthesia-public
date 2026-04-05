@@ -289,7 +289,7 @@ vec3 hyperspace(vec3 RO, vec3 RD, float FO) {
 
 vec4 media(vec2 p) {
   vec2
-    msz=vec2(textureSize(syn_Media,0))
+    msz=vec2(textureSize(t_scenesat,0))
   , pp
   ;
   p*=2.;
@@ -301,7 +301,7 @@ vec4 media(vec2 p) {
   pp=p;
   p=clamp(p,0.,1.);
   vec4
-    mcol=textureLod(syn_Media, clamp(p,0.,1.), 0.)
+    mcol=textureLod(t_scenesat, clamp(p,0.,1.), 0.)
   ;
 
   mcol.xyz *= mcol.xyz;

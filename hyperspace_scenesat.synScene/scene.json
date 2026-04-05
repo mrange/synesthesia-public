@@ -5,6 +5,12 @@
 	"IMAGE_PATH" : "scene.png",
 	"IMAGES" :
 	[
+		{
+			"FILTER" : "mipmap",
+			"NAME" : "t_scenesat",
+			"PATH" : "assets/t_scenesat.png",
+			"WRAP" : "repeat"
+		}
 	],
 	"MEDIA" :
 	[
