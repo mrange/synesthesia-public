@@ -1,9 +1,40 @@
 {
+	"CONTROLS" : 
+	[
+		{
+			"DEFAULT" : 0,
+			"DESCRIPTION" : "",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "use_media",
+			"TYPE" : "toggle",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 1,
+			"DESCRIPTION" : "",
+			"MAX" : 3,
+			"MIN" : 0,
+			"NAME" : "spectrum_boost",
+			"PARAMS" : 0.18701,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 0,
+			"DESCRIPTION" : "",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "crt_effect",
+			"TYPE" : "toggle",
+			"UI_GROUP" : "Visual"
+		}
+	],
 	"CREDIT" : "mrange",
 	"DESCRIPTION" : "Hyperspace Scenesat",
 	"GPU" : 1,
-	"IMAGE_PATH" : "scene.png",
-	"IMAGES" :
+	"HEIGHT" : 1080,
+	"IMAGES" : 
 	[
 		{
 			"FILTER" : "mipmap",
@@ -12,22 +43,19 @@
 			"WRAP" : "repeat"
 		}
 	],
-	"MEDIA" :
+	"IMAGE_PATH" : "scene.png",
+	"MEDIA" : 
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"PASSES" :
-	[
-	],
-	"TAGS" :
+	"TAGS" : 
 	[
 		"mrange",
 		"scenesat"
 	],
 	"TITLE" : "Hyperspace Scenesat",
-	"HEIGHT" : 1080,
 	"WIDTH" : 1920
 }

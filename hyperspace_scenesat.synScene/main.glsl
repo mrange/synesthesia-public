@@ -180,7 +180,7 @@ float scenesat_df(vec3 p) {
   d=d0;
   S=.5+.5*s.x*s.y*s.z;
   S*=S; S*=S; S*=S; S*=S;
-  d += 3e-3*S;
+  d+=3e-3*S;
   d=pmin(d,d7,.02);
   d=pmin(d,d2,.1);
   d=max(d,-d3);
@@ -246,7 +246,7 @@ vec3 hyperspace(vec3 RO, vec3 RD, float FO) {
   ;
 
   vec3
-    o =vec3(0)
+    o
   , p
   , c
   ;
@@ -254,7 +254,7 @@ vec3 hyperspace(vec3 RO, vec3 RD, float FO) {
     O
   ;
 
-  o+=mix(0e-4,3e-4, syn_BassHits*syn_BassLevel)*(vec3(1,4,16))/(1.+1e-3-(RD.z)+RD.x*RD.x);
+  o=mix(0e-4,3e-4, syn_BassHits*syn_BassLevel)*(vec3(1,4,16))/(1.+1e-3-(RD.z)+RD.x*RD.x);
 
   for (float j=2.;j<9.;++j) {
     REP=j*j+3.;
@@ -265,15 +265,14 @@ vec3 hyperspace(vec3 RO, vec3 RD, float FO) {
     H0=hash(.123*vec2(j,N.x));
     p.z-=3.*TIME*(1.+H0*H0*H0);
     fo=exp(-2e-3*ci*ci);
-    const float S=1.;
     c=vec3(N.y,0,p.z);
     c-=vec3(p.xy,floor(p.z+.5));
-    for(float i=-S;i<=S;++i) {
+    for(float i=-1.;i<=1.;++i) {
       n1=floor(i+p.z+.5);
       H1=hash(vec2(H0,n1));
       O=1.+sin(-6.+PI*H1+vec4(0,1,8,4));
       d=segmentz(c-vec3(0,0,i),.35*H1*H1+.1);
-      H1=textureLod(syn_Spectrum,mix(.975,.025,H1),0.).z;
+      H1=spectrum_boost*textureLod(syn_Spectrum,mix(.975,.025,H1),0.).z;
       o+=
           5e-3
         * H1
@@ -289,11 +288,32 @@ vec3 hyperspace(vec3 RO, vec3 RD, float FO) {
 
 vec4 media(vec2 p) {
   vec2
-    msz=vec2(textureSize(t_scenesat,0))
+    msz=vec2(textureSize(syn_Media,0))
   , pp
   ;
-  p*=2.;
   p.y*=msz.x/msz.y;
+  p+=.5;
+#ifdef KODELIFE
+  p.y=1.-p.y;
+#endif
+  pp=p;
+  p=clamp(p,0.,1.);
+  vec4
+    mcol=textureLod(syn_Media, clamp(p,0.,1.), 0.)
+  ;
+
+  mcol.xyz *= mcol.xyz;
+  mcol.w *= mix(dot(mcol.xyz,vec3(0.2126, 0.7152, 0.0722)),1.,.3);
+  mcol.w *= (pp==p?1.:0.);
+  return mcol;
+}
+
+vec4 scenesat(vec2 p) {
+  vec2
+    pp
+  ;
+  p*=2.;
+  p.y*=1024./200.;
   p+=.5;
 #ifdef KODELIFE
   p.y=1.-p.y;
@@ -330,7 +350,46 @@ float segment4(vec2 p, vec2 d) {
 }
 
 
-vec3 inner(vec3 RO, vec3 RD) {
+vec3 inner_media(vec3 RO, vec3 RD) {
+  float
+    pz=(-0.1-RO.z)/RD.z
+  ;
+  
+  vec3
+    o=vec3(0)
+  , p=pz*RD+RO
+  ;
+  
+  vec4
+    mcol
+  ;
+
+  vec2
+    p0=p.xy
+  ;
+  
+  mcol=media(p0);
+  if(pz>0.) {
+    o=mix(o,2.*mcol.xyz, mcol.w);
+  }
+  
+  if(crt_effect>.5)
+    o*=1.+.5*sin(p0.y*2e3);
+
+  return o;
+}
+
+vec3 inner_scenesat(vec3 RO, vec3 RD) {
+  const vec2
+   VSZ=vec2(1.,.4)
+  ;
+  const float 
+    VH=VSZ.y*.5+VSZ.x
+  , VN=12.
+  , VZ=.18/VN
+  , WN=12.
+  , WZ=.18/WN
+  ;
 
   float
     aa
@@ -351,14 +410,14 @@ vec3 inner(vec3 RO, vec3 RD) {
   , fcol=.1+bcol
   ;
 
+  vec4
+    mcol
+  ;
+
   vec2
     p0=p.xy
   , p1=p0
   , p3=p0
-  ;
-
-  vec4
-    mcol
   ;
 
   float 
@@ -367,16 +426,6 @@ vec3 inner(vec3 RO, vec3 RD) {
   d0=heart((p0)/ZZ-vec2(0,-0.6))*ZZ-.02*ZZ;
   aa=length(fwidth(p0));
 
-  const vec2
-   VSZ=vec2(1.,.4)
-  ;
-  const float 
-    VH=VSZ.y*.5+VSZ.x
-  , VN=12.
-  , VZ=.18/VN
-  , WN=12.
-  , WZ=.18/WN
-  ;
   p1-=vec2(4.*VZ,-0.15);
   p1/=VZ;
   n1=clamp(floor(p1.x+.5),0.,VN);
@@ -395,7 +444,7 @@ vec3 inner(vec3 RO, vec3 RD) {
   d2=min(d2,d3);
 
 
-  mcol=media(p0);
+  mcol=scenesat(p0);
 
   if(pz>0.) {
     o=.015/max(dot(p0,p0),2e-2)*bcol;
@@ -403,10 +452,10 @@ vec3 inner(vec3 RO, vec3 RD) {
     o=mix(o,fcol+.7*sqrt(max(-d0,0.)), smoothstep(aa,-aa, d0));
     o=mix(o,bcol, smoothstep(aa,-aa, d2));
     o=mix(o,fcol ,mcol.w);
-  } else {
   }
 
-  o*=1.+.5*sin(p0.y*2e3);
+  if(crt_effect>.5)
+    o*=1.+.5*sin(p0.y*2e3);
   
   return o;
 }
@@ -457,7 +506,7 @@ vec3 outer(vec3 RO, vec3 RD) {
     } else if(d.x==d.w) {
       f*=f;
       f*=f;
-      eo+=pow(dot(R,RD),2e2)*inner(p,R);
+      eo=pow(dot(R,RD),2e2)*(use_media>.5?inner_media(p,R):inner_scenesat(p,R));
     } else {
       f*=f;
     }
@@ -481,7 +530,7 @@ vec4 renderMain() {
   ;
 
   vec3
-    RO=vec3(.3*sin(t2),-1.2+.6)
+    RO=vec3(.3*sin(t2),-1.1)
   , LA=vec3(0,0,0)
   , Z =normalize(LA-RO)
   , X =normalize(cross(Z,vec3(.2*cos(t2)+vec2(0,1.),0)))
@@ -489,7 +538,7 @@ vec4 renderMain() {
   , RD=normalize(2.*Z+p2.y*Y-p2.x*X)
   , o =vec3(0)
   ;
-  o=inner(RO,RD);
+  o=outer(RO,RD);
   o-=3e-2*vec3(3,2,1)*length(p2+.25);
   o=max(o,0.);
   o=tanh_approx(o);
