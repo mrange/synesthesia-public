@@ -53,7 +53,8 @@ vec2 mod_polar(inout vec2 p, float repetitions) {
 
 // License: Unknown, author: Unknown, found: don't remember
 float hash(vec2 co) {
-  return fract(sin(dot(co.xy ,vec2(12.9898,58.233))) * 13758.5453);
+  co+=.1234;
+  return fract(sin(dot(co.xy ,vec2(12.9898,58.233)))*13758.5453);
 }
 
 float L4(vec2 p) {
@@ -253,7 +254,7 @@ vec3 hyperspace(vec3 RO, vec3 RD, float FO) {
     O
   ;
 
-  o+=3e-4*(vec3(1,5,20))/(1.+1e-3-(RD.z)+RD.x*RD.x);
+  o+=mix(0e-4,3e-4, syn_BassHits*syn_BassLevel)*(vec3(1,4,16))/(1.+1e-3-(RD.z)+RD.x*RD.x);
 
   for (float j=2.;j<9.;++j) {
     REP=j*j+3.;
@@ -270,10 +271,12 @@ vec3 hyperspace(vec3 RO, vec3 RD, float FO) {
     for(float i=-S;i<=S;++i) {
       n1=floor(i+p.z+.5);
       H1=hash(vec2(H0,n1));
-      d=segmentz(c-vec3(0,0,i),.4*H1*H1+.1);
       O=1.+sin(-6.+PI*H1+vec4(0,1,8,4));
+      d=segmentz(c-vec3(0,0,i),.35*H1*H1+.1);
+      H1=textureLod(syn_Spectrum,1.-H1,0.).z;
       o+=
           5e-3
+        * H1
         / max(d,4e-4*ci+.02*FO)
         * fo
         * (O.w+.1)
@@ -308,19 +311,18 @@ float dot2(vec2 p) {
 }
 
 float heart(vec2 p) {
-    p.x = abs(p.x);
+  p.x = abs(p.x);
 
-    if( p.y+p.x>1.0 )
-        return sqrt(dot2(p-vec2(0.25,0.75))) - sqrt(2.0)/4.0;
-    return sqrt(min(dot2(p-vec2(0.00,1.00)),
-                    dot2(p-0.5*max(p.x+p.y,0.0)))) * sign(p.x-p.y);
+  if (p.y+p.x>1.)
+    return sqrt(dot2(p-vec2(0.25,0.75))) - sqrt(2.0)/4.0;
+  return sqrt(min(dot2(p-vec2(0.00,1.00)), dot2(p-0.5*max(p.x+p.y,0.0))))*sign(p.x-p.y);
 }
 
 vec3 inner(vec3 RO, vec3 RD) {
 
   float
     aa
-  , pz=(-.85-RO.z)/RO.z
+  , pz=(-0.1-RO.z)/RD.z
   , d
   ;
 
@@ -339,7 +341,9 @@ vec3 inner(vec3 RO, vec3 RD) {
     mcol
   ;
 
-  const float ZZ=0.3;
+  float 
+    ZZ=mix(0.25,.3, syn_BassLevel*syn_BassHits);
+  ;
   d=heart((p2)/ZZ-vec2(0,-0.6))*ZZ-.02*ZZ;
   aa=length(fwidth(p2));
 
@@ -350,26 +354,15 @@ vec3 inner(vec3 RO, vec3 RD) {
     o=mix(o,fcol+.7*sqrt(max(-d,0.)), smoothstep(aa,-aa,d));
     o=mix(o,mix(.25,1.,mcol.x)*fcol ,mcol.w);
     o*=1.+.5*sin(p2.y*1.5e3);
+  } else {
   }
 
   return o;
 }
 
-
-vec4 renderMain() {
-  vec2
-    p2=2.*_uvc
-  , t2=.2*TIME*vec2(sqrt(2.),1.)
-  ;
-
+vec3 outer(vec3 RO, vec3 RD) {
   vec3
-    RO=vec3(.3*sin(t2),-1.2)
-  , LA=vec3(0,0,0)
-  , Z =normalize(LA-RO)
-  , X =normalize(cross(Z,vec3(.2*cos(t2)+vec2(0,1.),0)))
-  , Y =cross(X,Z)
-  , RD=normalize(2.*Z+p2.y*Y-p2.x*X)
-  , n
+    n
   , N
   , p
   , r
@@ -397,7 +390,7 @@ vec4 renderMain() {
   p=z.y*RD+RO;
   n=scenesat_normal(p);
   r=reflect(RD,n);
-  R=refract(RD,n,.95);
+  R=refract(RD,n,.85);
   f=1.+dot(RD,n);
   N=fwidth(r);
 
@@ -413,7 +406,7 @@ vec4 renderMain() {
     } else if(d.x==d.w) {
       f*=f;
       f*=f;
-      eo+=pow(dot(R,RD),2e3)*inner(p,R);
+      eo+=pow(dot(R,RD),3e2)*inner(p,R);
     } else {
       f*=f;
     }
@@ -427,6 +420,25 @@ vec4 renderMain() {
   ro+=lt;
   ro*=f;
   o=mix(o,ro+eo,t);
+  return o;
+}
+
+vec4 renderMain() {
+  vec2
+    p2=2.*_uvc
+  , t2=.2*TIME*vec2(sqrt(2.),1.)
+  ;
+
+  vec3
+    RO=vec3(.3*sin(t2),-1.2)
+  , LA=vec3(0,0,0)
+  , Z =normalize(LA-RO)
+  , X =normalize(cross(Z,vec3(.2*cos(t2)+vec2(0,1.),0)))
+  , Y =cross(X,Z)
+  , RD=normalize(2.*Z+p2.y*Y-p2.x*X)
+  , o =vec3(0)
+  ;
+  o=outer(RO,RD);
   o-=3e-2*vec3(3,2,1)*length(p2+.25);
   o=max(o,0.);
   o=tanh_approx(o);
