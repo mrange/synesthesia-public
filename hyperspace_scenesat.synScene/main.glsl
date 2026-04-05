@@ -290,19 +290,23 @@ vec3 hyperspace(vec3 RO, vec3 RD, float FO) {
 vec4 media(vec2 p) {
   vec2
     msz=vec2(textureSize(syn_Media,0))
+  , pp
   ;
-  p*=9.;
-  p.x*=msz.y/msz.x;
+  p*=2.;
+  p.y*=msz.x/msz.y;
   p+=.5;
 #ifdef KODELIFE
   p.y=1.-p.y;
 #endif
+  pp=p;
+  p=clamp(p,0.,1.);
   vec4
-    mcol=textureLod(syn_Media, p, 1.)
+    mcol=textureLod(syn_Media, clamp(p,0.,1.), 0.)
   ;
 
   mcol.xyz *= mcol.xyz;
-
+  mcol.w *= mix(dot(mcol.xyz,vec3(0.2126, 0.7152, 0.0722)),1.,.3);
+  mcol.w *= (pp==p?1.:0.);
   return mcol;
 }
 
@@ -352,7 +356,7 @@ vec3 inner(vec3 RO, vec3 RD) {
   if(pz>0.) {
     o=.01/max(dot(p2,p2),1e-2)*bcol;
     o=mix(o,fcol+.7*sqrt(max(-d,0.)), smoothstep(aa,-aa,d));
-    o=mix(o,mix(.25,1.,mcol.x)*fcol ,mcol.w);
+    o=mix(o,fcol ,mcol.w);
     o*=1.+.5*sin(p2.y*1.5e3);
   } else {
   }
@@ -390,7 +394,7 @@ vec3 outer(vec3 RO, vec3 RD) {
   p=z.y*RD+RO;
   n=scenesat_normal(p);
   r=reflect(RD,n);
-  R=refract(RD,n,.85);
+  R=refract(RD,n,.8);
   f=1.+dot(RD,n);
   N=fwidth(r);
 
