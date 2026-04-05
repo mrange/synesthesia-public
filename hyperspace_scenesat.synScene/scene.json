@@ -1,9 +1,9 @@
 {
-	"CONTROLS" : 
+	"CONTROLS" :
 	[
 		{
 			"DEFAULT" : 0,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Show media – display input video or scenesat logo",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "use_media",
@@ -12,7 +12,7 @@
 		},
 		{
 			"DEFAULT" : 1,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Audio intensity – amplify spectrum in hyperspace",
 			"MAX" : 3,
 			"MIN" : 0,
 			"NAME" : "spectrum_boost",
@@ -22,7 +22,7 @@
 		},
 		{
 			"DEFAULT" : 1,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "CRT scanlines – add retro screen effect",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "crt_effect",
@@ -31,7 +31,7 @@
 		},
 		{
 			"DEFAULT" : -0.1,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Screen position – depth of inner reflections plane",
 			"MAX" : 2,
 			"MIN" : -0.5,
 			"NAME" : "screen_distance",
@@ -41,7 +41,7 @@
 		},
 		{
 			"DEFAULT" : 1.1,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Camera distance – zoom in/out from satellite",
 			"MAX" : 9,
 			"MIN" : 1,
 			"NAME" : "satellite_distance",
@@ -51,7 +51,7 @@
 		},
 		{
 			"DEFAULT" : 0.3,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Camera sway – side-to-side motion amplitude",
 			"MAX" : 1.5,
 			"MIN" : 0,
 			"NAME" : "sway_factor",
@@ -61,7 +61,7 @@
 		},
 		{
 			"DEFAULT" : 1,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Show satellite – toggle between satellite or tunnel",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "show_satellite",
@@ -70,7 +70,7 @@
 		},
 		{
 			"DEFAULT" : 1,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Reflection brightness – intensity of satellite shine",
 			"MAX" : 2,
 			"MIN" : 0,
 			"NAME" : "screen_brightness",
@@ -80,7 +80,7 @@
 		},
 		{
 			"DEFAULT" : 1,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Media zoom – scale video inside reflections",
 			"MAX" : 4,
 			"MIN" : 0.25,
 			"NAME" : "media_zoom",
@@ -89,7 +89,7 @@
 		}
 	],
 	"CREDIT" : "mrange",
-	"DESCRIPTION" : "Hyperspace Scenesat",
+	"DESCRIPTION" : "A glowing pink heart floats at the center of a geometric hyperspace tunnel, surrounded by pulsing golden structures hurtling through space. The satellite camera sways hypnotically while audio reactivity drives the intensity of the chromatic tunnel walls. CRT scanlines flicker across this retro-futuristic dreamscape, blending romance with 80s synthwave aesthetics. Created for SceneSat.",
 	"GPU" : 1,
 	"HEIGHT" : 1080,
 	"IMAGES" : 
@@ -109,10 +109,20 @@
 			"WRAP" : "mirror"
 		}
 	],
-	"TAGS" : 
+	"TAGS" :
 	[
 		"mrange",
-		"scenesat"
+		"hyperspace",
+		"heart",
+		"audio-reactive",
+		"geometric",
+		"neon",
+		"synthwave",
+		"retro",
+		"space",
+		"crt",
+		"romantic",
+		"ambient"
 	],
 	"TITLE" : "Hyperspace Scenesat",
 	"WIDTH" : 1920
