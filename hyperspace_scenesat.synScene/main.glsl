@@ -115,7 +115,7 @@ float pmax(float a, float b, float k) {
 }
 
 const float
-  scenesat_max_distance=9.
+  scenesat_max_distance=10.
 ;
 
 const mat2
@@ -339,12 +339,12 @@ vec3 inner_media(vec3 RO, vec3 RD) {
   float
     pz=(screen_distance-RO.z)/RD.z
   ;
-  
+
   vec3
     o=vec3(0)
   , p=pz*RD+RO
   ;
-  
+
   vec4
     mcol
   ;
@@ -352,12 +352,12 @@ vec3 inner_media(vec3 RO, vec3 RD) {
   vec2
     p0=p.xy
   ;
-  
+
   mcol=media(p0);
   if(pz>0.) {
     o=mix(o,2.*mcol.xyz, mcol.w);
   }
-  
+
   if(crt_effect>.5)
     o*=1.+.5*sin(p0.y*2e3);
 
@@ -368,7 +368,7 @@ vec3 inner_scenesat(vec3 RO, vec3 RD) {
   const vec2
    VSZ=vec2(1.,.4)
   ;
-  const float 
+  const float
     VH=VSZ.y*.5+VSZ.x
   , VN=12.
   , VZ=.18/VN
@@ -405,7 +405,7 @@ vec3 inner_scenesat(vec3 RO, vec3 RD) {
   , p3=p0
   ;
 
-  float 
+  float
     ZZ=mix(0.25,.3, bass_thump);
   ;
   d0=heart((p0)/ZZ-vec2(0,-0.6))*ZZ-.02*ZZ;
@@ -423,9 +423,10 @@ vec3 inner_scenesat(vec3 RO, vec3 RD) {
   p3-=vec2(-4.*VZ,-0.15);
   p3/=WZ;
   n3=clamp(floor(p3.x+.5),-WN,0.);
+  p3.y-=VSZ.y*WN*(textureLod(syn_Spectrum,-n3/WN,0).w-.5);
   p3.x-=n3;
-  d3=(L4(p3-vec2(0,.6/WZ*(textureLod(syn_Spectrum,-n3/WN,0).w-.5)))-.4)*WZ;
-  
+  d3=(L4(p3)-.4)*WZ;
+
   d2=min(d2,d3);
 
 
@@ -441,7 +442,7 @@ vec3 inner_scenesat(vec3 RO, vec3 RD) {
 
   if(crt_effect>.5)
     o*=1.+.5*sin(p0.y*2e3);
-  
+
   return o;
 }
 
@@ -492,7 +493,7 @@ vec3 outer(vec3 RO, vec3 RD) {
     } else if(d.x==d.w) {
       f*=f;
       f*=f;
-      eo=screen_brightness*pow(dot(R,RD),256.)*(use_media>.5?inner_media(p,R):inner_scenesat(p,R));
+      eo=screen_brightness*pow(dot(R,RD),128.)*(use_media>.5?inner_media(p,R):inner_scenesat(p,R));
     } else {
       f*=f;
     }
@@ -516,6 +517,7 @@ vec4 renderMain() {
   ;
 
   //t2=23.5*vec2(sqrt(2.),1.);
+  //t2=vec2(0.);
   vec3
     RO=vec3(sway_factor*sin(t2),-satellite_distance)
   , LA=vec3(0,0,0)
@@ -525,7 +527,7 @@ vec4 renderMain() {
   , RD=normalize(2.*Z+p2.y*Y-p2.x*X)
   , o =vec3(0)
   ;
-  
+
   o=show_satellite>.5?outer(RO,RD):hyperspace(RO,RD,0.);
   o-=3e-2*vec3(3,2,1)*length(p2+.25);
   o=max(o,0.);
