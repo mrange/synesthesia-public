@@ -338,8 +338,10 @@ vec3 inner(vec3 RO, vec3 RD) {
   , d0
   , d1
   , d2
-  , n1
+  , d3
   , h2
+  , n1
+  , n3
   ;
 
   vec3
@@ -352,6 +354,7 @@ vec3 inner(vec3 RO, vec3 RD) {
   vec2
     p0=p.xy
   , p1=p0
+  , p3=p0
   ;
 
   vec4
@@ -370,7 +373,9 @@ vec3 inner(vec3 RO, vec3 RD) {
   const float 
     VH=VSZ.y*.5+VSZ.x
   , VN=12.
-  , VZ=.015
+  , VZ=.18/VN
+  , WN=12.
+  , WZ=.18/WN
   ;
   p1-=vec2(4.*VZ,-0.15);
   p1/=VZ;
@@ -379,6 +384,17 @@ vec3 inner(vec3 RO, vec3 RD) {
   h2=textureLod(syn_Spectrum,.05+.9*n1/VN,0).y;
   d1=segment4(p1,VSZ)*VZ;
   d2=segment4(p1+vec2(0,VH-h2),vec2(h2,1)*VSZ)*VZ;
+
+
+  p3-=vec2(-4.*VZ,-0.15);
+  p3/=WZ;
+  n3=clamp(floor(p3.x+.5),-WN,0.);
+  p3.x-=n3;
+  d3=(L4(p3-vec2(0,.6/WZ*(textureLod(syn_Spectrum,-n3/WN,0).w-.5)))-.4)*WZ;
+  
+  d2=min(d2,d3);
+
+
   mcol=media(p0);
 
   if(pz>0.) {
@@ -465,7 +481,7 @@ vec4 renderMain() {
   ;
 
   vec3
-    RO=vec3(.3*sin(t2),-1.2)
+    RO=vec3(.3*sin(t2),-1.2+.6)
   , LA=vec3(0,0,0)
   , Z =normalize(LA-RO)
   , X =normalize(cross(Z,vec3(.2*cos(t2)+vec2(0,1.),0)))
@@ -473,7 +489,7 @@ vec4 renderMain() {
   , RD=normalize(2.*Z+p2.y*Y-p2.x*X)
   , o =vec3(0)
   ;
-  o=outer(RO,RD);
+  o=inner(RO,RD);
   o-=3e-2*vec3(3,2,1)*length(p2+.25);
   o=max(o,0.);
   o=tanh_approx(o);
