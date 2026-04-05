@@ -291,6 +291,7 @@ vec4 media(vec2 p) {
     msz=vec2(textureSize(syn_Media,0))
   , pp
   ;
+  p*=media_zoom;
   p.y*=msz.x/msz.y;
   p+=.5;
 #ifdef KODELIFE
@@ -352,7 +353,7 @@ float segment4(vec2 p, vec2 d) {
 
 vec3 inner_media(vec3 RO, vec3 RD) {
   float
-    pz=(-0.1-RO.z)/RD.z
+    pz=(screen_distance-RO.z)/RD.z
   ;
   
   vec3
@@ -393,7 +394,7 @@ vec3 inner_scenesat(vec3 RO, vec3 RD) {
 
   float
     aa
-  , pz=(-0.1-RO.z)/RD.z
+  , pz=(screen_distance-RO.z)/RD.z
   , d0
   , d1
   , d2
@@ -501,12 +502,13 @@ vec3 outer(vec3 RO, vec3 RD) {
     if(d.x==d.y) {
       f*=f;
       f*=f;
+      eo=syn_BassHits*pow(dot(R,RD),16.)*vec3(1,0,.25);
     } else if(d.x==d.z) {
       f*=.3;
     } else if(d.x==d.w) {
       f*=f;
       f*=f;
-      eo=pow(dot(R,RD),2e2)*(use_media>.5?inner_media(p,R):inner_scenesat(p,R));
+      eo=pow(dot(R,RD),256.)*(use_media>.5?inner_media(p,R):inner_scenesat(p,R));
     } else {
       f*=f;
     }
@@ -529,8 +531,9 @@ vec4 renderMain() {
   , t2=.2*TIME*vec2(sqrt(2.),1.)
   ;
 
+  //t2=23.5*vec2(sqrt(2.),1.);
   vec3
-    RO=vec3(.3*sin(t2),-1.1)
+    RO=vec3(sway_factor*sin(t2),-satellite_distance)
   , LA=vec3(0,0,0)
   , Z =normalize(LA-RO)
   , X =normalize(cross(Z,vec3(.2*cos(t2)+vec2(0,1.),0)))
@@ -538,7 +541,8 @@ vec4 renderMain() {
   , RD=normalize(2.*Z+p2.y*Y-p2.x*X)
   , o =vec3(0)
   ;
-  o=outer(RO,RD);
+  
+  o=show_satellite>.5?outer(RO,RD):hyperspace(RO,RD,0.);
   o-=3e-2*vec3(3,2,1)*length(p2+.25);
   o=max(o,0.);
   o=tanh_approx(o);
