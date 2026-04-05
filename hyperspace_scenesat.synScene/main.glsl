@@ -273,7 +273,7 @@ vec3 hyperspace(vec3 RO, vec3 RD, float FO) {
       H1=hash(vec2(H0,n1));
       O=1.+sin(-6.+PI*H1+vec4(0,1,8,4));
       d=segmentz(c-vec3(0,0,i),.35*H1*H1+.1);
-      H1=textureLod(syn_Spectrum,1.-H1,0.).z;
+      H1=textureLod(syn_Spectrum,mix(.975,.025,H1),0.).z;
       o+=
           5e-3
         * H1
@@ -322,23 +322,36 @@ float heart(vec2 p) {
   return sqrt(min(dot2(p-vec2(0.00,1.00)), dot2(p-0.5*max(p.x+p.y,0.0))))*sign(p.x-p.y);
 }
 
+
+float segment4(vec2 p, vec2 d) {
+  p=p.yx;
+  p.x = abs(p.x)-d.x;
+  return (p.x>0.?L4(p):abs(p.y))-d.y;
+}
+
+
 vec3 inner(vec3 RO, vec3 RD) {
 
   float
     aa
   , pz=(-0.1-RO.z)/RD.z
-  , d
+  , d0
+  , d1
+  , d2
+  , n1
+  , h2
   ;
 
   vec3
     o=vec3(0)
   , p=pz*RD+RO
-  , bcol=vec3(1,.0,.25)
+  , bcol=vec3(1,.0,.3)
   , fcol=.1+bcol
   ;
 
   vec2
-    p2=p.xy
+    p0=p.xy
+  , p1=p0
   ;
 
   vec4
@@ -348,19 +361,39 @@ vec3 inner(vec3 RO, vec3 RD) {
   float 
     ZZ=mix(0.25,.3, syn_BassLevel*syn_BassHits);
   ;
-  d=heart((p2)/ZZ-vec2(0,-0.6))*ZZ-.02*ZZ;
-  aa=length(fwidth(p2));
+  d0=heart((p0)/ZZ-vec2(0,-0.6))*ZZ-.02*ZZ;
+  aa=length(fwidth(p0));
 
-  mcol=media(p2);
+  const vec2
+   VSZ=vec2(1.,.4)
+  ;
+  const float 
+    VH=VSZ.y*.5+VSZ.x
+  , VN=12.
+  , VZ=.015
+  ;
+  p1-=vec2(4.*VZ,-0.15);
+  p1/=VZ;
+  n1=clamp(floor(p1.x+.5),0.,VN);
+  p1.x-=n1;
+  h2=textureLod(syn_Spectrum,.05+.9*n1/VN,0).y;
+  d1=segment4(p1,VSZ)*VZ;
+  d2=segment4(p1+vec2(0,VH-h2),vec2(h2,1)*VSZ)*VZ;
+  mcol=media(p0);
+
+  // The VU Meter effect
 
   if(pz>0.) {
-    o=.01/max(dot(p2,p2),1e-2)*bcol;
-    o=mix(o,fcol+.7*sqrt(max(-d,0.)), smoothstep(aa,-aa,d));
+    o=.015/max(dot(p0,p0),2e-2)*bcol;
+    o=mix(o,mix(o,bcol,.2), smoothstep(aa,-aa, d1));
+    o=mix(o,fcol+.7*sqrt(max(-d0,0.)), smoothstep(aa,-aa, d0));
+    o=mix(o,bcol, smoothstep(aa,-aa, d2));
     o=mix(o,fcol ,mcol.w);
-    o*=1.+.5*sin(p2.y*1.5e3);
   } else {
   }
 
+//  o*=1.+.5*sin(p0.y*1.5e3);
+  
   return o;
 }
 
@@ -410,7 +443,7 @@ vec3 outer(vec3 RO, vec3 RD) {
     } else if(d.x==d.w) {
       f*=f;
       f*=f;
-      eo+=pow(dot(R,RD),3e2)*inner(p,R);
+      eo+=pow(dot(R,RD),2e2)*inner(p,R);
     } else {
       f*=f;
     }
@@ -442,7 +475,7 @@ vec4 renderMain() {
   , RD=normalize(2.*Z+p2.y*Y-p2.x*X)
   , o =vec3(0)
   ;
-  o=outer(RO,RD);
+  o=hyperspace(RO,RD,0.);
   o-=3e-2*vec3(3,2,1)*length(p2+.25);
   o=max(o,0.);
   o=tanh_approx(o);
