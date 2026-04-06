@@ -1,9 +1,28 @@
 const float
-  TAU=2.*PI
-, PI_2=.5*PI
+  TAU           =2.*PI
+, PI_2          =.5*PI
+#ifdef KODELIFE
+, crt_effect        =1.
+, media_zoom        =1.
+, satellite_distance=1.1
+, screen_brightness =1.
+, screen_distance   =.0
+, show_satellite    =1.
+, spectrum_boost    =1.
+, sway_factor       =1.3
+, use_media         =0.
+#endif
 ;
 
 #define ROT(a)      mat2(cos(a), sin(a), -sin(a), cos(a))
+
+vec4 spectrum(float x) {
+#ifdef KODELIFE
+  return vec4(1.);
+#else
+  return textureLod(syn_Spectrum,x,0.);
+#endif
+}
 
 // License: Unknown, author: Claude Brezinski, found: https://mathr.co.uk/blog/2017-09-06_approximating_hyperbolic_tangent.html
 vec3 tanh_approx(vec3 x) {
@@ -12,7 +31,10 @@ vec3 tanh_approx(vec3 x) {
   vec3 x2 = x*x;
   return clamp(x*(27.0 + x2)/(27.0+9.0*x2), -1.0, 1.0);
 }
+
+// License: MIT, author: Inigo Quilez, found: https://iquilezles.org/articles/intersectors/
 float ray_cylinder(vec3 ro, vec3 rd, float r) {
+  // Tweaked it a bit
   float
       a=dot(rd.xy, rd.xy)
     , b=dot(ro.xy, rd.xy)
@@ -38,6 +60,7 @@ float atan_approx(float y, float x) {
   return y<0.?-t:t;
 }
 
+// License: MIT OR CC-BY-NC-4.0, author: mercury, found: https://mercury.sexy/hg_sdf/
 vec2 mod_polar(inout vec2 p, float repetitions) {
   float
     angle = TAU/repetitions
@@ -70,6 +93,58 @@ float L8(vec2 p) {
   return sqrt(sqrt(length(p*p)));
 }
 
+// License: MIT, author: Inigo Quilez, found: https://iquilezles.org/articles/distfunctions/
+float capsule(vec3 p, float h, float r) {
+  p.y -= clamp( p.y, 0.0, h );
+  return length( p ) - r;
+}
+
+float ndot( in vec2 a, in vec2 b ) { return a.x*b.x - a.y*b.y; }
+
+// License: MIT, author: Inigo Quilez, found: https://iquilezles.org/articles/distfunctions/
+float rhombus(vec3 p, float la, float lb, float h, float ra) {
+  p = abs(p);
+  vec2 b = vec2(la,lb);
+  float f = clamp( (ndot(b,b-2.0*p.xz))/dot(b,b), -1.0, 1.0 );
+  vec2 q = vec2(length(p.xz-0.5*b*vec2(1.0-f,1.0+f))*sign(p.x*b.y+p.z*b.x-b.x*b.y)-ra, p.y-h);
+  return min(max(q.x,q.y),0.0) + length(max(q,0.0));
+}
+
+// License: MIT, author: Inigo Quilez, found: https://iquilezles.org/articles/distfunctions/
+float torus4(vec3 p, vec2 t) {
+  vec2 q = vec2(L4(p.xz)-t.x,p.y);
+  return length(q)-t.y;
+}
+
+// License: MIT, author: Inigo Quilez, found: https://iquilezles.org/articles/distfunctions/
+float torus8( vec3 p, vec2 t ) {
+  vec2 q = vec2(length(p.xz)-t.x,p.y);
+  return L8(q)-t.y;
+}
+
+float dot2(vec2 p) {
+  return dot(p,p);
+}
+
+// License: MIT, author: Inigo Quilez, found: https://iquilezles.org/articles/distgradfunctions2d/
+float heart(vec2 p) {
+  p.x = abs(p.x);
+
+  if (p.y+p.x>1.)
+    return sqrt(dot2(p-vec2(0.25,0.75))) - sqrt(2.0)/4.0;
+  return sqrt(min(dot2(p-vec2(0.00,1.00)), dot2(p-0.5*max(p.x+p.y,0.0))))*sign(p.x-p.y);
+}
+
+// License: MIT, author: Inigo Quilez, found: https://www.iquilezles.org/www/articles/smin/smin.htm
+float pmin(float a, float b, float k) {
+  float h = clamp(0.5+0.5*(b-a)/k, 0.0, 1.0);
+  return mix(b, a, h) - k*h*(1.0-h);
+}
+
+float pmax(float a, float b, float k) {
+  return -pmin(-a,-b,k);
+}
+
 float segmentz(vec3 p, float hl) {
   p.z=abs(p.z)-hl;
   float
@@ -80,39 +155,12 @@ float segmentz(vec3 p, float hl) {
   return p.z>0.?d0:d1;
 }
 
-float capsule(vec3 p, float h, float r) {
-  p.y -= clamp( p.y, 0.0, h );
-  return length( p ) - r;
+float segment4(vec2 p, vec2 d) {
+  p=p.yx;
+  p.x = abs(p.x)-d.x;
+  return (p.x>0.?L4(p):abs(p.y))-d.y;
 }
 
-float ndot( in vec2 a, in vec2 b ) { return a.x*b.x - a.y*b.y; }
-
-float rhombus(vec3 p, float la, float lb, float h, float ra) {
-  p = abs(p);
-  vec2 b = vec2(la,lb);
-  float f = clamp( (ndot(b,b-2.0*p.xz))/dot(b,b), -1.0, 1.0 );
-  vec2 q = vec2(length(p.xz-0.5*b*vec2(1.0-f,1.0+f))*sign(p.x*b.y+p.z*b.x-b.x*b.y)-ra, p.y-h);
-  return min(max(q.x,q.y),0.0) + length(max(q,0.0));
-}
-
-float torus4( vec3 p, vec2 t ) {
-  vec2 q = vec2(L4(p.xz)-t.x,p.y);
-  return length(q)-t.y;
-}
-
-float torus8( vec3 p, vec2 t ) {
-  vec2 q = vec2(length(p.xz)-t.x,p.y);
-  return L8(q)-t.y;
-}
-
-float pmin(float a, float b, float k) {
-  float h = clamp(0.5+0.5*(b-a)/k, 0.0, 1.0);
-  return mix(b, a, h) - k*h*(1.0-h);
-}
-
-float pmax(float a, float b, float k) {
-  return -pmin(-a,-b,k);
-}
 
 const float
   scenesat_max_distance=10.
@@ -247,7 +295,7 @@ vec3 hyperspace(vec3 RO, vec3 RD, float FO) {
     N=mod_polar(p.xy,REP);
 
     H0=hash(.123*vec2(j,N.x));
-    p.z-=3.*TIME*(1.+H0*H0*H0);
+    p.z-=3.*time*(1.+H0*H0*H0);
     fo=exp(-2e-3*ci*ci);
     c=vec3(N.y,0,p.z);
     c-=vec3(p.xy,floor(p.z+.5));
@@ -256,7 +304,7 @@ vec3 hyperspace(vec3 RO, vec3 RD, float FO) {
       H1=hash(vec2(H0,n1));
       O=1.+sin(-6.+PI*H1+vec4(0,1,8,4));
       d=segmentz(c-vec3(0,0,i),.35*H1*H1+.1);
-      H1=spectrum_boost*textureLod(syn_Spectrum,mix(.975,.025,H1),0.).z;
+      H1=spectrum_boost*spectrum(mix(.975,.025,H1)).z;
       o+=
           5e-3
         * H1
@@ -314,26 +362,6 @@ vec4 scenesat(vec2 p) {
   mcol.w *= (pp==p?1.:0.);
   return mcol;
 }
-
-float dot2(vec2 p) {
-  return dot(p,p);
-}
-
-float heart(vec2 p) {
-  p.x = abs(p.x);
-
-  if (p.y+p.x>1.)
-    return sqrt(dot2(p-vec2(0.25,0.75))) - sqrt(2.0)/4.0;
-  return sqrt(min(dot2(p-vec2(0.00,1.00)), dot2(p-0.5*max(p.x+p.y,0.0))))*sign(p.x-p.y);
-}
-
-
-float segment4(vec2 p, vec2 d) {
-  p=p.yx;
-  p.x = abs(p.x)-d.x;
-  return (p.x>0.?L4(p):abs(p.y))-d.y;
-}
-
 
 vec3 inner_media(vec3 RO, vec3 RD) {
   float
@@ -415,7 +443,7 @@ vec3 inner_scenesat(vec3 RO, vec3 RD) {
   p1/=VZ;
   n1=clamp(floor(p1.x+.5),0.,VN);
   p1.x-=n1;
-  h2=textureLod(syn_Spectrum,.05+.9*n1/VN,0).y;
+  h2=spectrum(mix(.05,.95,n1/VN)).y;
   d1=segment4(p1,VSZ)*VZ;
   d2=segment4(p1+vec2(0,VH-h2),vec2(h2,1)*VSZ)*VZ;
 
@@ -423,7 +451,7 @@ vec3 inner_scenesat(vec3 RO, vec3 RD) {
   p3-=vec2(-4.*VZ,-0.15);
   p3/=WZ;
   n3=clamp(floor(p3.x+.5),-WN,0.);
-  p3.y-=VSZ.y*WN*(textureLod(syn_Spectrum,-n3/WN,0).w-.5);
+  p3.y-=VSZ.y*WN*(spectrum(-n3/WN).w-.5);
   p3.x-=n3;
   d3=(L4(p3)-.4)*WZ;
 
@@ -456,7 +484,6 @@ vec3 outer(vec3 RO, vec3 RD) {
   , o =vec3(0)
   , ro=vec3(0)
   , eo=vec3(0)
-  , lt=vec3(0)
   , z
   ;
 
@@ -502,9 +529,9 @@ vec3 outer(vec3 RO, vec3 RD) {
     t=0.;
   }
 
-  lt=vec3(5,2,1)*smoothstep(.75,.85,r.y);
-  ro=hyperspace(p,r,6.*length(N));
-  ro+=lt;
+  if(f*t>.05)
+    ro=hyperspace(p,r,6.*length(N));
+  ro+=vec3(5,2,1)*smoothstep(.75,.85,r.y);
   ro*=f;
   o=mix(o,ro+eo,t);
   return o;
@@ -513,26 +540,34 @@ vec3 outer(vec3 RO, vec3 RD) {
 vec4 renderMain() {
   vec2
     p2=2.*_uvc
-  , t2=.2*TIME*vec2(sqrt(2.),1.)
+#ifdef KODELIFE
+  , t2=.2*time*vec2(sqrt(2.),1.)
+#endif
   ;
 
   //t2=23.5*vec2(sqrt(2.),1.);
   //t2=vec2(0.);
+
   vec3
+#ifdef KODELIFE
     RO=vec3(sway_factor*sin(t2),-satellite_distance)
-  , LA=vec3(0,0,0)
+  , LA=vec3(0)
   , Z =normalize(LA-RO)
   , X =normalize(cross(Z,vec3(.2*cos(t2)+vec2(0,1.),0)))
   , Y =cross(X,Z)
   , RD=normalize(2.*Z+p2.y*Y-p2.x*X)
+#else
+    RO=cam_RO
+  , LA=vec3(0)
+  , RD=normalize(2.*cam_Z+p2.y*cam_Y-p2.x*cam_X)
+#endif
   , o =vec3(0)
   ;
 
   o=show_satellite>.5?outer(RO,RD):hyperspace(RO,RD,0.);
   o-=3e-2*vec3(3,2,1)*length(p2+.25);
   o=max(o,0.);
-  o=tanh_approx(o);
+  o=tanh_approx(1.125*o);
   o=sqrt(o)-.05;
   return vec4(o,1);
 }
-
