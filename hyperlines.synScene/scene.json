@@ -13,7 +13,7 @@
 		},
 		{
 			"DEFAULT" : -3,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Tunnel scroll speed – negative reverses direction",
 			"MAX" : 5,
 			"MIN" : -5,
 			"NAME" : "speed",
@@ -22,7 +22,7 @@
 		},
 		{
 			"DEFAULT" : 0.25,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Camera orbit amplitude – controls movement range",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "sway",
@@ -32,7 +32,7 @@
 		},
 		{
 			"DEFAULT" : 6,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Color offset – shifts hue across the tunnel",
 			"MAX" : 7,
 			"MIN" : 0,
 			"NAME" : "base_color",
@@ -41,7 +41,7 @@
 		},
 		{
 			"DEFAULT" : -0.1,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Rotation speed – negative spins counter-clockwise",
 			"MAX" : 1,
 			"MIN" : -1,
 			"NAME" : "rot_speed",
@@ -50,7 +50,7 @@
 		},
 		{
 			"DEFAULT" : 0,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "CRT screen effect – adds vignette and scanlines",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "crt_effect",
@@ -60,27 +60,27 @@
 		},
 		{
 			"DEFAULT" : 1,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Media blend opacity – 0=hidden, 1=opaque",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "media_opacity",
 			"PARAMS" : 0.19501,
 			"TYPE" : "slider smooth",
-			"UI_GROUP" : "Meida"
+			"UI_GROUP" : "Media"
 		},
 		{
 			"DEFAULT" : 0.5,
-			"DESCRIPTION" : "",
+			"DESCRIPTION" : "Media blend mode – 0=luminosity, 1=alpha",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "media_mix_mode",
 			"PARAMS" : 0.20501,
 			"TYPE" : "slider smooth",
-			"UI_GROUP" : "Meida"
+			"UI_GROUP" : "Media"
 		}
 	],
 	"CREDIT" : "mrange",
-	"DESCRIPTION" : "",
+	"DESCRIPTION" : "A mesmerizing tunnel of glowing neon lines races toward a luminous heart at the center, each geometric segment pulsing to the audio spectrum. The viewport orbits through the tunnel in an endless Lissajous pattern while segments scroll and rotate, creating a hypnotic sense of motion. Perfect for trance-inducing, immersive audio visualization.",
 	"GPU" : 1,
 	"HEIGHT" : 1080,
 	"IMAGE_PATH" : "scene.png",
@@ -91,11 +91,20 @@
 			"WRAP" : "mirror"
 		}
 	],
-	"TAGS" : 
+	"TAGS" :
 	[
 		"mrange",
 		"hyperspace",
-		"audio-reactive"
+		"audio-reactive",
+		"tunnel",
+		"neon",
+		"geometric",
+		"motion",
+		"retro",
+		"immersive",
+		"cyberpunk",
+		"trance",
+		"glowing"
 	],
 	"TITLE" : "Hyperlines",
 	"WIDTH" : 1920
