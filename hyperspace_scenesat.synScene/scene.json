@@ -1,5 +1,5 @@
 {
-	"CONTROLS" :
+	"CONTROLS" : 
 	[
 		{
 			"DEFAULT" : 0,
@@ -90,6 +90,46 @@
 		},
 		{
 			"DEFAULT" : 1,
+			"DESCRIPTION" : "",
+			"MAX" : 4,
+			"MIN" : 0,
+			"NAME" : "beat_boost",
+			"PARAMS" : 0.21201,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 1,
+			"DESCRIPTION" : "",
+			"MAX" : 9,
+			"MIN" : 0,
+			"NAME" : "color_off0",
+			"PARAMS" : 0.20201,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 8,
+			"DESCRIPTION" : "",
+			"MAX" : 9,
+			"MIN" : 0,
+			"NAME" : "color_off1",
+			"PARAMS" : 0.19601,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 4,
+			"DESCRIPTION" : "",
+			"MAX" : 9,
+			"MIN" : 0,
+			"NAME" : "color_off2",
+			"PARAMS" : 0.24301,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 1,
 			"DESCRIPTION" : "Media zoom – scale inner video",
 			"MAX" : 4,
 			"MIN" : 0.25,
@@ -102,7 +142,7 @@
 	"DESCRIPTION" : "A glowing pink heart floats at the center of a geometric hyperspace tunnel, surrounded by pulsing golden structures hurtling through space. The satellite camera sways hypnotically while audio reactivity drives the intensity of the chromatic tunnel walls. CRT scanlines flicker across this retro-futuristic dreamscape, blending romance with 80s synthwave aesthetics. Created for SceneSat.",
 	"GPU" : 1,
 	"HEIGHT" : 1080,
-	"IMAGES" :
+	"IMAGES" : 
 	[
 		{
 			"FILTER" : "mipmap",
@@ -112,14 +152,14 @@
 		}
 	],
 	"IMAGE_PATH" : "scene.png",
-	"MEDIA" :
+	"MEDIA" : 
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"TAGS" :
+	"TAGS" : 
 	[
 		"mrange",
 		"hyperspace",

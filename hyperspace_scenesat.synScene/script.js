@@ -24,6 +24,7 @@ function update(dt) {
   const X  = normalize(cross(Z, up));
   const Y  = cross(X, Z);
 
+  setUniform('zcolor'    , 0-color_base, color_off0-color_base,color_off1-color_base,color_off2-color_base)
   setUniform('time'      , TIME);
   setUniform('bass_thump', syn_BassHits*syn_BassLevel);
   setUniform('cam_RO'    , RO[0], RO[1], RO[2]);

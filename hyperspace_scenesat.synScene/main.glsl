@@ -286,7 +286,7 @@ vec3 hyperspace(vec3 RO, vec3 RD, float FO) {
     O
   ;
 
-  o=mix(0e-4,3e-4, bass_thump)*(vec3(1,4,16))/(1.+1e-3-(RD.z)+RD.x*RD.x);
+  o=3e-4*bass_thump*beat_boost*(vec3(1,4,16))/(1.+1e-3-(RD.z)+RD.x*RD.x);
 
   for (float j=2.;j<9.;++j) {
     REP=j*j+3.;
@@ -302,7 +302,7 @@ vec3 hyperspace(vec3 RO, vec3 RD, float FO) {
     for(float i=-1.;i<=1.;++i) {
       n1=floor(i+p.z+.5);
       H1=hash(vec2(H0,n1));
-      O=1.+sin(PI*H1+vec4(0,1,8,4)-color_base);
+      O=1.+sin(PI*H1+zcolor);
       d=segmentz(c-vec3(0,0,i),.35*H1*H1+.1);
       H1=spectrum_boost*spectrum(mix(.975,.025,H1)).z;
       o+=
