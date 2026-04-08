@@ -1,5 +1,5 @@
 {
-	"CONTROLS" : 
+	"CONTROLS" :
 	[
 		{
 			"DEFAULT" : 0,
@@ -8,125 +8,7 @@
 			"MIN" : 0,
 			"NAME" : "use_media",
 			"TYPE" : "toggle",
-			"UI_GROUP" : "Visual"
-		},
-		{
-			"DEFAULT" : 1,
-			"DESCRIPTION" : "Audio intensity – amplify spectrum in hyperspace",
-			"MAX" : 3,
-			"MIN" : 0,
-			"NAME" : "spectrum_boost",
-			"PARAMS" : 0.2,
-			"TYPE" : "slider smooth",
-			"UI_GROUP" : "Visual"
-		},
-		{
-			"DEFAULT" : 1,
-			"DESCRIPTION" : "CRT scanlines – add retro screen effect",
-			"MAX" : 1,
-			"MIN" : 0,
-			"NAME" : "crt_effect",
-			"TYPE" : "toggle",
-			"UI_GROUP" : "Visual"
-		},
-		{
-			"DEFAULT" : -0.1,
-			"DESCRIPTION" : "Screen position – depth of inner reflections plane",
-			"MAX" : 2,
-			"MIN" : -0.5,
-			"NAME" : "screen_distance",
-			"PARAMS" : 0.02,
-			"TYPE" : "slider smooth",
-			"UI_GROUP" : "Visual"
-		},
-		{
-			"DEFAULT" : 1.1,
-			"DESCRIPTION" : "Camera distance – zoom in/out from satellite",
-			"MAX" : 9,
-			"MIN" : 1,
-			"NAME" : "satellite_distance",
-			"PARAMS" : 0.02,
-			"TYPE" : "slider smooth",
-			"UI_GROUP" : "Visual"
-		},
-		{
-			"DEFAULT" : 0.3,
-			"DESCRIPTION" : "Camera sway – side-to-side motion amplitude",
-			"MAX" : 1.5,
-			"MIN" : 0,
-			"NAME" : "sway_factor",
-			"PARAMS" : 0.1,
-			"TYPE" : "slider smooth",
-			"UI_GROUP" : "Visual"
-		},
-		{
-			"DEFAULT" : 1,
-			"DESCRIPTION" : "Show satellite – toggle satellite on or off",
-			"MAX" : 1,
-			"MIN" : 0,
-			"NAME" : "show_satellite",
-			"TYPE" : "toggle",
-			"UI_GROUP" : "Visual"
-		},
-		{
-			"DEFAULT" : 1,
-			"DESCRIPTION" : "Screen brightness – intensity of inner screen",
-			"MAX" : 2,
-			"MIN" : 0,
-			"NAME" : "screen_brightness",
-			"PARAMS" : 0.2,
-			"TYPE" : "slider smooth",
-			"UI_GROUP" : "Visual"
-		},
-		{
-			"DEFAULT" : 6,
-			"DESCRIPTION" : "Color base - hyperspace lines base color",
-			"MAX" : 7,
-			"MIN" : 0,
-			"NAME" : "color_base",
-			"PARAMS" : 0.2,
-			"TYPE" : "slider smooth",
-			"UI_GROUP" : "Visual"
-		},
-		{
-			"DEFAULT" : 1,
-			"DESCRIPTION" : "",
-			"MAX" : 4,
-			"MIN" : 0,
-			"NAME" : "beat_boost",
-			"PARAMS" : 0.21201,
-			"TYPE" : "slider smooth",
-			"UI_GROUP" : "Visual"
-		},
-		{
-			"DEFAULT" : 1,
-			"DESCRIPTION" : "",
-			"MAX" : 9,
-			"MIN" : 0,
-			"NAME" : "color_off0",
-			"PARAMS" : 0.20201,
-			"TYPE" : "slider smooth",
-			"UI_GROUP" : "Visual"
-		},
-		{
-			"DEFAULT" : 8,
-			"DESCRIPTION" : "",
-			"MAX" : 9,
-			"MIN" : 0,
-			"NAME" : "color_off1",
-			"PARAMS" : 0.19601,
-			"TYPE" : "slider smooth",
-			"UI_GROUP" : "Visual"
-		},
-		{
-			"DEFAULT" : 4,
-			"DESCRIPTION" : "",
-			"MAX" : 9,
-			"MIN" : 0,
-			"NAME" : "color_off2",
-			"PARAMS" : 0.24301,
-			"TYPE" : "slider smooth",
-			"UI_GROUP" : "Visual"
+			"UI_GROUP" : "Media"
 		},
 		{
 			"DEFAULT" : 1,
@@ -136,6 +18,124 @@
 			"NAME" : "media_zoom",
 			"TYPE" : "slider",
 			"UI_GROUP" : "Media"
+		},
+		{
+			"DEFAULT" : 1.1,
+			"DESCRIPTION" : "Camera distance – zoom in/out from satellite",
+			"MAX" : 9,
+			"MIN" : 1,
+			"NAME" : "satellite_distance",
+			"PARAMS" : 0.02,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Camera"
+		},
+		{
+			"DEFAULT" : 0.3,
+			"DESCRIPTION" : "Camera sway – side-to-side motion amplitude",
+			"MAX" : 1.5,
+			"MIN" : 0,
+			"NAME" : "sway_factor",
+			"PARAMS" : 0.1,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Camera"
+		},
+		{
+			"DEFAULT" : -0.1,
+			"DESCRIPTION" : "Screen position – depth of inner reflections plane",
+			"MAX" : 2,
+			"MIN" : -0.5,
+			"NAME" : "screen_distance",
+			"PARAMS" : 0.02,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Camera"
+		},
+		{
+			"DEFAULT" : 1,
+			"DESCRIPTION" : "Show satellite – toggle satellite on or off",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "show_satellite",
+			"TYPE" : "toggle",
+			"UI_GROUP" : "Camera"
+		},
+		{
+			"DEFAULT" : 1,
+			"DESCRIPTION" : "Audio intensity – amplify spectrum in hyperspace",
+			"MAX" : 3,
+			"MIN" : 0,
+			"NAME" : "spectrum_boost",
+			"PARAMS" : 0.2,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Audio"
+		},
+		{
+			"DEFAULT" : 1,
+			"DESCRIPTION" : "Beat intensity – amplify hyperspace response to audio beat",
+			"MAX" : 4,
+			"MIN" : 0,
+			"NAME" : "beat_boost",
+			"PARAMS" : 0.21201,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Audio"
+		},
+		{
+			"DEFAULT" : 1,
+			"DESCRIPTION" : "Screen brightness – intensity of inner screen",
+			"MAX" : 2,
+			"MIN" : 0,
+			"NAME" : "screen_brightness",
+			"PARAMS" : 0.2,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Effects"
+		},
+		{
+			"DEFAULT" : 1,
+			"DESCRIPTION" : "CRT scanlines – add retro screen effect",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "crt_effect",
+			"TYPE" : "toggle",
+			"UI_GROUP" : "Effects"
+		},
+		{
+			"DEFAULT" : 6,
+			"DESCRIPTION" : "Color base – hyperspace lines base hue",
+			"MAX" : 7,
+			"MIN" : 0,
+			"NAME" : "color_base",
+			"PARAMS" : 0.2,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Colors"
+		},
+		{
+			"DEFAULT" : 1,
+			"DESCRIPTION" : "Color offset 1 – shift hue of primary hyperspace layer",
+			"MAX" : 9,
+			"MIN" : 0,
+			"NAME" : "color_off0",
+			"PARAMS" : 0.20201,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Colors"
+		},
+		{
+			"DEFAULT" : 8,
+			"DESCRIPTION" : "Color offset 2 – shift hue of secondary hyperspace layer",
+			"MAX" : 9,
+			"MIN" : 0,
+			"NAME" : "color_off1",
+			"PARAMS" : 0.19601,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Colors"
+		},
+		{
+			"DEFAULT" : 4,
+			"DESCRIPTION" : "Color offset 3 – shift hue of tertiary hyperspace layer",
+			"MAX" : 9,
+			"MIN" : 0,
+			"NAME" : "color_off2",
+			"PARAMS" : 0.24301,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Colors"
 		}
 	],
 	"CREDIT" : "mrange",
