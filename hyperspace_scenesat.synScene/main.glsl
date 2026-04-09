@@ -286,7 +286,7 @@ vec3 hyperspace(vec3 RO, vec3 RD, float FO) {
     O
   ;
 
-  o=3e-4*bass_thump*beat_boost*(vec3(1,4,16))/(1.+1e-3-(RD.z)+RD.x*RD.x);
+  o=3e-4*bass_thump*beat_boost/(1.+1e-3-(RD.z)+RD.x*RD.x)*(vec3(1,4,16));
 
   for (float j=2.;j<9.;++j) {
     REP=j*j+3.;
@@ -531,7 +531,7 @@ vec3 outer(vec3 RO, vec3 RD) {
 
   if(f*t>.05)
     ro=hyperspace(p,r,6.*length(N));
-  ro+=vec3(5,2,1)*smoothstep(.75,.85,r.y);
+  ro+=3.*smoothstep(.75,.85,r.y)*(1.+sin(zcolor+1.9)).xyz;
   ro*=f;
   o=mix(o,ro+eo,t);
   return o;
