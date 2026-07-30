@@ -18,6 +18,15 @@ const vec3
 , BLUE=RGB(30,34,120)
 ;
 
+float beat() {
+#ifdef KODELIFE
+  return exp(-2.*fract(TIME*TF));
+#else
+  return smoothstep(lo_beat,1.01,syn_BassHits);
+#endif
+
+}
+
 float isotri(vec2 p, vec2 q) {
   p.x = abs(p.x);
   vec2 a = p - q*clamp( dot(p,q)/dot(q,q), 0.0, 1.0 );
@@ -189,7 +198,7 @@ float dssg0(vec3 p, vec3 D) {
 
 vec3 flash(vec3 col, vec2 p, float aa) {
   float 
-    Z=1.
+    Z=mix(1.,1.1,beat())
   ;
   vec2
     dp=p/Z
@@ -199,8 +208,7 @@ vec3 flash(vec3 col, vec2 p, float aa) {
   , d2=dssg2(dp)*Z
   , d3=dssg0(dp)*Z
   , d4=dssg0(dp-.05*vec2(1,-1))*Z
-  , FT=fract(TIME*TF)
-  , BEAT=exp(-2.*FT)
+  , BEAT=beat()
   , aa2=aa*mix(1.,80.,BEAT*BEAT)*Z
   ;
   ;
@@ -214,7 +222,7 @@ vec3 flash(vec3 col, vec2 p, float aa) {
   col=mix(col, GOLD, smoothstep(aa,-aa,d2));
   col=mix(col, GOLD, smoothstep(aa2,-aa2,d1));
   col.y-=3.*d2*smoothstep(aa,-aa,d3-.005*Z)/Z;
-//  col+=(1.+sin(p.y-TIME+10.*d3+vec3(0,1,2)))*sin(d1*300.)*smoothstep(.2*BEAT,.0,abs(d1));
+  col+=(1.+sin(p.y-TIME+10.*d3+vec3(0,1,2)))*sin(d1*300.)*smoothstep(.2*BEAT,.0,abs(d1));
   return col;
 }
 
@@ -288,6 +296,8 @@ vec3 threed(vec3 col, vec2 p, float aa) {
   float
     z
   , i
+  , l
+  , k
   , d0
   , d1
   , s0
@@ -319,7 +329,12 @@ vec3 threed(vec3 col, vec2 p, float aa) {
   d1*=.1;
   s0=pow(max(dot(R,LD0),0.),40.);
   s1=pow(max(dot(R,LD1),0.),40.);
-  col+=2e-2*BLUE/max(dot(p,p),3e-1);
+  l=dot(mixer, vec2(p.y*p.x,dot(p,p)));
+  k=dot(sign(p),vec2(1,2));
+  col=
+    2e-2*BLUE/max(dot(p,p),3e-1)
+  + .5*(1.+sin(vec3(2,1,0)+l-.707*TIME))*smoothstep(0.6,0.7,texture(syn_Spectrum,mix(.1,.5,.5+.5*sin(-TIME+l))).x) 
+  ;
   if(z<MAX_DIST) {
     if (g_hit.x==g_hit.y) {
       mat=(BLUE);
@@ -344,6 +359,7 @@ vec3 threed(vec3 col, vec2 p, float aa) {
 }
 
 vec4 renderMain() {
+
   vec2
     p=2.*_uvc
   ;

@@ -1,35 +1,71 @@
 {
+	"CONTROLS" : 
+	[
+		{
+			"DEFAULT" : 0,
+			"DESCRIPTION" : "",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "lo_beat",
+			"PARAMS" : 0.19201,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Audio"
+		},
+		{
+			"DEFAULT" : 
+			[
+				1,
+				0
+			],
+			"DESCRIPTION" : "",
+			"MAX" : 
+			[
+				1,
+				1
+			],
+			"MIN" : 
+			[
+				-1,
+				-1
+			],
+			"NAME" : "mixer",
+			"PARAMS" : 0.16801,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Audio"
+		}
+	],
 	"CREDIT" : "mrange",
 	"DESCRIPTION" : "ssg",
 	"GPU" : 1,
-	"IMAGE_PATH" : "scene.png",
-	"IMAGES" :
+	"HEIGHT" : 1080,
+	"IMAGES" : 
 	[
 		{
+			"FILTER" : "mipmap",
 			"NAME" : "t_dssg1",
-			"PATH" : "dssg_1.png"
+			"PATH" : "dssg_1.png",
+			"WRAP" : "repeat"
 		},
 		{
+			"FILTER" : "mipmap",
 			"NAME" : "t_dssg2",
-			"PATH" : "dssg_2.png"
+			"PATH" : "dssg_2.png",
+			"WRAP" : "repeat"
 		}
 	],
-	"MEDIA" :
+	"IMAGE_PATH" : "scene.png",
+	"MEDIA" : 
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"PASSES" :
-	[
-	],
-	"TAGS" :
+	"TAGS" : 
 	[
 		"mrange",
 		"ssg"
 	],
 	"TITLE" : "SSG",
-	"HEIGHT" : 1080,
 	"WIDTH" : 1920
 }
