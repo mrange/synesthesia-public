@@ -1,8 +1,14 @@
 open System
 open System.Numerics
+open System.Runtime.Intrinsics
+
+let inline floor3 (v : Vector3) = Vector128.Floor(v.AsVector128()).AsVector3()
 
 let inline fract1 (v : float32) = v - floor v
-let inline fract3 (v : Vector3) = Vector3 (fract1 v.X, fract1 v.Y, fract1 v.Z)
+let inline fract3 (v : Vector3) = v - floor3 v
+
+let inline floor2 (v : Vector2) = Vector128.Floor(v.AsVector128()).AsVector2()
+let inline mod2 (a : Vector2) (b : Vector2) = a-b*floor2 (a/b)
 
 // License: WTFPL, author: sam hocevar, found: https://stackoverflow.com/a/17897228/418488
 let hsv2rgb (h : float32) (s : float32) (v : float32) : Vector3 =
@@ -52,11 +58,28 @@ let inline HSV2OKLAB (h, s, v) =
   let ok  = linearToOklab (rgb*rgb)
   printfn "HSV2OKLAB(%.2f,%.2f,%.2f): vec3(%.2f, %.2f, %.2f)" h s v ok.X ok.Y ok.Z
 
+let halton (v : Vector2) =
+  let coprimes  = Vector2 (2.F,3.F)
+  let mutable a = Vector2 (1.F)
+  let mutable b = Vector2 (0.F)
+  let mutable s = v
+  while s.X>0.F && s.Y>0.F do
+    a <- a/coprimes
+    b <- b+a*(mod2 s coprimes)
+    s <- floor2 (s/coprimes)
+  b
 
+let jitter n =
+  printfn "vec2 jitter%d[%d]=vec2[%d](" n n n
+  for i=1 to n do
+    let v = halton (Vector2 (float32 i)) - Vector2 (0.5F)
+    printfn "  %s vec2(%.4f,%.4f)" (if i=1 then " " else ",") v.X v.Y
+  printf "  );"
+
+jitter 8
+(*
 HSV2RGB (0.58 , 0.7 , 1.0)
 HSV2RGB (0.63 , 0.9 , 1.0)
-
-
 HSV2OKLAB(222.,57.,33.)
 HSV2OKLAB(218.,45.,45.)
 HSV2OKLAB(205.,30.,54.)
@@ -66,3 +89,4 @@ HSV2OKLAB(028.,42.,74.)
 HSV2OKLAB(015.,55.,80.)
 HSV2OKLAB(035.,50.,50.)
 HSV2OKLAB(190.,50.,80.)
+*)

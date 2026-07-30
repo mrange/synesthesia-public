@@ -1,0 +1,35 @@
+{
+	"CREDIT" : "mrange",
+	"DESCRIPTION" : "ssg",
+	"GPU" : 1,
+	"IMAGE_PATH" : "scene.png",
+	"IMAGES" :
+	[
+		{
+			"NAME" : "t_dssg1",
+			"PATH" : "dssg_1.png"
+		},
+		{
+			"NAME" : "t_dssg2",
+			"PATH" : "dssg_2.png"
+		}
+	],
+	"MEDIA" :
+	[
+		{
+			"FILTER" : "linear",
+			"WRAP" : "mirror"
+		}
+	],
+	"PASSES" :
+	[
+	],
+	"TAGS" :
+	[
+		"mrange",
+		"ssg"
+	],
+	"TITLE" : "SSG",
+	"HEIGHT" : 1080,
+	"WIDTH" : 1920
+}
