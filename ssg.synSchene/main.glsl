@@ -215,7 +215,6 @@ vec3 flash(vec3 col, vec2 p, float aa) {
   dp/=Z;  
   float 
   ;
-  col+=max(.3*BLUE/max(dot(p,p),1e-2)-5e-3,0.);
   col=mix(col, BLUE, smoothstep(aa,-aa,d4*.01));
   col=mix(col, BLUE, smoothstep(aa,-aa,d3));
   col=mix(col, GOLD, smoothstep(aa,-aa,abs(d3)-.005*Z));
@@ -292,12 +291,11 @@ vec3 threed(vec3 col, vec2 p, float aa) {
   , LD0=normalize(vec3(1,1,-3))
   , LD1=normalize(vec3(-2,1,-3))
   , mat=vec3(0)
+  , hcol
   ;
   float
     z
   , i
-  , l
-  , k
   , d0
   , d1
   , s0
@@ -329,12 +327,7 @@ vec3 threed(vec3 col, vec2 p, float aa) {
   d1*=.1;
   s0=pow(max(dot(R,LD0),0.),40.);
   s1=pow(max(dot(R,LD1),0.),40.);
-  l=dot(mixer, vec2(p.y*p.x,dot(p,p)));
-  k=dot(sign(p),vec2(1,2));
-  col=
-    2e-2*BLUE/max(dot(p,p),3e-1)
-  + .5*(1.+sin(vec3(2,1,0)+l-.707*TIME))*smoothstep(0.6,0.7,texture(syn_Spectrum,mix(.1,.5,.5+.5*sin(-TIME+l))).x) 
-  ;
+
   if(z<MAX_DIST) {
     if (g_hit.x==g_hit.y) {
       mat=(BLUE);
@@ -346,15 +339,15 @@ vec3 threed(vec3 col, vec2 p, float aa) {
       mat=vec3(0);
     }
     
-    col=
+    hcol=
       s0*mat*vec3(1,2,3)
     + s1*mat*vec3(3,2,1)
     + d0*mat*vec3(1,2,3)
     + d1*mat*vec3(3,2,1)
     ;
+    hcol*=2.;
+    col=hcol;
   }
-
-  col*=2.;
   return col;
 }
 
@@ -365,12 +358,21 @@ vec4 renderMain() {
   ;
   float
     aa=sqrt(2.)/RENDERSIZE.y
+  , l2=dot(vec2(p.x*p.y, dot(p,p)),spectrum_shape)
   ;
 
   vec3
     col=vec3(0)
     ;
-  col=threed(col,p,aa);
+  vec4
+    spec=texture(syn_Spectrum,mix(.1,.5,.5+.5*sin(-TIME+l2)))
+  ;
+  
+  col=
+    2e-2*BLUE/max(dot(p,p),3e-1)
+  + (1.+sin(vec3(2,1,0)+l2-.707*TIME))*smoothstep(.0,.1,mix(spec.x, spec.y, spectrum_picker)-spectrum_level) 
+  ;
+  col=flash(col,p,aa);
   col=tanh(col);
   col=sqrt(col)-.03;
   return vec4(col,1);

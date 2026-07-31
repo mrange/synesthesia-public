@@ -28,9 +28,29 @@
 				-1,
 				-1
 			],
-			"NAME" : "mixer",
+			"NAME" : "spectrum_shape",
 			"PARAMS" : 0.16801,
 			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Audio"
+		},
+		{
+			"DEFAULT" : 0.6,
+			"DESCRIPTION" : "",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "spectrum_level",
+			"PARAMS" : 0.18101,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Audio"
+		},
+		{
+			"DEFAULT" : 0,
+			"DESCRIPTION" : "",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "spectrum_picker",
+			"PARAMS" : 0.21201,
+			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Audio"
 		}
 	],
