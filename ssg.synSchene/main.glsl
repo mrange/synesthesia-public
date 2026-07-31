@@ -199,16 +199,17 @@ float dssg0(vec3 p, vec3 D) {
 vec3 flash(vec3 col, vec2 p, float aa) {
   float 
     Z=mix(1.,1.1,beat())
+  , BEAT=beat()
   ;
   vec2
     dp=p/Z
   ;
+  dp*=ROT(-radians(logo_rot));
   float
     d1=dssg1(dp)*Z
   , d2=dssg2(dp)*Z
   , d3=dssg0(dp)*Z
   , d4=dssg0(dp-.05*vec2(1,-1))*Z
-  , BEAT=beat()
   , aa2=aa*mix(1.,80.,BEAT*BEAT)*Z
   ;
   ;
@@ -285,7 +286,7 @@ vec3 threed(vec3 col, vec2 p, float aa) {
   vec3 
     P
   , RD=normalize(vec3(p,2))
-  , RO=vec3(0,0,-2)
+  , RO=vec3(0,0,beat()*sin(TIME+dot(p,p))-logo_distance)
   , N
   , R
   , LD0=normalize(vec3(1,1,-3))
@@ -305,9 +306,9 @@ vec3 threed(vec3 col, vec2 p, float aa) {
     hit
   ;
   
-  g_rot0=ROT(radians(172.));
-  vec2 S=sin(39.*p);
-  g_rot1=ROT(TIME+.5*p.y*p.y+p.y*sin(TIME));
+  g_rot0=ROT(radians(172.+logo_rot));
+  vec2 S=sin(p+TIME);
+  g_rot1=ROT(logo_speed+.5*logo_distort*p.y*p.x+.2*S.x+.3*S.y*S.x+p.y*sin(logo_speed*logo_distort));
   z=raymarch(RO,RD, i);
   hit=g_hit;
   P=z*RD+RO;
@@ -356,9 +357,13 @@ vec4 renderMain() {
   vec2
     p=2.*_uvc
   ;
+  
   float
     aa=sqrt(2.)/RENDERSIZE.y
   , l2=dot(vec2(p.x*p.y, dot(p,p)),spectrum_shape)
+  , n
+  , c
+  , h=0.
   ;
 
   vec3
@@ -370,9 +375,39 @@ vec4 renderMain() {
   
   col=
     2e-2*BLUE/max(dot(p,p),3e-1)
-  + (1.+sin(vec3(2,1,0)+l2-.707*TIME))*smoothstep(.0,.1,mix(spec.x, spec.y, spectrum_picker)-spectrum_level) 
   ;
-  col=flash(col,p,aa);
+  
+  if(spectrum_level<1.)
+    col+=(1.+sin(vec3(2,1,0)+l2-.707*TIME))*smoothstep(.0,.1,mix(spec.x, spec.y, spectrum_picker)-spectrum_level);
+  //col*=0.;
+
+
+  n=clamp(floor((p.y+beat_bar_size*.5)/beat_bar_size+.5),-1.,2.);
+  c=p.y-beat_bar_size*n+beat_bar_size*.5;
+  
+  switch (int(n))
+  {
+  case -1:
+    h=syn_BassHits;
+    break;
+  case 0:
+    h=syn_MidHits;
+    break;
+  case 1:
+    h=syn_MidHighHits;
+    break;
+  case 2:
+    h=syn_HighHits;
+    break;
+  }
+  
+  if(beat_bar_size>0.&&beat_bar_size*.4>abs(c))
+    col+=(1.+sin(n+vec3(2,1,0)+TIME+p.y+.5*p.x))*smoothstep(.2,1.,h);
+  
+  if(effect<.5)
+    col=flash(col,p,aa);
+  else
+    col=threed(col,p,aa);
   col=tanh(col);
   col=sqrt(col)-.03;
   return vec4(col,1);

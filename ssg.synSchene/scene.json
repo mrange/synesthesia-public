@@ -52,6 +52,73 @@
 			"PARAMS" : 0.21201,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Audio"
+		},
+		{
+			"DEFAULT" : 0.4,
+			"DESCRIPTION" : "",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "beat_bar_size",
+			"TYPE" : "slider",
+			"UI_GROUP" : "Audio"
+		},
+		{
+			"DEFAULT" : 0,
+			"DESCRIPTION" : "",
+			"LABELS" : 
+			[
+				"2d",
+				"3d"
+			],
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "effect",
+			"TYPE" : "dropdown",
+			"UI_GROUP" : "Audio",
+			"VALUES" : 
+			[
+				0,
+				1
+			]
+		},
+		{
+			"DEFAULT" : 1,
+			"DESCRIPTION" : "",
+			"MAX" : 3,
+			"MIN" : 0,
+			"NAME" : "logo_speed",
+			"TYPE" : "knob speed",
+			"UI_GROUP" : "Audio"
+		},
+		{
+			"DEFAULT" : 0,
+			"DESCRIPTION" : "",
+			"MAX" : 720,
+			"MIN" : 0,
+			"NAME" : "logo_rot",
+			"PARAMS" : 0.04701,
+			"TYPE" : "knob smooth",
+			"UI_GROUP" : "Audio"
+		},
+		{
+			"DEFAULT" : 1,
+			"DESCRIPTION" : "",
+			"MAX" : 2,
+			"MIN" : 0,
+			"NAME" : "logo_distort",
+			"PARAMS" : 0.11101,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Audio"
+		},
+		{
+			"DEFAULT" : 2,
+			"DESCRIPTION" : "",
+			"MAX" : 7,
+			"MIN" : 1,
+			"NAME" : "logo_distance",
+			"PARAMS" : 0.05701,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Audio"
 		}
 	],
 	"CREDIT" : "mrange",
