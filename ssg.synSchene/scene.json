@@ -9,7 +9,105 @@
 			"NAME" : "lo_beat",
 			"PARAMS" : 0.19201,
 			"TYPE" : "slider smooth",
-			"UI_GROUP" : "Audio"
+			"UI_GROUP" : "General"
+		},
+		{
+			"DEFAULT" : 0,
+			"DESCRIPTION" : "",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "flash_bang",
+			"PARAMS" : 0.03,
+			"TYPE" : "bang smooth",
+			"UI_GROUP" : "General"
+		},
+		{
+			"DEFAULT" : 0,
+			"DESCRIPTION" : "",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "flash_dark",
+			"PARAMS" : 0.01,
+			"TYPE" : "bang smooth",
+			"UI_GROUP" : "General"
+		},
+		{
+			"DEFAULT" : 0,
+			"DESCRIPTION" : "",
+			"LABELS" : 
+			[
+				"2d",
+				"3d"
+			],
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "effect",
+			"TYPE" : "dropdown",
+			"UI_GROUP" : "General",
+			"VALUES" : 
+			[
+				0,
+				1
+			]
+		},
+		{
+			"DEFAULT" : 0,
+			"DESCRIPTION" : "",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "bass_effect",
+			"PARAMS" : 0.2,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "General"
+		},
+		{
+			"DEFAULT" : 0.4,
+			"DESCRIPTION" : "",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "beat_bar_size",
+			"PARAMS" : 0.2,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Beat_bar"
+		},
+		{
+			"DEFAULT" : 1,
+			"DESCRIPTION" : "",
+			"MAX" : 3,
+			"MIN" : 0,
+			"NAME" : "logo_speed",
+			"TYPE" : "knob speed",
+			"UI_GROUP" : "Logo"
+		},
+		{
+			"DEFAULT" : 0,
+			"DESCRIPTION" : "",
+			"MAX" : 720,
+			"MIN" : 0,
+			"NAME" : "logo_rot",
+			"PARAMS" : 0.05,
+			"TYPE" : "knob smooth",
+			"UI_GROUP" : "Logo"
+		},
+		{
+			"DEFAULT" : 1,
+			"DESCRIPTION" : "",
+			"MAX" : 2,
+			"MIN" : 0,
+			"NAME" : "logo_distort",
+			"PARAMS" : 0.2,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Logo"
+		},
+		{
+			"DEFAULT" : 2,
+			"DESCRIPTION" : "",
+			"MAX" : 7,
+			"MIN" : 1,
+			"NAME" : "logo_distance",
+			"PARAMS" : 0.05,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Logo"
 		},
 		{
 			"DEFAULT" : 
@@ -29,9 +127,9 @@
 				-1
 			],
 			"NAME" : "spectrum_shape",
-			"PARAMS" : 0.16801,
+			"PARAMS" : 0.2,
 			"TYPE" : "xy smooth",
-			"UI_GROUP" : "Audio"
+			"UI_GROUP" : "Spectrum"
 		},
 		{
 			"DEFAULT" : 0.6,
@@ -39,9 +137,9 @@
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "spectrum_level",
-			"PARAMS" : 0.18101,
+			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
-			"UI_GROUP" : "Audio"
+			"UI_GROUP" : "Spectrum"
 		},
 		{
 			"DEFAULT" : 0,
@@ -49,76 +147,9 @@
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "spectrum_picker",
-			"PARAMS" : 0.21201,
+			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
-			"UI_GROUP" : "Audio"
-		},
-		{
-			"DEFAULT" : 0.4,
-			"DESCRIPTION" : "",
-			"MAX" : 1,
-			"MIN" : 0,
-			"NAME" : "beat_bar_size",
-			"TYPE" : "slider",
-			"UI_GROUP" : "Audio"
-		},
-		{
-			"DEFAULT" : 0,
-			"DESCRIPTION" : "",
-			"LABELS" : 
-			[
-				"2d",
-				"3d"
-			],
-			"MAX" : 1,
-			"MIN" : 0,
-			"NAME" : "effect",
-			"TYPE" : "dropdown",
-			"UI_GROUP" : "Audio",
-			"VALUES" : 
-			[
-				0,
-				1
-			]
-		},
-		{
-			"DEFAULT" : 1,
-			"DESCRIPTION" : "",
-			"MAX" : 3,
-			"MIN" : 0,
-			"NAME" : "logo_speed",
-			"TYPE" : "knob speed",
-			"UI_GROUP" : "Audio"
-		},
-		{
-			"DEFAULT" : 0,
-			"DESCRIPTION" : "",
-			"MAX" : 720,
-			"MIN" : 0,
-			"NAME" : "logo_rot",
-			"PARAMS" : 0.04701,
-			"TYPE" : "knob smooth",
-			"UI_GROUP" : "Audio"
-		},
-		{
-			"DEFAULT" : 1,
-			"DESCRIPTION" : "",
-			"MAX" : 2,
-			"MIN" : 0,
-			"NAME" : "logo_distort",
-			"PARAMS" : 0.11101,
-			"TYPE" : "slider smooth",
-			"UI_GROUP" : "Audio"
-		},
-		{
-			"DEFAULT" : 2,
-			"DESCRIPTION" : "",
-			"MAX" : 7,
-			"MIN" : 1,
-			"NAME" : "logo_distance",
-			"PARAMS" : 0.05701,
-			"TYPE" : "slider smooth",
-			"UI_GROUP" : "Audio"
+			"UI_GROUP" : "Spectrum"
 		}
 	],
 	"CREDIT" : "mrange",

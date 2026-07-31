@@ -22,7 +22,7 @@ float beat() {
 #ifdef KODELIFE
   return exp(-2.*fract(TIME*TF));
 #else
-  return smoothstep(lo_beat,1.01,syn_BassHits);
+  return smoothstep(lo_beat,1.01,mix(syn_BassHits,texture(syn_LevelTrail,+.05*length(_uvc)).y, bass_effect));
 #endif
 
 }
@@ -408,7 +408,10 @@ vec4 renderMain() {
     col=flash(col,p,aa);
   else
     col=threed(col,p,aa);
+  col=max(col,0.);
   col=tanh(col);
+  col*=smoothstep(.8, .05, flash_dark);
+  col+=smoothstep(.03, 1., flash_bang)*2.*(1.5+sin(vec3(2,1,0)+TIME));
   col=sqrt(col)-.03;
   return vec4(col,1);
 }
