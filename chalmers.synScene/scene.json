@@ -1,0 +1,33 @@
+{
+	"CONTROLS" :
+	[
+	],
+	"CREDIT" : "mrange",
+	"DESCRIPTION" : "Chalmers",
+	"GPU" : 1,
+	"HEIGHT" : 1080,
+	"IMAGES" :
+	[
+		{
+			"FILTER" : "mipmap",
+			"NAME" : "t_chalmers",
+			"PATH" : "dchalmers.png",
+			"WRAP" : "repeat"
+		}
+	],
+	"IMAGE_PATH" : "scene.png",
+	"MEDIA" :
+	[
+		{
+			"FILTER" : "linear",
+			"WRAP" : "mirror"
+		}
+	],
+	"TAGS" :
+	[
+		"mrange",
+		"chalmers"
+	],
+	"TITLE" : "Chalmers",
+	"WIDTH" : 1920
+}

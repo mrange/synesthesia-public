@@ -1,0 +1,164 @@
+const
+  vec4 RepZ=vec4(1.5,.8,.8,1e3)
+;
+
+const
+  float ChalmersZ=2.
+;
+
+mat2 rot(float a) {
+  float c=cos(a),s=sin(a);
+  return mat2(c,s,-s,c);
+}
+
+float decode(vec4 c) {
+  const vec4
+    decoder=vec4(1,1./255.,1./65025.,0)
+  ;
+  const float
+    halfoff=+.5/(255.)+.5/(65025.)
+  ;
+
+  return dot(c,decoder)-halfoff;
+}
+
+float dlinTex(sampler2D tex, vec2 p) {
+  vec2
+    sz=vec2(textureSize(tex, 0))
+  , tx=clamp(p*sz-.5,vec2(0), sz-2.)
+  , ntx=floor(tx)
+  , ftx=fract(tx)
+  ;
+  ivec2
+    itx=ivec2(ntx)
+  ;
+
+  vec4
+    c00 = texelFetch(tex, itx+ivec2(0,0), 0)
+  , c01 = texelFetch(tex, itx+ivec2(0,1), 0)
+  , c10 = texelFetch(tex, itx+ivec2(1,0), 0)
+  , c11 = texelFetch(tex, itx+ivec2(1,1), 0)
+  ;
+
+  float
+    d00 = decode(c00)
+  , d01 = decode(c01)
+  , d10 = decode(c10)
+  , d11 = decode(c11)
+  , d   = mix(
+      mix(d00, d01, ftx.y)
+    , mix(d10, d11, ftx.y)
+    , ftx.x
+    )
+  ;
+
+  return -1.+2.*d;
+}
+
+float dtexture(sampler2D tex, vec2 p) {
+  const float D=4.;
+  p*=.5;
+  p+=.5;
+#ifdef KODELIFE
+  p.y=1.-p.y;
+#endif
+  return D*dlinTex(tex, p);
+}
+
+float dchalmers(vec2 p) {
+  p.y*=4.;
+  return dtexture(t_chalmers,p);
+}
+
+float dchalmers(vec3 p, float h, float r) {
+  h-=r;
+  float
+    d=dchalmers(p.xy)+r
+  ;
+  vec2
+    w=vec2(d, abs(p.z)-h);
+  return min(max(w.x,w.y),.0)+length(max(w,.0))-r;
+}
+
+float df(vec4 p) {
+  vec4
+    p0=p
+  ;
+  vec3
+    D=sqrt(vec3(dot(p.xz,p.xz),dot(p.yz,p.yz), dot(p.xy,p.xy)))
+  ;
+//  p0.yz*=rot(2.*p0.x);
+  p0.yz=abs(p0.yz);
+  p0.yz-=.125;
+  p=abs(p);
+  return min(
+      min(min(min(D.x,D.y),D.z)-.02, min(p.w,min(p.x,min(p.z,p.y)))+.02)
+    , dchalmers(p0.xyz,.05,.02)
+  );
+}
+
+// License: Unknown, author: Claude Brezinski, found: https://mathr.co.uk/blog/2017-09-06_approximating_hyperbolic_tangent.html
+vec3 tanh_approx(vec3 x) {
+  //  Found this somewhere on the interwebs
+  //  return tanh(x);
+  vec3 x2 = x*x;
+  return clamp(x*(27.0 + x2)/(27.0+9.0*x2), -1.0, 1.0);
+}
+
+
+vec4 renderMain() {
+  vec4
+    O
+  , o=vec4(0)
+  , p
+  , P
+  ;
+
+  vec2
+    r2=RENDERSIZE
+  , p2=2.*_uvc
+  ;
+
+  float
+    i
+  , z=0.
+  , d
+  , k
+  , T=TIME
+  , F=fract(T)
+  , t=floor(T)+sqrt(F)
+  , aa=sqrt(2.)/r2.y
+  ;
+
+  mat2
+    R=rot(t*.1)
+  ;
+
+  vec3
+    rd=normalize(vec3(p2,2))
+  , ro=vec3(0,0,-3)
+  ;
+
+  for(i=0.;i<79.;++i) {
+    p=vec4(z*rd+ro,.2),
+    p.xw*=R;
+    p.yw*=R;
+    p.zw*=R;
+    k=10./dot(p,p);
+    p*=k;
+    p-=.5*t;
+    P=p;
+    p-=floor(p/RepZ+.5)*RepZ;
+    d=abs(df(p))/k;
+    p=1.2+sin(F+P.z+log2(k)+vec4(6,1,8,6));
+    o+=vec4(4,8,12,0)*exp(.7*k-4.*F)+p.w*p/max(d,1e-3);
+    z+=.8*d+1e-3;
+  }
+
+  d=dchalmers(p2/ChalmersZ)*ChalmersZ;
+  d=min(d,abs(d-.01)-.0025);
+  O.xyz=tanh_approx(o.xyz/4e4);
+  O.xyz=mix(O.xyz,(.5+.5*sin(vec3(8,1,6)+z)), smoothstep(aa,-aa,d));
+  O.w=1.;
+  return O;
+}
