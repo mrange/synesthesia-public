@@ -124,14 +124,14 @@ vec4 renderMain() {
   , z=0.
   , d
   , k
-  , T=TIME
   , F=1.-syn_BassHits
-  , t=mix(.5*syn_BassTime, TIME,.3)
   , aa=sqrt(2.)/r2.y
   ;
 
   mat2
-    R=rot(t*.1)
+    rot0=mat2(R0)
+  , rot1=mat2(R1)
+  , rot2=mat2(R2)
   ;
 
   vec3
@@ -140,18 +140,18 @@ vec4 renderMain() {
   ;
 
   for(i=0.;i<79.;++i) {
-    p=vec4(z*rd+ro,.2),
-    p.xw*=R;
-    p.yw*=R;
-    p.zw*=R;
+    p=vec4(z*rd+ro,w_offset),
+    p.xw*=rot0;
+    p.yw*=rot1;
+    p.zw*=rot2;
     k=9./dot(p,p);
     p*=k;
-    p-=.5*t;
+    p-=.5*effect_time;
     P=p;
     p-=floor(p/RepZ+.5)*RepZ;
     d=abs(df(p))/k;
     p=1.2+sin(F+P.z+log2(k)+vec4(6,1,8,6));
-    o+=4.*vec4(4,8,12,0)*exp(.7*k-4.*F)+p.w*p/max(d,1e-3);
+    o+=flash_strength*exp(.7*k-4.*F)*vec4(4,8,12,0)+p.w*p/max(d,1e-3);
     z+=.8*d+1e-3;
   }
 

@@ -1,12 +1,81 @@
 {
-	"CONTROLS" :
+	"CONTROLS" : 
 	[
+		{
+			"DEFAULT" : 0.1,
+			"DESCRIPTION" : "",
+			"MAX" : 1,
+			"MIN" : -1,
+			"NAME" : "rot_speed_0",
+			"PARAMS" : 0.10901,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Visuak"
+		},
+		{
+			"DEFAULT" : 0.123,
+			"DESCRIPTION" : "",
+			"MAX" : 1,
+			"MIN" : -1,
+			"NAME" : "rot_speed_1",
+			"PARAMS" : 0.10701,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Visuak"
+		},
+		{
+			"DEFAULT" : 0.213,
+			"DESCRIPTION" : "",
+			"MAX" : 1,
+			"MIN" : -1,
+			"NAME" : "rot_speed_2",
+			"PARAMS" : 0.11101,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Visuak"
+		},
+		{
+			"DEFAULT" : 0.2,
+			"DESCRIPTION" : "",
+			"MAX" : 2,
+			"MIN" : -2,
+			"NAME" : "w_offset",
+			"PARAMS" : 0.11001,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Visuak"
+		},
+		{
+			"DEFAULT" : 1,
+			"DESCRIPTION" : "",
+			"MAX" : 2,
+			"MIN" : -2,
+			"NAME" : "speed",
+			"TYPE" : "slider speed",
+			"UI_GROUP" : "Visuak"
+		},
+		{
+			"DEFAULT" : 0.3,
+			"DESCRIPTION" : "",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "speed_mix",
+			"PARAMS" : 0.10601,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Visuak"
+		},
+		{
+			"DEFAULT" : 4,
+			"DESCRIPTION" : "",
+			"MAX" : 9,
+			"MIN" : 0,
+			"NAME" : "flash_strength",
+			"PARAMS" : 0.10101,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Visuak"
+		}
 	],
 	"CREDIT" : "mrange",
 	"DESCRIPTION" : "Chalmers",
 	"GPU" : 1,
 	"HEIGHT" : 1080,
-	"IMAGES" :
+	"IMAGES" : 
 	[
 		{
 			"FILTER" : "mipmap",
@@ -16,14 +85,14 @@
 		}
 	],
 	"IMAGE_PATH" : "scene.png",
-	"MEDIA" :
+	"MEDIA" : 
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"TAGS" :
+	"TAGS" : 
 	[
 		"mrange",
 		"chalmers"
