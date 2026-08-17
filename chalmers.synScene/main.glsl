@@ -2,10 +2,6 @@ const
   vec4 RepZ=vec4(1.5,.8,.8,1e3)
 ;
 
-const
-  float ChalmersZ=2.
-;
-
 mat2 rot(float a) {
   float c=cos(a),s=sin(a);
   return mat2(c,s,-s,c);
@@ -109,7 +105,6 @@ vec3 tanh_approx(vec3 x) {
 vec4 renderMain() {
   vec4
     O
-  , o=vec4(0)
   , p
   , P
   ;
@@ -137,6 +132,7 @@ vec4 renderMain() {
   vec3
     rd=normalize(vec3(p2,2))
   , ro=vec3(0,0,-3)
+  , o=vec3(0)
   ;
 
   for(i=0.;i<79.;++i) {
@@ -151,14 +147,18 @@ vec4 renderMain() {
     p-=floor(p/RepZ+.5)*RepZ;
     d=abs(df(p))/k;
     p=1.2+sin(F+P.z+log2(k)+vec4(6,1,8,6));
-    o+=flash_strength*exp(.7*k-4.*F)*vec4(4,8,12,0)+p.w*p/max(d,1e-3);
+    o+=(flash_strength*exp(.7*k-4.*F)*vec4(4,8,12,0)+p.w*p/max(d,1e-3)).xyz;
     z+=.8*d+1e-3;
   }
 
-  d=dchalmers(p2/ChalmersZ)*ChalmersZ;
-  d=min(d,abs(d-.01)-.0025);
-  O.xyz=tanh_approx(o.xyz/4e4);
-  O.xyz=mix(O.xyz,(.5+.5*sin(vec3(8,1,6)+z)), smoothstep(aa,-aa,d));
-  O.w=1.;
-  return O;
+  o/=4e4;
+  o=tanh_approx(o);
+
+  if(logo_zoom>.1) {
+    p2/=logo_zoom;
+    d=dchalmers(p2)*logo_zoom;
+    d=min(d,abs(d-.01)-.0025);
+    o.xyz=mix(o,o*.1+(.5+.5*sin(-TIME+4.5*abs(p2.x)+vec3(8,1,6)+z+3.*texture(syn_LevelTrail,level_trail*((length((p2-offset))))).y)), smoothstep(aa,-aa,d));
+  }
+  return vec4(o.xyz,1);
 }

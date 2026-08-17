@@ -7,9 +7,9 @@
 			"MAX" : 1,
 			"MIN" : -1,
 			"NAME" : "rot_speed_0",
-			"PARAMS" : 0.10901,
+			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
-			"UI_GROUP" : "Visuak"
+			"UI_GROUP" : "Visual"
 		},
 		{
 			"DEFAULT" : 0.123,
@@ -17,9 +17,9 @@
 			"MAX" : 1,
 			"MIN" : -1,
 			"NAME" : "rot_speed_1",
-			"PARAMS" : 0.10701,
+			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
-			"UI_GROUP" : "Visuak"
+			"UI_GROUP" : "Visual"
 		},
 		{
 			"DEFAULT" : 0.213,
@@ -27,9 +27,9 @@
 			"MAX" : 1,
 			"MIN" : -1,
 			"NAME" : "rot_speed_2",
-			"PARAMS" : 0.11101,
+			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
-			"UI_GROUP" : "Visuak"
+			"UI_GROUP" : "Visual"
 		},
 		{
 			"DEFAULT" : 0.2,
@@ -37,18 +37,19 @@
 			"MAX" : 2,
 			"MIN" : -2,
 			"NAME" : "w_offset",
-			"PARAMS" : 0.11001,
+			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
-			"UI_GROUP" : "Visuak"
+			"UI_GROUP" : "Visual"
 		},
 		{
 			"DEFAULT" : 1,
 			"DESCRIPTION" : "",
-			"MAX" : 2,
-			"MIN" : -2,
+			"MAX" : 4,
+			"MIN" : -4,
 			"NAME" : "speed",
-			"TYPE" : "slider speed",
-			"UI_GROUP" : "Visuak"
+			"PARAMS" : 0.2,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Visual"
 		},
 		{
 			"DEFAULT" : 0.3,
@@ -56,19 +57,61 @@
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "speed_mix",
-			"PARAMS" : 0.10601,
+			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
-			"UI_GROUP" : "Visuak"
+			"UI_GROUP" : "Visual"
 		},
 		{
 			"DEFAULT" : 4,
 			"DESCRIPTION" : "",
-			"MAX" : 9,
+			"MAX" : 29,
 			"MIN" : 0,
 			"NAME" : "flash_strength",
-			"PARAMS" : 0.10101,
+			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
-			"UI_GROUP" : "Visuak"
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 2,
+			"DESCRIPTION" : "",
+			"MAX" : 5,
+			"MIN" : 0,
+			"NAME" : "logo_zoom",
+			"PARAMS" : 0.10901,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 1,
+			"DESCRIPTION" : "",
+			"MAX" : 2,
+			"MIN" : -2,
+			"NAME" : "level_trail",
+			"PARAMS" : 0.09301,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 
+			[
+				0,
+				0
+			],
+			"DESCRIPTION" : "",
+			"MAX" : 
+			[
+				1,
+				1
+			],
+			"MIN" : 
+			[
+				-1,
+				-1
+			],
+			"NAME" : "offset",
+			"PARAMS" : 0.06401,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Visual"
 		}
 	],
 	"CREDIT" : "mrange",
