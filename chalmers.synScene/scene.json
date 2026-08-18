@@ -42,7 +42,7 @@
 			"UI_GROUP" : "Visual"
 		},
 		{
-			"DEFAULT" : 1,
+			"DEFAULT" : 0.7,
 			"DESCRIPTION" : "",
 			"MAX" : 4,
 			"MIN" : -4,
@@ -74,7 +74,7 @@
 		{
 			"DEFAULT" : 2,
 			"DESCRIPTION" : "",
-			"MAX" : 5,
+			"MAX" : 3,
 			"MIN" : 0,
 			"NAME" : "logo_zoom",
 			"PARAMS" : 0.10901,
@@ -82,12 +82,22 @@
 			"UI_GROUP" : "Visual"
 		},
 		{
-			"DEFAULT" : 1,
+			"DEFAULT" : 0.5,
 			"DESCRIPTION" : "",
 			"MAX" : 2,
-			"MIN" : -2,
+			"MIN" : 0,
 			"NAME" : "level_trail",
 			"PARAMS" : 0.09301,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 1,
+			"DESCRIPTION" : "",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "logo_transparency",
+			"PARAMS" : 0.20501,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Visual"
 		},
@@ -100,16 +110,16 @@
 			"DESCRIPTION" : "",
 			"MAX" : 
 			[
-				1,
-				1
+				2,
+				2
 			],
 			"MIN" : 
 			[
-				-1,
-				-1
+				-2,
+				-2
 			],
-			"NAME" : "offset",
-			"PARAMS" : 0.06401,
+			"NAME" : "logo_pos",
+			"PARAMS" : 0.07401,
 			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Visual"
 		}

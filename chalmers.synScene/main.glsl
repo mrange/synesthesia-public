@@ -152,13 +152,16 @@ vec4 renderMain() {
   }
 
   o/=4e4;
-  o=tanh_approx(o);
 
   if(logo_zoom>.1) {
     p2/=logo_zoom;
-    d=dchalmers(p2)*logo_zoom;
-    d=min(d,abs(d-.01)-.0025);
-    o.xyz=mix(o,o*.1+(.5+.5*sin(-TIME+4.5*abs(p2.x)+vec3(8,1,6)+z+3.*texture(syn_LevelTrail,level_trail*((length((p2-offset))))).y)), smoothstep(aa,-aa,d));
+    d=dchalmers(p2-logo_pos);
+    d=min(d,abs(d-.005)-.00125);
+    d*=logo_zoom;
+    
+    i=texture(syn_LevelTrail,.01+level_trail*d).y;
+    o+=vec3(1,3,2)*logo_transparency*i*smoothstep(.18*logo_zoom,0.,d)*smoothstep(aa,-aa,-d);
   }
+  o=tanh_approx(o);
   return vec4(o.xyz,1);
 }
