@@ -1,5 +1,5 @@
 {
-	"CONTROLS" : 
+	"CONTROLS" :
 	[
 		{
 			"DEFAULT" : 0.1,
@@ -7,8 +7,7 @@
 			"MAX" : 1,
 			"MIN" : -1,
 			"NAME" : "rot_speed_0",
-			"PARAMS" : 0.2,
-			"TYPE" : "slider smooth",
+			"TYPE" : "knob",
 			"UI_GROUP" : "Visual"
 		},
 		{
@@ -17,8 +16,7 @@
 			"MAX" : 1,
 			"MIN" : -1,
 			"NAME" : "rot_speed_1",
-			"PARAMS" : 0.2,
-			"TYPE" : "slider smooth",
+			"TYPE" : "knob",
 			"UI_GROUP" : "Visual"
 		},
 		{
@@ -27,8 +25,7 @@
 			"MAX" : 1,
 			"MIN" : -1,
 			"NAME" : "rot_speed_2",
-			"PARAMS" : 0.2,
-			"TYPE" : "slider smooth",
+			"TYPE" : "knob",
 			"UI_GROUP" : "Visual"
 		},
 		{
@@ -37,16 +34,52 @@
 			"MAX" : 2,
 			"MIN" : -2,
 			"NAME" : "w_offset",
-			"PARAMS" : 0.2,
+			"TYPE" : "slider",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 4,
+			"DESCRIPTION" : "",
+			"MAX" : 29,
+			"MIN" : 0,
+			"NAME" : "flash_strength",
+			"TYPE" : "knob",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 0.5,
+			"DESCRIPTION" : "",
+			"MAX" : 2,
+			"MIN" : 0,
+			"NAME" : "level_trail",
+			"TYPE" : "knob",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 3,
+			"DESCRIPTION" : "",
+			"MAX" : 20,
+			"MIN" : -10,
+			"NAME" : "distance",
+			"PARAMS" : 0.1,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Visual"
 		},
 		{
-			"DEFAULT" : 0.7,
+			"DEFAULT" : 1.5,
 			"DESCRIPTION" : "",
-			"MAX" : 4,
-			"MIN" : -4,
-			"NAME" : "speed",
+			"MAX" : 5,
+			"MIN" : 1.4,
+			"NAME" : "stretch",
+			"TYPE" : "knob",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 1,
+			"DESCRIPTION" : "",
+			"MAX" : 7,
+			"MIN" : 0,
+			"NAME" : "color_twist",
 			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Visual"
@@ -59,17 +92,17 @@
 			"NAME" : "speed_mix",
 			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
-			"UI_GROUP" : "Visual"
+			"UI_GROUP" : "Time"
 		},
 		{
-			"DEFAULT" : 4,
+			"DEFAULT" : 0.7,
 			"DESCRIPTION" : "",
-			"MAX" : 29,
-			"MIN" : 0,
-			"NAME" : "flash_strength",
+			"MAX" : 4,
+			"MIN" : -4,
+			"NAME" : "speed",
 			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
-			"UI_GROUP" : "Visual"
+			"UI_GROUP" : "Time"
 		},
 		{
 			"DEFAULT" : 2,
@@ -77,19 +110,9 @@
 			"MAX" : 3,
 			"MIN" : 0,
 			"NAME" : "logo_zoom",
-			"PARAMS" : 0.10901,
+			"PARAMS" : 0.1,
 			"TYPE" : "slider smooth",
-			"UI_GROUP" : "Visual"
-		},
-		{
-			"DEFAULT" : 0.5,
-			"DESCRIPTION" : "",
-			"MAX" : 2,
-			"MIN" : 0,
-			"NAME" : "level_trail",
-			"PARAMS" : 0.09301,
-			"TYPE" : "slider smooth",
-			"UI_GROUP" : "Visual"
+			"UI_GROUP" : "Logo"
 		},
 		{
 			"DEFAULT" : 1,
@@ -97,38 +120,38 @@
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "logo_transparency",
-			"PARAMS" : 0.20501,
+			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
-			"UI_GROUP" : "Visual"
+			"UI_GROUP" : "Logo"
 		},
 		{
-			"DEFAULT" : 
+			"DEFAULT" :
 			[
 				0,
 				0
 			],
 			"DESCRIPTION" : "",
-			"MAX" : 
+			"MAX" :
 			[
 				2,
 				2
 			],
-			"MIN" : 
+			"MIN" :
 			[
 				-2,
 				-2
 			],
 			"NAME" : "logo_pos",
-			"PARAMS" : 0.07401,
+			"PARAMS" : 0.1,
 			"TYPE" : "xy smooth",
-			"UI_GROUP" : "Visual"
+			"UI_GROUP" : "Logo"
 		}
 	],
 	"CREDIT" : "mrange",
 	"DESCRIPTION" : "Chalmers",
 	"GPU" : 1,
 	"HEIGHT" : 1080,
-	"IMAGES" : 
+	"IMAGES" :
 	[
 		{
 			"FILTER" : "mipmap",
@@ -138,14 +161,14 @@
 		}
 	],
 	"IMAGE_PATH" : "scene.png",
-	"MEDIA" : 
+	"MEDIA" :
 	[
 		{
 			"FILTER" : "linear",
 			"WRAP" : "mirror"
 		}
 	],
-	"TAGS" : 
+	"TAGS" :
 	[
 		"mrange",
 		"chalmers"

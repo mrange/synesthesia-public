@@ -1,7 +1,3 @@
-const
-  vec4 RepZ=vec4(1.5,.8,.8,1e3)
-;
-
 mat2 rot(float a) {
   float c=cos(a),s=sin(a);
   return mat2(c,s,-s,c);
@@ -107,6 +103,9 @@ vec4 renderMain() {
     O
   , p
   , P
+  , RepZ=vec4(stretch,.8,.8,1e3)
+  , IRepZ=1./RepZ
+  , color_off=vec4(6,color_twist,8,6)
   ;
 
   vec2
@@ -131,11 +130,11 @@ vec4 renderMain() {
 
   vec3
     rd=normalize(vec3(p2,2))
-  , ro=vec3(0,0,-3)
+  , ro=vec3(0,0,-distance)
   , o=vec3(0)
   ;
 
-  for(i=0.;i<79.;++i) {
+  for(i=0.;i<79.&&z<30.;++i) {
     p=vec4(z*rd+ro,w_offset),
     p.xw*=rot0;
     p.yw*=rot1;
@@ -144,16 +143,16 @@ vec4 renderMain() {
     p*=k;
     p-=.5*effect_time;
     P=p;
-    p-=floor(p/RepZ+.5)*RepZ;
+    p-=floor(p*IRepZ+.5)*RepZ;
     d=abs(df(p))/k;
-    p=1.2+sin(F+P.z+log2(k)+vec4(6,1,8,6));
+    p=1.2+sin(F+P.z+log2(k)+color_off);
     o+=(flash_strength*exp(.7*k-4.*F)*vec4(4,8,12,0)+p.w*p/max(d,1e-3)).xyz;
     z+=.8*d+1e-3;
   }
 
   o/=4e4;
 
-  if(logo_zoom>.1) {
+  if(logo_zoom>.1&&logo_transparency>.05) {
     p2/=logo_zoom;
     d=dchalmers(p2-logo_pos);
     d=min(d,abs(d-.005)-.00125);
