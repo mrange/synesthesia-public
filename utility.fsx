@@ -56,7 +56,7 @@ let inline HSV2OKLAB (h, s, v) =
   let rgb = hsv2rgb (float32 h/360.F) (float32 s/100.F) (float32 v/100.F)
   // Square as a fake reverse sRGB
   let ok  = linearToOklab (rgb*rgb)
-  printfn "HSV2OKLAB(%.2f,%.2f,%.2f): vec3(%.2f, %.2f, %.2f)" h s v ok.X ok.Y ok.Z
+  printfn "HSV2OKLAB(%.4f,%.4f,%.4f): vec3(%.4f, %.4f, %.4f)" h s v ok.X ok.Y ok.Z
 
 let halton (v : Vector2) =
   let coprimes  = Vector2 (2.F,3.F)
@@ -76,7 +76,8 @@ let jitter n =
     printfn "  %s vec2(%.4f,%.4f)" (if i=1 then " " else ",") v.X v.Y
   printf "  );"
 
-jitter 8
+// jitter 8
+
 (*
 HSV2RGB (0.58 , 0.7 , 1.0)
 HSV2RGB (0.63 , 0.9 , 1.0)
@@ -90,3 +91,17 @@ HSV2OKLAB(015.,55.,80.)
 HSV2OKLAB(035.,50.,50.)
 HSV2OKLAB(190.,50.,80.)
 *)
+
+printfn "SKY"
+HSV2OKLAB(222.,57.,33.)
+HSV2OKLAB(218.,45.,45.)
+HSV2OKLAB(205.,30.,54.)
+HSV2OKLAB(021.,15.,62.)
+HSV2OKLAB(038.,30.,68.)
+HSV2OKLAB(028.,42.,74.)
+HSV2OKLAB(015.,47.,74.)
+printfn "SUN"
+HSV2OKLAB(035.,50.,50.)
+printfn "SEA"
+HSV2OKLAB(180., 70., 6.)
+HSV2OKLAB(072., 60., 100.)

@@ -1,0 +1,56 @@
+{
+	"CONTROLS" : 
+	[
+		{
+			"DEFAULT" : 
+			[
+				0,
+				0
+			],
+			"DESCRIPTION" : "",
+			"MAX" : 
+			[
+				2,
+				0.5
+			],
+			"MIN" : 
+			[
+				-2,
+				-0.5
+			],
+			"NAME" : "shape_dist",
+			"PARAMS" : 0.09601,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Shape"
+		},
+		{
+			"DEFAULT" : 0,
+			"DESCRIPTION" : "",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "flash_bang",
+			"PARAMS" : 0.20601,
+			"TYPE" : "bang smooth",
+			"UI_GROUP" : "Shape"
+		}
+	],
+	"CREDIT" : "mrange",
+	"DESCRIPTION" : "Hidden singularity",
+	"GPU" : 1,
+	"HEIGHT" : 1080,
+	"IMAGE_PATH" : "scene.png",
+	"MEDIA" : 
+	[
+		{
+			"FILTER" : "linear",
+			"WRAP" : "mirror"
+		}
+	],
+	"TAGS" : 
+	[
+		"mrange",
+		"singularity"
+	],
+	"TITLE" : "Hidden singularity",
+	"WIDTH" : 1920
+}
