@@ -16,7 +16,8 @@
 			"MAX" : 0.025,
 			"MIN" : 0,
 			"NAME" : "glow_width",
-			"TYPE" : "knob",
+			"PARAMS" : 0.2,
+			"TYPE" : "knob smooth",
 			"UI_GROUP" : "Visual"
 		},
 		{
@@ -25,17 +26,18 @@
 			"MAX" : 2,
 			"MIN" : 0,
 			"NAME" : "woff",
-			"PARAMS" : 0.19201,
+			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Visual"
 		},
 		{
-			"DEFAULT" : 4,
+			"DEFAULT" : 2,
 			"DESCRIPTION" : "",
 			"MAX" : 9,
 			"MIN" : 0,
 			"NAME" : "color_tune",
-			"TYPE" : "knob",
+			"PARAMS" : 0.2,
+			"TYPE" : "knob smooth",
 			"UI_GROUP" : "Visual"
 		},
 		{
@@ -56,7 +58,7 @@
 				0
 			],
 			"NAME" : "color_chroma",
-			"PARAMS" : 0.21001,
+			"PARAMS" : 0.2,
 			"TYPE" : "xy smooth",
 			"UI_GROUP" : "Visual"
 		},
@@ -66,7 +68,8 @@
 			"MAX" : 1,
 			"MIN" : -1,
 			"NAME" : "screen_bounce",
-			"TYPE" : "knob",
+			"PARAMS" : 0.2,
+			"TYPE" : "knob smooth",
 			"UI_GROUP" : "Visual"
 		},
 		{
@@ -84,7 +87,7 @@
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "high_level",
-			"PARAMS" : 0.19301,
+			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Audio"
 		},
@@ -94,7 +97,7 @@
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "media_opacity",
-			"PARAMS" : 0.24801,
+			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Media"
 		},
@@ -123,7 +126,8 @@
 	"TAGS" : 
 	[
 		"mrange",
-		"apollonian"
+		"apollonian",
+		"fractal"
 	],
 	"TITLE" : "ya4a",
 	"WIDTH" : 1920
