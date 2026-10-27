@@ -7,7 +7,7 @@
 			"MAX" : 9,
 			"MIN" : -9,
 			"NAME" : "speed",
-			"TYPE" : "slider speed",
+			"TYPE" : "knob speed",
 			"UI_GROUP" : "Visual"
 		},
 		{
@@ -16,8 +16,57 @@
 			"MAX" : 0.025,
 			"MIN" : 0,
 			"NAME" : "glow_width",
-			"PARAMS" : 0.19701,
+			"TYPE" : "knob",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 0.6,
+			"DESCRIPTION" : "",
+			"MAX" : 2,
+			"MIN" : 0,
+			"NAME" : "woff",
+			"PARAMS" : 0.19201,
 			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 4,
+			"DESCRIPTION" : "",
+			"MAX" : 9,
+			"MIN" : 0,
+			"NAME" : "color_tune",
+			"TYPE" : "knob",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 
+			[
+				2,
+				7
+			],
+			"DESCRIPTION" : "",
+			"MAX" : 
+			[
+				7,
+				7
+			],
+			"MIN" : 
+			[
+				0,
+				0
+			],
+			"NAME" : "color_chroma",
+			"PARAMS" : 0.21001,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 0.1,
+			"DESCRIPTION" : "",
+			"MAX" : 1,
+			"MIN" : -1,
+			"NAME" : "screen_bounce",
+			"TYPE" : "knob",
 			"UI_GROUP" : "Visual"
 		},
 		{
@@ -26,8 +75,7 @@
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "low_level",
-			"PARAMS" : 0.21001,
-			"TYPE" : "slider smooth",
+			"TYPE" : "slider",
 			"UI_GROUP" : "Audio"
 		},
 		{

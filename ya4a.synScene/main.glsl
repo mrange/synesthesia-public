@@ -4,22 +4,22 @@
 vec4 tanh_approx(vec4 x) {
   //  Found this somewhere on the interwebs
   //  return tanh(x);
-  vec4 x2 = x*x;
-  return clamp(x*(27.0 + x2)/(27.0+9.0*x2), -1.0, 1.0);
+  vec4 x2=x*x;
+  return clamp(x*(27.+x2)/(27.+9.*x2),-1., 1.);
 }
 
 vec4 renderMain() {
   float d, e, s, z=0.;
   vec3 
     D
-  , Q=normalize(sin((speed+1e-4)/vec3(11,13,17)))
-  , H=13.*smoothstep(vec3(low_level),vec3(high_level),vec3(syn_BassHits,syn_MidHits,syn_MidHighHits))
+  , Q=u_rotor
+  , H=u_hits
   ;
   vec4 
     o, p, P
   , O=vec4(0)
-  , R=normalize(vec4(_uvc,1.+syn_BassLevel/9.,0))
-  , S=vec4(0,0,-1,.6)
+  , R=normalize(vec4(_uvc,1.+syn_BassLevel*screen_bounce,0))
+  , S=vec4(0,0,-1,woff)
   ;
   ROT(S.yzw);
   ROT(S.zwx);
@@ -40,7 +40,7 @@ vec4 renderMain() {
     }
     p=abs(p/s);
     d=min(length(p.xy)+3e-4,min(p.z,p.w)+3e-3);
-    p=e*e+3.+3.*cos(13.*dot(P.xy,P.zw)+vec4(2,7,0,4));
+    p=e*e+3.+3.*cos(13.*dot(P.xy,P.zw)+vec4(color_chroma,0,color_tune*length(P)+4.));
     D=H/max(abs(sqrt(D)-glow_width), 1e-4);
     o=p.w/(7.*e*e*e*d+d)*p;
     o+=D.x*vec4(3,1,2,0);
@@ -56,7 +56,6 @@ vec4 renderMain() {
   O=max(O,0.);
   O=tanh_approx(O);
   O/=.9;
-  
   p=_loadMedia();
   O=mix(O,p,p.w*media_opacity*mix(lum_opacity,1.,dot(vec3(0.299, 0.587, 0.114),p.xyz)));
   return vec4(O.xyz,1);
