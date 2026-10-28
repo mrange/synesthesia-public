@@ -1,3 +1,14 @@
+// SPDX-License-Identifier: CC0-1.0
+// CC0: Mårten Rånge
+
+// This file is released under CC0 1.0 Universal (Public Domain Dedication).
+// To the extent possible under law, Mårten Rånge has waived all copyright
+// and related or neighboring rights to this work.
+// See <https://creativecommons.org/publicdomain/zero/1.0/> for details.
+//
+// Exception: the two tanh_approx functions below are by Claude Brezinski
+// (license unknown) and are not covered by this waiver.
+
 #define ROT(p)p=Q*dot(Q,p)+cross(Q,p)
 
 // License: Unknown, author: Claude Brezinski, found: https://mathr.co.uk/blog/2017-09-06_approximating_hyperbolic_tangent.html
@@ -15,6 +26,8 @@ vec4 tanh_approx(vec4 x) {
   vec4 x2=x*x;
   return clamp(x*(27.+x2)/(27.+9.*x2),-1., 1.);
 }
+
+const vec3 luma=vec3(.299,.587,.114);
 
 vec4 fpass0() {
   float d, e, s, z=0.,B=smoothstep(low_level, high_level, syn_BassHits),C=color_chroma_onbeat*B;
@@ -62,8 +75,8 @@ vec4 fpass0() {
   ;
   O/=2e4;
   O-=length(_uv-.5)/5.*vec4(2,3,1,0);
-
-  O=mix(O+over_glow*PP,PP,tanh_approx(dot(vec3(0.299, 0.587, 0.114),PP.xyz))*after_glow);
+  O=max(O,0.);
+  O=mix(O+over_glow*PP,PP,tanh_approx(dot(luma,PP.xyz))*after_glow);
   return vec4(O.xyz,1);
 }
 
@@ -73,10 +86,10 @@ vec4 fpass1() {
   , m =_loadMedia()
   , O =p0
   ;
-  O=max(O,0.);
   O=tanh_approx(O);
   O/=.9;
-  O=mix(O,m,m.w*media_opacity*mix(lum_opacity,1.,dot(vec3(0.299, 0.587, 0.114),m.xyz)));
+  O=mix(O,m,m.w*media_opacity*mix(lum_opacity,1.,dot(luma,m.xyz)));
+  O.w=1.;
   return O;
 }
 

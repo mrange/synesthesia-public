@@ -1,3 +1,14 @@
+// SPDX-License-Identifier: CC0-1.0
+// CC0: Mårten Rånge
+
+// This file is released under CC0 1.0 Universal (Public Domain Dedication).
+// To the extent possible under law, Mårten Rånge has waived all copyright
+// and related or neighboring rights to this work.
+// See <https://creativecommons.org/publicdomain/zero/1.0/> for details.
+//
+// Exception: the two tanh_approx functions below are by Claude Brezinski
+// (license unknown) and are not covered by this waiver.
+
 function smoothstep(edge0, edge1, x) {
   var t=(x-edge0)/(edge1-edge0);
   t=t<0?0:(t > 1 ? 1 : t);

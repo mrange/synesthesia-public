@@ -3,7 +3,7 @@
 	[
 		{
 			"DEFAULT" : 3,
-			"DESCRIPTION" : "Overall animation speed; negative values run the animation in reverse",
+			"DESCRIPTION" : "Speed of the 4D rotation; negative values reverse it",
 			"MAX" : 9,
 			"MIN" : -9,
 			"NAME" : "speed",
@@ -12,7 +12,7 @@
 		},
 		{
 			"DEFAULT" : 0.1,
-			"DESCRIPTION" : "How strongly the screen bounces on each beat; negative values bounce inward",
+			"DESCRIPTION" : "How much the bass level pumps the field of view (zoom); negative values pump the opposite way",
 			"MAX" : 1,
 			"MIN" : -1,
 			"NAME" : "screen_bounce",
@@ -22,7 +22,7 @@
 		},
 		{
 			"DEFAULT" : 2,
-			"DESCRIPTION" : "Shifts the base color of the palette",
+			"DESCRIPTION" : "How fast colors cycle with distance from the center; higher values give more color bands",
 			"MAX" : 9,
 			"MIN" : 0,
 			"NAME" : "color_tune",
@@ -32,7 +32,7 @@
 		},
 		{
 			"DEFAULT" : 0,
-			"DESCRIPTION" : "Width of the glowing beat lines",
+			"DESCRIPTION" : "Radius of the glowing beat rings; 0 puts the glow right on the surfaces",
 			"MAX" : 0.025,
 			"MIN" : 0,
 			"NAME" : "glow_width",
@@ -42,7 +42,7 @@
 		},
 		{
 			"DEFAULT" : 0.25,
-			"DESCRIPTION" : "Amount of trailing glow that lingers after bright areas",
+			"DESCRIPTION" : "Trails: how long bright areas of the previous frame linger",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "after_glow",
@@ -52,7 +52,7 @@
 		},
 		{
 			"DEFAULT" : 0,
-			"DESCRIPTION" : "Amount of overexposed glow blended over the whole image",
+			"DESCRIPTION" : "Feeds the previous frame back over the new one, building up bloom; at max the image saturates",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "over_glow",
@@ -66,7 +66,7 @@
 				2,
 				7
 			],
-			"DESCRIPTION" : "Base color chroma (XY pad)",
+			"DESCRIPTION" : "Palette phase of the red (X) and green (Y) channels; shifts the overall hue",
 			"MAX" : 
 			[
 				7,
@@ -84,7 +84,7 @@
 		},
 		{
 			"DEFAULT" : 0,
-			"DESCRIPTION" : "Extra color chroma added on each beat",
+			"DESCRIPTION" : "Shifts the blue channel's palette phase on bass hits, so colors flash on the beat",
 			"MAX" : 7,
 			"MIN" : 0,
 			"NAME" : "color_chroma_onbeat",
@@ -94,7 +94,7 @@
 		},
 		{
 			"DEFAULT" : 0.6,
-			"DESCRIPTION" : "Base intensity of the fractal geometry",
+			"DESCRIPTION" : "Camera position along the 4th dimension; changes which slice of the fractal you see",
 			"MAX" : 2,
 			"MIN" : 0,
 			"NAME" : "woff",
@@ -104,7 +104,7 @@
 		},
 		{
 			"DEFAULT" : 0.6,
-			"DESCRIPTION" : "Intensity of the fractal geometry on each beat",
+			"DESCRIPTION" : "4th-dimension camera position on bass hits; the fractal morphs when it differs from the base value",
 			"MAX" : 2,
 			"MIN" : 0,
 			"NAME" : "woff_onbeat",
@@ -114,7 +114,7 @@
 		},
 		{
 			"DEFAULT" : 0.2,
-			"DESCRIPTION" : "Sensitivity of the visuals to low frequencies (bass)",
+			"DESCRIPTION" : "Lower beat threshold: audio hits below this level are ignored (keep below the upper threshold)",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "low_level",
@@ -124,7 +124,7 @@
 		},
 		{
 			"DEFAULT" : 0.5,
-			"DESCRIPTION" : "Sensitivity of the visuals to high frequencies (treble)",
+			"DESCRIPTION" : "Upper beat threshold: audio hits at or above this level count as full strength (keep above the lower threshold)",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "high_level",
@@ -144,7 +144,7 @@
 		},
 		{
 			"DEFAULT" : 0.5,
-			"DESCRIPTION" : "How much the media's opacity follows its brightness (brighter pixels are more opaque)",
+			"DESCRIPTION" : "Brightness-driven media opacity: 0 makes dark media pixels transparent, 1 ignores brightness",
 			"MAX" : 1,
 			"MIN" : 0,
 			"NAME" : "lum_opacity",
@@ -154,7 +154,7 @@
 		}
 	],
 	"CREDIT" : "mrange",
-	"DESCRIPTION" : "Flashing, glowing, thumping apollonian fractal in 4D",
+	"DESCRIPTION" : "Fly through a pulsing 4D apollonian fractal of glowing bubbles and crystalline spheres, drenched in violet, magenta and icy cyan. Bass hits make the geometry thump and morph, beat-driven rings of light slice through the haze, and trails of glow linger behind every flash. Layer your own media on top and let the fractal breathe around it.",
 	"GPU" : 1,
 	"HEIGHT" : 1080,
 	"IMAGE_PATH" : "scene.png",
@@ -168,7 +168,7 @@
 	"PASSES" : 
 	[
 		{
-			"DOUBLE_BUFFER" : false,
+			"DOUBLE_BUFFER" : true,
 			"FILTER" : "linear",
 			"FLOAT" : true,
 			"HEIGHT" : 1080,
@@ -180,9 +180,20 @@
 	"TAGS" : 
 	[
 		"mrange",
+		"glow-series",
 		"apollonian",
 		"fractal",
-		"glow-series"
+		"4d",
+		"raymarching",
+		"audio-reactive",
+		"bass",
+		"glow",
+		"feedback",
+		"trails",
+		"neon",
+		"bubbles",
+		"orbit-trap",
+		"flashing"
 	],
 	"TITLE" : "ya4a",
 	"WIDTH" : 1920
