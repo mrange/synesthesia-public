@@ -19,7 +19,7 @@ vec4 renderMain() {
     o, p, P
   , O=vec4(0)
   , R=normalize(vec4(_uvc,1.+syn_BassLevel*screen_bounce,0))
-  , S=vec4(0,0,-1,woff)
+  , S=vec4(0,0,-1,mix(woff, woff_onbeat, smoothstep(low_level, high_level, syn_BassHits)))
   ;
   ROT(S.yzw);
   ROT(S.zwx);

@@ -73,6 +73,16 @@
 			"UI_GROUP" : "Visual"
 		},
 		{
+			"DEFAULT" : 0.6,
+			"DESCRIPTION" : "",
+			"MAX" : 2,
+			"MIN" : 0,
+			"NAME" : "woff_onbeat",
+			"PARAMS" : 0.23101,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Visual"
+		},
+		{
 			"DEFAULT" : 0.2,
 			"DESCRIPTION" : "",
 			"MAX" : 1,
