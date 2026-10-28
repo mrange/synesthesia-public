@@ -1,6 +1,14 @@
 #define ROT(p)p=Q*dot(Q,p)+cross(Q,p)
 
 // License: Unknown, author: Claude Brezinski, found: https://mathr.co.uk/blog/2017-09-06_approximating_hyperbolic_tangent.html
+float tanh_approx(float x) {
+  //  Found this somewhere on the interwebs
+  //  return tanh(x);
+  float x2=x*x;
+  return clamp(x*(27.+x2)/(27.+9.*x2),-1., 1.);
+}
+
+// License: Unknown, author: Claude Brezinski, found: https://mathr.co.uk/blog/2017-09-06_approximating_hyperbolic_tangent.html
 vec4 tanh_approx(vec4 x) {
   //  Found this somewhere on the interwebs
   //  return tanh(x);
@@ -54,9 +62,8 @@ vec4 fpass0() {
   ;
   O/=2e4;
   O-=length(_uv-.5)/5.*vec4(2,3,1,0);
-  O=max(O,0.);
 
-  O=mix(O+over_glow*PP,PP,min(dot(vec3(0.299, 0.587, 0.114),PP.xyz),1.)*after_glow);
+  O=mix(O+over_glow*PP,PP,tanh_approx(dot(vec3(0.299, 0.587, 0.114),PP.xyz))*after_glow);
   return vec4(O.xyz,1);
 }
 
@@ -66,6 +73,7 @@ vec4 fpass1() {
   , m =_loadMedia()
   , O =p0
   ;
+  O=max(O,0.);
   O=tanh_approx(O);
   O/=.9;
   O=mix(O,m,m.w*media_opacity*mix(lum_opacity,1.,dot(vec3(0.299, 0.587, 0.114),m.xyz)));

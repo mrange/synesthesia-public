@@ -41,7 +41,7 @@
 			"UI_GROUP" : "Visual"
 		},
 		{
-			"DEFAULT" : 0,
+			"DEFAULT" : 0.25,
 			"DESCRIPTION" : "Amount of trailing glow that lingers after bright areas",
 			"MAX" : 1,
 			"MIN" : 0,
