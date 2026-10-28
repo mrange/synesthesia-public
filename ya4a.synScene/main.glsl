@@ -8,18 +8,19 @@ vec4 tanh_approx(vec4 x) {
   return clamp(x*(27.+x2)/(27.+9.*x2),-1., 1.);
 }
 
-vec4 renderMain() {
+vec4 fpass0() {
   float d, e, s, z=0.,B=smoothstep(low_level, high_level, syn_BassHits),C=color_chroma_onbeat*B;
-  vec3 
+  vec3
     D
   , Q=u_rotor
   , H=u_hits
   ;
-  vec4 
+  vec4
     o, p, P
   , O=vec4(0)
   , R=normalize(vec4(_uvc,1.+syn_BassLevel*screen_bounce,0))
   , S=vec4(0,0,-1,mix(woff, woff_onbeat, B))
+  ,PP=texelFetch(pass0, ivec2(_xy), 0)
   ;
   ROT(S.yzw);
   ROT(S.zwx);
@@ -54,9 +55,26 @@ vec4 renderMain() {
   O/=2e4;
   O-=length(_uv-.5)/5.*vec4(2,3,1,0);
   O=max(O,0.);
+
+  O=mix(O+over_glow*PP,PP,min(dot(vec3(0.299, 0.587, 0.114),PP.xyz),1.)*after_glow);
+  return vec4(O.xyz,1);
+}
+
+vec4 fpass1() {
+  vec4
+    p0=texelFetch(pass0, ivec2(_xy), 0)
+  , m =_loadMedia()
+  , O =p0
+  ;
   O=tanh_approx(O);
   O/=.9;
-  p=_loadMedia();
-  O=mix(O,p,p.w*media_opacity*mix(lum_opacity,1.,dot(vec3(0.299, 0.587, 0.114),p.xyz)));
-  return vec4(O.xyz,1);
+  O=mix(O,m,m.w*media_opacity*mix(lum_opacity,1.,dot(vec3(0.299, 0.587, 0.114),m.xyz)));
+  return O;
+}
+
+vec4 renderMain() {
+  switch(PASSINDEX) {
+  case 0: return fpass0();
+  default: return fpass1();
+  }
 }
