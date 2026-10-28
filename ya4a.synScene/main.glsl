@@ -9,7 +9,7 @@ vec4 tanh_approx(vec4 x) {
 }
 
 vec4 renderMain() {
-  float d, e, s, z=0.;
+  float d, e, s, z=0.,B=smoothstep(low_level, high_level, syn_BassHits),C=color_chroma_onbeat*B;
   vec3 
     D
   , Q=u_rotor
@@ -19,7 +19,7 @@ vec4 renderMain() {
     o, p, P
   , O=vec4(0)
   , R=normalize(vec4(_uvc,1.+syn_BassLevel*screen_bounce,0))
-  , S=vec4(0,0,-1,mix(woff, woff_onbeat, smoothstep(low_level, high_level, syn_BassHits)))
+  , S=vec4(0,0,-1,mix(woff, woff_onbeat, B))
   ;
   ROT(S.yzw);
   ROT(S.zwx);
@@ -40,7 +40,7 @@ vec4 renderMain() {
     }
     p=abs(p/s);
     d=min(length(p.xy)+3e-4,min(p.z,p.w)+3e-3);
-    p=e*e+3.+3.*cos(13.*dot(P.xy,P.zw)+vec4(color_chroma,0,color_tune*length(P)+4.));
+    p=e*e+3.+3.*cos(13.*dot(P.xy,P.zw)+vec4(color_chroma,C,color_tune*length(P)+4.));
     D=H/max(abs(sqrt(D)-glow_width), 1e-4);
     o=p.w/(7.*e*e*e*d+d)*p;
     o+=D.x*vec4(3,1,2,0);

@@ -78,7 +78,17 @@
 			"MAX" : 2,
 			"MIN" : 0,
 			"NAME" : "woff_onbeat",
-			"PARAMS" : 0.23101,
+			"PARAMS" : 0.2,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 0,
+			"DESCRIPTION" : "",
+			"MAX" : 7,
+			"MIN" : 0,
+			"NAME" : "color_chroma_onbeat",
+			"PARAMS" : 0.2,
 			"TYPE" : "slider smooth",
 			"UI_GROUP" : "Visual"
 		},
