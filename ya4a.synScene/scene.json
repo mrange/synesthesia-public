@@ -21,7 +21,7 @@
 			"UI_GROUP" : "Visual"
 		},
 		{
-			"DEFAULT" : 2,
+			"DEFAULT" : 1,
 			"DESCRIPTION" : "How fast colors cycle with distance from the center; higher values give more color bands",
 			"MAX" : 9,
 			"MIN" : 0,
@@ -93,7 +93,7 @@
 			"UI_GROUP" : "Visual"
 		},
 		{
-			"DEFAULT" : 0.6,
+			"DEFAULT" : 0.62,
 			"DESCRIPTION" : "Camera position along the 4th dimension; changes which slice of the fractal you see",
 			"MAX" : 2,
 			"MIN" : 0,

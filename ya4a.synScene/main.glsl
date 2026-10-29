@@ -31,6 +31,10 @@ const vec3 luma=vec3(.299,.587,.114);
 
 vec4 fpass0() {
   float d, e, s, z=0.,B=smoothstep(low_level, high_level, syn_BassHits),C=color_chroma_onbeat*B;
+  vec2
+    p2=_uvc
+  , xy=RENDERSIZE.y*(.99*p2)+.5*RENDERSIZE
+  ;
   vec3
     D
   , Q=u_rotor
@@ -39,9 +43,9 @@ vec4 fpass0() {
   vec4
     o, p, P
   , O=vec4(0)
-  , R=normalize(vec4(_uvc,1.+syn_BassLevel*screen_bounce,0))
+  , R=normalize(vec4(p2,1.+syn_BassLevel*screen_bounce,0))
   , S=vec4(0,0,-1,mix(woff, woff_onbeat, B))
-  ,PP=texelFetch(pass0, ivec2(_xy), 0)
+  ,PP=texelFetch(pass0, ivec2(xy), 0)
   ;
   ROT(S.yzw);
   ROT(S.zwx);
@@ -75,8 +79,8 @@ vec4 fpass0() {
   ;
   O/=2e4;
   O-=length(_uv-.5)/5.*vec4(2,3,1,0);
-  O=max(O,0.);
-  O=mix(O+over_glow*PP,PP,tanh_approx(dot(luma,PP.xyz))*after_glow);
+  O=clamp(O+over_glow*PP*B,0.,9.);
+  O=mix(O,PP,B*mix(.5*after_glow,after_glow,tanh_approx(2.*length(_uvc))));
   return vec4(O.xyz,1);
 }
 
