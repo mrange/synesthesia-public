@@ -1,0 +1,388 @@
+{
+	"CONTROLS" :
+	[
+		{
+			"DEFAULT" :
+			[
+				0.5,
+				0.5
+			],
+			"DESCRIPTION" : "Blends bass level and bass hits into the beat calculation (X: bass level weight, Y: bass hits weight)",
+			"MAX" :
+			[
+				1,
+				1
+			],
+			"MIN" :
+			[
+				0,
+				0
+			],
+			"NAME" : "bass_mix",
+			"PARAMS" : 0.1,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Audio"
+		},
+		{
+			"DEFAULT" :
+			[
+				4,
+				1
+			],
+			"DESCRIPTION" : "Exponent applied to audio values before mixing (X: bass level curve, Y: bass hits curve; higher = more extreme response)",
+			"MAX" :
+			[
+				6,
+				6
+			],
+			"MIN" :
+			[
+				0,
+				0
+			],
+			"NAME" : "bass_pow",
+			"PARAMS" : 0.1,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Audio"
+		},
+		{
+			"DEFAULT" : 0.5,
+			"DESCRIPTION" : "Luminance threshold that determines which parts of the media create the distance field (higher = only bright areas)",
+			"MAX" : 1,
+			"MIN" : 0,
+			"NAME" : "media_cutoff",
+			"PARAMS" : 0.1,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Media"
+		},
+		{
+			"DEFAULT" : 1,
+			"DESCRIPTION" : "Scales the media input sampling (higher = zoomed in closer)",
+			"MAX" : 5,
+			"MIN" : 0,
+			"NAME" : "media_zoom",
+			"PARAMS" : 0.1,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Media"
+		},
+		{
+			"DEFAULT" :
+			[
+				0,
+				0
+			],
+			"DESCRIPTION" : "Shifts the media sampling position (X: horizontal offset, Y: vertical offset)",
+			"MAX" :
+			[
+				2,
+				2
+			],
+			"MIN" :
+			[
+				-2,
+				-2
+			],
+			"NAME" : "media_offset",
+			"PARAMS" : 0.20001,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Media"
+		},
+		{
+			"DEFAULT" : -0.707,
+			"DESCRIPTION" : "Base thickness of the concentric line pattern (higher = thicker lines)",
+			"MAX" : 1,
+			"MIN" : -1,
+			"NAME" : "line_thickness",
+			"PARAMS" : 0.1,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" :
+			[
+				2,
+				1
+			],
+			"DESCRIPTION" : "Phase offset for animated color cycling (X and Y shift different color channels)",
+			"MAX" :
+			[
+				7,
+				7
+			],
+			"MIN" :
+			[
+				0,
+				0
+			],
+			"NAME" : "color_base",
+			"PARAMS" : 0.1,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" : 5,
+			"DESCRIPTION" : "Exponential falloff rate for line brightness with distance (higher = faster fade)",
+			"MAX" : 16,
+			"MIN" : 0,
+			"NAME" : "line_fade",
+			"PARAMS" : 0.1,
+			"TYPE" : "slider smooth",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" :
+			[
+				100,
+				20
+			],
+			"DESCRIPTION" : "Frequency of concentric line pattern (X: off-beat frequency, Y: on-beat frequency; lower = wider spacing)",
+			"MAX" :
+			[
+				300,
+				300
+			],
+			"MIN" :
+			[
+				10,
+				10
+			],
+			"NAME" : "line_beat",
+			"TYPE" : "xy",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" :
+			[
+				0.64,
+				0.43,
+				0.21
+			],
+			"DESCRIPTION" : "RGB color of the beat-responsive flash effect",
+			"MAX" :
+			[
+				1,
+				1,
+				1
+			],
+			"MIN" :
+			[
+				0,
+				0,
+				0
+			],
+			"NAME" : "flash_col",
+			"PARAMS" : 0.11001,
+			"TYPE" : "color smooth",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" :
+			[
+				0.6,
+				1
+			],
+			"DESCRIPTION" : "Beat range during which the flash is visible (X: fade-in start, Y: full brightness; creates smooth transition)",
+			"MAX" :
+			[
+				1,
+				1
+			],
+			"MIN" :
+			[
+				0,
+				0
+			],
+			"NAME" : "flash_beat",
+			"PARAMS" : 0.09901,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Visual"
+		},
+		{
+			"DEFAULT" :
+			[
+				1,
+				1
+			],
+			"DESCRIPTION" : "Beat-reactive zoom multiplier applied from the distortion center (X: off-beat zoom, Y: on-beat zoom)",
+			"MAX" :
+			[
+				2,
+				2
+			],
+			"MIN" :
+			[
+				0.5,
+				0.5
+			],
+			"NAME" : "dist_zoom",
+			"PARAMS" : 0.1,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Distortion"
+		},
+		{
+			"DEFAULT" :
+			[
+				0,
+				0
+			],
+			"DESCRIPTION" : "Beat-reactive rotation applied around the distortion center (X: off-beat rotation, Y: on-beat rotation)",
+			"MAX" :
+			[
+				2,
+				2
+			],
+			"MIN" :
+			[
+				-2,
+				-2
+			],
+			"NAME" : "dist_rot",
+			"PARAMS" : 0.1,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Distortion"
+		},
+		{
+			"DEFAULT" :
+			[
+				0,
+				0
+			],
+			"DESCRIPTION" : "Center point for distance-based zoom and rotation effects (X: horizontal center, Y: vertical center)",
+			"MAX" :
+			[
+				2,
+				2
+			],
+			"MIN" :
+			[
+				-2,
+				-2
+			],
+			"NAME" : "dist_offset",
+			"PARAMS" : 0.21101,
+			"TYPE" : "xy smooth",
+			"UI_GROUP" : "Distortion"
+		}
+	],
+	"CREDIT" : "mrange",
+	"DESCRIPTION" : "Hypnotic topographic line patterns flow and pulse around your media, creating contour-map-like visualizations that respond dynamically to audio. Concentric rings ripple outward from bright regions, with beat-reactive spacing and mesmerizing color cycling.",
+	"GPU" : 1,
+	"HEIGHT" : 1080,
+	"IMAGE_PATH" : "scene.png",
+	"MEDIA" :
+	[
+		{
+			"FILTER" : "linear",
+			"WRAP" : "mirror"
+		}
+	],
+	"PASSES" :
+	[
+		{
+			"FILTER" : "linear",
+			"FLOAT" : true,
+			"HEIGHT" : 1080,
+			"TARGET" : "pass0",
+			"WIDTH" : 1920,
+			"WRAP" : "repeat"
+		},
+		{
+			"FILTER" : "linear",
+			"FLOAT" : true,
+			"HEIGHT" : 1080,
+			"TARGET" : "pass1",
+			"WIDTH" : 1920,
+			"WRAP" : "repeat"
+		},
+		{
+			"FILTER" : "linear",
+			"FLOAT" : true,
+			"HEIGHT" : 1080,
+			"TARGET" : "pass2",
+			"WIDTH" : 1920,
+			"WRAP" : "repeat"
+		},
+		{
+			"FILTER" : "linear",
+			"FLOAT" : true,
+			"HEIGHT" : 1080,
+			"TARGET" : "pass3",
+			"WIDTH" : 1920,
+			"WRAP" : "repeat"
+		},
+		{
+			"FILTER" : "linear",
+			"FLOAT" : true,
+			"HEIGHT" : 1080,
+			"TARGET" : "pass4",
+			"WIDTH" : 1920,
+			"WRAP" : "repeat"
+		},
+		{
+			"FILTER" : "linear",
+			"FLOAT" : true,
+			"HEIGHT" : 1080,
+			"TARGET" : "pass5",
+			"WIDTH" : 1920,
+			"WRAP" : "repeat"
+		},
+		{
+			"FILTER" : "linear",
+			"FLOAT" : true,
+			"HEIGHT" : 1080,
+			"TARGET" : "pass6",
+			"WIDTH" : 1920,
+			"WRAP" : "repeat"
+		},
+		{
+			"FILTER" : "linear",
+			"FLOAT" : true,
+			"HEIGHT" : 1080,
+			"TARGET" : "pass7",
+			"WIDTH" : 1920,
+			"WRAP" : "repeat"
+		},
+		{
+			"FILTER" : "linear",
+			"FLOAT" : true,
+			"HEIGHT" : 1080,
+			"TARGET" : "pass8",
+			"WIDTH" : 1920,
+			"WRAP" : "repeat"
+		},
+		{
+			"FILTER" : "linear",
+			"FLOAT" : true,
+			"HEIGHT" : 1080,
+			"TARGET" : "pass9",
+			"WIDTH" : 1920,
+			"WRAP" : "repeat"
+		},
+		{
+			"FILTER" : "linear",
+			"FLOAT" : true,
+			"HEIGHT" : 1080,
+			"TARGET" : "pass10",
+			"WIDTH" : 1920,
+			"WRAP" : "repeat"
+		}
+	],
+	"TAGS" :
+	[
+		"mrange",
+		"jfa",
+		"distance-field",
+		"topographic",
+		"contours",
+		"concentric",
+		"lines",
+		"audio-reactive",
+		"beat-sync",
+		"media-reactive",
+		"geometric",
+		"hypnotic",
+		"procedural"
+	],
+	"TITLE" : "Distancing",
+	"WIDTH" : 1920
+}
