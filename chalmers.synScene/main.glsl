@@ -97,6 +97,7 @@ vec3 tanh_approx(vec3 x) {
   return clamp(x*(27.0 + x2)/(27.0+9.0*x2), -1.0, 1.0);
 }
 
+#define ROT(p)p=Q*dot(Q,p)+cross(Q,p)
 
 vec4 renderMain() {
   vec4
@@ -122,23 +123,23 @@ vec4 renderMain() {
   , aa=sqrt(2.)/r2.y
   ;
 
-  mat2
-    rot0=mat2(R0)
-  , rot1=mat2(R1)
-  , rot2=mat2(R2)
-  ;
-
   vec3
-    rd=normalize(vec3(p2,2))
-  , ro=vec3(0,0,-distance)
-  , o=vec3(0)
+    o=vec3(0)
+  , Q=u_rotor
   ;
+  vec4
+    R=normalize(vec4(p2,2.,0))
+  , S=vec4(0,0,-distance,w_offset)
+  ;
+  ROT(S.yzw);
+  ROT(S.zwx);
+  ROT(S.wxy);
+  ROT(R.yzw);
+  ROT(R.zwx);
+  ROT(R.wxy);
 
   for(i=0.;i<79.&&z<30.;++i) {
-    p=vec4(z*rd+ro,w_offset),
-    p.xw*=rot0;
-    p.yw*=rot1;
-    p.zw*=rot2;
+    p=z*R+S;
     k=9./dot(p,p);
     p*=k;
     p-=.5*effect_time;
